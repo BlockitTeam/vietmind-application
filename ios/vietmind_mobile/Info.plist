@@ -26,14 +26,13 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,5 +47,28 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>museoModerno.ttf</string>
+		<string>museoModerno_italic.ttf</string>
+		<string>MuseoModerno-Black.ttf</string>
+		<string>MuseoModerno-BlackItalic.ttf</string>
+		<string>MuseoModerno-Bold.ttf</string>
+		<string>MuseoModerno-BoldItalic.ttf</string>
+		<string>MuseoModerno-ExtraBold.ttf</string>
+		<string>MuseoModerno-ExtraBoldItalic.ttf</string>
+		<string>MuseoModerno-ExtraLight.ttf</string>
+		<string>MuseoModerno-ExtraLightItalic.ttf</string>
+		<string>MuseoModerno-Italic.ttf</string>
+		<string>MuseoModerno-Light.ttf</string>
+		<string>MuseoModerno-LightItalic.ttf</string>
+		<string>MuseoModerno-Medium.ttf</string>
+		<string>MuseoModerno-MediumItalic.ttf</string>
+		<string>MuseoModerno-Regular.ttf</string>
+		<string>MuseoModerno-SemiBold.ttf</string>
+		<string>MuseoModerno-SemiBoldItalic.ttf</string>
+		<string>MuseoModerno-Thin.ttf</string>
+		<string>MuseoModerno-ThinItalic.ttf</string>
+	</array>
 </dict>
 </plist>

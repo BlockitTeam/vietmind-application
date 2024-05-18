@@ -1,3 +1,7 @@
+import WelcomeScreen from '@screens/Welcome';
+import {RootStack} from './navigator';
+import {renderMainStack} from './component/main';
+
 export const RootApp = () => {
   //   const {isDoneFirstTime, user} = useAppSelector(state => state.auth);
 
@@ -6,9 +10,9 @@ export const RootApp = () => {
     if (true) {
       return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
     }
-    if (user === null) {
-      return renderAuthStack();
-    }
+    // if (user === null) {
+    //   return renderAuthStack();
+    // }
 
     return renderMainStack();
   };

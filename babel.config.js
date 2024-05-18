@@ -4,7 +4,7 @@ module.exports = {
     [
       'module-resolver',
       {
-        root: ['./'],
+        root: ['.'],
         extensions: [
           '.ios.ts',
           '.android.ts',
@@ -22,6 +22,7 @@ module.exports = {
           '@components': './src/components',
           '@hooks': './src/hooks',
           '@layouts': './src/layouts',
+          '@redux': './src/redux',
           '@routes': './src/routes',
           '@screens': './src/screens',
           '@services': './src/services',
