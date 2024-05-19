@@ -1,7 +1,6 @@
 import React from 'react';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
-import {Dict} from 'native-base/lib/typescript/theme/tools';
 import {primaryButton} from './custom-variant';
 
 export const themeNativeBase = extendTheme({
@@ -55,6 +54,7 @@ export const themeNativeBase = extendTheme({
     primary: {
       neutral: '#172832',
       medium: '#C2F8CB',
+      medium50: '#C2F8CB50',
     },
     text: {
       neutral_primary: '#172832',
@@ -70,7 +70,7 @@ export const themeNativeBase = extendTheme({
     Button: {
       // Can simply pass default props to change default behaviour of components.
       variants: {
-        primary: primaryButton,
+        cusPrimary: primaryButton,
       },
     },
     // Heading: {

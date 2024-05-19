@@ -10,10 +10,16 @@ import {
 } from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
+
 import BackGround from '@assets/images/Background.png';
 import Focused from '@assets/images/focused.png';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
+import {useAtom} from 'jotai';
+import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 const WelcomeScreen = () => {
+  const [_, setFirstInit] = useAtom(firstLoadAtom);
+  console.log(_);
   return (
     <ImageBackground source={BackGround}>
       <Flex h={'full'} alignItems={'center'} justifyContent={'center'}>
@@ -33,7 +39,20 @@ const WelcomeScreen = () => {
             gia tâm lý
           </Text>
         </Center>
-        <Button mb={'36px'} width={'90%'} maxW={'485px'} variant={'primary'}>
+        <Button
+          mb={'36px'}
+          width={'90%'}
+          maxW={'485px'}
+          variant={'cusPrimary'}
+          onPress={async () =>
+            await storeFirstLoad('0').then(value => {
+              if (value === '1') {
+                setFirstInit(true);
+              } else {
+                setFirstInit(false);
+              }
+            })
+          }>
           Bắt đầu
         </Button>
       </Flex>
