@@ -7,18 +7,12 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import {RootApp} from '@routes';
+import {vietmindStore} from '@services/jotaiStorage';
+import {Provider} from 'jotai';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+
+import {SafeAreaView, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {themeNativeBase} from 'src/themes/nativebase-theme';
@@ -31,13 +25,14 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <NativeBaseProvider theme={themeNativeBase}>
-      <NavigationContainer>
-        <RootApp />
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider theme={themeNativeBase}>
+        <Provider>
+          <RootApp />
+        </Provider>
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }
-
 
 export default App;

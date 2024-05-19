@@ -1,8 +1,7 @@
 import React from 'react';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
-import {Dict} from 'native-base/lib/typescript/theme/tools';
-import {primaryButton} from './custom-variant';
+import {outlineButton, primaryButton} from './custom-variant';
 
 export const themeNativeBase = extendTheme({
   fontConfig: {
@@ -44,17 +43,56 @@ export const themeNativeBase = extendTheme({
         italic: 'MuseoModerno-BoldItalic',
       },
     },
+    SFProDisplay: {
+      100: {
+        normal: 'SF-Pro-Display-Ultralight',
+        italic: 'SF-Pro-Display-UltralightItalic',
+      },
+      200: {
+        normal: 'SF-Pro-Display-Thin',
+        italic: 'SF-Pro-Display-ThinItalic',
+      },
+      300: {
+        normal: 'SF-Pro-Display-Thin',
+        italic: 'SF-Pro-Display-ThinItalic',
+      },
+      400: {
+        normal: 'SF-Pro-Display-Regular',
+        italic: 'MuseoModerno-RegularItalic',
+      },
+      500: {
+        normal: 'MuseoModerno-Semibold',
+        italic: 'MuseoModerno-SemiboldItalic',
+      },
+      600: {
+        normal: 'MuseoModerno-Semibold',
+        italic: 'MuseoModerno-SemiboldItalic',
+      },
+      700: {
+        normal: 'MuseoModerno-Bold',
+        italic: 'MuseoModerno-BoldItalic',
+      },
+      800: {
+        normal: 'MuseoModerno-Bold',
+        italic: 'MuseoModerno-BoldItalic',
+      },
+      900: {
+        normal: 'MuseoModerno-Heavy',
+        italic: 'MuseoModerno-HeavyItalic',
+      },
+    },
   },
   fonts: {
     heading: 'MuseoModerno',
-    body: 'MuseoModerno',
-    mono: 'MuseoModerno',
+    body: 'SFProDisplay',
+    mono: 'SFProDisplay',
   },
   colors: {
     // Add new color
     primary: {
       neutral: '#172832',
       medium: '#C2F8CB',
+      medium50: '#C2F8CB50',
     },
     text: {
       neutral_primary: '#172832',
@@ -70,7 +108,8 @@ export const themeNativeBase = extendTheme({
     Button: {
       // Can simply pass default props to change default behaviour of components.
       variants: {
-        primary: primaryButton,
+        cusPrimary: primaryButton,
+        cusOutline: outlineButton,
       },
     },
     // Heading: {
