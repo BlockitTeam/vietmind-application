@@ -11,7 +11,7 @@
       "@layouts/*": ["./src/layouts/*"],
       "@routes/*": ["./src/routes/*"],
       "@routes": ["./src/routes"],
-      "@icons": ["./src/icons"],
+      "@icons": ["./src/assets/icons"],
       "@screens/*": ["./src/screens/*"],
       "@services": ["./src/services"],
       "@services/*": ["./src/services/*"],

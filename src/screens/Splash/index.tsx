@@ -17,7 +17,11 @@ import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
 const Splash = () => {
   return (
     <ImageBackground source={BackGround}>
-      <Flex h={'full'} alignItems={'center'} justifyContent={'center'}>
+      <Flex
+        h={'full'}
+        alignItems={'center'}
+        fontFamily={'heading'}
+        justifyContent={'center'}>
         <Text color={'text.neutral_primary'} fontSize={36}>
           Vietmind
         </Text>

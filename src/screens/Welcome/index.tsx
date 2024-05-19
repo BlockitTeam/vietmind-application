@@ -31,7 +31,7 @@ const WelcomeScreen = () => {
             mb={20}
             alt="Focused image"
           />
-          <Text color={'text.neutral_primary'} fontSize={36}>
+          <Text color={'text.neutral_primary'} fontFamily={'heading'} fontSize={36}>
             Vietmind
           </Text>
           <Text color={'text.default'} textAlign={'center'}>

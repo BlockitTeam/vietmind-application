@@ -28,7 +28,7 @@ module.exports = {
           '@services': './src/services',
           '@typings': './src/typings',
           '@designs': './src/designs',
-          '@icons': './src/icons',
+          '@icons': './src/assets/icons',
           '@navigator': './src/navigator',
           '@fragments': './src/fragments',
           '@apiCaller': './src/apiCaller.ts',
