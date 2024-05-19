@@ -1,4 +1,4 @@
-import {Box, Button, Center, Flex, HStack, Text, VStack} from 'native-base';
+import {Box, Button, Center, Text, VStack} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {ImageBackground} from 'react-native';

@@ -1,8 +1,7 @@
 import WelcomeScreen from '@screens/Welcome';
 import {RootStack} from './navigator';
-import {renderMainStack} from './component/main';
 import {getFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import Splash from '@screens/Splash';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
@@ -25,9 +24,6 @@ export const RootApp = () => {
     });
   }, []);
 
-  // console.log('----------------------------', firstLoad);
-
-  console.log('-------- First init --------: ', firstInit);
   const renderAllScreen = () => {
     // if (!isDoneFirstTime) {
     if (firstInit === undefined)

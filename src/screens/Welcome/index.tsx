@@ -1,25 +1,19 @@
 import {
-  Box,
   Button,
   Center,
-  Container,
   Flex,
   Image,
   Text,
-  VStack,
 } from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
-
 import BackGround from '@assets/images/Background.png';
 import Focused from '@assets/images/focused.png';
-
 import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 const WelcomeScreen = () => {
   const [_, setFirstInit] = useAtom(firstLoadAtom);
-  console.log(_);
   return (
     <ImageBackground source={BackGround}>
       <Flex h={'full'} alignItems={'center'} justifyContent={'center'}>
