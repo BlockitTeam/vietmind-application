@@ -10,6 +10,11 @@ export type IRootStackParamList = {
   LoginWithFacebook: undefined;
   ForgotPassword__VerifyCode: {curData: string};
   ForgotPassWord__CreateNewPass: undefined; //validateOTP
+  LoginSuccess: undefined;
+  Privacy: undefined;
+  PrivacyDetail: undefined;
+  InputSelfInformation: undefined;
+  //
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

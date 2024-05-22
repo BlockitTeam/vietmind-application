@@ -18,6 +18,10 @@ module.exports = {
         ],
         alias: {
           '@assets': './src/assets',
+          '@images': './src/assets/images',
+          '@icons': './src/assets/icons',
+          '@themes': './src/themes',
+
           '@common': './src/common',
           '@components': './src/components',
           '@hooks': './src/hooks',
@@ -28,11 +32,9 @@ module.exports = {
           '@services': './src/services',
           '@typings': './src/typings',
           '@designs': './src/designs',
-          '@icons': './src/assets/icons',
           '@navigator': './src/navigator',
           '@fragments': './src/fragments',
           '@apiCaller': './src/apiCaller.ts',
-          '@themes': './src/themes',
         },
       },
     ],

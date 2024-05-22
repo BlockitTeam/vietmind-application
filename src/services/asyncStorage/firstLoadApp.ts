@@ -12,10 +12,10 @@ export const storeFirstLoad = async (value: '0' | '1') => {
 export const getFirstLoad = async () => {
   try {
     const value = await AsyncStorage.getItem('firstTime');
-    if (value !== null) {
-      return value;
-    }
+    if (value === '0') {
+      return '0';
+    } else return '1';
   } catch (e) {
-    return '0';
+    return '1';
   }
 };

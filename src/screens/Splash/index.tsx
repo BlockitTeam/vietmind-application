@@ -1,23 +1,17 @@
-import {
-  Flex,
-  Text,
-} from 'native-base';
+import CusImageBackground from '@components/CusImageBackground';
+import {Flex, Text} from 'native-base';
 import React from 'react';
-import {ImageBackground} from 'react-native';
-import BackGround from '@assets/images/Background.png';
 const Splash = () => {
   return (
-    <ImageBackground source={BackGround}>
+    <CusImageBackground>
       <Flex
         h={'full'}
         alignItems={'center'}
         fontFamily={'heading'}
         justifyContent={'center'}>
-        <Text color={'text.neutral_primary'} fontSize={36}>
-          Vietmind
-        </Text>
+        <Text variant={'header_1'}>Vietmind</Text>
       </Flex>
-    </ImageBackground>
+    </CusImageBackground>
   );
 };
 

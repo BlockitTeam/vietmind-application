@@ -1,25 +1,29 @@
-import WelcomeScreen from '@screens/Welcome';
 import {RootStack} from './navigator';
 import {getFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import {useEffect} from 'react';
-import Splash from '@screens/Splash';
+import React, {useEffect} from 'react';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import Login from '@screens/Login';
+import LoginSuccess from '@screens/LoginSuccess';
+import Privacy from '@screens/Privacy';
+import Splash from '@screens/Splash';
+import WelcomeScreen from '@screens/Welcome';
+import {renderAuthStack} from './component/auth';
 
 export const RootApp = () => {
   //   const {isDoneFirstTime, user} = useAppSelector(state => state.auth);
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
-
+  const [curUser] = useAtom(curUserAtom);
   useEffect(() => {
     getFirstLoad().then(value => {
-      if (value === '0')
-        setTimeout(() => {
-          return setFirstInit(false);
-        }, 2000);
-      else if (value === '1')
+      if (value === '1')
         setTimeout(() => {
           return setFirstInit(true);
+        }, 2000);
+      else if (value === '0')
+        setTimeout(() => {
+          return setFirstInit(false);
         }, 2000);
     });
   }, []);
@@ -30,9 +34,11 @@ export const RootApp = () => {
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {
       return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
-    } else if (true) {
+    } else if (curUser === undefined) {
       //unauth
       return <RootStack.Screen name="Login" component={Login} />;
+    } else if (curUser) {
+      return renderAuthStack();
     }
     // if (user === null) {
     //   return renderAuthStack();

@@ -3,6 +3,12 @@ import {NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
 import {outlineButton, primaryButton} from './custom-variant';
 
+const headerDefault = {
+  color: 'text.neutral_primary',
+  fontWeight: '500',
+  fontFamily: 'MuseoModerno',
+};
+
 export const themeNativeBase = extendTheme({
   fontConfig: {
     MuseoModerno: {
@@ -89,10 +95,12 @@ export const themeNativeBase = extendTheme({
   },
   colors: {
     // Add new color
+
     primary: {
       neutral: '#172832',
       medium: '#C2F8CB',
       medium50: '#C2F8CB50',
+      600: '#C2F8CB',
     },
     text: {
       neutral_primary: '#172832',
@@ -107,9 +115,38 @@ export const themeNativeBase = extendTheme({
   components: {
     Button: {
       // Can simply pass default props to change default behaviour of components.
+
+      baseStyle: () => {
+        return {
+          _text: {
+            fontFamily: 'SFProDisplay',
+          },
+        };
+      },
       variants: {
         cusPrimary: primaryButton,
         cusOutline: outlineButton,
+      },
+    },
+    Text: {
+      variants: {
+        header_1: {
+          ...headerDefault,
+          fontSize: 36,
+        },
+        header_2: {
+          ...headerDefault,
+          fontSize: 30,
+        },
+        header_3: {
+          ...headerDefault,
+          fontSize: 24,
+        },
+        body_medium_regular: {
+          fontFamily: 'SFProDisplay',
+          fontWeight: 400,
+          fontSize: 16,
+        },
       },
     },
     // Heading: {

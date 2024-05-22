@@ -7,12 +7,11 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import {RootApp} from '@routes';
-import {vietmindStore} from '@services/jotaiStorage';
 import {Provider} from 'jotai';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
 
-import {SafeAreaView, useColorScheme} from 'react-native';
+import {useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {themeNativeBase} from 'src/themes/nativebase-theme';
