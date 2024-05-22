@@ -14,7 +14,11 @@ export type IRootStackParamList = {
   Privacy: undefined;
   PrivacyDetail: undefined;
   InputSelfInformation: undefined;
-  //
+  // Trắc nghiệm screen
+  QuizStart: undefined;
+  QuizStartConfirm: undefined;
+  QuizDetail: undefined;
+  QuizResult: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

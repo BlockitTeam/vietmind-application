@@ -1,5 +1,5 @@
 import React from 'react';
-import {NativeBaseProvider, extendTheme} from 'native-base';
+import {FormControl, NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
 import {outlineButton, primaryButton} from './custom-variant';
 
@@ -95,7 +95,6 @@ export const themeNativeBase = extendTheme({
   },
   colors: {
     // Add new color
-
     primary: {
       neutral: '#172832',
       medium: '#C2F8CB',
@@ -128,6 +127,7 @@ export const themeNativeBase = extendTheme({
         cusOutline: outlineButton,
       },
     },
+
     Text: {
       variants: {
         header_1: {
@@ -149,6 +149,7 @@ export const themeNativeBase = extendTheme({
         },
       },
     },
+    Select: {},
     // Heading: {
     //   // Can pass also function, giving you access theming tools
     //   baseStyle: ({ colorMode }) => {
