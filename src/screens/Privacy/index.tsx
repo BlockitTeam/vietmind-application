@@ -30,6 +30,7 @@ const Privacy: React.FC<PrivacyProps> = props => {
           </Button>
           <TouchableOpacity>
             <Text
+            mb={5}
               textDecorationLine={'underline'}
               textAlign={'center'}
               onPress={() => navigation.navigate('PrivacyDetail')}>
