@@ -17,9 +17,9 @@ GoogleSignin.configure({
   forceCodeForRefreshToken: true,
   profileImageSize: 120,
   iosClientId:
-    '252730429058-nk49evmh542d9nlbkdg5id20u23bf7of.apps.googleusercontent.com',
+    '670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5.apps.googleusercontent.com',
   webClientId:
-    '252730429058-s4n2e2jpi1t077jnd0rqo1v8i63jv6vl.apps.googleusercontent.com',
+    '670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com',
 });
 // 670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com
 // Somewhere in your code
@@ -34,6 +34,8 @@ const Login = () => {
   const signIn = async () => {
     console.log('signIn');
     try {
+      console.log('-trycatch');
+
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       // setState({userInfo});
