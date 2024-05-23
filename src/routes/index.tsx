@@ -4,14 +4,12 @@ import React, {useEffect} from 'react';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import Login from '@screens/Login';
-import LoginSuccess from '@screens/LoginSuccess';
-import Privacy from '@screens/Privacy';
 import Splash from '@screens/Splash';
 import WelcomeScreen from '@screens/Welcome';
 import {renderAuthStack} from './component/auth';
+import Login from '@screens/Login';
 
-export const RootApp = () => {
+const RootApp = () => {
   //   const {isDoneFirstTime, user} = useAppSelector(state => state.auth);
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
   const [curUser] = useAtom(curUserAtom);
@@ -58,3 +56,4 @@ export const RootApp = () => {
     </RootStack.Navigator>
   );
 };
+export default RootApp;

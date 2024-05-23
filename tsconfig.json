@@ -13,6 +13,7 @@
       "@hooks/*": ["./src/hooks/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@routes/*": ["./src/routes/*"],
+      "@routes": ["./src/routes"],
       "@screens/*": ["./src/screens/*"],
       "@services": ["./src/services"],
       "@services/*": ["./src/services/*"],

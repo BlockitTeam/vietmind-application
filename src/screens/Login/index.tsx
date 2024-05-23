@@ -6,12 +6,50 @@ import BackGround from '@images/Background.png';
 import {Google, Facebook} from '@assets/icons';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  scopes: ['https://www.googleapis.com/auth/drive'],
+  offlineAccess: true,
+  forceCodeForRefreshToken: true,
+  profileImageSize: 120,
+  iosClientId:
+    '252730429058-nk49evmh542d9nlbkdg5id20u23bf7of.apps.googleusercontent.com',
+  webClientId:
+    '252730429058-s4n2e2jpi1t077jnd0rqo1v8i63jv6vl.apps.googleusercontent.com',
+});
+// 670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com
+// Somewhere in your code
 
 const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
 
   const loginFunc = () => {
     setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
+  };
+
+  const signIn = async () => {
+    console.log('signIn');
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      // setState({userInfo});
+      console.log(userInfo);
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+      console.log(error + '1');
+    }
   };
   return (
     <ImageBackground source={BackGround}>
@@ -27,7 +65,7 @@ const Login = () => {
         <Button
           style={styles.loginButton}
           variant={'cusOutline'}
-          onPress={loginFunc}>
+          onPress={signIn}>
           <Center flexDir={'row'}>
             <Google />
             <Box ml={1}>
