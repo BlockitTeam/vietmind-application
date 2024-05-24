@@ -91,7 +91,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
     );
 
     if (quizItem) {
-      if (quizItem.numberKey === nListQuest) {
+      if (quizItem.numberKey === nListQuest - 1) {
         //Call api answer and get result
 
         navigation.navigate('QuizResult', {

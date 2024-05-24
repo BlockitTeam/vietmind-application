@@ -8,6 +8,7 @@ import Splash from '@screens/Splash';
 import WelcomeScreen from '@screens/Welcome';
 import {renderAuthStack} from './component/auth';
 import Login from '@screens/Login';
+import {renderBottomTabStack} from './component/withBottomTab';
 
 const RootApp = () => {
   //   const {isDoneFirstTime, user} = useAppSelector(state => state.auth);
@@ -36,10 +37,15 @@ const RootApp = () => {
       //unauth
       return <RootStack.Screen name="Login" component={Login} />;
     } else if (curUser) {
-      return renderAuthStack();
+      return (
+        <>
+          {renderAuthStack()}
+          {renderBottomTabStack()}
+        </>
+      );
     }
     // if (user === null) {
-    //   return renderAuthStack();
+    //   return renderßAuthStack();
     // }
 
     // return renderMainStack();

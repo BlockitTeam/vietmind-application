@@ -1,4 +1,5 @@
 import {RootStack} from '@routes/navigator';
+import ChatWithProfessional_Home from '@screens/ChatWithProfessional/Home';
 import InputSelfInformation from '@screens/InputSelfInformation';
 import LoginSuccess from '@screens/LoginSuccess';
 import Privacy from '@screens/Privacy';
@@ -24,6 +25,8 @@ export const renderAuthStack = () => {
       <RootStack.Screen name="QuizStartConfirm" component={QuizStartConfirm} />
       <RootStack.Screen name="QuizDetail" component={QuizDetail} />
       <RootStack.Screen name="QuizResult" component={QuizResult} />
+
+      {/* Chat with professional*/}
     </>
   );
 };

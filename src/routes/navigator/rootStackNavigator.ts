@@ -27,6 +27,11 @@ export type IRootStackParamList = {
       tuHai: number;
     };
   };
+  // Chat with chuyên gia
+  ChatWithProfessional_Home: undefined;
+
+  //Bottom tab
+  BottomTab: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();
