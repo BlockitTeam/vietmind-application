@@ -5,15 +5,16 @@ import {Button, Image, Text} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
 
-type InputSelfInformationProps = NativeStackScreenProps<
-  IRootStackParamList,
-  'InputSelfInformation'
->;
-const QuizStart = () => {
+type QuizStartProps = NativeStackScreenProps<IRootStackParamList, 'QuizStart'>;
+const QuizStart: React.FC<QuizStartProps> = props => {
+  const {navigation} = props;
   return (
     <CusImageBackground
       bottomButton={
-        <Button w={'full'} variant={'cusPrimary'}>
+        <Button
+          w={'full'}
+          variant={'cusPrimary'}
+          onPress={() => navigation.navigate('QuizStartConfirm')}>
           Bắt đầu làm trắc nghiệm
         </Button>
       }>

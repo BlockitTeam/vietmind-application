@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormControl, NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
-import {outlineButton, primaryButton} from './custom-variant';
+import {cusSelected, outlineButton, primaryButton} from './custom-variant';
 
 const headerDefault = {
   color: 'text.neutral_primary',
@@ -125,6 +125,7 @@ export const themeNativeBase = extendTheme({
       variants: {
         cusPrimary: primaryButton,
         cusOutline: outlineButton,
+        cusSelected: cusSelected,
       },
     },
 
@@ -146,6 +147,27 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SFProDisplay',
           fontWeight: 400,
           fontSize: 16,
+        },
+        sf_header_1: {
+          ...headerDefault,
+          fontSize: 36,
+          fontFamily: 'SFProDisplay',
+        },
+        sf_header_2: {
+          ...headerDefault,
+          fontSize: 30,
+          fontFamily: 'SFProDisplay',
+        },
+        sf_header_3: {
+          ...headerDefault,
+          fontSize: 24,
+          fontFamily: 'SFProDisplay',
+        },
+        body_large_regular: {
+          fontFamily: 'SFProDisplay',
+          fontSize: 18,
+          fontWeight: 400,
+          lineHeight: 26,
         },
       },
     },

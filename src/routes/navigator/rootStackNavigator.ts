@@ -18,7 +18,15 @@ export type IRootStackParamList = {
   QuizStart: undefined;
   QuizStartConfirm: undefined;
   QuizDetail: undefined;
-  QuizResult: undefined;
+  QuizResult: {
+    typeResult: 'good' | 'bad';
+    result: {
+      stress: number;
+      loAu: number;
+      tramCam: number;
+      tuHai: number;
+    };
+  };
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();
