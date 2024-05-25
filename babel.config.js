@@ -21,7 +21,7 @@ module.exports = {
           '@images': './src/assets/images',
           '@icons': './src/assets/icons',
           '@themes': './src/themes',
-
+          '@axios': './src/axios',
           '@common': './src/common',
           '@components': './src/components',
           '@hooks': './src/hooks',

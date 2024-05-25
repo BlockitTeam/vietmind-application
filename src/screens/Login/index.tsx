@@ -10,6 +10,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {useCurrentUser, useLogin} from '@axios';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -38,6 +39,15 @@ const Login = () => {
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+
+      if (userInfo.idToken) {
+        const verifyToken = await useLogin(userInfo.idToken);
+        console.log(verifyToken.data.message);
+      }
+      {
+        //toast login unexpected error
+      }
+
       // setState({userInfo});
       console.log(userInfo);
     } catch (error: any) {

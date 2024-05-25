@@ -19,7 +19,7 @@ const CusImageBackground: React.FC<CusImageBackgroundProps> = props => {
             justifyContent={'center'}>
             {children}
           </Center>
-          <Center w={'full'} mb={'24px'}>
+          <Center w={'full'} mb={'16px'}>
             {bottomButton}
           </Center>
         </Center>

@@ -19,7 +19,6 @@ const LoginSuccess: React.FC<LoginSuccessProps> = props => {
           width={'100%'}
           maxW={'485px'}
           variant={'cusPrimary'}
-          mb={'36px'}
           onPress={() => {
             navigation.navigate('Privacy');
           }}>
