@@ -14,7 +14,24 @@ export type IRootStackParamList = {
   Privacy: undefined;
   PrivacyDetail: undefined;
   InputSelfInformation: undefined;
-  //
+  // Trắc nghiệm screen
+  QuizStart: undefined;
+  QuizStartConfirm: undefined;
+  QuizDetail: undefined;
+  QuizResult: {
+    typeResult: 'good' | 'bad';
+    result: {
+      stress: number;
+      loAu: number;
+      tramCam: number;
+      tuHai: number;
+    };
+  };
+  // Chat with chuyên gia
+  ChatWithProfessional_Home: undefined;
+
+  //Bottom tab
+  BottomTab: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

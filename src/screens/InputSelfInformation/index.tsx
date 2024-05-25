@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  NativeBaseProvider,
   Box,
   Input,
   Button,
@@ -13,8 +12,20 @@ import {
 } from 'native-base';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {IRootStackParamList} from '@routes/navigator';
 
-const InputSelfInformation = () => {
+const curYear = new Date().getFullYear();
+const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
+  year => year,
+);
+
+type InputSelfInformationProps = NativeStackScreenProps<
+  IRootStackParamList,
+  'InputSelfInformation'
+>;
+const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
+  const {navigation} = props;
   const {
     control,
     handleSubmit,
@@ -31,6 +42,7 @@ const InputSelfInformation = () => {
 
   const onSubmit = (data: any) => {
     console.log(data);
+    navigation.navigate('QuizStart');
   };
 
   return (
@@ -51,7 +63,9 @@ const InputSelfInformation = () => {
           <HStack space={2}>
             <Box flex={1}>
               <FormControl isRequired isInvalid={'lastName' in errors}>
-                <FormControl.Label>Họ</FormControl.Label>
+                <FormControl.Label fontFamily={'SFProDisplay'}>
+                  <Text>Họ</Text>
+                </FormControl.Label>
                 <Controller
                   control={control}
                   rules={{required: 'Họ là bắt buộc'}}
@@ -74,7 +88,9 @@ const InputSelfInformation = () => {
             </Box>
             <Box flex={1}>
               <FormControl isRequired isInvalid={'firstName' in errors}>
-                <FormControl.Label>Tên</FormControl.Label>
+                <FormControl.Label fontFamily={'SFProDisplay'}>
+                  <Text>Tên</Text>
+                </FormControl.Label>
                 <Controller
                   control={control}
                   rules={{required: 'Tên là bắt buộc'}}
@@ -98,7 +114,9 @@ const InputSelfInformation = () => {
           </HStack>
 
           <FormControl isRequired isInvalid={'yearOfBirth' in errors}>
-            <FormControl.Label>Năm sinh</FormControl.Label>
+            <FormControl.Label fontFamily={'SFProDisplay'}>
+              <Text>Năm sinh</Text>
+            </FormControl.Label>
             <Controller
               control={control}
               rules={{required: 'Năm sinh là bắt buộc'}}
@@ -113,11 +131,15 @@ const InputSelfInformation = () => {
                     bg: 'teal.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
-                  <Select.Item label="1990" value="1990" />
-                  <Select.Item label="1991" value="1991" />
-                  <Select.Item label="1992" value="1992" />
-                  <Select.Item label="1993" value="1993" />
-                  <Select.Item label="1994" value="1994" />
+                  {listYear.map(item => {
+                    return (
+                      <Select.Item
+                        key={item}
+                        label={item.toString()}
+                        value={item.toString()}
+                      />
+                    );
+                  })}
                 </Select>
               )}
               name="yearOfBirth"
@@ -130,7 +152,9 @@ const InputSelfInformation = () => {
           </FormControl>
 
           <FormControl isRequired isInvalid={'gender' in errors}>
-            <FormControl.Label>Giới tính</FormControl.Label>
+            <FormControl.Label fontFamily={'SFProDisplay'}>
+              <Text>Giới tính</Text>
+            </FormControl.Label>
             <Controller
               control={control}
               rules={{required: 'Giới tính là bắt buộc'}}
@@ -159,7 +183,10 @@ const InputSelfInformation = () => {
             )}
           </FormControl>
 
-          <Button onPress={handleSubmit(onSubmit)} isDisabled={!isValid}>
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            variant={'cusPrimary'}
+            isDisabled={!isValid}>
             Tiếp tục
           </Button>
         </VStack>

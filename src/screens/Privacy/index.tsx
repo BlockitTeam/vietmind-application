@@ -9,19 +9,9 @@ type PrivacyProps = NativeStackScreenProps<IRootStackParamList, 'Privacy'>;
 const Privacy: React.FC<PrivacyProps> = props => {
   const {navigation} = props;
   return (
-    <CusImageBackground>
-      <Center h={'full'} mx={'8px'}>
-        <Text variant={'header_2'} mb={2}>
-          Bảo mật thông tin
-        </Text>
-        <Text textAlign={'center'} mb={'12px'}>
-          Tại Vietmind, thông tin của bạn luôn được bảo mật.
-        </Text>
-        <Text textAlign={'center'}>
-          Tuy nhiên, Vietmind có thể sử dụng một số dữ liệu của bạn dưới dạng
-          anonymous để nghiên cứu, phát triển ứng dụng, và nâng cao trải nghiệm.
-        </Text>
-        <VStack w={'full'} position={'absolute'} bottom={'16px'}>
+    <CusImageBackground
+      bottomButton={
+        <VStack w={'full'}>
           <Button
             variant={'cusPrimary'}
             mb={4}
@@ -30,7 +20,7 @@ const Privacy: React.FC<PrivacyProps> = props => {
           </Button>
           <TouchableOpacity>
             <Text
-            mb={5}
+              mb={5}
               textDecorationLine={'underline'}
               textAlign={'center'}
               onPress={() => navigation.navigate('PrivacyDetail')}>
@@ -38,7 +28,17 @@ const Privacy: React.FC<PrivacyProps> = props => {
             </Text>
           </TouchableOpacity>
         </VStack>
-      </Center>
+      }>
+      <Text variant={'header_2'} mb={2}>
+        Bảo mật thông tin
+      </Text>
+      <Text textAlign={'center'} mb={'12px'}>
+        Tại Vietmind, thông tin của bạn luôn được bảo mật.
+      </Text>
+      <Text textAlign={'center'}>
+        Tuy nhiên, Vietmind có thể sử dụng một số dữ liệu của bạn dưới dạng
+        anonymous để nghiên cứu, phát triển ứng dụng, và nâng cao trải nghiệm.
+      </Text>
     </CusImageBackground>
   );
 };

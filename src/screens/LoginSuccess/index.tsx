@@ -13,21 +13,8 @@ type LoginSuccessProps = NativeStackScreenProps<
 const LoginSuccess: React.FC<LoginSuccessProps> = props => {
   const {navigation} = props;
   return (
-    <CusImageBackground>
-      <VStack h={'full'} style={styles.vStack} mx={'8px'}>
-        <VStack flex={1} style={styles.vStack} space={2}>
-          <Image
-            source={SelfLove1}
-            width={245.96}
-            height={254.2}
-            alt="SelfLove image"
-            mb={20}
-          />
-          <Text variant={'header_2'} mb={2} textAlign={'center'}>
-            Đăng ký thành công
-          </Text>
-          <Text textAlign={'center'}>Chào mừng bạn đến với Vietmind.</Text>
-        </VStack>
+    <CusImageBackground
+      bottomButton={
         <Button
           width={'100%'}
           maxW={'485px'}
@@ -38,6 +25,19 @@ const LoginSuccess: React.FC<LoginSuccessProps> = props => {
           }}>
           Tiếp tục
         </Button>
+      }>
+      <VStack flex={1} style={styles.vStack} space={2}>
+        <Image
+          source={SelfLove1}
+          width={245.96}
+          height={254.2}
+          alt="SelfLove image"
+          mb={20}
+        />
+        <Text variant={'header_2'} mb={2} textAlign={'center'}>
+          Đăng ký thành công
+        </Text>
+        <Text textAlign={'center'}>Chào mừng bạn đến với Vietmind.</Text>
       </VStack>
     </CusImageBackground>
   );

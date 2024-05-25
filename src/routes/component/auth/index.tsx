@@ -1,8 +1,13 @@
 import {RootStack} from '@routes/navigator';
+import ChatWithProfessional_Home from '@screens/ChatWithProfessional/Home';
 import InputSelfInformation from '@screens/InputSelfInformation';
 import LoginSuccess from '@screens/LoginSuccess';
 import Privacy from '@screens/Privacy';
 import PrivacyDetail from '@screens/PrivacyDetail';
+import QuizDetail from '@screens/Quiz/QuizDetail';
+import QuizResult from '@screens/Quiz/QuizResult';
+import QuizStart from '@screens/Quiz/QuizStart';
+import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 
 export const renderAuthStack = () => {
   return (
@@ -14,6 +19,14 @@ export const renderAuthStack = () => {
         name="InputSelfInformation"
         component={InputSelfInformation}
       />
+
+      {/* Quiz stack */}
+      <RootStack.Screen name="QuizStart" component={QuizStart} />
+      <RootStack.Screen name="QuizStartConfirm" component={QuizStartConfirm} />
+      <RootStack.Screen name="QuizDetail" component={QuizDetail} />
+      <RootStack.Screen name="QuizResult" component={QuizResult} />
+
+      {/* Chat with professional*/}
     </>
   );
 };

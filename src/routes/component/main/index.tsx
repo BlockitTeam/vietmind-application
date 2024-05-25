@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import {RootStack} from '@routes/navigator';
-import BottomTab from '@components/BottomTab';
+import BottomTab from '@routes/component/BottomTab';
 
 export const renderMainStack = () => {
   return (
