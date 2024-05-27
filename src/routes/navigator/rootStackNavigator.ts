@@ -30,6 +30,10 @@ export type IRootStackParamList = {
   // Chat with chuyên gia
   ChatWithProfessional_Home: undefined;
 
+  //Chat with bot
+  ChatWithBot_Start: undefined;
+  ChatWithBot_Conversation: undefined;
+
   //Bottom tab
   BottomTab: undefined;
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import CusImageBackground from '@components/CusImageBackground';
+import CusImageBackground from '@components/layout/CusImageBackground';
 import Well1 from '@images/Well1.png';
 import {Button, Image, Text} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

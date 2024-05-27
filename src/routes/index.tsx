@@ -37,6 +37,8 @@ const RootApp = () => {
 
   const renderAllScreen = () => {
     // if (!isDoneFirstTime) {
+    // return renderBottomTabStack();
+
     if (firstInit === undefined)
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {

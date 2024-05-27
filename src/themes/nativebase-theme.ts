@@ -99,6 +99,7 @@ export const themeNativeBase = extendTheme({
       neutral: '#172832',
       medium: '#C2F8CB',
       medium50: '#C2F8CB50',
+      medium25: '#C2F8CB25',
       600: '#C2F8CB',
     },
     text: {
@@ -168,6 +169,14 @@ export const themeNativeBase = extendTheme({
           fontSize: 18,
           fontWeight: 400,
           lineHeight: 26,
+        },
+        caption_regular: {
+          fontFamily: 'SFProDisplay',
+          fontSize: 12,
+          fontWeight: 400,
+          lineHeight: 16,
+          textAlign: 'center',
+          color: 'text.neutral_primary',
         },
       },
     },

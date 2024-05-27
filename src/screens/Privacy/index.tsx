@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, Center, Text, VStack} from 'native-base';
 import {TouchableOpacity} from 'react-native';
-import CusImageBackground from '@components/CusImageBackground';
+import CusImageBackground from '@components/layout/CusImageBackground';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
 

@@ -21,38 +21,30 @@ const BottomTab = () => {
         name="Home"
         component={Tab_Home}
         options={{
-          title: 'Home',
-        }}
-      />
-      {/* <RootBottomTab.Screen
-        name="Cart"
-        component={<></>}
-        options={{
-          title: 'Cart',
+          title: 'Trang chủ',
         }}
       />
       <RootBottomTab.Screen
-        name="Orders"
-        component={<></>}
+        name="Advise"
+        component={Tab_Home}
         options={{
-          title: 'Orders',
+          title: 'Tư vấn',
         }}
       />
       <RootBottomTab.Screen
-        name="Wallet"
-        component={<></>}
+        name="Knowledge"
+        component={Tab_Home}
         options={{
-          title: 'Wallet',
+          title: 'Kiến thức',
         }}
       />
-
       <RootBottomTab.Screen
-        name="Profile"
-        component={<></>}
+        name="User"
+        component={Tab_Home}
         options={{
-          title: 'Profile',
+          title: 'Cá nhân',
         }}
-      /> */}
+      />
     </RootBottomTab.Navigator>
   );
 };

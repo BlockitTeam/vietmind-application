@@ -11,13 +11,7 @@ const QuizInput: React.FC<QuizInputProps> = props => {
   const {question, isLasted, save, answer} = props;
   const [inputValue, setInputValue] = useState(answer ?? undefined);
   return (
-    <VStack
-      bgColor={'white'}
-      px={'16px'}
-      w={'full'}
-      space={2}
-      h={'100%'}
-      alignItems={'center'}>
+    <VStack w={'full'} space={2} h={'100%'} alignItems={'center'}>
       <Text variant={'sf_header_3'} textAlign={'center'}>
         {question}
       </Text>
@@ -31,11 +25,10 @@ const QuizInput: React.FC<QuizInputProps> = props => {
         placeholder="Nhập câu trả lời của bạn ở đây"
       />
       <Button
-        mt={2}
         w={'full'}
         variant={'cusPrimary'}
         position={'absolute'}
-        bottom={'128px'}
+        bottom={'0px'}
         onPress={() => save(inputValue)}
         disabled={!inputValue}>
         {isLasted ? 'Kết thúc' : 'Câu tiếp theo'}

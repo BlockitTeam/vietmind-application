@@ -2,7 +2,7 @@ import React from 'react';
 import SelfLove1 from '@images/SelfLove1.png';
 import {Box, Button, Image, Text, VStack} from 'native-base';
 import {StyleSheet} from 'react-native';
-import CusImageBackground from '@components/CusImageBackground';
+import CusImageBackground from '@components/layout/CusImageBackground';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
 type LoginSuccessProps = NativeStackScreenProps<
