@@ -1,4 +1,4 @@
-import {Box, Button, Center, Text, VStack} from 'native-base';
+import {Box, Button, Center, Text, View, VStack} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {ImageBackground} from 'react-native';
@@ -11,6 +11,13 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {useCurrentUser, useLogin} from '@axios';
+
+import {
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk-next';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -28,28 +35,70 @@ GoogleSignin.configure({
 const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
 
-  const loginFunc = () => {
-    setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
+  const loginFacebook = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+        return;
+      }
+
+      const data = await AccessToken.getCurrentAccessToken();
+      if (!data) {
+        console.log('Something went wrong obtaining access token');
+        return;
+      }
+
+      const {accessToken} = data;
+
+      const responseInfoCallback = (error: any, result: any) => {
+        if (error) {
+          console.log(error);
+          console.log('Error fetching data: ' + error.toString());
+        } else {
+          console.log(result);
+          console.log('Success fetching data: ' + result.toString());
+        }
+      };
+
+      const infoRequest = new GraphRequest(
+        '/me',
+        {
+          accessToken: accessToken,
+          parameters: {
+            fields: {
+              string: 'email,name,first_name,middle_name,last_name',
+            },
+          },
+        },
+        responseInfoCallback,
+      );
+
+      // Start the graph request.
+      new GraphRequestManager().addRequest(infoRequest).start();
+
+      return data;
+    } catch (error) {
+      console.error('Login failed with error: ' + error);
+    }
   };
 
-  const signIn = async () => {
-    console.log('signIn');
-    try {
-      console.log('-trycatch');
+  const loginFunc = async () => {
+    // const result = await loginFacebook();
+    // setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
+  };
 
+  const signInGoogle = async () => {
+    try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-
       if (userInfo.idToken) {
+        // setState({userInfo});
         const verifyToken = await useLogin(userInfo.idToken);
-        console.log(verifyToken.data.message);
       }
-      {
-        //toast login unexpected error
-      }
-
-      // setState({userInfo});
-      console.log(userInfo);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -77,7 +126,7 @@ const Login = () => {
         <Button
           style={styles.loginButton}
           variant={'cusOutline'}
-          onPress={signIn}>
+          onPress={signInGoogle}>
           <Center flexDir={'row'}>
             <Google />
             <Box ml={1}>
@@ -88,7 +137,7 @@ const Login = () => {
         <Button
           style={styles.loginButton}
           variant={'cusOutline'}
-          onPress={loginFunc}>
+          onPress={loginFacebook}>
           <Center flexDir={'row'}>
             <Facebook />
             <Box ml={1}>
@@ -96,6 +145,22 @@ const Login = () => {
             </Box>
           </Center>
         </Button>
+        {/* <View>
+          <LoginButton
+            onLoginFinished={(error: any, result: any) => {
+              if (error) {
+                console.log('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                console.log('login is cancelled.');
+              } else {
+                AccessToken.getCurrentAccessToken().then((data: any) => {
+                  console.log(data.accessToken.toString());
+                });
+              }
+            }}
+            onLogoutFinished={() => console.log('logout.')}
+          />
+        </View> */}
       </VStack>
     </ImageBackground>
   );
