@@ -10,7 +10,7 @@ import Focused from '@assets/images/focused.png';
 import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
-import CusImageBackground from '@components/CusImageBackground';
+import CusImageBackground from '@components/layout/CusImageBackground';
 const WelcomeScreen = () => {
   const [_, setFirstInit] = useAtom(firstLoadAtom);
   return (

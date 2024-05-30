@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Center, ChevronLeftIcon, HStack, Text, VStack} from 'native-base';
+import {Box, Center, ChevronLeftIcon, HStack, Text, VStack} from 'native-base';
 import QuizChoose from './component/QuizChoose/QuizChoose';
 import QuizInput from './component/QuizInput';
 import {TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
+import HeaderBack from '@components/layout/HeaderBack';
 
 const listQuiz = [
   {
@@ -107,36 +108,22 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
-      <HStack
-        alignItems={'center'}
-        justifyContent={'center'}
-        bgColor={'primary.medium50'}
-        py={4}
-        px={2}
-        position={'relative'}
-        fontSize={12}>
+    <HeaderBack
+      title={`Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`}
+      buttonBack={
         <TouchableOpacity
-          style={{position: 'absolute', left: 8}}
           disabled={curQuiz?.numberKey === 0}
           onPress={() => setCurQuiz(listResult[curQuiz.numberKey - 1])}>
           <Center flexDir={'row'}>
             <ChevronLeftIcon />
-
             <Text>Quay lại</Text>
           </Center>
         </TouchableOpacity>
-        <Text color={'text.neutral_teriary'}>
-          Trắc nghiệm tâm lý {curQuiz.numberKey + 1}/{nListQuest}
-        </Text>
-      </HStack>
-      <VStack
-        h={'full'}
-        bg={'white'}
-        justifyContent={'center'}
-        pt={'20px'}
-        alignItems={'center'}>
-        {curQuiz.typeQ === 'choose' ? (
+      }>
+      {/* Match with mb cusImageBackground and HeaderBack */}
+      <Box pt={'24px'} />
+      {curQuiz.typeQ === 'choose' ? (
+        <Center h="full">
           <QuizChoose
             key={curQuiz.numberKey}
             answer={curQuiz.answer}
@@ -144,17 +131,17 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
             options={curQuiz.options}
             save={saveAndNext}
           />
-        ) : curQuiz.typeQ === 'input' ? (
-          <QuizInput
-            key={curQuiz.numberKey}
-            answer={curQuiz.answer}
-            question={curQuiz.question}
-            isLasted={curQuiz.numberKey === nListQuest}
-            save={saveAndNext}
-          />
-        ) : null}
-      </VStack>
-    </SafeAreaView>
+        </Center>
+      ) : curQuiz.typeQ === 'input' ? (
+        <QuizInput
+          key={curQuiz.numberKey}
+          answer={curQuiz.answer}
+          question={curQuiz.question}
+          isLasted={curQuiz.numberKey === nListQuest}
+          save={saveAndNext}
+        />
+      ) : null}
+    </HeaderBack>
   );
 };
 

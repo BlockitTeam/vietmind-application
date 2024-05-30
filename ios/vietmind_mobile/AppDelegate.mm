@@ -1,6 +1,12 @@
 #import "AppDelegate.h"
-
 #import <React/RCTBundleURLProvider.h>
+
+// Start: Facebook Login Import 
+#import <AuthenticationServices/AuthenticationServices.h>
+#import <SafariServices/SafariServices.h>
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+// End: Facebook Login Import 
+
 
 @implementation AppDelegate
 
@@ -10,6 +16,12 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+
+// Start: Facebook config step 2
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                       didFinishLaunchingWithOptions:launchOptions];
+// End: Facebook config step 2
+
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

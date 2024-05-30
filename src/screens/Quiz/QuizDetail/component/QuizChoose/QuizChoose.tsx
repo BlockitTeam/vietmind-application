@@ -9,7 +9,7 @@ type QuizChooseProps = {
 const QuizChoose: React.FC<QuizChooseProps> = props => {
   const {question, options, save, answer} = props;
   return (
-    <VStack bgColor={'white'} px={'16px'} w={'full'} space={2} pb={'12.5%'}>
+    <VStack bgColor={'white'} w={'full'} space={2} pb={'12.5%'}>
       <Text variant={'sf_header_3'} mb={6} textAlign={'center'} pb={10}>
         {question}
       </Text>

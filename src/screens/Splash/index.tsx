@@ -1,4 +1,4 @@
-import CusImageBackground from '@components/CusImageBackground';
+import CusImageBackground from '@components/layout/CusImageBackground';
 import {Flex, Text} from 'native-base';
 import React from 'react';
 const Splash = () => {

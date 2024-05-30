@@ -1,17 +1,21 @@
 import React, {PropsWithChildren, ReactNode} from 'react';
 import {ImageBackground} from 'react-native';
 import BackGround from '@images/Background.png';
-import {Center, HStack, VStack} from 'native-base';
+import {Center} from 'native-base';
 
 type CusImageBackgroundProps = {
   bottomButton?: ReactNode;
+  nonBackGround?: boolean | string;
 } & PropsWithChildren;
 const CusImageBackground: React.FC<CusImageBackgroundProps> = props => {
-  const {children, bottomButton} = props;
+  const {children, bottomButton, nonBackGround} = props;
   return (
-    <ImageBackground source={BackGround}>
+    <ImageBackground source={nonBackGround ? null : BackGround}>
       {bottomButton ? (
-        <Center h={'full'} mx={'16px'}>
+        <Center
+          h={'full'}
+          px={'16px'}
+          bgColor={nonBackGround ? 'white' : 'transparent'}>
           <Center
             w={'full'}
             flex={1}

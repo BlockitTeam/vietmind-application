@@ -1,4 +1,5 @@
 import {RootStack} from '@routes/navigator';
+import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import ChatWithProfessional_Home from '@screens/ChatWithProfessional/Home';
 import InputSelfInformation from '@screens/InputSelfInformation';
 import LoginSuccess from '@screens/LoginSuccess';
@@ -27,6 +28,12 @@ export const renderAuthStack = () => {
       <RootStack.Screen name="QuizResult" component={QuizResult} />
 
       {/* Chat with professional*/}
+      {/* Chat with bot*/}
+      <RootStack.Screen
+        name="ChatWithBot_Start"
+        component={ChatWithBot_Start}
+      />
+      {/* <RootStack.Screen name="ChatWithBot_Start" component={QuizResult} /> */}
     </>
   );
 };

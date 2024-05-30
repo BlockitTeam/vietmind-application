@@ -9,6 +9,8 @@ import {
   VStack,
   Text,
   HStack,
+  ChevronDownIcon,
+  Center,
 } from 'native-base';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -127,8 +129,13 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                   placeholder="Chọn năm sinh"
                   onValueChange={onChange}
                   selectedValue={value}
+                  dropdownIcon={
+                    <Center px={2}>
+                      <ChevronDownIcon />
+                    </Center>
+                  }
                   _selectedItem={{
-                    bg: 'teal.600',
+                    bg: 'primary.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
                   {listYear.map(item => {
@@ -165,8 +172,13 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                   placeholder="Chọn giới tính"
                   onValueChange={onChange}
                   selectedValue={value}
+                  dropdownIcon={
+                    <Center px={2}>
+                      <ChevronDownIcon />
+                    </Center>
+                  }
                   _selectedItem={{
-                    bg: 'teal.600',
+                    bg: 'primary.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
                   <Select.Item label="Nam" value="male" />

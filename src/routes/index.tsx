@@ -9,11 +9,19 @@ import WelcomeScreen from '@screens/Welcome';
 import {renderAuthStack} from './component/auth';
 import Login from '@screens/Login';
 import {renderBottomTabStack} from './component/withBottomTab';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RootApp = () => {
   //   const {isDoneFirstTime, user} = useAppSelector(state => state.auth);
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
-  const [curUser] = useAtom(curUserAtom);
+  const [curUser, setCurUser] = useAtom(curUserAtom);
+  useEffect(() => {
+    AsyncStorage.getItem('JSESSIONID').then(v => {
+      if (v) setCurUser({avatar: '1', tokenId: v, username: 'dnt'});
+    }); //c
+  }, []);
+
+  // check cookie
   useEffect(() => {
     getFirstLoad().then(value => {
       if (value === '1')
@@ -29,6 +37,8 @@ const RootApp = () => {
 
   const renderAllScreen = () => {
     // if (!isDoneFirstTime) {
+    // return renderBottomTabStack();
+
     if (firstInit === undefined)
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {
