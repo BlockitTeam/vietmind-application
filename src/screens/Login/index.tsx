@@ -10,7 +10,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {useCurrentUser, useLogin} from '@axios';
+import {axiosInstance, useCurrentUser, useLogin} from '@axios';
 
 import {
   AccessToken,
@@ -36,6 +36,7 @@ const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
 
   const loginFacebook = async () => {
+    // setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
     try {
       const result = await LoginManager.logInWithPermissions([
         'public_profile',
@@ -45,41 +46,36 @@ const Login = () => {
         console.log('Login cancelled');
         return;
       }
-
+      console.log('result: ', result);
       const data = await AccessToken.getCurrentAccessToken();
       if (!data) {
         console.log('Something went wrong obtaining access token');
         return;
       }
-
       const {accessToken} = data;
-
-      const responseInfoCallback = (error: any, result: any) => {
-        if (error) {
-          console.log(error);
-          console.log('Error fetching data: ' + error.toString());
-        } else {
-          console.log(result);
-          console.log('Success fetching data: ' + result.toString());
-        }
-      };
-
-      const infoRequest = new GraphRequest(
-        '/me',
-        {
-          accessToken: accessToken,
-          parameters: {
-            fields: {
-              string: 'email,name,first_name,middle_name,last_name',
+      if (accessToken) {
+        const responseInfoCallback = (error: any, result: any) => {
+          if (error) {
+            console.log('Error fetching data: ' + error.toString());
+          } else {
+            console.log('Success fetching data: ' + JSON.stringify(result));
+          }
+        };
+        const infoRequest = new GraphRequest(
+          '/me',
+          {
+            accessToken: accessToken,
+            parameters: {
+              fields: {
+                string: 'email,name',
+              },
             },
           },
-        },
-        responseInfoCallback,
-      );
-
+          responseInfoCallback,
+        );
+        new GraphRequestManager().addRequest(infoRequest).start();
+      }
       // Start the graph request.
-      new GraphRequestManager().addRequest(infoRequest).start();
-
       return data;
     } catch (error) {
       console.error('Login failed with error: ' + error);
@@ -88,7 +84,6 @@ const Login = () => {
 
   const loginFunc = async () => {
     // const result = await loginFacebook();
-    // setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
   };
 
   const signInGoogle = async () => {
@@ -144,6 +139,12 @@ const Login = () => {
               <Text>Đăng ký bằng Facebook</Text>
             </Box>
           </Center>
+        </Button>
+        <Button
+          onPress={async () => {
+            const a = await axiosInstance.get('https://example.com/profile');
+          }}>
+          Fetch
         </Button>
         {/* <View>
           <LoginButton
