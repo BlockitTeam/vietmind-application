@@ -108,14 +108,14 @@
 			<dict>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fb1547044715861002</string>
+					<string>fb1677651809436240</string>
 				</array>
 			</dict>
 		</array>
 		<key>FacebookAppID</key>
-		<string>1547044715861002</string>
+		<string>1677651809436240</string>
 		<key>FacebookClientToken</key>
-		<string>1068fc4d217f914d44f50a4e7be9c79e</string>
+		<string>4d15eb4e74e54bfe75bfdfb146e7fe8f</string>
 		<key>FacebookDisplayName</key>
 		<string>APP-NAME</string>
 </dict>
