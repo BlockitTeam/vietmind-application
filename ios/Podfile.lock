@@ -7,21 +7,21 @@ PODS:
     - AppAuth/Core
   - boost (1.83.0)
   - DoubleConversion (1.1.6)
-  - FBAEMKit (17.0.1):
-    - FBSDKCoreKit_Basics (= 17.0.1)
+  - FBAEMKit (17.0.2):
+    - FBSDKCoreKit_Basics (= 17.0.2)
   - FBLazyVector (0.74.1)
-  - FBSDKCoreKit (17.0.1):
-    - FBAEMKit (= 17.0.1)
-    - FBSDKCoreKit_Basics (= 17.0.1)
-  - FBSDKCoreKit_Basics (17.0.1)
-  - FBSDKGamingServicesKit (17.0.1):
-    - FBSDKCoreKit (= 17.0.1)
-    - FBSDKCoreKit_Basics (= 17.0.1)
-    - FBSDKShareKit (= 17.0.1)
-  - FBSDKLoginKit (17.0.1):
-    - FBSDKCoreKit (= 17.0.1)
-  - FBSDKShareKit (17.0.1):
-    - FBSDKCoreKit (= 17.0.1)
+  - FBSDKCoreKit (17.0.2):
+    - FBAEMKit (= 17.0.2)
+    - FBSDKCoreKit_Basics (= 17.0.2)
+  - FBSDKCoreKit_Basics (17.0.2)
+  - FBSDKGamingServicesKit (17.0.2):
+    - FBSDKCoreKit (= 17.0.2)
+    - FBSDKCoreKit_Basics (= 17.0.2)
+    - FBSDKShareKit (= 17.0.2)
+  - FBSDKLoginKit (17.0.2):
+    - FBSDKCoreKit (= 17.0.2)
+  - FBSDKShareKit (17.0.2):
+    - FBSDKCoreKit (= 17.0.2)
   - fmt (9.1.0)
   - glog (0.3.5)
   - GoogleSignIn (7.0.0):
@@ -1446,13 +1446,13 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
-  FBAEMKit: 97eaf41451b49691447df831f7f425229ae64b66
+  FBAEMKit: 619f96ea65427e8afca240d5b0f4703738dfdf5c
   FBLazyVector: 898d14d17bf19e2435cafd9ea2a1033efe445709
-  FBSDKCoreKit: e34084567d11cfdd4787ace2b1a0255bedf34ade
-  FBSDKCoreKit_Basics: 3d78e5fe00504e5c1aed1c48de0654c3a1565d15
-  FBSDKGamingServicesKit: da5ffcbe3a9e369db8c235641500ea18e576c40c
-  FBSDKLoginKit: 9a581053879a1e6fc3fab8ead341c78c6a318255
-  FBSDKShareKit: c3b14e2aa947fc6dc8d3ccdd52bfe5ddc88049cf
+  FBSDKCoreKit: a5f384db2e9ee84e98494fed8f983d2bd79accff
+  FBSDKCoreKit_Basics: d35c775aaf243a2d731dfae7be3a74b1987285ab
+  FBSDKGamingServicesKit: bf02b6f115e545910b8a77bf8defaf74a7eccda1
+  FBSDKLoginKit: f8ca5f7ab7c4e5b93e729d94975b0db7fcc511ed
+  FBSDKShareKit: e7ec3bed8e82dabc04e56f3cf44ef99a1864309e
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842

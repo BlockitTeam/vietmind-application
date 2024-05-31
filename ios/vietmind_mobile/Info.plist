@@ -28,6 +28,8 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>com.googleusercontent.apps.670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5</string>
+					<string>fb1677651809436240</string>
+
 				</array>
 			</dict>
 		</array>
@@ -103,15 +105,7 @@
 		<false />
 
 		<!-- Facebook Setup -->
-		<key>CFBundleURLTypes</key>
-		<array>
-			<dict>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>fb1677651809436240</string>
-				</array>
-			</dict>
-		</array>
+		
 		<key>FacebookAppID</key>
 		<string>1677651809436240</string>
 		<key>FacebookClientToken</key>

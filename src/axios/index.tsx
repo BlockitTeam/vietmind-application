@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationContainer} from '@react-navigation/native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import {IRootStackParamList} from '@routes/navigator';
+
 
 export const axiosInstance = axios.create({
   baseURL: 'http://localhost:9001/api',

@@ -10,7 +10,7 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {axiosInstance, useCurrentUser, useLogin} from '@axios';
+import {axiosInstance, useLogin} from '@axios';
 
 import {
   AccessToken,
@@ -36,7 +36,6 @@ const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
 
   const loginFacebook = async () => {
-    // setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
     try {
       const result = await LoginManager.logInWithPermissions([
         'public_profile',
@@ -74,6 +73,8 @@ const Login = () => {
           responseInfoCallback,
         );
         new GraphRequestManager().addRequest(infoRequest).start();
+        setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
+
       }
       // Start the graph request.
       return data;
@@ -92,7 +93,11 @@ const Login = () => {
       const userInfo = await GoogleSignin.signIn();
       if (userInfo.idToken) {
         // setState({userInfo});
-        const verifyToken = await useLogin(userInfo.idToken);
+        // const verifyToken = await useLogin(userInfo.idToken);
+        setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
+        console.log('user Info: ',JSON.stringify(userInfo));
+        // Set info after verify successfully
+
       }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -146,22 +151,7 @@ const Login = () => {
           }}>
           Fetch
         </Button>
-        {/* <View>
-          <LoginButton
-            onLoginFinished={(error: any, result: any) => {
-              if (error) {
-                console.log('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                console.log('login is cancelled.');
-              } else {
-                AccessToken.getCurrentAccessToken().then((data: any) => {
-                  console.log(data.accessToken.toString());
-                });
-              }
-            }}
-            onLogoutFinished={() => console.log('logout.')}
-          />
-        </View> */}
+
       </VStack>
     </ImageBackground>
   );
