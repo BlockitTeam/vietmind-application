@@ -16,6 +16,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
+import {useGetQuestion} from '@hooks/auth';
 
 const curYear = new Date().getFullYear();
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -200,6 +201,13 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
             variant={'cusPrimary'}
             isDisabled={!isValid}>
             Tiếp tục
+          </Button>
+          <Button
+            onPress={async () => {
+              const a = await useGetQuestion();
+              console.log(a.data);
+            }}>
+            fetch
           </Button>
         </VStack>
       </Box>

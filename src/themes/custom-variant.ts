@@ -2,7 +2,7 @@ import {Dict} from 'native-base/lib/typescript/theme/tools';
 const textDefaultBtn = (props: Dict) => {
   return {
     color: props.disabled ? 'text.neutral_teriary' : 'text.default',
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 16,
     fontFamily: 'SFProDisplay',
   };
@@ -23,7 +23,6 @@ export const outlineButton = (props: Dict) => {
     _text: textDefaultBtn(props),
     bgColor: props.bgColor ? props.bgColor : 'white',
     borderWidth: 1,
-
     borderColor: props.disabled ? 'background.medium' : 'primary.medium',
     _pressed: {
       bg: 'primary.medium50',
@@ -38,7 +37,6 @@ export const cusSelected = (props: Dict) => {
     _text: textDefaultBtn(props),
     bgColor: 'primary.medium',
     borderWidth: 1,
-
     borderColor: 'primary.medium',
     _pressed: {
       bg: 'primary.medium50',

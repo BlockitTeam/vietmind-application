@@ -4,9 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:9001/api',
-  headers: {'X-Custom-Header': 'token'},
-  withCredentials: true,
+  baseURL: 'http://172.25.37.162:9001',
+  // headers: {'X-Custom-Header': 'token'},
+  // withCredentials: true,
 });
 
 axiosInstance.interceptors.response.use(
@@ -23,36 +23,27 @@ axiosInstance.interceptors.response.use(
           await AsyncStorage.setItem('JSESSIONID', sessionIdValue); // cc hết hạn
       }
     }
-    const randomNumber = Math.random();
-    console.log('response: ', response);
-    let a = Math.floor(randomNumber * 2) + 402;
-    if (a === 403) {
-      const navigation = useNavigation();
-      await AsyncStorage.removeItem('JSESSIONID'); //cc frontend
-      // navigation.navigate('');
-    }
+    // const randomNumber = Math.random();
+    // console.log('response: ', response);
+    // let a = Math.floor(randomNumber * 2) + 402;
+    // if (a === 403) {
+    //   const navigation = useNavigation();
+    //   await AsyncStorage.removeItem('JSESSIONID'); //cc frontend
+    //   // navigation.navigate('');
+    // }
     return response;
   },
 
-  error => Promise.reject(error),
+  // error => Promise.reject(error),
 );
 
 axiosInstance.interceptors.request.use(
   async config => {
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
-    console.log(storedSessionId);
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;
     }
-    console.log(config);
     return config;
   },
   error => Promise.reject(error),
 );
-
-export const useLogin = async (tokenOAuth: string) => {
-  return await axiosInstance.post('/auth/token', {token: tokenOAuth});
-};
-export const useCurrentUser = async () => {
-  return await axiosInstance.get('/v1/current-user');
-};
