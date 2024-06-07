@@ -21,10 +21,10 @@ export type IRootStackParamList = {
   QuizResult: {
     typeResult: 'good' | 'bad';
     result: {
-      stress: number;
-      loAu: number;
-      tramCam: number;
-      tuHai: number;
+      stress: string;
+      loAu: string;
+      tramCam: string;
+      tuHai: string;
     };
   };
   // Chat with chuyên gia

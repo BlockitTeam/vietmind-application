@@ -16,7 +16,12 @@ import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
-import {useGetQuestion} from '@hooks/auth';
+import {usePutEditUser} from '@hooks/auth';
+import {tPutEditUserParam} from '@hooks/auth/auth.interface';
+import axios from 'axios';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+// import {useGetQuestion} from '@hooks/auth';
 
 const curYear = new Date().getFullYear();
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -27,25 +32,43 @@ type InputSelfInformationProps = NativeStackScreenProps<
   IRootStackParamList,
   'InputSelfInformation'
 >;
+type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string};
 const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
   const {navigation} = props;
+
+  const [_, setCurUser] = useAtom(curUserAtom);
+
   const {
     control,
     handleSubmit,
     formState: {errors, isValid},
-  } = useForm({
+  } = useForm<tFormEditUser>({
     mode: 'onChange',
     defaultValues: {
       lastName: '',
       firstName: '',
-      yearOfBirth: '',
-      gender: '',
+      birthYear: '',
+      gender: 'MALE',
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigation.navigate('QuizStart');
+  // Todo: API
+  const usePutEditUserMutation = usePutEditUser();
+
+  //Todo: Func
+  const onSubmit = async (data: tFormEditUser) => {
+    usePutEditUserMutation.mutate(
+      {...data, birthYear: parseInt(data.birthYear)},
+      {
+        onSuccess: value => {
+          console.log('🚀 ~ onSubmit ~ value:', value);
+          setCurUser(value.data);
+        },
+        onError: error => {
+          console.log('🚀 ~ onSubmit ~ error:', error);
+        },
+      },
+    );
   };
 
   return (
@@ -116,7 +139,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
             </Box>
           </HStack>
 
-          <FormControl isRequired isInvalid={'yearOfBirth' in errors}>
+          <FormControl isRequired isInvalid={'birthYear' in errors}>
             <FormControl.Label fontFamily={'SFProDisplay'}>
               <Text>Năm sinh</Text>
             </FormControl.Label>
@@ -150,11 +173,11 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                   })}
                 </Select>
               )}
-              name="yearOfBirth"
+              name="birthYear"
             />
-            {'yearOfBirth' in errors && errors.yearOfBirth && (
+            {'birthYear' in errors && errors.birthYear && (
               <FormControl.ErrorMessage>
-                {errors.yearOfBirth.message}
+                {errors.birthYear.message}
               </FormControl.ErrorMessage>
             )}
           </FormControl>
@@ -173,6 +196,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                   placeholder="Chọn giới tính"
                   onValueChange={onChange}
                   selectedValue={value}
+                  defaultValue={value}
                   dropdownIcon={
                     <Center px={2}>
                       <ChevronDownIcon />
@@ -182,9 +206,9 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                     bg: 'primary.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
-                  <Select.Item label="Nam" value="male" />
-                  <Select.Item label="Nữ" value="female" />
-                  <Select.Item label="Khác" value="other" />
+                  <Select.Item label="Nam" value="MALE" />
+                  <Select.Item label="Nữ" value="FEMALE" />
+                  <Select.Item label="Khác" value="OTHER" />
                 </Select>
               )}
               name="gender"
@@ -201,13 +225,6 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
             variant={'cusPrimary'}
             isDisabled={!isValid}>
             Tiếp tục
-          </Button>
-          <Button
-            onPress={async () => {
-              const a = await useGetQuestion();
-              console.log(a.data);
-            }}>
-            fetch
           </Button>
         </VStack>
       </Box>

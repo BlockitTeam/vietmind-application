@@ -10,7 +10,9 @@ import QuizResult from '@screens/Quiz/QuizResult';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 
-export const renderAuthStack = () => {
+
+
+export const renderInputSelfInformation = () => {
   return (
     <>
       <RootStack.Screen name="LoginSuccess" component={LoginSuccess} />
@@ -20,15 +22,25 @@ export const renderAuthStack = () => {
         name="InputSelfInformation"
         component={InputSelfInformation}
       />
+    </>
+  );
+};
 
+export const renderCommonFilter = () => {
+  return (
+    <>
       {/* Quiz stack */}
       <RootStack.Screen name="QuizStart" component={QuizStart} />
       <RootStack.Screen name="QuizStartConfirm" component={QuizStartConfirm} />
       <RootStack.Screen name="QuizDetail" component={QuizDetail} />
       <RootStack.Screen name="QuizResult" component={QuizResult} />
+    </>
+  );
+};
 
-      {/* Chat with professional*/}
-      {/* Chat with bot*/}
+export const renderAuthStack = () => {
+  return (
+    <>
       <RootStack.Screen
         name="ChatWithBot_Start"
         component={ChatWithBot_Start}

@@ -1,10 +1,11 @@
 import React from 'react';
 import {Button, Center, Text, VStack} from 'native-base';
+import {tOptionsOfQuestion} from '@hooks/question/question.interface';
 type QuizChooseProps = {
   question: string;
-  options?: {label: string; value: string}[];
-  save: (s: string) => void;
-  answer: null | string;
+  options?: tOptionsOfQuestion[];
+  save: (s: number) => void;
+  answer: null | number;
 };
 const QuizChoose: React.FC<QuizChooseProps> = props => {
   const {question, options, save, answer} = props;
@@ -16,15 +17,15 @@ const QuizChoose: React.FC<QuizChooseProps> = props => {
       {options?.map(item => {
         return (
           <Button
-            key={item.value}
+            key={item.optionId}
             variant={
-              answer !== null && answer === item.value
+              answer !== null && answer === item.optionId
                 ? 'cusSelected'
                 : 'cusOutline'
             }
             w={'full'}
-            onPress={() => save(item.value)}>
-            {item.label}
+            onPress={() => save(item.optionId)}>
+            {item.optionText}
           </Button>
         );
       })}

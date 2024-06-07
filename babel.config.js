@@ -20,21 +20,21 @@ module.exports = {
           '@assets': './src/assets',
           '@images': './src/assets/images',
           '@icons': './src/assets/icons',
-          '@themes': './src/themes',
-          '@axios': './src/axios',
-          '@common': './src/common',
-          '@components': './src/components',
+
+          '@axios': './src/config/axios',
+          '@config': './src/config',
+
           '@hooks': './src/hooks',
-          '@layouts': './src/layouts',
-          '@redux': './src/redux',
           '@routes': './src/routes',
+
           '@screens': './src/screens',
+          '@layouts': './src/layouts',
+          '@components': './src/components',
+
+          '@redux': './src/redux',
           '@services': './src/services',
-          '@typings': './src/typings',
-          '@designs': './src/designs',
-          '@navigator': './src/navigator',
-          '@fragments': './src/fragments',
-          '@apiCaller': './src/apiCaller.ts',
+
+          '@interface': './src/interface',
         },
       },
     ],
