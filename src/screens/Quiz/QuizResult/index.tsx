@@ -49,7 +49,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
           </VStack>
         )
       }>
-      <VStack>
+      <VStack alignItems={'center'}>
         <Text variant={'header_1'} pt={'12.5%'} pb={4}>
           Kết quả
         </Text>

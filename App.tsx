@@ -14,19 +14,31 @@ import React from 'react';
 import {useColorScheme} from 'react-native';
 
 import {themeNativeBase} from 'src/themes/nativebase-theme';
-
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      notifyOnChangeProps: 'all',
+      // staleTime: Infinity,
+      retry: false,
+    },
+  },
+});
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <NavigationContainer>
-      <NativeBaseProvider theme={themeNativeBase}>
-        <Provider>
-          <RootApp />
-        </Provider>
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <NativeBaseProvider theme={themeNativeBase}>
+          <Provider>
+            <RootApp />
+          </Provider>
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
 export default App;
+// 

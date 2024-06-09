@@ -2,10 +2,10 @@ import React from 'react';
 import {FormControl, NativeBaseProvider, extendTheme} from 'native-base';
 import {background} from 'native-base/lib/typescript/theme/styled-system';
 import {cusSelected, outlineButton, primaryButton} from './custom-variant';
+import {Platform} from 'react-native';
 
 const headerDefault = {
   color: 'text.neutral_primary',
-  fontWeight: '500',
   fontFamily: 'MuseoModerno',
 };
 
@@ -45,8 +45,8 @@ export const themeNativeBase = extendTheme({
         italic: 'MuseoModerno-BoldItalic',
       },
       900: {
-        normal: 'MuseoModerno-Bold',
-        italic: 'MuseoModerno-BoldItalic',
+        normal: 'MuseoModerno-ExtraBold',
+        italic: 'MuseoModerno-ExtraBoldItalic',
       },
     },
     SFProDisplay: {
@@ -64,27 +64,27 @@ export const themeNativeBase = extendTheme({
       },
       400: {
         normal: 'SF-Pro-Display-Regular',
-        italic: 'MuseoModerno-RegularItalic',
+        italic: 'SF-Pro-Display-RegularItalic',
       },
       500: {
-        normal: 'MuseoModerno-Semibold',
-        italic: 'MuseoModerno-SemiboldItalic',
+        normal: 'SF-Pro-Display-Semibold',
+        italic: 'SF-Pro-Display-SemiboldItalic',
       },
       600: {
-        normal: 'MuseoModerno-Semibold',
-        italic: 'MuseoModerno-SemiboldItalic',
+        normal: 'SF-Pro-Display-Semibold',
+        italic: 'SF-Pro-Display-SemiboldItalic',
       },
       700: {
-        normal: 'MuseoModerno-Bold',
-        italic: 'MuseoModerno-BoldItalic',
+        normal: 'SF-Pro-Display-Bold',
+        italic: 'SF-Pro-Display-BoldItalic',
       },
       800: {
-        normal: 'MuseoModerno-Bold',
-        italic: 'MuseoModerno-BoldItalic',
+        normal: 'SF-Pro-Display-Bold',
+        italic: 'SF-Pro-Display-BoldItalic',
       },
       900: {
-        normal: 'MuseoModerno-Heavy',
-        italic: 'MuseoModerno-HeavyItalic',
+        normal: 'SF-Pro-Display-Heavy',
+        italic: 'SF-Pro-Display-HeavyItalic',
       },
     },
   },
@@ -92,6 +92,8 @@ export const themeNativeBase = extendTheme({
     heading: 'MuseoModerno',
     body: 'SFProDisplay',
     mono: 'SFProDisplay',
+    MuseoModerno: 'MuseoModerno',
+    SFProDisplay: 'SFProDisplay',
   },
   colors: {
     // Add new color
@@ -116,7 +118,7 @@ export const themeNativeBase = extendTheme({
     Button: {
       // Can simply pass default props to change default behaviour of components.
 
-      baseStyle: () => {
+      baseStyle: props => {
         return {
           _text: {
             fontFamily: 'SFProDisplay',
@@ -131,6 +133,7 @@ export const themeNativeBase = extendTheme({
     },
 
     Text: {
+      baseStyle: (props: any) => {},
       variants: {
         header_1: {
           ...headerDefault,
@@ -138,16 +141,12 @@ export const themeNativeBase = extendTheme({
         },
         header_2: {
           ...headerDefault,
+
           fontSize: 30,
         },
         header_3: {
           ...headerDefault,
           fontSize: 24,
-        },
-        body_medium_regular: {
-          fontFamily: 'SFProDisplay',
-          fontWeight: 400,
-          fontSize: 16,
         },
         sf_header_1: {
           ...headerDefault,
@@ -164,19 +163,32 @@ export const themeNativeBase = extendTheme({
           fontSize: 24,
           fontFamily: 'SFProDisplay',
         },
+        body_medium_regular: {
+          fontFamily: 'SFProDisplay',
+          fontWeight: 400,
+          fontSize: 16,
+        },
+        body_medium_bold: {
+          fontFamily: 'SFProDisplay',
+          color: 'text.neutral_primary',
+          fontSize: 16,
+          fontWeight: 600,
+          lineHeight: Platform.OS === 'android' ? 20 : 22,
+        },
+
         body_large_regular: {
           fontFamily: 'SFProDisplay',
+          color: 'text.neutral_primary',
           fontSize: 18,
           fontWeight: 400,
-          lineHeight: 26,
+          lineHeight: Platform.OS === 'android' ? 24 : 26,
         },
         caption_regular: {
           fontFamily: 'SFProDisplay',
+          color: 'text.neutral_primary',
           fontSize: 12,
           fontWeight: 400,
-          lineHeight: 16,
-          textAlign: 'center',
-          color: 'text.neutral_primary',
+          lineHeight: Platform.OS === 'android' ? 14 : 16,
         },
       },
     },

@@ -1,6 +1,6 @@
 import {Box, Button, Center, Text, View, VStack} from 'native-base';
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {Platform, StyleSheet} from 'react-native';
 import {ImageBackground} from 'react-native';
 import BackGround from '@images/Background.png';
 import {Google, Facebook} from '@assets/icons';
@@ -10,14 +10,18 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {axiosInstance, useLogin} from '@axios';
+import {axiosInstance} from 'src/config/axios/axiosInstance';
 
 import {
   AccessToken,
   LoginManager,
   GraphRequest,
   GraphRequestManager,
+  AuthenticationToken,
 } from 'react-native-fbsdk-next';
+import {useCurrentUser, useLogin} from '@hooks/auth';
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+import ExpiredModal from './expiredModal';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -34,57 +38,78 @@ GoogleSignin.configure({
 
 const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
+  const [_, setMessageAuth] = useAtom(messageAuthAtom);
+
+  //Todo: API
+  const useLoginMutation = useLogin();
+  const {refetch} = useCurrentUser();
+
+  //Todo: Func
 
   const loginFacebook = async () => {
     try {
-      const result = await LoginManager.logInWithPermissions([
-        'public_profile',
-        'email',
-      ]);
-      if (result.isCancelled) {
-        console.log('Login cancelled');
-        return;
-      }
-      console.log('result: ', result);
-      const data = await AccessToken.getCurrentAccessToken();
-      if (!data) {
-        console.log('Something went wrong obtaining access token');
-        return;
-      }
-      const {accessToken} = data;
-      if (accessToken) {
-        const responseInfoCallback = (error: any, result: any) => {
-          if (error) {
-            console.log('Error fetching data: ' + error.toString());
-          } else {
-            console.log('Success fetching data: ' + JSON.stringify(result));
-          }
-        };
-        const infoRequest = new GraphRequest(
-          '/me',
-          {
-            accessToken: accessToken,
-            parameters: {
-              fields: {
-                string: 'email,name',
+      const result = await LoginManager.logInWithPermissions(
+        ['public_profile', 'email'],
+        'enabled',
+      );
+      if (Platform.OS === 'ios') {
+        // This token **cannot** be used to access the Graph API.
+        // https://developers.facebook.com/docs/facebook-login/limited-login/
+        const result = await AuthenticationToken.getAuthenticationTokenIOS();
+
+        if (result?.authenticationToken) {
+          try {
+            // const value = await axiosInstance.post('/auth', {
+            //   token: result.authenticationToken,
+            //   provider: 'facebook',
+            // });
+            useLoginMutation.mutate(
+              {
+                token: result.authenticationToken,
+                provider: 'facebook',
               },
-            },
-          },
-          responseInfoCallback,
-        );
-        new GraphRequestManager().addRequest(infoRequest).start();
-        setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
-
+              {
+                onSuccess: value => {
+                  console.log(value);
+                  refetch();
+                },
+                onError: error => {
+                  setMessageAuth('Login fail, please try again!');
+                },
+              },
+            );
+          } catch (error: any) {
+            setMessageAuth('Login fail, please try again!');
+          }
+        }
+        // console.log(result?.authenticationToken);
+      } else {
+        // This token can be used to access the Graph API.
+        const result = await AccessToken.getCurrentAccessToken();
+        if (result?.accessToken) {
+          try {
+            useLoginMutation.mutate(
+              {
+                token: result.accessToken,
+                provider: 'facebook',
+              },
+              {
+                onSuccess: () => {
+                  refetch();
+                },
+                onError: () => {
+                  setMessageAuth('Login fail, please try again!');
+                },
+              },
+            );
+          } catch (error) {
+            setMessageAuth('Login fail, please try again!');
+          }
+        }
       }
-      // Start the graph request.
-      return data;
-    } catch (error) {
-      console.error('Login failed with error: ' + error);
+    } catch (error: any) {
+      setMessageAuth('Login fail, please try again!');
     }
-  };
-
-  const loginFunc = async () => {
-    // const result = await loginFacebook();
   };
 
   const signInGoogle = async () => {
@@ -92,12 +117,26 @@ const Login = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       if (userInfo.idToken) {
-        // setState({userInfo});
-        // const verifyToken = await useLogin(userInfo.idToken);
-        setCurUser({avatar: '1241', tokenId: '12412', username: 'Duy Nhã Trần'});
-        console.log('user Info: ',JSON.stringify(userInfo));
-        // Set info after verify successfully
-
+        await useLoginMutation.mutate(
+          {
+            token: userInfo.idToken,
+            provider: 'google',
+          },
+          {
+            onSuccess: () => {
+              refetch().then(res => {
+                console.log(res);
+                if (res.data?.statusCode === 200 && res.data.data) {
+                  setCurUser({...res.data.data});
+                }
+              });
+            },
+            onError: () => {
+              console.log('🚀 ~ signInGoogle ~ setMessageAuth:');
+              setMessageAuth('Login fail, please try again!');
+            },
+          },
+        );
       }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -108,12 +147,15 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
+
+        console.log('🚀 ~ signInGoogle ~ setMessageAuth:');
+        setMessageAuth('Login fail, please try again!');
       }
-      console.log(error + '1');
     }
   };
   return (
     <ImageBackground source={BackGround}>
+      <ExpiredModal />
       <VStack
         h={'full'}
         alignItems={'center'}
@@ -130,7 +172,7 @@ const Login = () => {
           <Center flexDir={'row'}>
             <Google />
             <Box ml={1}>
-              <Text>Đăng ký bằng Google</Text>
+              <Text variant={'body_medium_bold'}>Đăng ký bằng Google</Text>
             </Box>
           </Center>
         </Button>
@@ -141,17 +183,10 @@ const Login = () => {
           <Center flexDir={'row'}>
             <Facebook />
             <Box ml={1}>
-              <Text>Đăng ký bằng Facebook</Text>
+              <Text variant={'body_medium_bold'}>Đăng ký bằng Facebook</Text>
             </Box>
           </Center>
         </Button>
-        <Button
-          onPress={async () => {
-            const a = await axiosInstance.get('https://example.com/profile');
-          }}>
-          Fetch
-        </Button>
-
       </VStack>
     </ImageBackground>
   );

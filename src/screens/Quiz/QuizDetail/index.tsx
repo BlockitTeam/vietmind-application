@@ -1,5 +1,13 @@
-import React, {useState} from 'react';
-import {Box, Center, ChevronLeftIcon, HStack, Text, VStack} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {
+  Box,
+  Center,
+  ChevronLeftIcon,
+  HStack,
+  Text,
+  View,
+  VStack,
+} from 'native-base';
 import QuizChoose from './component/QuizChoose/QuizChoose';
 import QuizInput from './component/QuizInput';
 import {TouchableOpacity} from 'react-native';
@@ -7,6 +15,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
 import HeaderBack from '@components/layout/HeaderBack';
+import {useGetListQuestion} from '@hooks/question';
+import {tQuestionResponse} from '@hooks/question/question.interface';
+import {
+  useGetSurveyResponseResult,
+  useSaveSurveyResponse,
+} from '@hooks/response';
 
 const listQuiz = [
   {
@@ -81,33 +95,81 @@ type QuizDetailProps = NativeStackScreenProps<
   'QuizDetail'
 >;
 
+type tListResultItem = tQuestionResponse & {
+  numberKey: number;
+};
 const QuizDetail: React.FC<QuizDetailProps> = props => {
   const {navigation} = props;
-  const nListQuest = listQuiz.length;
-  const [curQuiz, setCurQuiz] = useState(listQuiz[0]);
-  const [listResult, setListResult] = useState(listQuiz);
+  const [nListQuest, setNListQuest] = useState<number>();
+  const [curQuiz, setCurQuiz] = useState<tListResultItem>();
+  const [listResult, setListResult] = useState<tListResultItem[]>([]);
+  //Todo: API
+  const {data: dataListQuestion, isLoading: isListQuestionLoading} =
+    useGetListQuestion();
+  const useSaveSurveyResponseMutation = useSaveSurveyResponse();
+  const {refetch} = useGetSurveyResponseResult();
+  useEffect(() => {
+    if (dataListQuestion?.data) {
+      const transformList: tListResultItem[] = dataListQuestion.data.map(
+        (item, index) => {
+          return {...item, numberKey: index};
+        },
+      );
+      setCurQuiz(transformList[0]);
+      setNListQuest(transformList.length);
+      setListResult(transformList);
+    }
+  }, [dataListQuestion]);
+
   const saveAndNext = (answer: any) => {
-    const quizItem = listResult.find(
-      item => item.numberKey === curQuiz.numberKey,
-    );
-
-    if (quizItem) {
-      if (quizItem.numberKey === nListQuest - 1) {
-        //Call api answer and get result
-
-        navigation.navigate('QuizResult', {
-          result: {loAu: 1, stress: 0, tramCam: 1.2, tuHai: 0.2},
-          typeResult: 'good',
-        });
-      } else {
+    if (curQuiz && nListQuest) {
+      const quizItem = listResult.find(
+        item => item.numberKey === curQuiz.numberKey,
+      );
+      if (quizItem) {
+        //update list result
         quizItem.answer = answer;
-        setCurQuiz(listResult[quizItem.numberKey + 1]);
-        setListResult([...listResult]);
+
+        // console.log(JSON.stringify([...listResult]));
+        if (quizItem.numberKey === nListQuest - 1) {
+          useSaveSurveyResponseMutation.mutate([...listResult], {
+            onSuccess: rs => {
+              refetch().then(result => {
+                console.log('🚀 ~ refetch ~ result:', result.data);
+                if (
+                  result.data?.statusCode === 200 ||
+                  result.data?.statusCode === 201
+                ) {
+                  console.log(result.data.data);
+                  navigation.navigate('QuizResult', {
+                    result: {
+                      loAu: result.data.data['Lo Âu'],
+                      stress: result.data.data.Stress,
+                      tramCam: result.data.data['Trầm Cảm'],
+                      tuHai: result.data.data.PTSD,
+                    },
+                    typeResult: 'good',
+                  });
+                }
+              });
+            },
+            onError: error => {
+              console.log('🚀 ~ saveAndNext ~ error:', error);
+            },
+          });
+        } else {
+          setCurQuiz(listResult[quizItem.numberKey + 1]);
+          setListResult([...listResult]);
+        }
       }
     }
   };
 
-  return (
+  return isListQuestionLoading || !curQuiz || !nListQuest ? (
+    <View>
+      <Text>Loading</Text>
+    </View>
+  ) : (
     <HeaderBack
       title={`Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`}
       buttonBack={
@@ -122,7 +184,25 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
       }>
       {/* Match with mb cusImageBackground and HeaderBack */}
       <Box pt={'24px'} />
-      {curQuiz.typeQ === 'choose' ? (
+      {/* <QuizInput
+        key={curQuiz.numberKey}
+        answer={curQuiz.answer}
+        question={curQuiz.questionText}
+        isLasted={curQuiz.numberKey === nListQuest - 1}
+        save={saveAndNext}
+      /> */}
+      <Center h="full">
+        <QuizChoose
+          key={curQuiz.numberKey}
+          answer={
+            curQuiz.answer === null ? null : parseInt(curQuiz.answer.toString())
+          }
+          question={curQuiz.questionText}
+          options={curQuiz.options}
+          save={saveAndNext}
+        />
+      </Center>
+      {/* {curQuiz.typeQ === 'choose' ? (
         <Center h="full">
           <QuizChoose
             key={curQuiz.numberKey}
@@ -140,7 +220,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
           isLasted={curQuiz.numberKey === nListQuest}
           save={saveAndNext}
         />
-      ) : null}
+      ) : null} */}
     </HeaderBack>
   );
 };
