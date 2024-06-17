@@ -77,7 +77,7 @@ const MyTabBar: React.FC<BottomTabBarProps> = props => {
                 <Icon />
               </Center>
               <Text
-                // color={isFocused ? 'text.neutral_teriary' : 'primary.medium'}
+                color={isFocused ? 'text.neutral_primary' : 'primary.teriary'}
                 fontSize="12">
                 {label.toString()}
               </Text>

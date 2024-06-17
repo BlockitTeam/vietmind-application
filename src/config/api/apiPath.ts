@@ -1,17 +1,17 @@
 export const apiPath = {
-  AUTH: 'auth',
+  AUTH: '/auth',
   user: {
-    PUT: 'user',
-    GET_CURRENT_USER: 'user/current-user',
+    PUT: '/user',
+    GET_CURRENT_USER: '/user/current-user',
   },
   response: {
-    GET: 'response',
-    POST: 'response',
-    DELETE: 'response',
-    GET_RESULT: 'response/result',
+    GET: '/response',
+    POST: '/response',
+    DELETE: '/response',
+    GET_RESULT: '/response/result',
   },
   question: {
-    GET: 'question',
-    GET_BY_ID: 'question',
+    GET: '/question',
+    GET_BY_ID: '/question',
   },
 };

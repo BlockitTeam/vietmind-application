@@ -1,4 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {IBottomParamList} from './bottomTab/bottomTab';
 
 export type IRootStackParamList = {
   Welcome: undefined;
@@ -18,24 +19,19 @@ export type IRootStackParamList = {
   QuizStart: undefined;
   QuizStartConfirm: undefined;
   QuizDetail: undefined;
-  QuizResult: {
-    typeResult: 'good' | 'bad';
-    result: {
-      stress: string;
-      loAu: string;
-      tramCam: string;
-      tuHai: string;
-    };
-  };
+  QuizResult: undefined;
   // Chat with chuyên gia
-  ChatWithProfessional_Home: undefined;
-
+  ChatWithProfessional_Start: undefined;
+  ChatWithProfessional_Conversation: {
+    drName: string;
+    drId: string;
+  };
   //Chat with bot
   ChatWithBot_Start: undefined;
   ChatWithBot_Conversation: undefined;
 
   //Bottom tab
-  BottomTab: undefined;
+  BottomTab: {screen: keyof IBottomParamList};
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

@@ -3,7 +3,8 @@ import React from 'react';
 import {RootBottomTab} from '@routes/navigator';
 import MyTabBar from '@components/BottomBar';
 import {View} from 'native-base';
-import Tab_Home from '@screens/Tab/Home';
+import Tab_Home from '@screens/HomeTab/Home';
+import Tab_Advise from '@screens/HomeTab/Advise';
 // import ActivityScreen from '@screens/Activity';
 // import VoucherScreen from '@screens/Voucher';
 // import AccountScreen from '@screens/Account/MainScreen';
@@ -26,7 +27,7 @@ const BottomTab = () => {
       />
       <RootBottomTab.Screen
         name="Advise"
-        component={Tab_Home}
+        component={Tab_Advise}
         options={{
           title: 'Tư vấn',
         }}

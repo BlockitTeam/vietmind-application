@@ -111,6 +111,7 @@ const Login = () => {
       setMessageAuth('Login fail, please try again!');
     }
   };
+  console.log('🚀 ~ process.env.BASE_URL:', process.env.BASE_URL);
 
   const signInGoogle = async () => {
     try {
@@ -125,14 +126,13 @@ const Login = () => {
           {
             onSuccess: () => {
               refetch().then(res => {
-                console.log(res);
+                console.log('🚀 ~ refetch ~ res:', res);
                 if (res.data?.statusCode === 200 && res.data.data) {
                   setCurUser({...res.data.data});
                 }
               });
             },
             onError: () => {
-              console.log('🚀 ~ signInGoogle ~ setMessageAuth:');
               setMessageAuth('Login fail, please try again!');
             },
           },

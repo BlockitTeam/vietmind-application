@@ -3,7 +3,8 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://192.168.1.40:9001/api/v1/',
+  // baseURL: process.env.BASE_URL,
+  baseURL: 'http://192.168.1.32:9001/api/v1',
   headers: {'Content-Type': 'application/json'},
   withCredentials: false,
 });
@@ -28,6 +29,8 @@ axiosInstance.interceptors.response.use(async response => {
 
 axiosInstance.interceptors.request.use(
   async config => {
+    console.log('🚀 ~ process.env.BASE_URL:', process.env.BASE_URL);
+
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;

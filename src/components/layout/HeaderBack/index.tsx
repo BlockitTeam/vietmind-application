@@ -3,15 +3,27 @@ import React, {PropsWithChildren, ReactNode} from 'react';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackGround from '@images/Background.png';
+import {useNavigation} from '@react-navigation/native';
 type HeaderBackProps = {
   title: string;
   buttonBack?: ReactNode;
+  buttonBackPress?: () => void;
   bottomChildren?: ReactNode;
+  bottomPadding?: string;
   withBackGround?: boolean;
 } & PropsWithChildren;
 const HeaderBack: React.FC<HeaderBackProps> = props => {
-  const {title, buttonBack, bottomChildren, withBackGround, children} = props;
+  const {
+    title,
+    buttonBack,
+    buttonBackPress,
+    bottomChildren,
+    withBackGround,
+    bottomPadding,
+    children,
+  } = props;
 
+  const navigate = useNavigation();
   if (withBackGround)
     return (
       <SafeAreaView style={{backgroundColor: 'white'}}>
@@ -32,7 +44,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
             <VStack flex={1} px={'16px'}>
               {children}
             </VStack>
-            <VStack mb={'24px'} px={'16px'}>
+            <VStack mb={'24px'} px={bottomPadding ? bottomPadding : '16px'}>
               {bottomChildren}
             </VStack>
           </VStack>
@@ -50,6 +62,9 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
           py={4}>
           {buttonBack ? (
             <TouchableOpacity
+              onPress={() => {
+                buttonBackPress ? buttonBackPress() : navigate.goBack();
+              }}
               style={{
                 position: 'absolute',
                 left: 0,
@@ -63,7 +78,10 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
         <VStack flex={1} px={'16px'}>
           {children}
         </VStack>
-        <VStack mb={'24px'} px={'16px'}>
+        <VStack
+          mb={'16px'}
+          w={'full'}
+          px={bottomPadding ? bottomPadding : '16px'}>
           {bottomChildren}
         </VStack>
       </VStack>

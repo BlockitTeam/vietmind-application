@@ -4,14 +4,14 @@ import React, {useEffect, useState} from 'react';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import Splash from '@screens/Splash';
-import WelcomeScreen from '@screens/Welcome';
+import Splash from '@screens/Auth/Splash';
+import WelcomeScreen from '@screens/Auth/Welcome';
 import {
-  renderAuthStack,
+  renderChatStack,
   renderCommonFilter,
   renderInputSelfInformation,
 } from './component/auth';
-import Login from '@screens/Login';
+import Login from '@screens/Auth/Login';
 import {renderBottomTabStack} from './component/withBottomTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useCurrentUser} from '@hooks/auth';
@@ -20,11 +20,13 @@ import {
   removeJSessionID,
 } from '@services/asyncStorage/jsessionID';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
-import {useListResponse} from '@hooks/response';
+import QuizResult from '@screens/Quiz/QuizResult';
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
   const [curUser, setCurUser] = useAtom(curUserAtom);
+  const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
   const {refetch} = useCurrentUser();
 
@@ -97,11 +99,14 @@ const RootApp = () => {
       //Đã input và sàn lọc chung
       else {
         console.log('🚀 renderAllScreen ~ else ~');
-
+        console.log('resultCommonFilter,', resultCommonFilter);
         return (
           <>
-            {renderAuthStack()}
+            {resultCommonFilter && (
+              <RootStack.Screen name="QuizResult" component={QuizResult} />
+            )}
             {renderBottomTabStack()}
+            {renderChatStack()}
           </>
         );
       }

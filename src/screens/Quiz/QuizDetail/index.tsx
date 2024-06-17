@@ -21,6 +21,10 @@ import {
   useGetSurveyResponseResult,
   useSaveSurveyResponse,
 } from '@hooks/response';
+import {useAtom} from 'jotai';
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {tUserResponse} from '@hooks/auth/auth.interface';
 
 const listQuiz = [
   {
@@ -100,6 +104,9 @@ type tListResultItem = tQuestionResponse & {
 };
 const QuizDetail: React.FC<QuizDetailProps> = props => {
   const {navigation} = props;
+  const [curUser, setCurUser] = useAtom(curUserAtom);
+  const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
+
   const [nListQuest, setNListQuest] = useState<number>();
   const [curQuiz, setCurQuiz] = useState<tListResultItem>();
   const [listResult, setListResult] = useState<tListResultItem[]>([]);
@@ -140,16 +147,11 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   result.data?.statusCode === 200 ||
                   result.data?.statusCode === 201
                 ) {
-                  console.log(result.data.data);
-                  navigation.navigate('QuizResult', {
-                    result: {
-                      loAu: result.data.data['Lo Âu'],
-                      stress: result.data.data.Stress,
-                      tramCam: result.data.data['Trầm Cảm'],
-                      tuHai: result.data.data.PTSD,
-                    },
-                    typeResult: 'good',
-                  });
+                  setResultCommonFilter(result.data.data);
+                  setCurUser({
+                    ...curUser,
+                    surveyCompleted: true,
+                  } as tUserResponse);
                 }
               });
             },

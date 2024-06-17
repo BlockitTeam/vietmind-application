@@ -13,4 +13,5 @@ export type tResponseResult = {
   'Giấc ngủ': string;
   'Trầm Cảm': string;
   Stress: string;
+  type: 'good';
 };
