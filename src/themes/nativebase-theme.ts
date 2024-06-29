@@ -77,6 +77,7 @@ export const themeNativeBase = extendTheme({
       700: {
         normal: 'SF-Pro-Display-Bold',
         italic: 'SF-Pro-Display-BoldItalic',
+        bold: 'SF-Pro-Display-Bold',
       },
       800: {
         normal: 'SF-Pro-Display-Bold',
@@ -100,8 +101,11 @@ export const themeNativeBase = extendTheme({
     primary: {
       neutral: '#172832',
       medium: '#C2F8CB',
+      primary_light_medium: '#E0FBE4',
+      primary_light: '#F5FFF5',
       medium50: '#C2F8CB50',
       medium25: '#C2F8CB25',
+
       600: '#C2F8CB',
     },
     text: {
@@ -112,6 +116,9 @@ export const themeNativeBase = extendTheme({
     },
     background: {
       medium: '#E0E9ED',
+    },
+    error: {
+      error_dark: '#D7471A',
     },
   },
   components: {
@@ -151,17 +158,28 @@ export const themeNativeBase = extendTheme({
         sf_header_1: {
           ...headerDefault,
           fontSize: 36,
-          fontFamily: 'SFProDisplay',
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          fontWeight: 600,
         },
         sf_header_2: {
           ...headerDefault,
           fontSize: 30,
-          fontFamily: 'SFProDisplay',
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          fontWeight: 600,
         },
         sf_header_3: {
           ...headerDefault,
           fontSize: 24,
-          fontFamily: 'SFProDisplay',
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          fontWeight: 600,
+        },
+
+        body_small_bold: {
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          fontWeight: 600,
+          color: 'text.neutral_primary',
+          fontSize: 14,
+          lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
         body_medium_regular: {
           fontFamily: 'SFProDisplay',
@@ -169,10 +187,10 @@ export const themeNativeBase = extendTheme({
           fontSize: 16,
         },
         body_medium_bold: {
-          fontFamily: 'SFProDisplay',
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          fontWeight: 600,
           color: 'text.neutral_primary',
           fontSize: 16,
-          fontWeight: 600,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
 
@@ -183,6 +201,15 @@ export const themeNativeBase = extendTheme({
           fontWeight: 400,
           lineHeight: Platform.OS === 'android' ? 24 : 26,
         },
+
+        body_large_bold: {
+          fontFamily: 'SF-Pro-Display-SemiBold',
+          color: 'text.neutral_primary',
+          fontSize: 18,
+          fontWeight: 600,
+          lineHeight: Platform.OS === 'android' ? 20 : 22,
+        },
+
         caption_regular: {
           fontFamily: 'SFProDisplay',
           color: 'text.neutral_primary',

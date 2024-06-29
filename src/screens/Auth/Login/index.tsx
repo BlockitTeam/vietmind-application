@@ -10,18 +10,16 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {axiosInstance} from 'src/config/axios/axiosInstance';
 
 import {
   AccessToken,
   LoginManager,
-  GraphRequest,
-  GraphRequestManager,
   AuthenticationToken,
 } from 'react-native-fbsdk-next';
-import {useCurrentUser, useLogin} from '@hooks/auth';
+import {useLogin} from '@hooks/auth';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 import ExpiredModal from './expiredModal';
+import {useCurrentUser} from '@hooks/user';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -70,7 +68,6 @@ const Login = () => {
               },
               {
                 onSuccess: value => {
-                  console.log(value);
                   refetch();
                 },
                 onError: error => {
@@ -111,7 +108,6 @@ const Login = () => {
       setMessageAuth('Login fail, please try again!');
     }
   };
-  console.log('🚀 ~ process.env.BASE_URL:', process.env.BASE_URL);
 
   const signInGoogle = async () => {
     try {
@@ -126,13 +122,13 @@ const Login = () => {
           {
             onSuccess: () => {
               refetch().then(res => {
-                console.log('🚀 ~ refetch ~ res:', res);
                 if (res.data?.statusCode === 200 && res.data.data) {
                   setCurUser({...res.data.data});
                 }
               });
             },
-            onError: () => {
+            onError: e => {
+              console.log('🚀 ~ signInGoogle ~ e:', JSON.stringify(e));
               setMessageAuth('Login fail, please try again!');
             },
           },
@@ -148,7 +144,6 @@ const Login = () => {
       } else {
         // some other error happened
 
-        console.log('🚀 ~ signInGoogle ~ setMessageAuth:');
         setMessageAuth('Login fail, please try again!');
       }
     }

@@ -1,7 +1,7 @@
 import {StyleSheet, View, TouchableOpacity, SafeAreaView} from 'react-native';
 import {Box, Center, Text} from 'native-base';
 import React from 'react';
-import {Book, Home, Message, User} from '@assets/icons';
+import {Book, Home, Message, Profile} from '@assets/icons';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
 const MyTabBar: React.FC<BottomTabBarProps> = props => {
@@ -11,7 +11,7 @@ const MyTabBar: React.FC<BottomTabBarProps> = props => {
     Home: Home,
     Advise: Message, // Tư vấn
     Knowledge: Book, // Kiến thức
-    User: User, // Cá nhân
+    Profile: Profile, // Cá nhân
   };
   // const mapIconFillBottomTab = {
   //   Home: Home,

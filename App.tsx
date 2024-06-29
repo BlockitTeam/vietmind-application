@@ -10,15 +10,13 @@ import RootApp from './src/routes/index';
 import {Provider} from 'jotai';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
-
 import {useColorScheme} from 'react-native';
-
 import {themeNativeBase} from 'src/themes/nativebase-theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      notifyOnChangeProps: 'all',
+      // notifyOnChangeProps: 'all',
       // staleTime: Infinity,
       retry: false,
     },

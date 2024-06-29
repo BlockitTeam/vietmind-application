@@ -8,7 +8,6 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import HeaderBack from '@components/layout/HeaderBack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tUserResponse} from '@hooks/auth/auth.interface';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 
 type QuizResultProps = CompositeScreenProps<
@@ -50,7 +49,9 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             <Button
               variant={'cusPrimary'}
               w={'full'}
-              onPress={() => navigation.navigate('ChatWithProfessional_Start')}>
+              onPress={() =>
+                navigation.navigate('BottomTab', {screen: 'Advise'})
+              }>
               Chat với chuyên gia
             </Button>
             <Button

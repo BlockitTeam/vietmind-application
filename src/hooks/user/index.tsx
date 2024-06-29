@@ -1,0 +1,51 @@
+import {apiPath} from '@config/api/apiPath';
+import {IResponse} from '@interface/api.interface';
+import {useMutation, useQuery} from '@tanstack/react-query';
+import queryString from 'query-string';
+import {
+  tDoctorResponse,
+  tPutEditUserParam,
+  tUserResponse,
+} from './user.interface';
+import {getData, mutationPut} from '@config/api';
+
+export const useCurrentUser = () => {
+  const url = queryString.stringifyUrl(
+    {
+      url: apiPath.user.GET_CURRENT_USER,
+    },
+    {arrayFormat: 'comma'},
+  );
+  return useQuery<IResponse<tUserResponse>>({
+    queryKey: ['useCurrentUser'],
+    queryFn: () => getData<IResponse<tUserResponse>>(url),
+    // gcTime: Infinity,
+    enabled: false,
+  });
+};
+
+export const usePutEditUser = () => {
+  return useMutation({
+    mutationFn: (body: tPutEditUserParam) => {
+      return mutationPut<IResponse<tUserResponse>>({
+        url: apiPath.user.PUT,
+        body: {...body},
+      });
+    },
+  });
+};
+
+type ListDoctorResponseType = IResponse<tDoctorResponse[]>;
+export const useGetListDoctor = () => {
+  const url = queryString.stringifyUrl(
+    {
+      url: apiPath.user.GET_LIST_DOCTOR,
+    },
+    {arrayFormat: 'comma'},
+  );
+  return useQuery<ListDoctorResponseType>({
+    queryKey: ['useGetListDoctor'],
+    queryFn: () => getData<ListDoctorResponseType>('user/doctors'),
+    gcTime: 0,
+  });
+};

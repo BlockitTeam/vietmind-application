@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {IBottomParamList} from './bottomTab/bottomTab';
+import {tDoctorResponse} from '@hooks/user/user.interface';
 
 export type IRootStackParamList = {
   Welcome: undefined;
@@ -21,7 +22,7 @@ export type IRootStackParamList = {
   QuizDetail: undefined;
   QuizResult: undefined;
   // Chat with chuyên gia
-  ChatWithProfessional_Start: undefined;
+  ChatWithProfessional_Start: {drInformation: tDoctorResponse};
   ChatWithProfessional_Conversation: {
     drName: string;
     drId: string;

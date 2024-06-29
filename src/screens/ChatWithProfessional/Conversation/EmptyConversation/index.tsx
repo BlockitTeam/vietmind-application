@@ -1,7 +1,9 @@
 import {Box, Center, Circle, Text} from 'native-base';
 import React from 'react';
 
-type EmptyConversationProps = {};
+type EmptyConversationProps = {
+  drName: string;
+};
 const EmptyConversation: React.FC<EmptyConversationProps> = props => {
   return (
     <Center pb={4}>
@@ -10,7 +12,7 @@ const EmptyConversation: React.FC<EmptyConversationProps> = props => {
         B S
       </Text>
       <Text variant={'header_2'} textAlign={'center'} mb={4}>
-        Trịnh Thị Thu Thảo
+        {props.drName}
       </Text>
       <Text textAlign={'center'}>Viện Sức khỏe Tâm thần</Text>
       <Text textAlign={'center'} mb={4}>

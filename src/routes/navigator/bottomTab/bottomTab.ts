@@ -4,7 +4,7 @@ export type IBottomParamList = {
   Home: undefined; // Trang chủ
   Advise: undefined; // Tư vấn
   Knowledge: undefined; // Kiến thức
-  User: undefined; // Cá nhân
+  Profile: undefined; // Cá nhân
 };
 
 export const RootBottomTab = createBottomTabNavigator<IBottomParamList>();

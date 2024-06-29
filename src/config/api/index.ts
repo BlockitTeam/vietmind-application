@@ -20,14 +20,12 @@ export async function getDataWithParams<T, P>(
       statusCode: response.status,
     } as T;
   });
-  console.log('🚀 ~ data ~ data:', data);
 
   return data;
 }
 
 export async function mutationPost<T>(obj: IMutation<object>): Promise<T> {
   const {url, body} = obj;
-  console.log('🚀 ~ body:', JSON.stringify(body));
 
   return await axiosInstance.post(url, body).then(response => {
     return {
@@ -38,7 +36,6 @@ export async function mutationPost<T>(obj: IMutation<object>): Promise<T> {
 }
 
 export async function mutationPut<T>(params: IMutation<object>): Promise<T> {
-  console.log('🚀 ~ body:', params);
   const response = await axiosInstance.put(params.url, params.body);
   return {
     data: response.data,

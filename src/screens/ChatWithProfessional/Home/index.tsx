@@ -7,17 +7,32 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {IAdviseStackParamList} from '@routes/navigator/bottomTab/adviesStack';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  BottomTabNavigationProp,
+  BottomTabScreenProps,
+} from '@react-navigation/bottom-tabs';
+import {
+  CompositeNavigationProp,
+  CompositeScreenProps,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tUserResponse} from '@hooks/auth/auth.interface';
+import {tDoctorResponse} from '@hooks/user/user.interface';
 
-const ChatWithProfessional_Start = () => {
+type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
+  NativeStackScreenProps<IRootStackParamList, 'ChatWithProfessional_Start'>,
+  BottomTabScreenProps<IBottomParamList, 'Advise'>
+>;
+const ChatWithProfessional_Start: React.FC<
+  ChatWithProfessional_StartNavigationProp
+> = props => {
+  const {navigation, route} = props;
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  const navigation =
-    useNavigation<NativeStackNavigationProp<IRootStackParamList>>();
+  const drInformation = route.params.drInformation;
+  console.log(route);
 
   return (
     <HeaderBack
@@ -31,8 +46,8 @@ const ChatWithProfessional_Start = () => {
             variant={'cusPrimary'}
             onPress={() =>
               navigation.navigate('ChatWithProfessional_Conversation', {
-                drId: '123',
-                drName: 'Trịnh Thị Thu Thảo',
+                drId: drInformation.id,
+                drName: `${drInformation.firstName} ${drInformation.lastName}`,
               })
             }>
             Bắt đầu
@@ -52,7 +67,7 @@ const ChatWithProfessional_Start = () => {
           B S
         </Text>
         <Text variant={'header_2'} textAlign={'center'} mb={4}>
-          Trịnh Thị Thu Thảo
+          {`${drInformation.firstName} ${drInformation.lastName}`}
         </Text>
         <Text textAlign={'center'}>Viện Sức khỏe Tâm thần</Text>
         <Text textAlign={'center'} mb={4}>

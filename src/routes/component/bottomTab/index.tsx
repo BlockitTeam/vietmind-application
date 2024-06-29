@@ -2,13 +2,9 @@ import React from 'react';
 
 import {RootBottomTab} from '@routes/navigator';
 import MyTabBar from '@components/BottomBar';
-import {View} from 'native-base';
 import Tab_Home from '@screens/HomeTab/Home';
 import Tab_Advise from '@screens/HomeTab/Advise';
-// import ActivityScreen from '@screens/Activity';
-// import VoucherScreen from '@screens/Voucher';
-// import AccountScreen from '@screens/Account/MainScreen';
-// import CartScreen from '@screens/Cart/MainScreen';
+import Tab_Profile from '@screens/HomeTab/Profile';
 
 const BottomTab = () => {
   return (
@@ -40,8 +36,8 @@ const BottomTab = () => {
         }}
       />
       <RootBottomTab.Screen
-        name="User"
-        component={Tab_Home}
+        name="Profile"
+        component={Tab_Profile}
         options={{
           title: 'Cá nhân',
         }}

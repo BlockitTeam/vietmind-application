@@ -24,76 +24,8 @@ import {
 import {useAtom} from 'jotai';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tUserResponse} from '@hooks/auth/auth.interface';
+import {tUserResponse} from '@hooks/user/user.interface';
 
-const listQuiz = [
-  {
-    numberKey: 0,
-    question: 'Ít hứng thú hoặc là không có niềm vui thích làm việc gì',
-    typeQ: 'choose',
-    options: [
-      {
-        value: 'no',
-        label: 'Không lần nào cả',
-      },
-      {
-        value: 'few',
-        label: 'Một vài ngày',
-      },
-      {
-        value: 'half',
-        label: 'Nhiều hơn phân nữa số thời gian',
-      },
-      {
-        value: 'allDay',
-        label: 'Gần như mỗi ngày',
-      },
-    ],
-    answer: null,
-  },
-  {
-    numberKey: 1,
-    question: 'Miêu tả cảm xúc của bạn khi gặp người yêu cũ?',
-    typeQ: 'input',
-    answer: null,
-  },
-  {
-    numberKey: 2,
-    typeQ: 'input',
-    question: 'Miêu tả cảm xúc của bạn khi chơi game thua?',
-    answer: null,
-  },
-  {
-    numberKey: 3,
-    question: 'Bạn có hay ra ngoài, tụ tập với bạn bè?',
-    typeQ: 'choose',
-    options: [
-      {
-        value: 'no',
-        label: 'Không lần nào cả',
-      },
-      {
-        value: 'few',
-        label: 'Một vài ngày',
-      },
-      {
-        value: 'half',
-        label: 'Nhiều hơn phân nữa số thời gian',
-      },
-      {
-        value: 'allDay',
-        label: 'Gần như mỗi ngày',
-      },
-    ],
-    answer: null,
-  },
-  {
-    numberKey: 4,
-    typeQ: 'input',
-    question: 'Miêu tả cảm xúc của bạn khi nhắn tin với một người bạn thích?',
-    answer: null,
-  },
-];
 type QuizDetailProps = NativeStackScreenProps<
   IRootStackParamList,
   'QuizDetail'
@@ -142,7 +74,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
           useSaveSurveyResponseMutation.mutate([...listResult], {
             onSuccess: rs => {
               refetch().then(result => {
-                console.log('🚀 ~ refetch ~ result:', result.data);
                 if (
                   result.data?.statusCode === 200 ||
                   result.data?.statusCode === 201

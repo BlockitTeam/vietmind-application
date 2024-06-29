@@ -16,12 +16,11 @@ import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
-import {usePutEditUser} from '@hooks/auth';
-import {tPutEditUserParam} from '@hooks/auth/auth.interface';
 import axios from 'axios';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-// import {useGetQuestion} from '@hooks/auth';
+import {usePutEditUser} from '@hooks/user';
+import {tPutEditUserParam} from '@hooks/user/user.interface';
 
 const curYear = new Date().getFullYear();
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -61,7 +60,6 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
       {...data, birthYear: parseInt(data.birthYear)},
       {
         onSuccess: value => {
-          console.log('🚀 ~ onSubmit ~ value:', value);
           setCurUser(value.data);
         },
         onError: error => {

@@ -14,7 +14,6 @@ import {
 import Login from '@screens/Auth/Login';
 import {renderBottomTabStack} from './component/withBottomTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useCurrentUser} from '@hooks/auth';
 import {
   getJSessionID,
   removeJSessionID,
@@ -22,6 +21,7 @@ import {
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 import QuizResult from '@screens/Quiz/QuizResult';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
+import {useCurrentUser} from '@hooks/user';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -40,11 +40,9 @@ const RootApp = () => {
   useEffect(() => {
     //Have jsessionId in Application but can't call current user -> expired time token -> clear jsessionID and clear all cur user
     getJSessionID().then(jsessionId => {
-      console.log('🚀 ~ AsyncStorage.getItem ~ jsessionId:', jsessionId);
       if (jsessionId) {
         try {
           refetch().then(item => {
-            console.log('🚀 ~ refetch ~ item:', item);
             if (
               item.data?.statusCode === 200 &&
               item.data?.data &&
@@ -77,6 +75,15 @@ const RootApp = () => {
   }, []);
 
   const renderAllScreen = () => {
+    // return (
+    //   <>
+    //     {resultCommonFilter && (
+    //       <RootStack.Screen name="QuizResult" component={QuizResult} />
+    //     )}
+    //     {renderBottomTabStack()}
+    //     {renderChatStack()}
+    //   </>
+    // );
     if (firstInit === undefined)
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {
@@ -99,7 +106,6 @@ const RootApp = () => {
       //Đã input và sàn lọc chung
       else {
         console.log('🚀 renderAllScreen ~ else ~');
-        console.log('resultCommonFilter,', resultCommonFilter);
         return (
           <>
             {resultCommonFilter && (

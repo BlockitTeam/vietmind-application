@@ -3,29 +3,34 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 
 export const axiosInstance = axios.create({
-  // baseURL: process.env.BASE_URL,
-  baseURL: 'http://192.168.1.32:9001/api/v1',
+  baseURL: process.env.BASE_URL,
+  // baseURL: 'http://localhost:9001/api/v1',
   headers: {'Content-Type': 'application/json'},
   withCredentials: false,
 });
 
-axiosInstance.interceptors.response.use(async response => {
-  const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //cc frontend
-  const setCookieHeader = response.headers['set-cookie']; // cc backend
-  if (setCookieHeader) {
-    const jSessionId = setCookieHeader.find(cookie =>
-      cookie.startsWith('JSESSIONID='),
-    );
-    if (jSessionId) {
-      const sessionIdValue = jSessionId.split(';')[0].split('=')[1];
-      if (jSessionId !== storedSessionId) {
-        await AsyncStorage.setItem('JSESSIONID', sessionIdValue); // cc hết hạn
+axiosInstance.interceptors.response.use(
+  async response => {
+    const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //cc frontend
+    const setCookieHeader = response.headers['set-cookie']; // cc backend
+    if (setCookieHeader) {
+      const jSessionId = setCookieHeader.find(cookie =>
+        cookie.startsWith('JSESSIONID='),
+      );
+      if (jSessionId) {
+        const sessionIdValue = jSessionId.split(';')[0].split('=')[1];
+        if (jSessionId !== storedSessionId) {
+          await AsyncStorage.setItem('JSESSIONID', sessionIdValue); // cc hết hạn
+        }
       }
     }
-  }
-
-  return response;
-});
+    return response;
+  },
+  error => {
+    console.log('Response Error:', error);
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.request.use(
   async config => {
@@ -38,5 +43,8 @@ axiosInstance.interceptors.request.use(
     return config;
   },
 
-  error => Promise.reject(error),
+  error => {
+    console.log('🚀 ~ error:', error);
+    Promise.reject(error);
+  },
 );

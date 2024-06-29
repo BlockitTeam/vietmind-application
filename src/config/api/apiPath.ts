@@ -3,6 +3,7 @@ export const apiPath = {
   user: {
     PUT: '/user',
     GET_CURRENT_USER: '/user/current-user',
+    GET_LIST_DOCTOR: '/user/doctors',
   },
   response: {
     GET: '/response',
@@ -13,5 +14,10 @@ export const apiPath = {
   question: {
     GET: '/question',
     GET_BY_ID: '/question',
+  },
+  conversation: {
+    GET_ID: '/conversation/{conversation_id}',
+    GET_CONTENT: '/conversation/{conversation_id}/content',
+    POST_ENCRYPT_KEY: '/conversation/{conversation_id}/encrypt-key',
   },
 };
