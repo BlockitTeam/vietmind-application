@@ -1,4 +1,10 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+} from 'react';
 import HeaderBack from '@components/layout/HeaderBack';
 global.Buffer = require('buffer').Buffer;
 import {
@@ -67,45 +73,56 @@ const ChatWithProfessional_Conversation: React.FC<
   const [curUser] = useAtom(curUserAtom);
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [curMessage, setCurMessage] = useState('');
-  const [listMessage, setListMessage] = useState<
-    {fromMe: boolean; message: string}[]
-  >([]);
-  const [conversationId, setCurConversationId] = useState<string>('');
+  const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
+  const [conversationId, setCurConversationId] = useState<string>();
   const scrollViewRef = useRef<any>(null);
+
+  const [imInputting, setImInputting] = useState<boolean>();
+  const [drIsInputting, setDrIsInputting] = useState<boolean>();
 
   const {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
     refetch: refetchConversationContent,
-  } = useGetConversationContent(conversationId);
+  } = useGetConversationContent(conversationId!);
   const [keyAES, setKeyAES] = useState<CryptoJS.lib.WordArray>();
   const [contentHeight, setContentHeight] = useState(0);
 
-  const encryptMessage = (m: string): string => {
-    if (keyAES) {
-      let messEn = CryptoJS.AES.encrypt(m, keyAES, {
-        mode: CryptoJS.mode.ECB,
-      }).toString();
-      return messEn;
-    }
-    throw 'Error';
-  };
-  const decryptMessage = (m: string): string => {
-    if (keyAES) {
-      const messDecrypt = CryptoJS.AES.decrypt(m, keyAES, {
-        mode: CryptoJS.mode.ECB,
-      }).toString(CryptoJS.enc.Utf8);
-      return messDecrypt;
-    } else {
-      throw 'Error';
-    }
-  };
+  const encryptMessage = useCallback(
+    (m: string) => {
+      console.log('🚀 ~ keyAES:', keyAES);
 
-  useEffect(() => {
+      if (keyAES) {
+        let messEn = CryptoJS.AES.encrypt(m, keyAES, {
+          mode: CryptoJS.mode.ECB,
+        }).toString();
+        return messEn;
+      }
+      return 'Error encrypt message';
+    },
+    [keyAES], // Dependency array
+  );
+  const decryptMessage = useCallback(
+    (m: string) => {
+      console.log('🚀 ~ keyAES:', keyAES);
+      if (keyAES) {
+        const messDecrypt = CryptoJS.AES.decrypt(m, keyAES, {
+          mode: CryptoJS.mode.ECB,
+        }).toString(CryptoJS.enc.Utf8);
+        return messDecrypt;
+      } else {
+        return 'Error decrypt message';
+      }
+    },
+    [keyAES], // Dependency array
+  );
+
+  // Get conversationId
+  useLayoutEffect(() => {
     const setupWebSocket = async () => {
       const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
       if (curUser && storedSessionId) {
-        const userId = curUser.id;
+        const drId = drInformation.drId;
         const websocket = new WebSocket(
           `ws://91.108.104.57:9001/ws?targetUserId=${drInformation.drId}`,
           undefined,
@@ -117,24 +134,29 @@ const ChatWithProfessional_Conversation: React.FC<
         );
 
         websocket.onopen = () => {
-          console.log('Connected as ' + userId);
+          console.log('Connected as ' + drId);
         };
 
         websocket.onmessage = event => {
-          const res = JSON.parse(event.data);
-          console.log('🚀 ~ setupWebSocket ~ res:', res);
-          if (res?.message) {
-            setListMessage(prev => [
-              ...prev,
-              {fromMe: false, message: decryptMessage(res.message)},
-            ]);
-          }
-          if (res?.conversationId) {
-            console.log('set');
-            setCurConversationId(res.conversationId);
+          try {
+            const res = JSON.parse(event.data);
+            console.log(res);
+            if (res?.conversationId) {
+              console.log('set');
+              setCurConversationId(res.conversationId);
+            }
+            if (res?.message) {
+              console.log('🚀 ~ setupWebSocket ~ res:', res);
+
+              setListMessage(prev => [
+                ...prev,
+                {fromMe: false, message: decryptMessage(res.message)},
+              ]);
+            }
+          } catch (error) {
+            console.log(error);
           }
         };
-
         websocket.onclose = () => {
           console.log('Disconnected');
         };
@@ -154,28 +176,9 @@ const ChatWithProfessional_Conversation: React.FC<
         ws.close();
       }
     };
-  }, [curUser]);
+  }, [drInformation, keyAES]);
 
-  useLayoutEffect(() => {
-    if (dataConversationContent?.data && curUser && keyAES) {
-      let transformConversationContent: ContentTransform[] =
-        dataConversationContent.data.map(item => {
-          return {
-            fromMe: curUser.id !== item.senderId ? false : true,
-            message: decryptMessage(item.encryptedMessage),
-          };
-        });
-      setListMessage(transformConversationContent);
-    }
-  }, [dataConversationContent, curUser, keyAES, conversationId]);
-
-  useEffect(() => {
-    console.log(scrollViewRef.current?.he);
-    scrollViewRef.current?.scrollTo({y: contentHeight, animated: true});
-  }, [contentHeight]);
-
-  //Handle communicate with backend to get AES key using RSA
-
+  // Get AES key using RSA
   const getEncryptKey = useGetEncryptKey();
   useEffect(() => {
     if (conversationId) {
@@ -202,6 +205,24 @@ const ChatWithProfessional_Conversation: React.FC<
     }
   }, [conversationId]);
 
+  //Get content
+  useEffect(() => {
+    if (dataConversationContent?.data && curUser && keyAES) {
+      let transformConversationContent: ContentTransform[] =
+        dataConversationContent.data.map(item => {
+          return {
+            fromMe: curUser.id !== item.senderId ? false : true,
+            message: decryptMessage(item.encryptedMessage),
+          };
+        });
+      setListMessage(transformConversationContent);
+    }
+  }, [dataConversationContent, keyAES, conversationId]);
+  //Use effect: Handle scroll
+  useEffect(() => {
+    scrollViewRef.current?.scrollTo({y: contentHeight, animated: true});
+  }, [contentHeight]);
+
   const sendMessage = (message: string, conversationId?: string) => {
     if (ws && conversationId && message && keyAES) {
       const msg = JSON.stringify({
@@ -221,7 +242,20 @@ const ChatWithProfessional_Conversation: React.FC<
     }
   };
 
-  return !curUser || conversationId.length <= 0 || !conversationId ? (
+  const changeInputMessage = (message: string) => {
+    if (ws) {
+      if (message.trim().length > 0) {
+        const msg = JSON.stringify({
+          type: 'typing', //typing
+          conversationId: conversationId,
+          // message: encryptMessage(message), //dùng key 1 chiều encrypt cái này
+        });
+      }
+    }
+    setCurMessage(message);
+  };
+
+  return !curUser || !conversationId ? (
     <Splash />
   ) : (
     <HeaderBack
@@ -246,11 +280,18 @@ const ChatWithProfessional_Conversation: React.FC<
             placeholder="Tin nhắn..."
             m={0}
             value={curMessage}
-            onChangeText={setCurMessage}
+            onChangeText={v => {
+              if (ws) {
+                if (v.length > 0) {
+                  // ws.send()
+                }
+              }
+              setCurMessage(v);
+            }}
           />
           <Button
             variant={'unstyled'}
-            disabled={curMessage.length <= 0}
+            disabled={curMessage.trim().length <= 0}
             onPress={() => sendMessage(curMessage, conversationId)}>
             <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
           </Button>
@@ -270,8 +311,8 @@ const ChatWithProfessional_Conversation: React.FC<
           minHeight={'100%'}>
           <EmptyConversation drName={drInformation.drName} />
 
-          {
-            // isConversationContentLoading ? (
+          {!isConversationContentLoading &&
+            listMessage.length > 0 &&
             //   <Center>
             //     <Text>Loading...</Text>
             //   </Center>
@@ -285,9 +326,7 @@ const ChatWithProfessional_Conversation: React.FC<
                   text={item.message}
                 />
               ),
-            )
-            // )
-          }
+            )}
         </VStack>
       </ScrollView>
     </HeaderBack>
