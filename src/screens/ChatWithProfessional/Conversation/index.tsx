@@ -140,6 +140,9 @@ const ChatWithProfessional_Conversation: React.FC<
         websocket.onmessage = event => {
           try {
             const res = JSON.parse(event.data);
+            if (res?.type === 'typing') {
+              setDrIsInputting(true);
+            }
             console.log(res);
             if (res?.conversationId) {
               console.log('set');
@@ -327,6 +330,11 @@ const ChatWithProfessional_Conversation: React.FC<
                 />
               ),
             )}
+            {
+              drIsInputting && (
+              <Text>Typing ...</Text>
+              )
+            }
         </VStack>
       </ScrollView>
     </HeaderBack>
