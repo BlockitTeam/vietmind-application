@@ -13,7 +13,6 @@ import {
 } from './component/auth';
 import Login from '@screens/Auth/Login';
 import {renderBottomTabStack} from './component/withBottomTab';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getJSessionID,
   removeJSessionID,
@@ -73,7 +72,6 @@ const RootApp = () => {
         }, 2000);
     });
   }, []);
-
   const renderAllScreen = () => {
     // return (
     //   <>
@@ -84,6 +82,7 @@ const RootApp = () => {
     //     {renderChatStack()}
     //   </>
     // );
+
     if (firstInit === undefined)
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {

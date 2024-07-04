@@ -4,7 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 
 export const axiosInstance = axios.create({
   // baseURL: process.env.BASE_URL,
-  baseURL: 'http://localhost:9001/api/v1',
+  // baseURL: 'http://srv550152.hstgr.cloud:9001/api/v1',
+  // baseURL: 'http://srv550152.hstgr.cloud:9001/api/v1',
+  baseURL: 'http://91.108.104.57/api/v1',
   headers: {'Content-Type': 'application/json'},
   withCredentials: false,
 });
@@ -34,7 +36,7 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
   async config => {
-    console.log('🚀 ~ process.env.BASE_URL:', process.env.BASE_URL);
+    console.log('🚀 ~ config.baseURL:', config.baseURL);
 
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
     if (storedSessionId) {

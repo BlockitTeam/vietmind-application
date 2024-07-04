@@ -37,9 +37,7 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
       <Box h={4} />
       <VStack space={2}>
         {isListDoctorLoading ? (
-          <Center>
-            <Text>Loading...</Text>
-          </Center>
+          <AdviseLoading />
         ) : (
           <>
             <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
