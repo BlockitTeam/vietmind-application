@@ -44,7 +44,6 @@ export const useGetConversationContent = (conversationId: string) => {
     queryKey: ['useGetConversationContent', conversationId],
     queryFn: () => getData<useGetConversationContentResponse>(url),
     gcTime: 0,
-    enabled: !conversationId,
   });
 };
 

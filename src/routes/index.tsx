@@ -27,7 +27,7 @@ const RootApp = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
-  const {refetch} = useCurrentUser();
+  const {isLoading, refetch} = useCurrentUser();
 
   const expireTimeHandle = () => {
     removeJSessionID().then(() => {
@@ -82,8 +82,7 @@ const RootApp = () => {
     //     {renderChatStack()}
     //   </>
     // );
-
-    if (firstInit === undefined)
+    if (firstInit === undefined || isLoading)
       return <RootStack.Screen name="Splash" component={Splash} />;
     else if (firstInit) {
       return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
