@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
   async config => {
-    console.log('🚀 ~ process.env.BASE_URL:', process.env.BASE_URL);
+    console.log('🚀 ~ process.env.BASE_URL:', config.baseURL);
 
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
     if (storedSessionId) {

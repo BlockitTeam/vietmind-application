@@ -181,6 +181,7 @@ export const themeNativeBase = extendTheme({
           fontSize: 14,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
+
         body_medium_regular: {
           fontFamily: 'SFProDisplay',
           fontWeight: 400,
