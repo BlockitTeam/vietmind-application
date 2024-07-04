@@ -59,11 +59,6 @@ const ChatWithProfessional_Conversation: React.FC<
           try {
             const res = JSON.parse(event.data);
 
-            console.log(
-              '11111',
-              res?.conversationId,
-              res?.conversationId.toString().length,
-            );
             if (
               res?.conversationId &&
               res?.conversationId.toString().length > 0
@@ -101,7 +96,6 @@ const ChatWithProfessional_Conversation: React.FC<
             console.log(error);
           }
         };
-        console.log('done');
         websocket.onclose = () => {
           console.log('Disconnected');
         };
@@ -123,8 +117,6 @@ const ChatWithProfessional_Conversation: React.FC<
     };
   }, [drInformation]);
   useEffect(() => {
-    console.log(!conversationId);
-    console.log(conversationId);
   }, [conversationId]);
   if (!conversationId || !ws || !keyAES || !curUser) return <Splash />;
   else

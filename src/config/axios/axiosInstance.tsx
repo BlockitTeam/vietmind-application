@@ -36,8 +36,6 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
   async config => {
-    console.log('🚀 ~ config.baseURL:', config.baseURL);
-
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;
@@ -46,7 +44,6 @@ axiosInstance.interceptors.request.use(
   },
 
   error => {
-    console.log('🚀 ~ error:', error);
     Promise.reject(error);
   },
 );

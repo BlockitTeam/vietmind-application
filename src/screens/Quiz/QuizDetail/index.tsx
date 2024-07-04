@@ -69,7 +69,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
         //update list result
         quizItem.answer = answer;
 
-        // console.log(JSON.stringify([...listResult]));
         if (quizItem.numberKey === nListQuest - 1) {
           useSaveSurveyResponseMutation.mutate([...listResult], {
             onSuccess: rs => {

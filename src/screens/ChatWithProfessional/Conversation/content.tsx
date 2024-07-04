@@ -78,8 +78,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           }
 
           if (res?.message && keyAES) {
-            console.log('🚀 ~ setupWebSocket ~ res:', res);
-
             setListMessage(prev => [
               ...prev,
               {fromMe: false, message: decryptMessage(res.message, keyAES)},
@@ -116,8 +114,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   //Handle function
   const encryptMessage = useCallback(
     (m: string, keyAES: CryptoJS.lib.WordArray) => {
-      console.log('🚀 ~ keyAES:', keyAES);
-
       if (keyAES) {
         let messEn = CryptoJS.AES.encrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
@@ -130,7 +126,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   );
   const decryptMessage = useCallback(
     (m: string, keyAES: CryptoJS.lib.WordArray) => {
-      console.log('🚀 ~ keyAES:', keyAES);
       if (keyAES) {
         const messDecrypt = CryptoJS.AES.decrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
@@ -153,7 +148,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         conversationId: conversationId,
         message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
       });
-      console.log('🚀 ~ sendMessage ~ msg:', encryptMessage(message, keyAES));
       try {
         ws.send(msg);
         setListMessage(prev => [...prev, {fromMe: true, message: message}]);

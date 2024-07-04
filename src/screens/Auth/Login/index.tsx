@@ -79,7 +79,6 @@ const Login = () => {
             setMessageAuth('Login fail, please try again!');
           }
         }
-        // console.log(result?.authenticationToken);
       } else {
         // This token can be used to access the Graph API.
         const result = await AccessToken.getCurrentAccessToken();

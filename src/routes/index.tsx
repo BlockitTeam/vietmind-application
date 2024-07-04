@@ -92,18 +92,14 @@ const RootApp = () => {
     } else if (curUser) {
       //Chưa input information
       if (!curUser.enabled) {
-        console.log('🚀 renderAllScreen ~ renderInputSelfInformation ~');
         return <>{renderInputSelfInformation()}</>;
       }
       //Chưa sàn lọc chung
       else if (!curUser.surveyCompleted) {
-        console.log('🚀 renderAllScreen ~ renderCommonFilter ~');
-
         return <>{renderCommonFilter()}</>;
       }
       //Đã input và sàn lọc chung
       else {
-        console.log('🚀 renderAllScreen ~ else ~');
         return (
           <>
             {resultCommonFilter && (
