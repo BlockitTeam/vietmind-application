@@ -174,6 +174,22 @@ export const themeNativeBase = extendTheme({
           fontWeight: 600,
         },
 
+        caption_regular: {
+          fontFamily: 'SFProDisplay',
+          color: 'text.neutral_primary',
+          fontSize: 12,
+          fontWeight: 400,
+          lineHeight: Platform.OS === 'android' ? 14 : 16,
+        },
+
+        body_small_italic: {
+          fontFamily: 'SF-Pro-Display-RegularItalic',
+          fontWeight: 400,
+          color: 'text.neutral_secondary',
+          fontSize: 14,
+          lineHeight: Platform.OS === 'android' ? 20 : 22,
+        },
+
         body_small_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 600,
@@ -209,14 +225,6 @@ export const themeNativeBase = extendTheme({
           fontSize: 18,
           fontWeight: 600,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
-        },
-
-        caption_regular: {
-          fontFamily: 'SFProDisplay',
-          color: 'text.neutral_primary',
-          fontSize: 12,
-          fontWeight: 400,
-          lineHeight: Platform.OS === 'android' ? 14 : 16,
         },
       },
     },

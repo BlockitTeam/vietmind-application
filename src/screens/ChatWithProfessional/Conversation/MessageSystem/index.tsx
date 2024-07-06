@@ -2,11 +2,11 @@ import {Box, Text} from 'native-base';
 import React, {useEffect, useRef} from 'react';
 import {Animated} from 'react-native';
 
-type MessageSendProps = {
+type MessageSystemProps = {
   text: string;
 };
 
-const MessageSend: React.FC<MessageSendProps> = props => {
+const MessageSystem: React.FC<MessageSystemProps> = props => {
   const {text} = props;
   console.log('rerender');
 
@@ -24,17 +24,13 @@ const MessageSend: React.FC<MessageSendProps> = props => {
 
   return (
     <Animated.View style={{opacity}}>
-      <Box
-        maxW={'3/4'}
-        alignSelf={'flex-end'}
-        bgColor={'background.medium'}
-        borderTopRadius={'8px'}
-        borderBottomLeftRadius={'8px'}
-        p={2}>
-        <Text>{text}</Text>
+      <Box w={'full'} backgroundColor={'transparent'}>
+        <Text variant={'body_small_italic'} textAlign={'center'}>
+          {text}
+        </Text>
       </Box>
     </Animated.View>
   );
 };
 
-export default React.memo(MessageSend);
+export default React.memo(MessageSystem);

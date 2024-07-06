@@ -114,15 +114,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
           </Center>
         </TouchableOpacity>
       }>
-      {/* Match with mb cusImageBackground and HeaderBack */}
-      <Box pt={'24px'} />
-      {/* <QuizInput
-        key={curQuiz.numberKey}
-        answer={curQuiz.answer}
-        question={curQuiz.questionText}
-        isLasted={curQuiz.numberKey === nListQuest - 1}
-        save={saveAndNext}
-      /> */}
       <Center h="full">
         <QuizChoose
           key={curQuiz.numberKey}
@@ -134,25 +125,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
           save={saveAndNext}
         />
       </Center>
-      {/* {curQuiz.typeQ === 'choose' ? (
-        <Center h="full">
-          <QuizChoose
-            key={curQuiz.numberKey}
-            answer={curQuiz.answer}
-            question={curQuiz.question}
-            options={curQuiz.options}
-            save={saveAndNext}
-          />
-        </Center>
-      ) : curQuiz.typeQ === 'input' ? (
-        <QuizInput
-          key={curQuiz.numberKey}
-          answer={curQuiz.answer}
-          question={curQuiz.question}
-          isLasted={curQuiz.numberKey === nListQuest}
-          save={saveAndNext}
-        />
-      ) : null} */}
     </HeaderBack>
   );
 };

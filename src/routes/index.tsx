@@ -21,6 +21,7 @@ import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 import QuizResult from '@screens/Quiz/QuizResult';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {useCurrentUser} from '@hooks/user';
+import {language} from '@config/language';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -32,7 +33,7 @@ const RootApp = () => {
   const expireTimeHandle = () => {
     removeJSessionID().then(() => {
       setCurUser(undefined);
-      setMessageAuth('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!');
+      setMessageAuth(language.vn.expired_time);
     });
   };
 

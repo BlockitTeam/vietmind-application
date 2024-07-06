@@ -1,5 +1,6 @@
 import {Box, Text} from 'native-base';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import {Animated} from 'react-native';
 
 type MessageReceiveProps = {
   text: string;
@@ -7,18 +8,32 @@ type MessageReceiveProps = {
 
 const MessageReceive: React.FC<MessageReceiveProps> = props => {
   const {text} = props;
+  console.log('rerender MessageReceive');
+
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [opacity]);
+
   return (
-    <Box
-      maxW={'3/4'}
-      alignSelf={'flex-start'}
-      borderTopRadius={'8px'}
-      borderBottomRightRadius={'8px'}
-      padding={2}
-      borderWidth={1}
-      borderColor={'primary.medium'}>
-      <Text>{text}</Text>
-    </Box>
+    <Animated.View style={{opacity}}>
+      <Box
+        maxW={'3/4'}
+        alignSelf={'flex-start'}
+        borderTopRadius={'8px'}
+        borderBottomRightRadius={'8px'}
+        padding={2}
+        borderWidth={1}
+        borderColor={'primary.medium'}>
+        <Text>{text}</Text>
+      </Box>
+    </Animated.View>
   );
 };
 
-export default MessageReceive;
+export default React.memo(MessageReceive);

@@ -1,16 +1,6 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {
-  Box,
-  Button,
-  Center,
-  Circle,
-  HStack,
-  Skeleton,
-  Text,
-  VStack,
-} from 'native-base';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React from 'react';
+import {Box, Center, Circle, HStack, Text, VStack} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -18,8 +8,6 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useGetListDoctor} from '@hooks/user';
 import {colors} from '@assets/colors';
-import {axiosInstance} from '@axios/axiosInstance';
-import {tDoctorResponse} from '@hooks/user/user.interface';
 import AdviseLoading from './AdviseLoading';
 
 type Tab_AdviseProps = CompositeScreenProps<
@@ -52,34 +40,36 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                       drInformation: item,
                     });
                   }}>
-                  <HStack alignItems={'center'}>
-                    <HStack flex={1} space={2} alignItems={'center'}>
+                  <HStack alignItems="center" space={'8px'}>
+                    <HStack flex={1} space={2} alignItems="center">
                       <Circle
-                        h={'40px'}
-                        w={'40px'}
-                        backgroundColor={'primary.medium'}
+                        h="40px"
+                        w="40px"
+                        backgroundColor="primary.medium"
                       />
-                      <VStack>
+                      <Box flex={1}>
                         <Text
-                          variant={
-                            'body_medium_bold'
-                          }>{`BS. ${item.firstName} ${item.lastName}`}</Text>
+                          variant="body_medium_bold"
+                          numberOfLines={
+                            1
+                          }>{`Bs. ${item.firstName} ${item.lastName}`}</Text>
                         <Text
-                          variant={'body_medium_regular'}
-                          color={'text.neutral_secondary'}>
+                          variant="body_medium_regular"
+                          color="text.neutral_secondary"
+                          numberOfLines={1}>
                           Bệnh viện bạch mai
                         </Text>
-                      </VStack>
+                      </Box>
                     </HStack>
                     <Center
-                      borderColor={'primary.medium'}
+                      borderColor="primary.medium"
                       borderWidth={1}
-                      bgColor={'white'}
-                      h={'32px'}
-                      px={'16px'}
-                      py={'0px'}
-                      borderRadius={'8px'}>
-                      <Text variant={'body_small_bold'}>Tư vấn ngay</Text>
+                      bgColor="white"
+                      h="32px"
+                      px="16px"
+                      py="0px"
+                      borderRadius="8px">
+                      <Text variant="body_small_bold">Tư vấn ngay</Text>
                     </Center>
                   </HStack>
                 </TouchableOpacity>

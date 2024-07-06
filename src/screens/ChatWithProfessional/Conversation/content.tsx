@@ -26,6 +26,7 @@ import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
 import LoadingDots from '@components/ThreeDotLoading';
+import MessageSystem from './MessageSystem';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -45,11 +46,10 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   const [contentHeight, setContentHeight] = useState(0);
   const scrollViewRef = useRef<any>(null);
   const [curMessage, setCurMessage] = useState('');
-
   // Handle typing state
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
-
+  const [appointmentId, setAppointmentId] = useState<string>('1');
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
@@ -57,7 +57,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       let transformConversationContent: ContentTransform[] =
         dataConversationContent.data.map(item => {
           return {
-            fromMe: curUser.id !== item.senderId ? false : true,
+            fromMe: curUser.id === item.senderId,
             message: decryptMessage(item.encryptedMessage, keyAES),
           };
         });
@@ -66,6 +66,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   }, [dataConversationContent]);
   // Set up ws
   useLayoutEffect(() => {
+    // setUseAnimate(true);
     const setupWebSocket = async () => {
       ws.onmessage = event => {
         try {
@@ -108,7 +109,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
 
   // Handle scroll when view list message change height || receive new message
   useEffect(() => {
-    scrollViewRef.current?.scrollTo({y: contentHeight, animated: true});
+    scrollViewRef.current?.scrollTo({y: contentHeight, animated: false});
   }, [contentHeight]);
 
   //Handle function
@@ -152,7 +153,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         ws.send(msg);
         setListMessage(prev => [...prev, {fromMe: true, message: message}]);
         setCurMessage('');
-        scrollViewRef.current?.scrollToEnd({animated: true});
+        scrollViewRef.current?.scrollToEnd({animated: false});
       } catch (error) {
         console.log('Some thing went wrong!', JSON.stringify(error));
       }
@@ -175,39 +176,52 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           pt={'16px'}
           pl={'16px'}
           w={'100%'}>
-          <Input
-            flex={1}
-            variant={'outline'}
-            placeholder="Tin nhắn..."
-            m={0}
-            value={curMessage}
-            onChangeText={v => {
-              if (ws) {
-                if (v.length > 0 && !imTyping) {
-                  const msg = JSON.stringify({
-                    type: 'typing', //typing
-                    conversationId: conversationId,
-                  });
-                  ws.send(msg);
-                  setImTyping(true);
-                } else {
-                  const msg = JSON.stringify({
-                    type: 'unTyping', //typing
-                    conversationId: conversationId,
-                  });
-                  ws.send(msg);
-                  setImTyping(false);
-                }
-              }
-              setCurMessage(v);
-            }}
-          />
-          <Button
-            variant={'unstyled'}
-            disabled={curMessage.trim().length <= 0}
-            onPress={() => sendMessage(curMessage, keyAES, conversationId)}>
-            <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
-          </Button>
+          {appointmentId ? (
+            <HStack space={'8px'} w={'100%'} mr={'16px'}>
+              <Button flex={1} variant={'cusOutline'}>
+                Dời lịch
+              </Button>
+              <Button flex={3} variant={'cusPrimary'}>
+                Xác nhận
+              </Button>
+            </HStack>
+          ) : (
+            <>
+              <Input
+                flex={1}
+                variant={'outline'}
+                placeholder="Tin nhắn..."
+                m={0}
+                value={curMessage}
+                onChangeText={v => {
+                  if (ws) {
+                    if (v.length > 0 && !imTyping) {
+                      const msg = JSON.stringify({
+                        type: 'typing', //typing
+                        conversationId: conversationId,
+                      });
+                      ws.send(msg);
+                      setImTyping(true);
+                    } else {
+                      const msg = JSON.stringify({
+                        type: 'unTyping', //typing
+                        conversationId: conversationId,
+                      });
+                      ws.send(msg);
+                      setImTyping(false);
+                    }
+                  }
+                  setCurMessage(v);
+                }}
+              />
+              <Button
+                variant={'unstyled'}
+                disabled={curMessage.trim().length <= 0}
+                onPress={() => sendMessage(curMessage, keyAES, conversationId)}>
+                <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
+              </Button>
+            </>
+          )}
         </HStack>
       }>
       <ScrollView
@@ -245,6 +259,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
               ),
             )
           )}
+          <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" />
           {drTyping && <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />}
         </VStack>
       </ScrollView>
