@@ -183,8 +183,7 @@ export const themeNativeBase = extendTheme({
         },
 
         body_small_italic: {
-          fontFamily: 'SF-Pro-Display-RegularItalic',
-          fontWeight: 400,
+          fontFamily: 'SF-Pro-Display-BoldItalic',
           color: 'text.neutral_secondary',
           fontSize: 14,
           lineHeight: Platform.OS === 'android' ? 20 : 22,

@@ -12,8 +12,19 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (loginPram: tLoginParam) =>
       mutationPost<IResponse<string>>({
-        url: `${apiPath.AUTH}`,
+        url: `${apiPath.auth.LOGIN}`,
         body: loginPram,
+      }),
+  });
+};
+
+export const useLogoutMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      mutationPost<IResponse<string>>({
+        url: `${apiPath.auth.LOGOUT}`,
+        body: {},
       }),
   });
 };

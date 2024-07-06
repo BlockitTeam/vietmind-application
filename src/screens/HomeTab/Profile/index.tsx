@@ -13,8 +13,35 @@ import {
 } from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import {Pencil} from '@assets/icons';
+import {useGetSurveyResponseResult} from '@hooks/response';
+import {useLogoutMutation} from '@hooks/auth';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {removeJSessionID} from '@services/asyncStorage/jsessionID';
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+import {language} from '@config/language';
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Profile = () => {
+  const {data: dataSurveyResponse} = useGetSurveyResponseResult();
+  const [, setCurUser] = useAtom(curUserAtom);
+  const [, setMessage] = useAtom(messageAuthAtom);
+  const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
+
+  const useLogout = useLogoutMutation();
+  const logout = async () => {
+    await useLogout.mutate(undefined, {
+      onSuccess: async () => {
+        await Promise.all([
+          setCurUser(undefined),
+          removeJSessionID(),
+          setMessage(language.vn.logout_success),
+          setResultCommonFilter(undefined),
+        ]);
+      },
+    });
+  };
+  console.log(dataSurveyResponse);
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -51,49 +78,27 @@ const Tab_Profile = () => {
               </Text>
               <ChevronRightIcon />
             </TouchableOpacity>
-            <HStack>
-              <Text
-                flex={'1'}
-                variant={'body_medium_regular'}
-                color="text.neutral_secondary">
-                Lo âu
-              </Text>
-              <Text variant={'body_medium_regular'}>9.5/10</Text>
-            </HStack>
-            <HStack>
-              <Text
-                flex={'1'}
-                variant={'body_medium_regular'}
-                color="text.neutral_secondary">
-                Trầm cảm
-              </Text>
-              <Text variant={'body_medium_regular'}>6/10</Text>
-            </HStack>
-            <HStack>
-              <Text
-                flex={'1'}
-                variant={'body_medium_regular'}
-                color="text.neutral_secondary">
-                Lo âu
-              </Text>
-              <Text variant={'body_medium_regular'}>2/10</Text>
-            </HStack>
-            <HStack>
-              <Text
-                flex={'1'}
-                variant={'body_medium_regular'}
-                color="text.neutral_secondary">
-                Lo âu
-              </Text>
-              <Text variant={'body_medium_regular'}>2/10</Text>
-            </HStack>
+            {dataSurveyResponse?.data &&
+              Object.entries(dataSurveyResponse?.data).map(i => {
+                return (
+                  <HStack key={i[0]}>
+                    <Text
+                      flex={'1'}
+                      variant={'body_medium_regular'}
+                      color="text.neutral_secondary">
+                      {i[0]}
+                    </Text>
+                    <Text variant={'body_medium_regular'}>{i[1]}</Text>
+                  </HStack>
+                );
+              })}
           </VStack>
           {/* End:  -----  Multi choice advise  -----  */}
 
           <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />
 
           <VStack alignSelf={'flex-start'}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={logout}>
               <Text variant={'body_large_bold'} color={'error.error_dark'}>
                 Đăng xuất
               </Text>

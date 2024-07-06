@@ -1,5 +1,8 @@
 export const apiPath = {
-  AUTH: '/auth',
+  auth: {
+    LOGIN: '/auth',
+    LOGOUT: '/auth/logout',
+  },
   user: {
     PUT: '/user',
     GET_CURRENT_USER: '/user/current-user',

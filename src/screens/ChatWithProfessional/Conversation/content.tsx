@@ -26,7 +26,6 @@ import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
 import LoadingDots from '@components/ThreeDotLoading';
-import MessageSystem from './MessageSystem';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -37,7 +36,7 @@ type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
 type ContentTransform = {fromMe: boolean; message: string};
 
 const ContentConversation: React.FC<ContentConversationProps> = props => {
-  const {route, navigation, keyAES, conversationId, ws, curUser} = props;
+  const {route, keyAES, conversationId, ws, curUser} = props;
   const {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
@@ -49,7 +48,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   // Handle typing state
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
-  const [appointmentId, setAppointmentId] = useState<string>('1');
+  const [appointmentId, setAppointmentId] = useState<string>();
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
@@ -259,7 +258,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
               ),
             )
           )}
-          <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" />
+          {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
           {drTyping && <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />}
         </VStack>
       </ScrollView>

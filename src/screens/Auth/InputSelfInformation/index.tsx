@@ -19,7 +19,7 @@ import {IRootStackParamList} from '@routes/navigator';
 import axios from 'axios';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {usePutEditUser} from '@hooks/user';
+import {useCurrentUser, usePutEditUser} from '@hooks/user';
 import {tPutEditUserParam} from '@hooks/user/user.interface';
 
 const curYear = new Date().getFullYear();
@@ -36,6 +36,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
   const {navigation} = props;
 
   const [_, setCurUser] = useAtom(curUserAtom);
+  const {refetch} = useCurrentUser();
 
   const {
     control,
@@ -60,7 +61,12 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
       {...data, birthYear: parseInt(data.birthYear)},
       {
         onSuccess: value => {
-          setCurUser(value.data);
+          refetch().then(v => {
+            //Note
+            setCurUser(v.data?.data);
+            console.log(value.data, v.data?.data);
+          });
+          // setCurUser(value.data);
         },
         onError: error => {
           console.log('🚀 ~ onSubmit ~ error:', error);

@@ -34,7 +34,6 @@ export const useGetSurveyResponseResult = () => {
     queryKey: ['useGetSurveyResponseResult'],
     queryFn: () =>
       getData<IResponse<tResponseResult>>(apiPath.response.GET_RESULT),
-    gcTime: 5000,
-    enabled: false,
+    gcTime: Infinity,
   });
 };
