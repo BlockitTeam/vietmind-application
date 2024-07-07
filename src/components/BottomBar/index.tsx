@@ -74,10 +74,12 @@ const MyTabBar: React.FC<BottomTabBarProps> = props => {
                 py={2}
                 borderRadius={'8px'}
                 background={isFocused ? 'primary.medium' : 'transparent'}>
-                <Icon />
+                <Icon stroke={isFocused ? '#344E41' : '#5F7581'} />
               </Center>
               <Text
-                color={isFocused ? 'text.neutral_primary' : 'primary.teriary'}
+                color={
+                  isFocused ? 'text.neutral_primary' : 'text.neutral_teriary'
+                }
                 fontSize="12">
                 {label.toString()}
               </Text>

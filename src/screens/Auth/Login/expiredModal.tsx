@@ -6,11 +6,12 @@ import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 
 const ExpiredModal = () => {
   const [messageAuth, setMessageAuth] = useAtom(messageAuthAtom);
-  useEffect(() => {
-    return () => {
-      setMessageAuth(undefined);
-    };
-  }, [messageAuth]);
+  console.log('12412412412412412', messageAuth);
+  // useEffect(() => {
+  //   return () => {
+  //     setMessageAuth(undefined);
+  //   };
+  // }, [messageAuth]);
   return (
     <Modal
       isOpen={messageAuth !== undefined}

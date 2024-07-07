@@ -2,8 +2,8 @@ import {Dict} from 'native-base/lib/typescript/theme/tools';
 const textDefaultBtn = (props: Dict) => {
   return {
     color: props.disabled ? 'text.neutral_teriary' : 'text.default',
-    fontWeight: '700',
-    fontSize: 16,
+    // fontWeight: '700',
+    // fontSize: 16,
     fontFamily: 'SFProDisplay',
   };
 };

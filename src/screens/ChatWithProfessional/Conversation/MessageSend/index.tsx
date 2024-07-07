@@ -31,7 +31,7 @@ const MessageSend: React.FC<MessageSendProps> = props => {
         borderTopRadius={'8px'}
         borderBottomLeftRadius={'8px'}
         p={2}>
-        <Text>{text}</Text>
+        <Text variant={'body_small_regular'}>{text}</Text>
       </Box>
     </Animated.View>
   );

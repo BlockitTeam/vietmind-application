@@ -30,7 +30,7 @@ const MessageReceive: React.FC<MessageReceiveProps> = props => {
         padding={2}
         borderWidth={1}
         borderColor={'primary.medium'}>
-        <Text>{text}</Text>
+        <Text variant={'body_small_regular'}>{text}</Text>
       </Box>
     </Animated.View>
   );

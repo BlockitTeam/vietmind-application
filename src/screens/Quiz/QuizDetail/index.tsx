@@ -4,6 +4,8 @@ import {
   Center,
   ChevronLeftIcon,
   HStack,
+  Skeleton,
+  Spinner,
   Text,
   View,
   VStack,
@@ -96,18 +98,20 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
       }
     }
   };
-
-  return isListQuestionLoading || !curQuiz || !nListQuest ? (
-    <View>
-      <Text>Loading</Text>
-    </View>
-  ) : (
+  const isLoading = isListQuestionLoading || !curQuiz || !nListQuest;
+  return (
     <HeaderBack
-      title={`Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`}
+      title={
+        isLoading
+          ? 'Loading...'
+          : `Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`
+      }
       buttonBack={
         <TouchableOpacity
           disabled={curQuiz?.numberKey === 0}
-          onPress={() => setCurQuiz(listResult[curQuiz.numberKey - 1])}>
+          onPress={() =>
+            !isLoading && setCurQuiz(listResult[curQuiz.numberKey - 1])
+          }>
           <Center flexDir={'row'}>
             <ChevronLeftIcon />
             <Text>Quay lại</Text>
@@ -115,15 +119,26 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
         </TouchableOpacity>
       }>
       <Center h="full">
-        <QuizChoose
-          key={curQuiz.numberKey}
-          answer={
-            curQuiz.answer === null ? null : parseInt(curQuiz.answer.toString())
-          }
-          question={curQuiz.questionText}
-          options={curQuiz.options}
-          save={saveAndNext}
-        />
+        {isLoading ? (
+          <>
+            <Skeleton mb={2} />
+            <Skeleton mb={2} />
+            <Skeleton mb={2} />
+            <Skeleton mb={2} />
+          </>
+        ) : (
+          <QuizChoose
+            key={curQuiz.numberKey}
+            answer={
+              curQuiz.answer === null
+                ? null
+                : parseInt(curQuiz.answer.toString())
+            }
+            question={curQuiz.questionText}
+            options={curQuiz.options}
+            save={saveAndNext}
+          />
+        )}
       </Center>
     </HeaderBack>
   );

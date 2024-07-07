@@ -149,7 +149,7 @@ const Login = () => {
   };
   return (
     <ImageBackground source={BackGround}>
-      <ExpiredModal />
+      {/* <ExpiredModal /> */}
       <VStack
         h={'full'}
         alignItems={'center'}
@@ -157,7 +157,7 @@ const Login = () => {
         space={2}
         mx={'8px'}>
         <Text variant={'header_1'} mb={2}>
-          Đăng ký
+          Đăng nhập
         </Text>
         <Button
           style={styles.loginButton}
@@ -166,7 +166,7 @@ const Login = () => {
           <Center flexDir={'row'}>
             <Google />
             <Box ml={1}>
-              <Text variant={'body_medium_bold'}>Đăng ký bằng Google</Text>
+              <Text variant={'body_medium_bold'}>Đăng nhập bằng Google</Text>
             </Box>
           </Center>
         </Button>
@@ -177,7 +177,7 @@ const Login = () => {
           <Center flexDir={'row'}>
             <Facebook />
             <Box ml={1}>
-              <Text variant={'body_medium_bold'}>Đăng ký bằng Facebook</Text>
+              <Text variant={'body_medium_bold'}>Đăng nhập bằng Facebook</Text>
             </Box>
           </Center>
         </Button>

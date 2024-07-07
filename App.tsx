@@ -13,6 +13,7 @@ import React from 'react';
 import {useColorScheme} from 'react-native';
 import {themeNativeBase} from 'src/themes/nativebase-theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import ExpiredModal from '@screens/Auth/Login/expiredModal';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -31,6 +32,7 @@ function App(): React.JSX.Element {
         <NativeBaseProvider theme={themeNativeBase}>
           <Provider>
             <RootApp />
+            <ExpiredModal />
           </Provider>
         </NativeBaseProvider>
       </NavigationContainer>

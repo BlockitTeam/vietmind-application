@@ -159,19 +159,19 @@ export const themeNativeBase = extendTheme({
           ...headerDefault,
           fontSize: 36,
           fontFamily: 'SF-Pro-Display-SemiBold',
-          fontWeight: 600,
+          fontWeight: 'bold',
         },
         sf_header_2: {
           ...headerDefault,
           fontSize: 30,
           fontFamily: 'SF-Pro-Display-SemiBold',
-          fontWeight: 600,
+          fontWeight: 'bold',
         },
         sf_header_3: {
           ...headerDefault,
           fontSize: 24,
           fontFamily: 'SF-Pro-Display-SemiBold',
-          fontWeight: 600,
+          fontWeight: 'bold',
         },
 
         caption_regular: {
@@ -188,10 +188,17 @@ export const themeNativeBase = extendTheme({
           fontSize: 14,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
+        body_small_regular: {
+          fontFamily: 'SF-Pro-Display-Regular',
+          fontWeight: 400,
+          color: 'text.neutral_primary',
+          fontSize: 14,
+          lineHeight: Platform.OS === 'android' ? 18 : 20,
+        },
 
         body_small_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
-          fontWeight: 600,
+          fontWeight: 'bold',
           color: 'text.neutral_primary',
           fontSize: 14,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
@@ -204,7 +211,7 @@ export const themeNativeBase = extendTheme({
         },
         body_medium_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
-          fontWeight: 600,
+          fontWeight: 'bold',
           color: 'text.neutral_primary',
           fontSize: 16,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
@@ -222,7 +229,7 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SF-Pro-Display-SemiBold',
           color: 'text.neutral_primary',
           fontSize: 18,
-          fontWeight: 600,
+          fontWeight: 'bold',
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
       },

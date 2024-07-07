@@ -33,10 +33,10 @@ const Tab_Profile = () => {
     await useLogout.mutate(undefined, {
       onSuccess: async () => {
         await Promise.all([
-          setCurUser(undefined),
-          removeJSessionID(),
           setMessage(language.vn.logout_success),
           setResultCommonFilter(undefined),
+          setCurUser(undefined),
+          removeJSessionID(),
         ]);
       },
     });
