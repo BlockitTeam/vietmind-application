@@ -19,20 +19,21 @@ axiosInstance.interceptors.response.use(
   async response => {
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
     const setCookieHeader = response.headers['set-cookie'];
-    await removeJSessionID();
-    await storeMessageModal(language.vn.expired_time);
-    // if (setCookieHeader) {
-    //   const jSessionId = setCookieHeader.find(cookie =>
-    //     cookie.startsWith('JSESSIONID='),
-    //   );
-    //   if (jSessionId) {
-    //     const sessionIdValue = jSessionId.split(';')[0].split('=')[1];
-    //     await AsyncStorage.setItem('JSESSIONID', sessionIdValue);
-    //   }
-    // }
+    // await removeJSessionID();
+    // await storeMessageModal(language.vn.expired_time);
+    if (setCookieHeader) {
+      const jSessionId = setCookieHeader.find(cookie =>
+        cookie.startsWith('JSESSIONID='),
+      );
+      if (jSessionId) {
+        const sessionIdValue = jSessionId.split(';')[0].split('=')[1];
+        await AsyncStorage.setItem('JSESSIONID', sessionIdValue);
+      }
+    }
     return response;
   },
   async error => {
+    console.log('~ response error:', error);
     if (error.response?.status === 403) {
       console.log('Handle 403 ');
       await removeJSessionID();
@@ -47,13 +48,14 @@ axiosInstance.interceptors.response.use(
 axiosInstance.interceptors.request.use(
   async config => {
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
+    console.log(storedSessionId);
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;
     }
     return config;
   },
-  // error => {
-  //   console.log(error, 'Request error');
-  //   return Promise.reject(error);
-  // };,
+  error => {
+    console.log(error, 'Request error');
+    return Promise.reject(error);
+  },
 );

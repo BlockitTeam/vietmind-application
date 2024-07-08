@@ -4,7 +4,7 @@ export type tUserResponse = {
   firstName: string | null;
   gender: string | null;
   id: string;
-  lastName: string | null;
+  lastName: string | '';
   password: string | null;
   provider: string;
   surveyCompleted: boolean;
