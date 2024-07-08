@@ -5,7 +5,10 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+} from '@react-navigation/native';
 import RootApp from './src/routes/index';
 import {Provider} from 'jotai';
 import {NativeBaseProvider} from 'native-base';
@@ -14,6 +17,8 @@ import {useColorScheme} from 'react-native';
 import {themeNativeBase} from 'src/themes/nativebase-theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import ExpiredModal from '@screens/Auth/Login/expiredModal';
+import {IRootStackParamList} from '@routes/navigator';
+import {vietmindStore} from '@services/jotaiStorage';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,14 +28,25 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+export const navigationRef =
+  createNavigationContainerRef<IRootStackParamList>();
+
+export function navigate(name: keyof IRootStackParamList, params?: any) {
+  console.log(navigationRef.isReady());
+
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <NativeBaseProvider theme={themeNativeBase}>
-          <Provider>
+          <Provider store={vietmindStore}>
             <RootApp />
             <ExpiredModal />
           </Provider>

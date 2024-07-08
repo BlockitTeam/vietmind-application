@@ -14,6 +14,7 @@ import {
   ChevronLeftIcon,
   HStack,
   Input,
+  KeyboardAvoidingView,
   ScrollView,
   Spinner,
   Text,
@@ -26,6 +27,7 @@ import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
 import LoadingDots from '@components/ThreeDotLoading';
+import {Platform} from 'react-native';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -229,38 +231,39 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         onContentSizeChange={(contentWidth, contentHeight) => {
           setContentHeight(contentHeight);
         }}>
-        <VStack
-          flex={1}
-          justifyContent={'flex-end'}
-          space={2}
-          w={'100%'}
-          minHeight={'100%'}>
-          <EmptyConversation drName={drInformation.drName} />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{flex: 1}}>
+          <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
+            <EmptyConversation drName={drInformation.drName} />
 
-          {isConversationContentLoading ? (
-            <Center paddingBottom={'40px'}>
-              <Spinner />
-            </Center>
-          ) : (
-            listMessage.length > 0 &&
-            //   <Center>
-            //     <Text>Loading...</Text>
-            //   </Center>
-            // ) : (
-            listMessage.map((item, index) =>
-              item.fromMe ? (
-                <MessageSend key={item.message + index} text={item.message} />
-              ) : (
-                <MessageReceive
-                  key={item.message + index}
-                  text={item.message}
-                />
-              ),
-            )
-          )}
-          {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
-          {drTyping && <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />}
-        </VStack>
+            {isConversationContentLoading ? (
+              <Center paddingBottom={'40px'}>
+                <Spinner />
+              </Center>
+            ) : (
+              listMessage.length > 0 &&
+              //   <Center>
+              //     <Text>Loading...</Text>
+              //   </Center>
+              // ) : (
+              listMessage.map((item, index) =>
+                item.fromMe ? (
+                  <MessageSend key={item.message + index} text={item.message} />
+                ) : (
+                  <MessageReceive
+                    key={item.message + index}
+                    text={item.message}
+                  />
+                ),
+              )
+            )}
+            {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
+            {drTyping && (
+              <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />
+            )}
+          </VStack>
+        </KeyboardAvoidingView>
       </ScrollView>
     </HeaderBack>
   );

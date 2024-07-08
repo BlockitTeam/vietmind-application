@@ -1,5 +1,14 @@
-import {Box, Button, Center, Text, View, VStack} from 'native-base';
-import React, {useEffect} from 'react';
+import {
+  Box,
+  Button,
+  Center,
+  Spinner,
+  Text,
+  useSafeArea,
+  View,
+  VStack,
+} from 'native-base';
+import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {ImageBackground} from 'react-native';
 import BackGround from '@images/Background.png';
@@ -40,10 +49,9 @@ const Login = () => {
 
   //Todo: API
   const useLoginMutation = useLogin();
-  const {refetch} = useCurrentUser();
-
+  const {isLoading, refetch} = useCurrentUser();
+  const [fetchUser, setFetchUser] = useState(false);
   //Todo: Func
-
   const loginFacebook = async () => {
     try {
       const result = await LoginManager.logInWithPermissions(
@@ -56,6 +64,8 @@ const Login = () => {
         const result = await AuthenticationToken.getAuthenticationTokenIOS();
 
         if (result?.authenticationToken) {
+          setFetchUser(true);
+
           try {
             // const value = await axiosInstance.post('/auth', {
             //   token: result.authenticationToken,
@@ -73,6 +83,9 @@ const Login = () => {
                 onError: error => {
                   setMessageAuth('Login fail, please try again!');
                 },
+                onSettled: () => {
+                  setFetchUser(true);
+                },
               },
             );
           } catch (error: any) {
@@ -83,18 +96,29 @@ const Login = () => {
         // This token can be used to access the Graph API.
         const result = await AccessToken.getCurrentAccessToken();
         if (result?.accessToken) {
+          setFetchUser(true);
+
           try {
-            useLoginMutation.mutate(
+            await useLoginMutation.mutate(
               {
                 token: result.accessToken,
                 provider: 'facebook',
               },
               {
                 onSuccess: () => {
-                  refetch();
+                  refetch()
+                    .then(res => {
+                      if (res.data?.statusCode === 200 && res.data.data) {
+                        setCurUser({...res.data.data});
+                      }
+                    })
+                    .finally(() => {});
                 },
                 onError: () => {
                   setMessageAuth('Login fail, please try again!');
+                },
+                onSettled: () => {
+                  setFetchUser(false);
                 },
               },
             );
@@ -147,9 +171,20 @@ const Login = () => {
       }
     }
   };
+  console.log(fetchUser);
   return (
     <ImageBackground source={BackGround}>
       {/* <ExpiredModal /> */}
+      {(curUser || fetchUser) && (
+        <Box
+          h={'100%'}
+          w={'100%'}
+          background={'black'}
+          opacity={'0.5'}
+          zIndex={'100'}
+          position={'absolute'}
+        />
+      )}
       <VStack
         h={'full'}
         alignItems={'center'}
