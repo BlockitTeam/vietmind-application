@@ -4,10 +4,11 @@ import {Animated} from 'react-native';
 
 type MessageReceiveProps = {
   text: string;
+  time: string;
 };
 
 const MessageReceive: React.FC<MessageReceiveProps> = props => {
-  const {text} = props;
+  const {text, time} = props;
   console.log('rerender MessageReceive');
 
   const opacity = useRef(new Animated.Value(0)).current;
@@ -28,9 +29,11 @@ const MessageReceive: React.FC<MessageReceiveProps> = props => {
         borderTopRadius={'8px'}
         borderBottomRightRadius={'8px'}
         padding={2}
-        borderWidth={1}
-        borderColor={'primary.medium'}>
+        backgroundColor={'#E0E9ED'}>
         <Text variant={'body_small_regular'}>{text}</Text>
+        <Text fontSize={8} pt={1}>
+          {time}
+        </Text>
       </Box>
     </Animated.View>
   );

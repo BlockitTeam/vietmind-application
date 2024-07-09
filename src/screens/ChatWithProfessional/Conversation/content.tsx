@@ -1,35 +1,32 @@
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {ChatWithProfessional_StartNavigationProp} from '.';
 import {useGetConversationContent} from '@hooks/coversation';
 import HeaderBack from '@components/layout/HeaderBack';
 import {
   Button,
+  Center,
+  ChevronLeftIcon,
   HStack,
   Input,
-  ChevronLeftIcon,
+  ScrollView,
+  Spinner,
   Text,
   VStack,
-  Box,
-  Center,
-  TextArea,
 } from 'native-base';
-// import {Send} from '@assets/icons';
+import {Send} from '@assets/icons';
+import DrInformation from './DrInformation';
+import MessageSend from './MessageSend';
+import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
-import {Platform, TouchableOpacity, View} from 'react-native';
-import {
-  Bubble,
-  Composer,
-  GiftedChat,
-  IMessage,
-  InputToolbar,
-  Send,
-} from 'react-native-gifted-chat';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
-import {Home, Send as SendIcon} from '@assets/icons';
-import {colors} from '@assets/colors';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
+import LoadingDots from '@components/ThreeDotLoading';
+import {formatTime} from '@services/function/dateTime';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -37,6 +34,7 @@ type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   conversationId: string;
   curUser: tUserResponse;
 };
+type ContentTransform = {fromMe: boolean; message: string; time: string};
 
 const ContentConversation: React.FC<ContentConversationProps> = props => {
   const {route, keyAES, conversationId, ws, curUser} = props;
@@ -45,37 +43,31 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
     isLoading: isConversationContentLoading,
   } = useGetConversationContent(conversationId!);
   const drInformation = route.params;
+  const [contentHeight, setContentHeight] = useState(0);
+  const scrollViewRef = useRef<any>(null);
   const [curMessage, setCurMessage] = useState('');
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  // Handle typing state
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string>();
-  const navigate = useNavigation();
-  // console.log(dataConversationContent.data);
+  //Set list content
+  const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
     if (dataConversationContent?.data) {
-      const transformConversationContent: IMessage[] =
+      let transformConversationContent: ContentTransform[] =
         dataConversationContent.data.map(item => {
-          console.log(decryptMessage(item.encryptedMessage, keyAES));
           return {
-            _id: item.messageId.toString(),
-            text: decryptMessage(item.encryptedMessage, keyAES),
-            createdAt: new Date(item.createdAt),
-            user: {
-              _id: curUser.id === item.senderId ? 1 : 2,
-              name:
-                curUser.id === item.senderId
-                  ? curUser.lastName
-                  : drInformation.drName,
-            },
+            fromMe: curUser.id === item.senderId,
+            message: decryptMessage(item.encryptedMessage, keyAES),
+            time: formatTime(item.createdAt),
           };
         });
-      setMessages(transformConversationContent);
-      console.log(transformConversationContent);
+      setListMessage(transformConversationContent);
     }
   }, [dataConversationContent]);
-
+  // Set up ws
   useLayoutEffect(() => {
+    // setUseAnimate(true);
     const setupWebSocket = async () => {
       ws.onmessage = event => {
         try {
@@ -86,16 +78,16 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           if (res?.type === 'unTyping') {
             setDrTyping(false);
           }
+
           if (res?.message && keyAES) {
-            const newMessage: IMessage = {
-              _id: `${conversationId}-${new Date().getTime()}`,
-              text: decryptMessage(res.message, keyAES),
-              createdAt: new Date(),
-              user: {_id: 2, name: drInformation.drName},
-            };
-            setMessages(prevMessages =>
-              GiftedChat.append(prevMessages, [newMessage]),
-            );
+            setListMessage(prev => [
+              ...prev,
+              {
+                fromMe: false,
+                message: decryptMessage(res.message, keyAES),
+                time: formatTime(res.createdAt),
+              },
+            ]);
             setDrTyping(false);
           }
         } catch (error) {
@@ -105,11 +97,14 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onclose = () => {
         console.log('Disconnected');
       };
+
       ws.onerror = error => {
         console.log('Error: ' + JSON.stringify(error));
       };
     };
+
     setupWebSocket();
+
     return () => {
       if (ws) {
         ws.close();
@@ -117,246 +112,170 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
     };
   }, []);
 
+  // Handle scroll when view list message change height || receive new message
+  useEffect(() => {
+    scrollViewRef.current?.scrollTo({y: contentHeight, animated: false});
+  }, [contentHeight]);
+
+  //Handle function
   const encryptMessage = useCallback(
     (m: string, keyAES: CryptoJS.lib.WordArray) => {
       if (keyAES) {
-        return CryptoJS.AES.encrypt(m, keyAES, {
+        let messEn = CryptoJS.AES.encrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
         }).toString();
+        return messEn;
       }
       return 'Error encrypt message';
     },
-    [keyAES],
+    [keyAES], // Dependency array
   );
-
   const decryptMessage = useCallback(
     (m: string, keyAES: CryptoJS.lib.WordArray) => {
       if (keyAES) {
-        return CryptoJS.AES.decrypt(m, keyAES, {
+        const messDecrypt = CryptoJS.AES.decrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
         }).toString(CryptoJS.enc.Utf8);
-      }
-      return 'Error decrypt message';
-    },
-    [keyAES],
-  );
-
-  const onSend = useCallback(
-    (newMessages: IMessage[] = []) => {
-      const message = newMessages[0];
-      if (ws && conversationId && message.text && keyAES) {
-        const encryptedMessage = encryptMessage(message.text, keyAES);
-        const msg = JSON.stringify({
-          type: 'message',
-          conversationId: conversationId,
-          message: encryptedMessage,
-        });
-        try {
-          console.log('send message, ', msg);
-          ws.send(msg);
-          setMessages(prevMessages =>
-            GiftedChat.append(prevMessages, [message]),
-          );
-          setCurMessage('');
-        } catch (error) {
-          console.log('Something went wrong!', JSON.stringify(error));
-        }
+        return messDecrypt;
+      } else {
+        return 'Error decrypt message';
       }
     },
-    [ws, conversationId, keyAES],
+    [keyAES], // Dependency array
   );
-
-  const renderBubble = (props: any) => {
-    return (
-      <Bubble
-        {...props}
-        textStyle={{
-          right: {
-            color: '#fff', // Text color for sent messages
+  const sendMessage = (
+    message: string,
+    keyAES: CryptoJS.lib.WordArray,
+    conversationId?: string,
+  ) => {
+    if (ws && conversationId && message && keyAES) {
+      const msg = JSON.stringify({
+        type: 'message', //typing
+        conversationId: conversationId,
+        message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
+      });
+      try {
+        ws.send(msg);
+        setListMessage(prev => [
+          ...prev,
+          {
+            fromMe: true,
+            message: message,
+            time: formatTime(new Date().toISOString()),
           },
-          left: {
-            color: '#000', // Text color for received messages
-          },
-        }}
-        wrapperStyle={{
-          right: {
-            backgroundColor: '#2ECC71', // Background color for sent messages
-          },
-          left: {
-            backgroundColor: '#E0E9ED', // Background color for received messages
-          },
-        }}
-      />
-    );
-  };
-  const renderInputToolbar = (props: any) => {
-    return (
-      <InputToolbar
-        {...props}
-        // containerStyle={{backgroundColor: Colors.background}}
-        containerStyle={{paddingVertical: 4}}
-      />
-    );
+        ]);
+        setCurMessage('');
+        scrollViewRef.current?.scrollToEnd({animated: false});
+      } catch (error) {
+        console.log('Some thing went wrong!', JSON.stringify(error));
+      }
+    }
   };
   return (
-    // <HeaderBack
-    //   title={`Bs ${drInformation.drName}`}
-    //   bottomPadding="0px"
-    //   buttonBack={
-
-    //   }
-    //   bottomChildren={
-    //     <HStack
-    //       justifyContent={'center'}
-    //       height={'56px'}
-    //       pt={'16px'}
-    //       pl={'16px'}
-    //       w={'100%'}>
-    //       {appointmentId ? (
-    //         <HStack space={'8px'} w={'100%'} mr={'16px'}>
-    //           <Button flex={1} variant={'cusOutline'}>
-    //             Dời lịch
-    //           </Button>
-    //           <Button flex={3} variant={'cusPrimary'}>
-    //             Xác nhận
-    //           </Button>
-    //         </HStack>
-    //       ) : (
-    //         <>
-    //           <Input
-    //             flex={1}
-    //             variant={'outline'}
-    //             placeholder="Tin nhắn..."
-    //             m={0}
-    //             value={curMessage}
-    //             onChangeText={v => {
-    //               if (ws) {
-    //                 if (v.length > 0 && !imTyping) {
-    //                   const msg = JSON.stringify({
-    //                     type: 'typing',
-    //                     conversationId: conversationId,
-    //                   });
-    //                   ws.send(msg);
-    //                   setImTyping(true);
-    //                 } else {
-    //                   const msg = JSON.stringify({
-    //                     type: 'unTyping',
-    //                     conversationId: conversationId,
-    //                   });
-    //                   ws.send(msg);
-    //                   setImTyping(false);
-    //                 }
-    //               }
-    //               setCurMessage(v);
-    //             }}
-    //           />
-    //           <Button
-    //             variant={'unstyled'}
-    //             disabled={curMessage.trim().length <= 0}
-    //             onPress={() =>
-    //               onSend([
-    //                 {
-    //                   _id: `${conversationId}-${new Date().getTime()}`,
-    //                   text: curMessage,
-    //                   createdAt: new Date(),
-    //                   user: {_id: 1, name: curUser.lastName},
-    //                 },
-    //               ])
-    //             }>
-    //             <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
-    //           </Button>
-    //         </>
-    //       )}
-    //     </HStack>
-    //   }>
-    //   <GiftedChat
-    //     messages={messages}
-    //     onSend={newMessages => onSend(newMessages)}
-    //     user={{_id: 1, name: curUser.lastName}}
-    //     isTyping={drTyping}
-    //     renderAvatar={null}
-    //   />
-    // </HeaderBack>
-    <SafeAreaView>
-      <VStack h={'full'} color={'#fff'}>
-        <HStack
-          alignItems={'center'}
-          justifyContent={'center'}
-          position={'relative'}
-          backgroundColor={'primary.medium25'}
-          py={4}>
-          <TouchableOpacity
-            onPress={() => {
-              navigate.goBack();
-            }}
-            style={{
-              position: 'absolute',
-              left: 0,
-              padding: 8,
-            }}>
-            <HStack alignItems={'center'} space={'2px'}>
-              <ChevronLeftIcon />
-              <Text color={'neutral.primary'}>Thoát</Text>
-            </HStack>
-          </TouchableOpacity>
-
-          <Text variant="caption_regular">{`Bs ${drInformation.drName}`}</Text>
+    <HeaderBack
+      title={`Bs ${drInformation.drName}`}
+      bottomPadding="0px"
+      buttonBack={
+        <HStack alignItems={'center'} space={'2px'}>
+          <ChevronLeftIcon />
+          <Text color={'neutral.primary'}>Thoát</Text>
         </HStack>
-        <GiftedChat
-          messages={messages}
-          infiniteScroll
-          inverted
-          alwaysShowSend
-          isTyping={drTyping}
-          renderAvatar={null}
-          user={{_id: 1, name: curUser.lastName}}
-          onSend={newMessages => onSend(newMessages)}
-          renderBubble={renderBubble}
-          renderInputToolbar={renderInputToolbar}
-          onInputTextChanged={v => {
-            if (v.trim().length > 0) {
-              setCurMessage(v);
-            } else setCurMessage('');
-          }}
-          // textInputProps={{
-          //   borderRadius: 8,
-          //   borderWidth: 1,
-          //   borderColor: colors.primary.medium,
-          //   paddingHorizontal: 10,
-          //   paddingVertical: 8,
-          //   fontSize: 16,
-          //   marginVertical: 4,
-          //   color: colors.text.neutral_primary,
-          // }}
-          renderComposer={(props: any) => (
-            <TextArea
-              autoCompleteType
-              flex={1}
-              ml={4}
-              minHeight={'40px'} // Adjust minHeight as per your design
-              maxHeight={`${4 * 40}px`} // Adjust maxHeight based on max lines and line height
-              fontSize={16}
-              lineHeight={'20px'}
-              p={2}
-              multiline
-              variant={'outline'}
-              placeholder="Tin nhắn..."
-              onChangeText={props.onTextChanged}
-            />
+      }
+      bottomChildren={
+        <HStack
+          justifyContent={'center'}
+          height={'56px'}
+          pt={'16px'}
+          pl={'16px'}
+          w={'100%'}>
+          {appointmentId ? (
+            <HStack space={'8px'} w={'100%'} mr={'16px'}>
+              <Button flex={1} variant={'cusOutline'}>
+                Dời lịch
+              </Button>
+              <Button flex={3} variant={'cusPrimary'}>
+                Xác nhận
+              </Button>
+            </HStack>
+          ) : (
+            <>
+              <Input
+                flex={1}
+                variant={'outline'}
+                placeholder="Tin nhắn..."
+                m={0}
+                value={curMessage}
+                onChangeText={v => {
+                  if (ws) {
+                    if (v.length > 0 && !imTyping) {
+                      const msg = JSON.stringify({
+                        type: 'typing', //typing
+                        conversationId: conversationId,
+                      });
+                      ws.send(msg);
+                      setImTyping(true);
+                    } else {
+                      const msg = JSON.stringify({
+                        type: 'unTyping', //typing
+                        conversationId: conversationId,
+                      });
+                      ws.send(msg);
+                      setImTyping(false);
+                    }
+                  }
+                  setCurMessage(v);
+                }}
+              />
+              <Button
+                variant={'unstyled'}
+                disabled={curMessage.trim().length <= 0}
+                onPress={() => sendMessage(curMessage, keyAES, conversationId)}>
+                <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
+              </Button>
+            </>
           )}
-          renderSend={props => (
-            <Send
-              {...props}
-              containerStyle={{
-                justifyContent: 'center',
-                padding: 8,
-              }}>
-              <SendIcon fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
-            </Send>
+        </HStack>
+      }>
+      <ScrollView
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          setContentHeight(contentHeight);
+        }}>
+        <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
+          <DrInformation drName={drInformation.drName} />
+
+          {isConversationContentLoading ? (
+            <Center paddingBottom={'40px'}>
+              <Spinner />
+            </Center>
+          ) : (
+            listMessage.length > 0 &&
+            //   <Center>
+            //     <Text>Loading...</Text>
+            //   </Center>
+            // ) : (
+            listMessage.map((item, index) =>
+              item.fromMe ? (
+                <MessageSend
+                  key={item.message + index}
+                  text={item.message}
+                  time={item.time}
+                />
+              ) : (
+                <MessageReceive
+                  key={item.message + index}
+                  text={item.message}
+                  time={item.time}
+                />
+              ),
+            )
           )}
-        />
-      </VStack>
-    </SafeAreaView>
+          {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
+          {drTyping && <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />}
+        </VStack>
+      </ScrollView>
+    </HeaderBack>
   );
 };
 

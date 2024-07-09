@@ -24,11 +24,10 @@ import {language} from '@config/language';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Profile = () => {
-  const {data: dataSurveyResponse, refetch} = useGetSurveyResponseResult();
+  const {data: dataSurveyResponse} = useGetSurveyResponseResult();
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const [, setMessage] = useAtom(messageAuthAtom);
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
-  console.log(curUser);
   const useLogout = useLogoutMutation();
   const logout = async () => {
     await useLogout.mutate(undefined, {
@@ -42,7 +41,6 @@ const Tab_Profile = () => {
       },
     });
   };
-  console.log(dataSurveyResponse);
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -108,12 +106,7 @@ const Tab_Profile = () => {
           {/* End:  -----  Multi choice advise  -----  */}
 
           <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />
-          <Button
-            onPress={() => {
-              refetch();
-            }}>
-            r
-          </Button>
+
           <VStack alignSelf={'flex-start'}>
             <TouchableOpacity onPress={logout}>
               <Text variant={'body_large_bold'} color={'error.error_dark'}>

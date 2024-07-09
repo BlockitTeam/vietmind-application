@@ -3,12 +3,13 @@ import React from 'react';
 import {Circle, HStack, ScrollView, Text, VStack} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import HistoryAdviseItem from './component/historyAdviseItem';
+import HeaderLayout from '@components/layout/Header';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Home = () => {
   return (
-    <HeaderBack title="Trang chủ">
+    <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
-        <VStack flex={1} space={4} w={'100%'} minHeight={'100%'} pt={4}>
+        <VStack flex={1} space={4} w={'100%'} minHeight={'100%'} pt={4} pb={4}>
           {/* Start: Next event */}
           <VStack space={2}>
             <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>
@@ -51,13 +52,13 @@ const Tab_Home = () => {
               {/* <RNDateTimePicker value={new Date()} /> */}
             </HStack>
             {listHistoryAdviseItemFake.map(item => {
-              return <HistoryAdviseItem {...item} key={item.time} />;
+              return <HistoryAdviseItem {...item} key={item.idConversation} />;
             })}
           </VStack>
           {/* End: History advise */}
         </VStack>
       </ScrollView>
-    </HeaderBack>
+    </HeaderLayout>
   );
 };
 
@@ -103,5 +104,17 @@ export const listHistoryAdviseItemFake = [
     drId: '4',
     time: '23/09/2023  15:00 - 15:33',
     idConversation: '4',
+  },
+  {
+    drName: 'Tư vấn với trợ lý ảo',
+    drId: '4',
+    time: '23/09/2023  15:00 - 15:33',
+    idConversation: '5',
+  },
+  {
+    drName: 'Tư vấn với trợ lý ảo',
+    drId: '4',
+    time: '23/09/2023  15:00 - 15:33',
+    idConversation: '6',
   },
 ];
