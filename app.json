@@ -1,4 +1,7 @@
 {
   "name": "vietmind_mobile",
-  "displayName": "vietmind_mobile"
+  "displayName": "vietmind_mobile",
+  "android": {
+    "softwareKeyboardLayoutMode": "pan"
+  }
 }

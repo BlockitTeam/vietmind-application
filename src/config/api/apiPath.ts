@@ -3,6 +3,10 @@ export const apiPath = {
     LOGIN: '/auth',
     LOGOUT: '/auth/logout',
   },
+
+  appointment: {
+    GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
+  },
   user: {
     PUT: '/user',
     GET_CURRENT_USER: '/user/current-user',

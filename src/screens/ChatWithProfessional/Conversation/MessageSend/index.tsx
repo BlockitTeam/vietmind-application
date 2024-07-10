@@ -41,7 +41,7 @@ const MessageSend: React.FC<MessageSendProps> = props => {
         borderBottomLeftRadius={'8px'}
         p={2}>
         <Text variant={'body_small_regular'}>{text}</Text>
-        <Text fontSize={8} pt={1}>
+        <Text alignSelf={'flex-end'} fontSize={8} pt={1}>
           {time}
         </Text>
       </Box>
