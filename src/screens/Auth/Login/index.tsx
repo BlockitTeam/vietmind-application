@@ -62,7 +62,6 @@ const Login = () => {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
         const result = await AuthenticationToken.getAuthenticationTokenIOS();
-
         if (result?.authenticationToken) {
           setFetchUser(true);
 
@@ -135,7 +134,14 @@ const Login = () => {
   const signInGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
+
+      // Revoke the token to force a new one
+      await GoogleSignin.signOut();
+
+      // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo.idToken);
+
       if (userInfo.idToken) {
         await useLoginMutation.mutate(
           {
