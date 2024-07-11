@@ -20,12 +20,12 @@ const MessageSend: React.FC<MessageSendProps> = props => {
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 500,
+        duration: 100,
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
         toValue: 0,
-        duration: 500,
+        duration: 750,
         useNativeDriver: true,
       }),
     ]).start();

@@ -30,6 +30,12 @@ import LoadingDots from '@components/ThreeDotLoading';
 import {formatTime} from '@services/function/dateTime';
 import {Keyboard, Platform} from 'react-native';
 import {usGetAppointmentById} from '@hooks/appointment/getAppointmentById';
+import {
+  eStatusAppointment,
+  tAppointment,
+} from '@hooks/appointment/appointment.interface';
+import {useUpdateAppointment} from '@hooks/appointment/updateAppoitment';
+import MessageSystem from './MessageSystem';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -42,12 +48,19 @@ type ContentTransform = {fromMe: boolean; message: string; time: string};
 const ContentConversation: React.FC<ContentConversationProps> = props => {
   const {route, keyAES, conversationId, ws, curUser} = props;
   console.log(conversationId);
+
+  // Start Todo: Call api
   const {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
   } = useGetConversationContent(conversationId!);
-  const {data: appointmentByConId, isLoading: isAppointmentByConIdLoading} =
-    usGetAppointmentById(conversationId!);
+  const {
+    data: appointmentByConId,
+    isLoading: isAppointmentByConIdLoading,
+    refetch,
+  } = usGetAppointmentById(conversationId!);
+  const updateAppointment = useUpdateAppointment();
+  // End Todo: Call api
   const drInformation = route.params;
   const [contentHeight, setContentHeight] = useState(0);
   const scrollViewRef = useRef<any>(null);
@@ -55,7 +68,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   // Handle typing state
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
-  const [appointmentId, setAppointmentId] = useState<string>();
+  const [appointment, setAppointment] = useState<tAppointment>();
+
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
@@ -70,10 +84,17 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         });
       setListMessage(transformConversationContent);
     }
-    if (appointmentByConId?.data.appointmentId) {
-      setAppointmentId(appointmentByConId?.data.appointmentId.toString());
-    }
   }, [dataConversationContent]);
+  useLayoutEffect(() => {
+    if (appointmentByConId?.data.appointmentId) {
+      refetch().then(item => {
+        if (item.data) {
+          setAppointment(item.data.data);
+        }
+      });
+      // setAppointment(appointmentByConId?.data.appointment.toString());
+    }
+  }, [appointmentByConId]);
   // Set up ws
   useLayoutEffect(() => {
     // setUseAnimate(true);
@@ -87,8 +108,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             setDrTyping(true);
           } else if (res?.type === 'unTyping') {
             setDrTyping(false);
-          } else if (res?.type === 'appointment' && res?.appointmentId) {
-            setAppointmentId(res?.appointmentId);
+          } else if (res?.type === 'appointment' && res?.appointment) {
+            setAppointment(res?.appointment);
           } else if (res?.message && keyAES) {
             setListMessage(prev => [
               ...prev,
@@ -201,12 +222,42 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
               pt={'16px'}
               pl={'16px'}
               w={'100%'}>
-              {appointmentId ? (
+              {appointment && appointment.status === 'PENDING' ? (
                 <HStack space={'8px'} w={'100%'} mr={'16px'} pb={4}>
-                  <Button flex={1} variant={'cusOutline'}>
+                  <Button
+                    flex={1}
+                    variant={'cusOutline'}
+                    onPress={() => {
+                      updateAppointment.mutate(
+                        {
+                          ...appointment,
+                          status: eStatusAppointment.CANCELLED,
+                        },
+                        {
+                          onSuccess: e => {
+                            setAppointment(e.data);
+                          },
+                        },
+                      );
+                    }}>
                     Dời lịch
                   </Button>
-                  <Button flex={3} variant={'cusPrimary'}>
+                  <Button
+                    flex={3}
+                    variant={'cusPrimary'}
+                    onPress={() => {
+                      updateAppointment.mutate(
+                        {
+                          ...appointment,
+                          status: eStatusAppointment.CONFIRMED,
+                        },
+                        {
+                          onSuccess: e => {
+                            setAppointment(e.data);
+                          },
+                        },
+                      );
+                    }}>
                     Xác nhận
                   </Button>
                 </HStack>
@@ -215,6 +266,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   <Input
                     flex={1}
                     variant={'outline'}
+                    fontSize={14}
+                    multiline
                     placeholder="Tin nhắn..."
                     m={0}
                     value={curMessage}
@@ -262,37 +315,47 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           }}>
           <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
             <DrInformation drName={drInformation.drName} />
-
-            {isConversationContentLoading ? (
-              <Center paddingBottom={'40px'}>
-                <Spinner />
-              </Center>
-            ) : (
-              listMessage.length > 0 &&
-              //   <Center>
-              //     <Text>Loading...</Text>
-              //   </Center>
-              // ) : (
-              listMessage.map((item, index) =>
-                item.fromMe ? (
-                  <MessageSend
-                    key={item.message + index}
-                    text={item.message}
-                    time={item.time}
-                  />
-                ) : (
-                  <MessageReceive
-                    key={item.message + index}
-                    text={item.message}
-                    time={item.time}
-                  />
-                ),
+            {
+              //Render chat
+              isConversationContentLoading ? (
+                <Center paddingBottom={'40px'}>
+                  <Spinner />
+                </Center>
+              ) : (
+                listMessage.length > 0 &&
+                listMessage.map((item, index) =>
+                  item.fromMe ? (
+                    <MessageSend
+                      key={item.message + index}
+                      text={item.message}
+                      time={item.time}
+                    />
+                  ) : (
+                    <MessageReceive
+                      key={item.message + index}
+                      text={item.message}
+                      time={item.time}
+                    />
+                  ),
+                )
               )
-            )}
-            {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
-            {drTyping && (
-              <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />
-            )}
+            }
+
+            {
+              // Show appointment time when confirmed
+              appointment && appointment.status === 'CONFIRMED' ? (
+                <MessageSystem
+                  text={`Bs. ${drInformation.drName} đã đặt lịch hẹn vào ngày ${appointment.appointmentDate}, ${appointment.startTime} - ${appointment.endTime}`}
+                />
+              ) : null
+            }
+
+            {
+              // Real time dr is typing
+              drTyping && (
+                <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />
+              )
+            }
           </VStack>
         </ScrollView>
       </HeaderBack>

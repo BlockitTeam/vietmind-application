@@ -11,18 +11,27 @@ const MessageReceive: React.FC<MessageReceiveProps> = props => {
   const {text, time} = props;
   console.log('rerender MessageReceive');
 
+  // Create refs for the animated opacity and position values
   const opacity = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(2)).current;
 
   useEffect(() => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  }, [opacity]);
-
+    // Run the fade-in and position animation when the component mounts
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [opacity, translateY]);
   return (
-    <Animated.View style={{opacity}}>
+    <Animated.View style={{opacity, transform: [{translateY}]}}>
       <Box
         maxW={'3/4'}
         alignSelf={'flex-start'}
