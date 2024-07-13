@@ -64,7 +64,6 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
           refetch().then(v => {
             //Note
             setCurUser(v.data?.data);
-            console.log(value.data, v.data?.data);
           });
           // setCurUser(value.data);
         },

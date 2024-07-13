@@ -36,6 +36,9 @@ import {
 } from '@hooks/appointment/appointment.interface';
 import {useUpdateAppointment} from '@hooks/appointment/updateAppoitment';
 import MessageSystem from './MessageSystem';
+import MessageReplying from './MessageReplying';
+import {useAtom} from 'jotai';
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -47,7 +50,6 @@ type ContentTransform = {fromMe: boolean; message: string; time: string};
 
 const ContentConversation: React.FC<ContentConversationProps> = props => {
   const {route, keyAES, conversationId, ws, curUser} = props;
-  console.log(conversationId);
 
   // Start Todo: Call api
   const {
@@ -69,7 +71,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
   const [appointment, setAppointment] = useState<tAppointment>();
-
+  const [, setMessageAuth] = useAtom(messageAuthAtom);
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
@@ -95,28 +97,38 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       // setAppointment(appointmentByConId?.data.appointment.toString());
     }
   }, [appointmentByConId]);
-  // Set up ws
+  // Set up websocket
   useLayoutEffect(() => {
-    // setUseAnimate(true);
     const setupWebSocket = async () => {
       ws.onmessage = event => {
         try {
+          console.log('receive', event);
           const res = JSON.parse(event.data);
-          console.log('receive', res);
-
           if (res?.type === 'typing') {
             setDrTyping(true);
           } else if (res?.type === 'unTyping') {
             setDrTyping(false);
-          } else if (res?.type === 'appointment' && res?.appointment) {
-            setAppointment(res?.appointment);
+          } else if (res?.type === 'appointment') {
+            refetch(res?.conversationId)
+              .then(appointmentRes => {
+                {
+                  console.log(appointmentRes);
+                  if (res?.status === 'PENDING') {
+                    setMessageAuth(
+                      `Bs. ${drInformation.drName} đã đặt lịch hẹn. Bạn vui lòng nhấn vào "Xác nhận" để xác nhận lịch hẹn, hoặc dời lịch vì bất kỳ 1 lý do...`,
+                    );
+                  }
+                  setAppointment(appointmentRes.data?.data);
+                }
+              })
+              .catch(e => console.log(e));
           } else if (res?.message && keyAES) {
             setListMessage(prev => [
               ...prev,
               {
                 fromMe: false,
                 message: decryptMessage(res.message, keyAES),
-                time: formatTime(res.createdAt),
+                time: formatTime(res.createAt),
               },
             ]);
             setDrTyping(false);
@@ -184,7 +196,9 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         type: 'message', //typing
         conversationId: conversationId,
         message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
+        // targetUserId: drInformation.drId,
       });
+      console.log(msg);
       try {
         ws.send(msg);
         setListMessage(prev => [
@@ -195,6 +209,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             time: formatTime(new Date().toISOString()),
           },
         ]);
+        console.log('send message', msg);
         setCurMessage('');
         scrollViewRef.current?.scrollToEnd({animated: false});
       } catch (error) {
@@ -236,9 +251,17 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                         {
                           onSuccess: e => {
                             setAppointment(e.data);
+                            const ms = {
+                              ...e.data,
+                              type: 'appointment',
+                              status: 'CANCELLED',
+                            };
+                            ws.send(JSON.stringify(ms));
                           },
                         },
                       );
+                      const ms = {};
+                      // ws.send()
                     }}>
                     Dời lịch
                   </Button>
@@ -267,7 +290,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                     flex={1}
                     variant={'outline'}
                     fontSize={14}
-                    multiline
+                    // multiline
                     placeholder="Tin nhắn..."
                     m={0}
                     value={curMessage}
@@ -278,13 +301,17 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                             type: 'typing', //typing
                             conversationId: conversationId,
                           });
+                          console.log('send typing', msg);
                           ws.send(msg);
                           setImTyping(true);
-                        } else {
+                        }
+
+                        if (v.length <= 0 && imTyping) {
                           const msg = JSON.stringify({
                             type: 'unTyping', //typing
                             conversationId: conversationId,
                           });
+                          console.log('send untyping', msg);
                           ws.send(msg);
                           setImTyping(false);
                         }
@@ -340,21 +367,20 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                 )
               )
             }
+            {
+              // Real time dr is typing
+              drTyping ? <MessageReplying text="Bác sĩ đang trả lời" /> : null
+            }
 
             {
               // Show appointment time when confirmed
-              appointment && appointment.status === 'CONFIRMED' ? (
+              appointment &&
+              (appointment.status === 'CONFIRMED' ||
+                appointment.status === 'PENDING') ? (
                 <MessageSystem
                   text={`Bs. ${drInformation.drName} đã đặt lịch hẹn vào ngày ${appointment.appointmentDate}, ${appointment.startTime} - ${appointment.endTime}`}
                 />
               ) : null
-            }
-
-            {
-              // Real time dr is typing
-              drTyping && (
-                <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />
-              )
             }
           </VStack>
         </ScrollView>

@@ -9,8 +9,6 @@ type MessageSendProps = {
 
 const MessageSend: React.FC<MessageSendProps> = props => {
   const {text, time} = props;
-  console.log('rerender');
-
   // Create refs for the animated opacity and position values
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(2)).current;
@@ -24,8 +22,8 @@ const MessageSend: React.FC<MessageSendProps> = props => {
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
-        toValue: 0,
-        duration: 750,
+        toValue: -10,
+        duration: 500,
         useNativeDriver: true,
       }),
     ]).start();

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   title: {
-    fontSize: 10,
+    fontSize: 14,
     color: colors.text.neutral_teriary,
   },
 });

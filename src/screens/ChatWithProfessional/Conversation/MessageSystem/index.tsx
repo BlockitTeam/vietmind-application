@@ -8,7 +8,7 @@ type MessageSystemProps = {
 
 const MessageSystem: React.FC<MessageSystemProps> = props => {
   const {text} = props;
-  console.log('rerender ne');
+
 
   // Create a ref for the animated opacity value
   const opacity = useRef(new Animated.Value(0)).current;

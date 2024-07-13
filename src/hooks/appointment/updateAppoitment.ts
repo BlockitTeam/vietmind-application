@@ -12,7 +12,6 @@ export const useUpdateAppointment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (putAppointmentParams: tAppointment) => {
-      console.log(JSON.stringify(putAppointmentParams));
       return mutationPut<IResponse<tAppointment>>({
         url: `${apiPath.appointment.PUT}`,
         body: putAppointmentParams,

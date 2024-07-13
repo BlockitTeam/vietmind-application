@@ -42,7 +42,7 @@ const ChatWithProfessional_Conversation: React.FC<
       if (curUser && storedSessionId) {
         const drId = drInformation.drId;
         const websocket = new WebSocket(
-          `ws://91.108.104.57:9001/ws?targetUserId=${drInformation.drId}`,
+          `ws://91.108.104.57/ws?targetUserId=${drInformation.drId}`,
           undefined,
           {
             headers: {

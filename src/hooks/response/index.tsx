@@ -30,7 +30,6 @@ export const useSaveSurveyResponse = () => {
 };
 
 export const useGetSurveyResponseResult = () => {
-  console.log('call');
   return useQuery<IResponse<tResponseResult>>({
     queryKey: ['useGetSurveyResponseResult'],
     queryFn: () =>
