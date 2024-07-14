@@ -16,8 +16,9 @@ const ExpiredModal = () => {
       isOpen={messageAuth !== undefined}
       onClose={() => setMessageAuth(undefined)}>
       <Modal.Content maxWidth="400px">
-        <Modal.CloseButton />
-        {/* <Modal.Header>Contact Us</Modal.Header> */}
+        <Modal.Header borderBottomWidth={0}>
+          <Modal.CloseButton />
+        </Modal.Header>
         <Modal.Body>
           <Text>{messageAuth}</Text>
         </Modal.Body>

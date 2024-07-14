@@ -10,6 +10,7 @@ import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
+import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
 
 export const renderInputSelfInformation = () => {
   return (
@@ -51,6 +52,10 @@ export const renderChatStack = () => {
       <RootStack.Screen
         name="ChatWithProfessional_Conversation"
         component={ChatWithProfessional_Conversation}
+      />
+      <RootStack.Screen
+        name="ProfileMultipleChoice"
+        component={ProfileMultipleChoice}
       />
     </>
   );

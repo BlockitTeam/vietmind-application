@@ -10,7 +10,6 @@ type MessageReplyingProps = {
 
 const MessageReplying: React.FC<MessageReplyingProps> = props => {
   const {text} = props;
-  console.log('rerender MessageReceive');
 
   // Create refs for the animated opacity and position values
   const opacity = useRef(new Animated.Value(0)).current;

@@ -198,9 +198,15 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
         // targetUserId: drInformation.drId,
       });
-      console.log(msg);
+      const msgUnTyping = JSON.stringify({
+        type: 'unTyping', //typing
+        conversationId: conversationId,
+      });
+
       try {
         ws.send(msg);
+        ws.send(msgUnTyping);
+        setImTyping(false);
         setListMessage(prev => [
           ...prev,
           {

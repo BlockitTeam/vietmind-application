@@ -22,8 +22,16 @@ import {removeJSessionID} from '@services/asyncStorage/jsessionID';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 import {language} from '@config/language';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-// type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
-const Tab_Profile = () => {
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+type Tab_ProfileProps = CompositeScreenProps<
+  BottomTabScreenProps<IBottomParamList, 'Profile'>,
+  NativeStackScreenProps<IRootStackParamList>
+>;
+
+const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const [, setMessage] = useAtom(messageAuthAtom);
@@ -74,7 +82,11 @@ const Tab_Profile = () => {
 
           {/* Start:  -----  Multi choice advise  -----  */}
           <VStack w={'100%'} space={'6px'}>
-            <TouchableOpacity style={styles.multiChoiceAdvise__touchable}>
+            <TouchableOpacity
+              style={styles.multiChoiceAdvise__touchable}
+              onPress={() => {
+                navigation.navigate('ProfileMultipleChoice');
+              }}>
               <Text flex={'1'} variant={'body_large_bold'}>
                 Trắc nghiệm
               </Text>

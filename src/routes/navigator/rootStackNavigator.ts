@@ -33,6 +33,9 @@ export type IRootStackParamList = {
 
   //Bottom tab
   BottomTab: {screen: keyof IBottomParamList};
+
+  //
+  ProfileMultipleChoice: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();
