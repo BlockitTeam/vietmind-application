@@ -14,18 +14,31 @@ import {
   ChevronLeftIcon,
   HStack,
   Input,
+  KeyboardAvoidingView,
   ScrollView,
   Spinner,
   Text,
   VStack,
 } from 'native-base';
 import {Send} from '@assets/icons';
-import EmptyConversation from './EmptyConversation';
+import DrInformation from './DrInformation';
 import MessageSend from './MessageSend';
 import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
 import LoadingDots from '@components/ThreeDotLoading';
+import {formatTime} from '@services/function/dateTime';
+import {Keyboard, Platform} from 'react-native';
+import {usGetAppointmentById} from '@hooks/appointment/getAppointmentById';
+import {
+  eStatusAppointment,
+  tAppointment,
+} from '@hooks/appointment/appointment.interface';
+import {useUpdateAppointment} from '@hooks/appointment/updateAppoitment';
+import MessageSystem from './MessageSystem';
+import MessageReplying from './MessageReplying';
+import {useAtom} from 'jotai';
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -33,14 +46,23 @@ type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   conversationId: string;
   curUser: tUserResponse;
 };
-type ContentTransform = {fromMe: boolean; message: string};
+type ContentTransform = {fromMe: boolean; message: string; time: string};
 
 const ContentConversation: React.FC<ContentConversationProps> = props => {
   const {route, keyAES, conversationId, ws, curUser} = props;
+
+  // Start Todo: Call api
   const {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
   } = useGetConversationContent(conversationId!);
+  const {
+    data: appointmentByConId,
+    isLoading: isAppointmentByConIdLoading,
+    refetch,
+  } = usGetAppointmentById(conversationId!);
+  const updateAppointment = useUpdateAppointment();
+  // End Todo: Call api
   const drInformation = route.params;
   const [contentHeight, setContentHeight] = useState(0);
   const scrollViewRef = useRef<any>(null);
@@ -48,7 +70,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
   // Handle typing state
   const [imTyping, setImTyping] = useState(false);
   const [drTyping, setDrTyping] = useState(false);
-  const [appointmentId, setAppointmentId] = useState<string>();
+  const [appointment, setAppointment] = useState<tAppointment>();
+  const [, setMessageAuth] = useAtom(messageAuthAtom);
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
   useLayoutEffect(() => {
@@ -58,29 +81,55 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           return {
             fromMe: curUser.id === item.senderId,
             message: decryptMessage(item.encryptedMessage, keyAES),
+            time: formatTime(item.createdAt),
           };
         });
       setListMessage(transformConversationContent);
     }
   }, [dataConversationContent]);
-  // Set up ws
   useLayoutEffect(() => {
-    // setUseAnimate(true);
+    if (appointmentByConId?.data.appointmentId) {
+      refetch().then(item => {
+        if (item.data) {
+          setAppointment(item.data.data);
+        }
+      });
+      // setAppointment(appointmentByConId?.data.appointment.toString());
+    }
+  }, [appointmentByConId]);
+  // Set up websocket
+  useLayoutEffect(() => {
     const setupWebSocket = async () => {
       ws.onmessage = event => {
         try {
+          console.log('receive', event);
           const res = JSON.parse(event.data);
           if (res?.type === 'typing') {
             setDrTyping(true);
-          }
-          if (res?.type === 'unTyping') {
+          } else if (res?.type === 'unTyping') {
             setDrTyping(false);
-          }
-
-          if (res?.message && keyAES) {
+          } else if (res?.type === 'appointment') {
+            refetch(res?.conversationId)
+              .then(appointmentRes => {
+                {
+                  console.log(appointmentRes);
+                  if (res?.status === 'PENDING') {
+                    setMessageAuth(
+                      `Bs. ${drInformation.drName} đã đặt lịch hẹn. Bạn vui lòng nhấn vào "Xác nhận" để xác nhận lịch hẹn, hoặc dời lịch vì bất kỳ 1 lý do...`,
+                    );
+                  }
+                  setAppointment(appointmentRes.data?.data);
+                }
+              })
+              .catch(e => console.log(e));
+          } else if (res?.message && keyAES) {
             setListMessage(prev => [
               ...prev,
-              {fromMe: false, message: decryptMessage(res.message, keyAES)},
+              {
+                fromMe: false,
+                message: decryptMessage(res.message, keyAES),
+                time: formatTime(res.createAt),
+              },
             ]);
             setDrTyping(false);
           }
@@ -147,10 +196,26 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         type: 'message', //typing
         conversationId: conversationId,
         message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
+        // targetUserId: drInformation.drId,
       });
+      const msgUnTyping = JSON.stringify({
+        type: 'unTyping', //typing
+        conversationId: conversationId,
+      });
+
       try {
         ws.send(msg);
-        setListMessage(prev => [...prev, {fromMe: true, message: message}]);
+        ws.send(msgUnTyping);
+        setImTyping(false);
+        setListMessage(prev => [
+          ...prev,
+          {
+            fromMe: true,
+            message: message,
+            time: formatTime(new Date().toISOString()),
+          },
+        ]);
+        console.log('send message', msg);
         setCurMessage('');
         scrollViewRef.current?.scrollToEnd({animated: false});
       } catch (error) {
@@ -159,110 +224,174 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
     }
   };
   return (
-    <HeaderBack
-      title={`Bs ${drInformation.drName}`}
-      bottomPadding="0px"
-      buttonBack={
-        <HStack alignItems={'center'} space={'2px'}>
-          <ChevronLeftIcon />
-          <Text color={'neutral.primary'}>Thoát</Text>
-        </HStack>
-      }
-      bottomChildren={
-        <HStack
-          justifyContent={'center'}
-          height={'56px'}
-          pt={'16px'}
-          pl={'16px'}
-          w={'100%'}>
-          {appointmentId ? (
-            <HStack space={'8px'} w={'100%'} mr={'16px'}>
-              <Button flex={1} variant={'cusOutline'}>
-                Dời lịch
-              </Button>
-              <Button flex={3} variant={'cusPrimary'}>
-                Xác nhận
-              </Button>
-            </HStack>
-          ) : (
-            <>
-              <Input
-                flex={1}
-                variant={'outline'}
-                placeholder="Tin nhắn..."
-                m={0}
-                value={curMessage}
-                onChangeText={v => {
-                  if (ws) {
-                    if (v.length > 0 && !imTyping) {
-                      const msg = JSON.stringify({
-                        type: 'typing', //typing
-                        conversationId: conversationId,
-                      });
-                      ws.send(msg);
-                      setImTyping(true);
-                    } else {
-                      const msg = JSON.stringify({
-                        type: 'unTyping', //typing
-                        conversationId: conversationId,
-                      });
-                      ws.send(msg);
-                      setImTyping(false);
-                    }
-                  }
-                  setCurMessage(v);
-                }}
-              />
-              <Button
-                variant={'unstyled'}
-                disabled={curMessage.trim().length <= 0}
-                onPress={() => sendMessage(curMessage, keyAES, conversationId)}>
-                <Send fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
-              </Button>
-            </>
-          )}
-        </HStack>
-      }>
-      <ScrollView
-        ref={scrollViewRef}
-        showsVerticalScrollIndicator={false}
-        onContentSizeChange={(contentWidth, contentHeight) => {
-          setContentHeight(contentHeight);
-        }}>
-        <VStack
-          flex={1}
-          justifyContent={'flex-end'}
-          space={2}
-          w={'100%'}
-          minHeight={'100%'}>
-          <EmptyConversation drName={drInformation.drName} />
-
-          {isConversationContentLoading ? (
-            <Center paddingBottom={'40px'}>
-              <Spinner />
-            </Center>
-          ) : (
-            listMessage.length > 0 &&
-            //   <Center>
-            //     <Text>Loading...</Text>
-            //   </Center>
-            // ) : (
-            listMessage.map((item, index) =>
-              item.fromMe ? (
-                <MessageSend key={item.message + index} text={item.message} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      flex={1}>
+      <HeaderBack
+        title={`Bs ${drInformation.drName}`}
+        bottomPadding="0px"
+        buttonBack={
+          <HStack alignItems={'center'} space={'2px'}>
+            <ChevronLeftIcon />
+            <Text color={'neutral.primary'}>Thoát</Text>
+          </HStack>
+        }
+        bottomChildren={
+          !isConversationContentLoading ? (
+            <HStack
+              justifyContent={'center'}
+              pt={'16px'}
+              pl={'16px'}
+              w={'100%'}>
+              {appointment && appointment.status === 'PENDING' ? (
+                <HStack space={'8px'} w={'100%'} mr={'16px'} pb={4}>
+                  <Button
+                    flex={1}
+                    variant={'cusOutline'}
+                    onPress={() => {
+                      updateAppointment.mutate(
+                        {
+                          ...appointment,
+                          status: eStatusAppointment.CANCELLED,
+                        },
+                        {
+                          onSuccess: e => {
+                            setAppointment(e.data);
+                            const ms = {
+                              ...e.data,
+                              type: 'appointment',
+                              status: 'CANCELLED',
+                            };
+                            ws.send(JSON.stringify(ms));
+                          },
+                        },
+                      );
+                      const ms = {};
+                      // ws.send()
+                    }}>
+                    Dời lịch
+                  </Button>
+                  <Button
+                    flex={3}
+                    variant={'cusPrimary'}
+                    onPress={() => {
+                      updateAppointment.mutate(
+                        {
+                          ...appointment,
+                          status: eStatusAppointment.CONFIRMED,
+                        },
+                        {
+                          onSuccess: e => {
+                            setAppointment(e.data);
+                          },
+                        },
+                      );
+                    }}>
+                    Xác nhận
+                  </Button>
+                </HStack>
               ) : (
-                <MessageReceive
-                  key={item.message + index}
-                  text={item.message}
+                <>
+                  <Input
+                    flex={1}
+                    variant={'outline'}
+                    fontSize={14}
+                    // multiline
+                    placeholder="Tin nhắn..."
+                    m={0}
+                    value={curMessage}
+                    onChangeText={v => {
+                      if (ws) {
+                        if (v.length > 0 && !imTyping) {
+                          const msg = JSON.stringify({
+                            type: 'typing', //typing
+                            conversationId: conversationId,
+                          });
+                          console.log('send typing', msg);
+                          ws.send(msg);
+                          setImTyping(true);
+                        }
+
+                        if (v.length <= 0 && imTyping) {
+                          const msg = JSON.stringify({
+                            type: 'unTyping', //typing
+                            conversationId: conversationId,
+                          });
+                          console.log('send untyping', msg);
+                          ws.send(msg);
+                          setImTyping(false);
+                        }
+                      }
+                      setCurMessage(v);
+                    }}
+                  />
+                  <Button
+                    variant={'unstyled'}
+                    disabled={curMessage.trim().length <= 0}
+                    onPress={() =>
+                      sendMessage(curMessage, keyAES, conversationId)
+                    }>
+                    <Send
+                      fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'}
+                    />
+                  </Button>
+                </>
+              )}
+            </HStack>
+          ) : null
+        }>
+        <ScrollView
+          ref={scrollViewRef}
+          showsVerticalScrollIndicator={false}
+          onContentSizeChange={(contentWidth, contentHeight) => {
+            setContentHeight(contentHeight);
+          }}>
+          <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
+            <DrInformation drName={drInformation.drName} />
+            {
+              //Render chat
+              isConversationContentLoading ? (
+                <Center paddingBottom={'40px'}>
+                  <Spinner />
+                </Center>
+              ) : (
+                listMessage.length > 0 &&
+                listMessage.map((item, index) =>
+                  item.fromMe ? (
+                    <MessageSend
+                      key={item.message + index}
+                      text={item.message}
+                      time={item.time}
+                    />
+                  ) : (
+                    <MessageReceive
+                      key={item.message + index}
+                      text={item.message}
+                      time={item.time}
+                    />
+                  ),
+                )
+              )
+            }
+            {
+              // Real time dr is typing
+              drTyping ? <MessageReplying text="Bác sĩ đang trả lời" /> : null
+            }
+
+            {
+              // Show appointment time when confirmed
+              appointment &&
+              (appointment.status === 'CONFIRMED' ||
+                appointment.status === 'PENDING') ? (
+                <MessageSystem
+                  text={`Bs. ${drInformation.drName} đã đặt lịch hẹn vào ngày ${appointment.appointmentDate}, ${appointment.startTime} - ${appointment.endTime}`}
                 />
-              ),
-            )
-          )}
-          {/* <MessageSystem text="Bs. Trịnh Thị Thu Thảo đã đặt lịch hẹn vào thứ 2 ngày 10/12/2023, 09:00 - 10:00" /> */}
-          {drTyping && <LoadingDots title="Bác sĩ đang trả lời" dotSize={2} />}
-        </VStack>
-      </ScrollView>
-    </HeaderBack>
+              ) : null
+            }
+          </VStack>
+        </ScrollView>
+      </HeaderBack>
+    </KeyboardAvoidingView>
   );
 };
 

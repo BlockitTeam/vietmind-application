@@ -1,71 +1,61 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {
-  createNavigationContainerRef,
-  useNavigation,
-} from '@react-navigation/native';
 import {removeJSessionID} from '@services/asyncStorage/jsessionID';
 import {storeMessageModal} from '@services/asyncStorage/messageModal';
 import {language} from '@config/language';
-import {IRootStackParamList} from '@routes/navigator';
-
-export const navigationRef =
-  createNavigationContainerRef<IRootStackParamList>();
-
-export function navigate(name: keyof IRootStackParamList, params?: any) {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(name, params);
-  }
-}
+import {createNavigationContainerRef} from '@react-navigation/native';
+import {IRootStackParamList} from '@routes/navigator'; // adjust the path to where IRootStackParamList is defined
+import {navigationRef} from 'App';
+import {vietmindStore} from '@services/jotaiStorage';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 
 export const axiosInstance = axios.create({
   baseURL: process.env.BASE_URL,
-  // baseURL: 'http://srv550152.hstgr.cloud:9001/api/v1',
-  // baseURL: 'http://srv550152.hstgr.cloud:9001/api/v1',
-  // baseURL: 'http://91.108.104.57/api/v1',
   headers: {'Content-Type': 'application/json'},
   withCredentials: false,
 });
 
 axiosInstance.interceptors.response.use(
   async response => {
-    const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //cc frontend
-    const setCookieHeader = response.headers['set-cookie']; // cc backend
-
-    if (response.status === 403) {
-      await removeJSessionID();
-      await storeMessageModal(language.vn.expired_time);
-      navigate('Login');
-    }
+    const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
+    const setCookieHeader = response.headers['set-cookie'];
+    // await removeJSessionID();
+    // await storeMessageModal(language.vn.expired_time);
     if (setCookieHeader) {
       const jSessionId = setCookieHeader.find(cookie =>
         cookie.startsWith('JSESSIONID='),
       );
       if (jSessionId) {
         const sessionIdValue = jSessionId.split(';')[0].split('=')[1];
-        if (jSessionId !== storedSessionId) {
-          await AsyncStorage.setItem('JSESSIONID', sessionIdValue); // cc hết hạn
-        }
+        await AsyncStorage.setItem('JSESSIONID', sessionIdValue);
       }
     }
     return response;
   },
-  error => {
-    console.log('Response Error:', error);
+  async error => {
+    console.log('~ response error:', error);
+    if (error.response?.status === 403 || error.response?.status === 401) {
+      console.log('Handle 403 ');
+      await removeJSessionID();
+      await storeMessageModal(language.vn.expired_time);
+      vietmindStore.set(curUserAtom, undefined);
+      // navigationRef.navigate('Login');
+    }
     return Promise.reject(error);
   },
 );
 
 axiosInstance.interceptors.request.use(
   async config => {
-    const storedSessionId = await AsyncStorage.getItem('JSESSIONID'); //
+    const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
+    console.log(storedSessionId);
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;
     }
     return config;
   },
-
   error => {
-    Promise.reject(error);
+    console.log(error, 'Request error');
+    return Promise.reject(error);
   },
 );

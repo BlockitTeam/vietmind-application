@@ -1,5 +1,14 @@
-import {Box, Button, Center, Text, View, VStack} from 'native-base';
-import React, {useEffect} from 'react';
+import {
+  Box,
+  Button,
+  Center,
+  Spinner,
+  Text,
+  useSafeArea,
+  View,
+  VStack,
+} from 'native-base';
+import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {ImageBackground} from 'react-native';
 import BackGround from '@images/Background.png';
@@ -23,9 +32,9 @@ import {useCurrentUser} from '@hooks/user';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
-  offlineAccess: true,
-  forceCodeForRefreshToken: true,
+  // offlineAccess: true,
   profileImageSize: 120,
+  forceCodeForRefreshToken: true,
   iosClientId:
     '670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5.apps.googleusercontent.com',
   webClientId:
@@ -40,10 +49,9 @@ const Login = () => {
 
   //Todo: API
   const useLoginMutation = useLogin();
-  const {refetch} = useCurrentUser();
-
+  const {isLoading, refetch} = useCurrentUser();
+  const [fetchUser, setFetchUser] = useState(false);
   //Todo: Func
-
   const loginFacebook = async () => {
     try {
       const result = await LoginManager.logInWithPermissions(
@@ -54,8 +62,9 @@ const Login = () => {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
         const result = await AuthenticationToken.getAuthenticationTokenIOS();
-
         if (result?.authenticationToken) {
+          setFetchUser(true);
+
           try {
             // const value = await axiosInstance.post('/auth', {
             //   token: result.authenticationToken,
@@ -73,6 +82,9 @@ const Login = () => {
                 onError: error => {
                   setMessageAuth('Login fail, please try again!');
                 },
+                onSettled: () => {
+                  setFetchUser(true);
+                },
               },
             );
           } catch (error: any) {
@@ -83,18 +95,29 @@ const Login = () => {
         // This token can be used to access the Graph API.
         const result = await AccessToken.getCurrentAccessToken();
         if (result?.accessToken) {
+          setFetchUser(true);
+
           try {
-            useLoginMutation.mutate(
+            await useLoginMutation.mutate(
               {
                 token: result.accessToken,
                 provider: 'facebook',
               },
               {
                 onSuccess: () => {
-                  refetch();
+                  refetch()
+                    .then(res => {
+                      if (res.data?.statusCode === 200 && res.data.data) {
+                        setCurUser({...res.data.data});
+                      }
+                    })
+                    .finally(() => {});
                 },
                 onError: () => {
                   setMessageAuth('Login fail, please try again!');
+                },
+                onSettled: () => {
+                  setFetchUser(false);
                 },
               },
             );
@@ -110,9 +133,19 @@ const Login = () => {
 
   const signInGoogle = async () => {
     try {
+      setFetchUser(true);
+      await GoogleSignin.signOut();
       await GoogleSignin.hasPlayServices();
+
+      // Revoke the token to force a new one
+
+      // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo.idToken);
+
       if (userInfo.idToken) {
+        await GoogleSignin.clearCachedAccessToken(userInfo.idToken);
+
         await useLoginMutation.mutate(
           {
             token: userInfo.idToken,
@@ -129,6 +162,9 @@ const Login = () => {
             onError: e => {
               console.log('🚀 ~ signInGoogle ~ e:', JSON.stringify(e));
               setMessageAuth('Login fail, please try again!');
+            },
+            onSettled: () => {
+              setFetchUser(false);
             },
           },
         );
@@ -147,9 +183,20 @@ const Login = () => {
       }
     }
   };
+  console.log(fetchUser);
   return (
     <ImageBackground source={BackGround}>
       {/* <ExpiredModal /> */}
+      {(isLoading || fetchUser) && (
+        <Box
+          h={'100%'}
+          w={'100%'}
+          background={'black'}
+          opacity={'0.5'}
+          zIndex={'100'}
+          position={'absolute'}
+        />
+      )}
       <VStack
         h={'full'}
         alignItems={'center'}

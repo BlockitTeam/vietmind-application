@@ -15,3 +15,24 @@ export const useGetListQuestion = () => {
     },
   });
 };
+
+
+export const useGetStressSurvey = () => {
+  const url = apiPath.question.GET_STRESS_SURVEY;
+  return useQuery<tListQuestionResponse>({
+    queryKey: ['useGetStressSurvey'],
+    queryFn: () => {
+      return getData(url);
+    },
+  });
+};
+
+export const useGetUnrestSurvey = () => {
+  const url = apiPath.question.GET_UNREST_SURVEY;
+  return useQuery<tListQuestionResponse>({
+    queryKey: ['useGetUnrestSurvey'],
+    queryFn: () => {
+      return getData(url);
+    },
+  });
+};

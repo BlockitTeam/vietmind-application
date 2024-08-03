@@ -26,7 +26,9 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
   const navigate = useNavigation();
   if (withBackGround)
     return (
-      <SafeAreaView style={{backgroundColor: 'white'}}>
+      <SafeAreaView
+        style={{backgroundColor: 'white', flex: 1}}
+        edges={['right', 'top', 'left']}>
         <ImageBackground source={BackGround}>
           <VStack h={'full'}>
             <HStack
@@ -52,7 +54,9 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
       </SafeAreaView>
     );
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
+    <SafeAreaView
+      style={{backgroundColor: 'white', flex: 1}}
+      edges={['right', 'top', 'left']}>
       <VStack h={'full'}>
         <HStack
           alignItems={'center'}

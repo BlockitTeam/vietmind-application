@@ -2,6 +2,7 @@ import {getData, mutationPost} from '@config/api';
 import {apiPath} from '@config/api/apiPath';
 import {IResponse} from '@interface/api.interface';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {tConversationItem} from './conversation.interface';
 
 type tGetEncryptKeyParam = {
   publicKey: string;
@@ -23,17 +24,9 @@ export const useGetEncryptKey = () => {
   });
 };
 
-type ConversationItemResponse = {
-  messageId: number;
-  conversationId: number;
-  senderId: string;
-  receiverId: string;
-  isRead: boolean;
-  encryptedMessage: string;
-  createdAt: string;
-};
 
-type useGetConversationContentResponse = IResponse<ConversationItemResponse[]>;
+
+type useGetConversationContentResponse = IResponse<tConversationItem[]>;
 
 export const useGetConversationContent = (conversationId: string) => {
   const url = apiPath.conversation.GET_CONTENT.replace(

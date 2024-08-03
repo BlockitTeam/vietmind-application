@@ -95,11 +95,11 @@ const RootApp = () => {
       if (!curUser.enabled) {
         return <>{renderInputSelfInformation()}</>;
       }
-      //Chưa sàn lọc chung
+      //Chưa sàng lọc chung
       else if (!curUser.surveyCompleted) {
         return <>{renderCommonFilter()}</>;
       }
-      //Đã input và sàn lọc chung
+      //Đã input và sàng lọc chung
       else {
         return (
           <>

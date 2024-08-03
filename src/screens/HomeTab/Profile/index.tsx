@@ -8,6 +8,7 @@ import {
   Divider,
   HStack,
   ScrollView,
+  Skeleton,
   Text,
   VStack,
 } from 'native-base';
@@ -21,13 +22,20 @@ import {removeJSessionID} from '@services/asyncStorage/jsessionID';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
 import {language} from '@config/language';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-// type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
-const Tab_Profile = () => {
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+type Tab_ProfileProps = CompositeScreenProps<
+  BottomTabScreenProps<IBottomParamList, 'Profile'>,
+  NativeStackScreenProps<IRootStackParamList>
+>;
+
+const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
-  const [, setCurUser] = useAtom(curUserAtom);
+  const [curUser, setCurUser] = useAtom(curUserAtom);
   const [, setMessage] = useAtom(messageAuthAtom);
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
-
   const useLogout = useLogoutMutation();
   const logout = async () => {
     await useLogout.mutate(undefined, {
@@ -41,7 +49,6 @@ const Tab_Profile = () => {
       },
     });
   };
-  console.log(dataSurveyResponse);
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -49,19 +56,25 @@ const Tab_Profile = () => {
           {/* Start: Basic information ----- Top */}
           <>
             <Circle w="100px" h="100px" bgColor={'#D9D9D9'} />
-            <Text variant={'sf_header_3'}>Trần Duy Nhã</Text>
+            <Text
+              variant={
+                'sf_header_3'
+              }>{`${curUser?.firstName} ${curUser?.lastName}`}</Text>
             <Text
               variant={'body_medium_regular'}
               color={'text.neutral_secondary'}
               mb={'8px'}>
-              Nam - 2001
+              {`${curUser?.gender} - ${curUser?.birthYear}`}
             </Text>
             <Button
               variant={'cusOutline'}
               h={'32px'}
               px={'12px'}
               py="0px"
-              mb={'32px'}>
+              mb={'32px'}
+              onPress={() => {
+                navigation.navigate('ChangeProfile');
+              }}>
               <HStack alignItems={'center'} space={2}>
                 <Pencil />
                 <Text variant={'body_small_bold'}>Thay đổi thông tin</Text>
@@ -72,13 +85,24 @@ const Tab_Profile = () => {
 
           {/* Start:  -----  Multi choice advise  -----  */}
           <VStack w={'100%'} space={'6px'}>
-            <TouchableOpacity style={styles.multiChoiceAdvise__touchable}>
+            <TouchableOpacity
+              style={styles.multiChoiceAdvise__touchable}
+              onPress={() => {
+                navigation.navigate('ProfileMultipleChoice');
+              }}>
               <Text flex={'1'} variant={'body_large_bold'}>
                 Trắc nghiệm
               </Text>
               <ChevronRightIcon />
             </TouchableOpacity>
-            {dataSurveyResponse?.data &&
+            {!dataSurveyResponse?.data ? (
+              <VStack space={4}>
+                <Skeleton h={'24px'} />
+                <Skeleton h={'24px'} />
+                <Skeleton h={'24px'} />
+                <Skeleton h={'24px'} />
+              </VStack>
+            ) : (
               Object.entries(dataSurveyResponse?.data).map(i => {
                 return (
                   <HStack key={i[0]}>
@@ -91,7 +115,8 @@ const Tab_Profile = () => {
                     <Text variant={'body_medium_regular'}>{i[1]}</Text>
                   </HStack>
                 );
-              })}
+              })
+            )}
           </VStack>
           {/* End:  -----  Multi choice advise  -----  */}
 
