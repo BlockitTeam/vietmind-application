@@ -6,6 +6,7 @@ import HistoryAdviseItem from './component/historyAdviseItem';
 import HeaderLayout from '@components/layout/Header';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Home = () => {
+  console.log('home');
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>

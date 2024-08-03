@@ -5,6 +5,7 @@ import MyTabBar from '@components/BottomBar';
 import Tab_Home from '@screens/HomeTab/Home';
 import Tab_Advise from '@screens/HomeTab/Advise';
 import Tab_Profile from '@screens/HomeTab/Profile';
+import Tab_Knowledge from '@screens/HomeTab/Knowledge';
 
 const BottomTab = () => {
   return (
@@ -30,7 +31,7 @@ const BottomTab = () => {
       />
       <RootBottomTab.Screen
         name="Knowledge"
-        component={Tab_Home}
+        component={Tab_Knowledge}
         options={{
           title: 'Kiến thức',
         }}

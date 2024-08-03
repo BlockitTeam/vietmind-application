@@ -36,6 +36,9 @@ export type IRootStackParamList = {
 
   //
   ProfileMultipleChoice: undefined;
+  ChangeProfile: undefined;
+  SurveyDetail_Unrest: undefined;
+  SurveyDetail_Stress: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

@@ -11,6 +11,10 @@ import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
 import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
+import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
+import SurveyDetailScreen_Start from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
+import SurveyDetailScreen_Stress from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
+import SurveyDetailScreen_Unrest from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Unrest';
 
 export const renderInputSelfInformation = () => {
   return (
@@ -56,6 +60,15 @@ export const renderChatStack = () => {
       <RootStack.Screen
         name="ProfileMultipleChoice"
         component={ProfileMultipleChoice}
+      />
+      <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
+      <RootStack.Screen
+        name="SurveyDetail_Stress"
+        component={SurveyDetailScreen_Stress}
+      />
+      <RootStack.Screen
+        name="SurveyDetail_Unrest"
+        component={SurveyDetailScreen_Unrest}
       />
     </>
   );

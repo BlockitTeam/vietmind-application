@@ -71,7 +71,10 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
               h={'32px'}
               px={'12px'}
               py="0px"
-              mb={'32px'}>
+              mb={'32px'}
+              onPress={() => {
+                navigation.navigate('ChangeProfile');
+              }}>
               <HStack alignItems={'center'} space={2}>
                 <Pencil />
                 <Text variant={'body_small_bold'}>Thay đổi thông tin</Text>

@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     console.log('~ response error:', error);
-    if (error.response?.status === 403) {
+    if (error.response?.status === 403 || error.response?.status === 401) {
       console.log('Handle 403 ');
       await removeJSessionID();
       await storeMessageModal(language.vn.expired_time);

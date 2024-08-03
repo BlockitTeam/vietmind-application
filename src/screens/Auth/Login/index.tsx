@@ -32,9 +32,9 @@ import {useCurrentUser} from '@hooks/user';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
-  offlineAccess: true,
-  forceCodeForRefreshToken: true,
+  // offlineAccess: true,
   profileImageSize: 120,
+  forceCodeForRefreshToken: true,
   iosClientId:
     '670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5.apps.googleusercontent.com',
   webClientId:
@@ -133,16 +133,19 @@ const Login = () => {
 
   const signInGoogle = async () => {
     try {
+      setFetchUser(true);
+      await GoogleSignin.signOut();
       await GoogleSignin.hasPlayServices();
 
       // Revoke the token to force a new one
-      await GoogleSignin.signOut();
 
       // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo.idToken);
 
       if (userInfo.idToken) {
+        await GoogleSignin.clearCachedAccessToken(userInfo.idToken);
+
         await useLoginMutation.mutate(
           {
             token: userInfo.idToken,
@@ -159,6 +162,9 @@ const Login = () => {
             onError: e => {
               console.log('🚀 ~ signInGoogle ~ e:', JSON.stringify(e));
               setMessageAuth('Login fail, please try again!');
+            },
+            onSettled: () => {
+              setFetchUser(false);
             },
           },
         );
@@ -181,7 +187,7 @@ const Login = () => {
   return (
     <ImageBackground source={BackGround}>
       {/* <ExpiredModal /> */}
-      {(curUser || fetchUser) && (
+      {(isLoading || fetchUser) && (
         <Box
           h={'100%'}
           w={'100%'}
