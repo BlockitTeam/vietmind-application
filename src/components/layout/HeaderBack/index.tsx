@@ -67,7 +67,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
           {buttonBack ? (
             <TouchableOpacity
               onPress={() => {
-                buttonBackPress ? buttonBackPress() : null;
+                buttonBackPress ? buttonBackPress() : navigate.goBack();
               }}
               style={{
                 position: 'absolute',

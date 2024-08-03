@@ -1,31 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Box,
-  Center,
-  ChevronLeftIcon,
-  HStack,
-  Skeleton,
-  Spinner,
-  Text,
-  View,
-  VStack,
-} from 'native-base';
-import {TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
+import React, {useState} from 'react';
+import {Center, ChevronLeftIcon} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
-import {useGetListQuestion} from '@hooks/question';
 import {tQuestionResponse} from '@hooks/question/question.interface';
-import {
-  useGetSurveyResponseResult,
-  useSaveSurveyResponse,
-} from '@hooks/response';
-import {useAtom} from 'jotai';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tUserResponse} from '@hooks/user/user.interface';
+
 import QuizChoose from '@screens/Quiz/QuizDetail/component/QuizChoose/QuizChoose';
+import {navigate} from 'App';
+import {useNavigation} from '@react-navigation/native';
 
 type tListResultItem = tQuestionResponse & {
   numberKey: number;
@@ -36,10 +16,9 @@ type SurveyDetail_AnswerProps = {
 };
 const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
   const {listQuiz, nListQuest} = props;
-  // const {navigation} = props;
   // const [curUser, setCurUser] = useAtom(curUserAtom);
   // const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
-
+  const navigation = useNavigation();
   const [curQuiz, setCurQuiz] = useState<tListResultItem>(listQuiz[0]);
   const [listResult, setListResult] = useState<tListResultItem[]>(listQuiz);
   console.log(curQuiz);
@@ -82,13 +61,14 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
     <HeaderBack
       title={`Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`}
       buttonBack={
-        <Center flexDir={'row'}>
+        <Center flexDir={'row'} alignItems={'center'} justifyContent={'center'}>
           <ChevronLeftIcon />
-          <Text>Quay lại</Text>
+          {curQuiz.numberKey === 0 && ' Quay lại'}
         </Center>
       }
       buttonBackPress={() => {
         if (curQuiz.numberKey === 0) {
+          navigation.goBack();
         } else setCurQuiz(listResult[curQuiz.numberKey - 1]);
       }}>
       <Center h="full">

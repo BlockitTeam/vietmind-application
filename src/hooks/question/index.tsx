@@ -28,7 +28,7 @@ export const useGetStressSurvey = () => {
 };
 
 export const useGetUnrestSurvey = () => {
-  const url = apiPath.question.GET_STRESS_SURVEY;
+  const url = apiPath.question.GET_UNREST_SURVEY;
   return useQuery<tListQuestionResponse>({
     queryKey: ['useGetUnrestSurvey'],
     queryFn: () => {
