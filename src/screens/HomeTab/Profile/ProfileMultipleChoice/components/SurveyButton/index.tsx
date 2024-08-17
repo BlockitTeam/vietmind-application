@@ -6,7 +6,12 @@ import {TouchableOpacity} from 'react-native';
 
 type SurveyButtonProps = {
   label: string;
-  to: 'SurveyDetail_Unrest' | 'SurveyDetail_Stress';
+  to:
+    | 'SurveyDetail_Depression'
+    | 'SurveyDetail_Sleep'
+    | 'SurveyDetail_PTSD'
+    | 'SurveyDetail_Unrest'
+    | 'SurveyDetail_Stress';
 };
 
 const SurveyButton: React.FC<SurveyButtonProps> = ({label, to}) => {

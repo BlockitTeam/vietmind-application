@@ -22,6 +22,9 @@ export const apiPath = {
   question: {
     GET: '/question',
     GET_BY_ID: '/question',
+    GET_DEPRESSION_SURVEY: '/question/getQuestionsOfDepressionSurvey',
+    GET_PTSD_SURVEY: '/question/getQuestionsOfPTSDSurvey',
+    GET_SLEEP_SURVEY: '/question/getQuestionsOfSleepSurvey',
     GET_STRESS_SURVEY: '/question/getQuestionsOfStressSurvey',
     GET_UNREST_SURVEY: 'question/getQuestionsOfUnrestSurvey',
   },

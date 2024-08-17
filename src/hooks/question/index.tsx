@@ -17,6 +17,35 @@ export const useGetListQuestion = () => {
 };
 
 
+
+export const useGetDepressionSurvey = () => {
+  const url = apiPath.question.GET_DEPRESSION_SURVEY;
+  return useQuery<tListQuestionResponse>({
+    queryKey: ['useGetDepressionSurvey'],
+    queryFn: () => {
+      return getData(url);
+    },
+  });
+};
+
+export const useGetSleepSurvey = () => {
+  const url = apiPath.question.GET_SLEEP_SURVEY;
+  return useQuery<tListQuestionResponse>({
+    queryKey: ['useGetSleepSurvey'],
+    queryFn: () => {
+      return getData(url);
+    },
+  });
+};
+export const useGetPTSDSurvey = () => {
+  const url = apiPath.question.GET_PTSD_SURVEY;
+  return useQuery<tListQuestionResponse>({
+    queryKey: ['useGetPTSDSurvey'],
+    queryFn: () => {
+      return getData(url);
+    },
+  });
+};
 export const useGetStressSurvey = () => {
   const url = apiPath.question.GET_STRESS_SURVEY;
   return useQuery<tListQuestionResponse>({
@@ -26,7 +55,6 @@ export const useGetStressSurvey = () => {
     },
   });
 };
-
 export const useGetUnrestSurvey = () => {
   const url = apiPath.question.GET_UNREST_SURVEY;
   return useQuery<tListQuestionResponse>({

@@ -1,5 +1,5 @@
 import HeaderBack from '@components/layout/HeaderBack';
-import {useGetStressSurvey} from '@hooks/question';
+import {useGetSleepSurvey} from '@hooks/question';
 import Splash from '@screens/Auth/Splash';
 import {
   Box,
@@ -14,30 +14,30 @@ import {
 import React, {useEffect, useState} from 'react';
 import SurveyDetail_Answer from '../../components/SurveyDetail_Answer';
 
-type SurveyDetailScreen_StressPropsStep = 'started' | 'answering' | 'answered'; //  started is not answered and show list of questions, answering is user is answering, and answered is user have done survey and  can survey again
-type SurveyDetailScreen_StressProps = {};
-const SurveyDetailScreen_Stress: React.FC<
-  SurveyDetailScreen_StressProps
+type SurveyDetailScreen_SleepPropsStep = 'started' | 'answering' | 'answered'; //  started is not answered and show list of questions, answering is user is answering, and answered is user have done survey and  can survey again
+type SurveyDetailScreen_SleepProps = {};
+const SurveyDetailScreen_Sleep: React.FC<
+  SurveyDetailScreen_SleepProps
 > = () => {
-  const {data: dataStressSurvey, isLoading: isStressSurveyLoading} =
-    useGetStressSurvey();
+  const {data: dataSleepSurvey, isLoading: isSleepSurveyLoading} =
+    useGetSleepSurvey();
   const [step, setStep] = useState<
-    SurveyDetailScreen_StressPropsStep | undefined
+    SurveyDetailScreen_SleepPropsStep | undefined
   >(undefined);
 
   useEffect(() => {
-    if (dataStressSurvey?.data) {
-      if (dataStressSurvey?.data[0]?.answer) setStep('answered');
+    if (dataSleepSurvey?.data) {
+      if (dataSleepSurvey?.data[0]?.answer) setStep('answered');
       else setStep('started');
     }
-  }, [dataStressSurvey?.data]);
-  if (!dataStressSurvey?.data || isStressSurveyLoading || !step)
+  }, [dataSleepSurvey?.data]);
+  if (!dataSleepSurvey?.data || isSleepSurveyLoading || !step)
     return <Splash />;
 
   if (step === 'started')
     return (
       <HeaderBack
-        title={`Trắc nghiệm / Stress`}
+        title={`Trắc nghiệm / Giấc ngủ`}
         buttonBack={
           <HStack alignItems={'center'} space={'2px'}>
             <ChevronLeftIcon />
@@ -53,9 +53,9 @@ const SurveyDetailScreen_Stress: React.FC<
         }>
         <ScrollView flex={1}>
           <Text variant={'sf_header_3'} textAlign={'center'} py={'20px'}>
-            Đánh giá mức độ stress
+            Đánh giá mức độ giấc ngủ
           </Text>
-          {dataStressSurvey?.data.map((stress, index) => {
+          {dataSleepSurvey?.data.map((stress, index) => {
             return (
               <VStack space={2} pb={'12px'} key={stress.questionId}>
                 <Text variant={'body_medium_bold'}>Câu {index + 1}</Text>
@@ -74,13 +74,13 @@ const SurveyDetailScreen_Stress: React.FC<
   else if (step === 'answering')
     return (
       <SurveyDetail_Answer
-        listQuiz={dataStressSurvey.data.map((item, index) => {
+        listQuiz={dataSleepSurvey.data.map((item, index) => {
           return {...item, numberKey: index};
         })}
-        nListQuest={dataStressSurvey.data.length}
+        nListQuest={dataSleepSurvey.data.length}
       />
     );
   return <></>;
 };
 
-export default SurveyDetailScreen_Stress;
+export default SurveyDetailScreen_Sleep;

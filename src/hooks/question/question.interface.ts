@@ -11,6 +11,7 @@ export type tQuestionResponse = {
   surveyId: number;
   questionText: string;
   questionTypeId: number;
+  responseFormat?: 'text_input';
   options: tOptionsOfQuestion[];
   answer: number | string | null;
 };

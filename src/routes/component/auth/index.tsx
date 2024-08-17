@@ -1,20 +1,21 @@
 import {RootStack} from '@routes/navigator';
-import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import InputSelfInformation from '@screens/Auth/InputSelfInformation';
 import LoginSuccess from '@screens/Auth/LoginSuccess';
 import Privacy from '@screens/Auth/Privacy';
 import PrivacyDetail from '@screens/Auth/PrivacyDetail';
-import QuizDetail from '@screens/Quiz/QuizDetail';
-import QuizResult from '@screens/Quiz/QuizResult';
-import QuizStart from '@screens/Quiz/QuizStart';
-import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
-import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
+import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
-import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
+import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
-import SurveyDetailScreen_Start from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
+import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
+import SurveyDetailScreen_Depression from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Depression';
+import SurveyDetailScreen_PTSD from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_PTSD';
+import SurveyDetailScreen_Sleep from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Sleep';
 import SurveyDetailScreen_Stress from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
 import SurveyDetailScreen_Unrest from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Unrest';
+import QuizDetail from '@screens/Quiz/QuizDetail';
+import QuizStart from '@screens/Quiz/QuizStart';
+import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 
 export const renderInputSelfInformation = () => {
   return (
@@ -52,7 +53,6 @@ export const renderChatStack = () => {
         name="ChatWithBot_Start"
         component={ChatWithBot_Start}
       />
-
       <RootStack.Screen
         name="ChatWithProfessional_Conversation"
         component={ChatWithProfessional_Conversation}
@@ -62,6 +62,18 @@ export const renderChatStack = () => {
         component={ProfileMultipleChoice}
       />
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
+      <RootStack.Screen
+        name="SurveyDetail_Depression"
+        component={SurveyDetailScreen_Depression}
+      />
+      <RootStack.Screen
+        name="SurveyDetail_Sleep"
+        component={SurveyDetailScreen_Sleep}
+      />
+      <RootStack.Screen
+        name="SurveyDetail_PTSD"
+        component={SurveyDetailScreen_PTSD}
+      />
       <RootStack.Screen
         name="SurveyDetail_Stress"
         component={SurveyDetailScreen_Stress}

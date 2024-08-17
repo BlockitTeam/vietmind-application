@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Center, ChevronLeftIcon} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import {tQuestionResponse} from '@hooks/question/question.interface';
+import {Center, ChevronLeftIcon} from 'native-base';
+import React, {useState} from 'react';
 
-import QuizChoose from '@screens/Quiz/QuizDetail/component/QuizChoose/QuizChoose';
-import {navigate} from 'App';
 import {useNavigation} from '@react-navigation/native';
+import QuizChoose from '@screens/Quiz/QuizDetail/component/QuizChoose/QuizChoose';
+import QuizInput from '@screens/Quiz/QuizDetail/component/QuizInput';
 
 type tListResultItem = tQuestionResponse & {
   numberKey: number;
@@ -21,7 +21,6 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
   const navigation = useNavigation();
   const [curQuiz, setCurQuiz] = useState<tListResultItem>(listQuiz[0]);
   const [listResult, setListResult] = useState<tListResultItem[]>(listQuiz);
-  console.log(curQuiz);
   const saveAndNext = (answer: any) => {
     if (curQuiz && nListQuest) {
       const quizItem = listResult[curQuiz.numberKey];
@@ -72,15 +71,26 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
         } else setCurQuiz(listResult[curQuiz.numberKey - 1]);
       }}>
       <Center h="full">
-        <QuizChoose
-          key={curQuiz.numberKey}
-          answer={
-            curQuiz.answer === null ? null : parseInt(curQuiz.answer.toString())
-          }
-          question={curQuiz.questionText}
-          options={curQuiz.options}
-          save={saveAndNext}
-        />
+        {curQuiz.responseFormat === 'text_input' ? (
+          <QuizInput
+            key={curQuiz.numberKey}
+            answer={curQuiz.answer ? curQuiz.answer.toString() : null}
+            question={curQuiz.questionText}
+            save={saveAndNext}
+          />
+        ) : (
+          <QuizChoose
+            key={curQuiz.numberKey}
+            answer={
+              curQuiz.answer === null
+                ? null
+                : parseInt(curQuiz.answer.toString())
+            }
+            question={curQuiz.questionText}
+            options={curQuiz.options}
+            save={saveAndNext}
+          />
+        )}
       </Center>
     </HeaderBack>
   );

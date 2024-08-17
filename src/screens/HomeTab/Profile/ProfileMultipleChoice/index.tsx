@@ -18,7 +18,7 @@ const ProfileMultipleChoice = () => {
           <Text color={'neutral.primary'}>Thoát</Text>
         </HStack>
       }>
-      <ScrollView flex={1}>
+      <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <VStack space={2}>
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm sàng lọc
@@ -34,7 +34,10 @@ const ProfileMultipleChoice = () => {
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm chuyên sâu
           </Text>
-          <SurveyButton label="Trầm cảm" to="SurveyDetail_Stress" />
+          <SurveyButton label="Trầm cảm" to="SurveyDetail_Depression" />
+          <SurveyButton label="PTSD" to="SurveyDetail_PTSD" />
+          <SurveyButton label="Giấc ngủ" to="SurveyDetail_Sleep" />
+          <SurveyButton label="Stress" to="SurveyDetail_Stress" />
           <SurveyButton label="Lo âu" to="SurveyDetail_Unrest" />
         </VStack>
       </ScrollView>

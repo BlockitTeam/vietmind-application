@@ -37,6 +37,10 @@ export type IRootStackParamList = {
   //
   ProfileMultipleChoice: undefined;
   ChangeProfile: undefined;
+
+  SurveyDetail_Depression: undefined;
+  SurveyDetail_PTSD: undefined;
+  SurveyDetail_Sleep: undefined;
   SurveyDetail_Unrest: undefined;
   SurveyDetail_Stress: undefined;
 };
