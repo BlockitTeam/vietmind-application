@@ -1,13 +1,14 @@
 import HeaderBack from '@components/layout/HeaderBack';
 import {tQuestionResponse} from '@hooks/question/question.interface';
-import {Center, ChevronLeftIcon} from 'native-base';
-import React, {useState} from 'react';
+import {Center, ChevronLeftIcon, Text} from 'native-base';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import QuizChoose from '@screens/Quiz/QuizDetail/component/QuizChoose/QuizChoose';
 import QuizInput from '@screens/Quiz/QuizDetail/component/QuizInput';
+import QuizParent from '@screens/Quiz/QuizDetail/component/QuizParent';
 
-type tListResultItem = tQuestionResponse & {
+export type tListResultItem = tQuestionResponse & {
   numberKey: number;
 };
 type SurveyDetail_AnswerProps = {
@@ -27,7 +28,6 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
       if (quizItem) {
         //update list result
         quizItem.answer = answer;
-
         if (quizItem.numberKey === nListQuest - 1) {
           // useSaveSurveyResponseMutation.mutate([...listResult], {
           //   onSuccess: rs => {
@@ -55,6 +55,24 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
       }
     }
   };
+
+  const [curParentQuiz, setCurParentQuiz] = useState<
+    tListResultItem | undefined
+  >();
+  useLayoutEffect(() => {
+    if (!curQuiz.parentQuestionId) {
+      //have no parent question -> clear
+      setCurParentQuiz(undefined);
+    } else {
+      // have parent -> find parent by id
+      const temp = listResult.find(
+        q => q.questionId === curQuiz.parentQuestionId,
+      );
+      console.log(temp);
+      setCurParentQuiz(temp);
+    }
+  }, [curQuiz]);
+  // console.log(curQuiz, curParentQuiz);
   // const isLoading = isListQuestionLoading || !curQuiz || !nListQuest;
   return (
     <HeaderBack
@@ -71,26 +89,40 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
         } else setCurQuiz(listResult[curQuiz.numberKey - 1]);
       }}>
       <Center h="full">
-        {curQuiz.responseFormat === 'text_input' ? (
-          <QuizInput
-            key={curQuiz.numberKey}
-            answer={curQuiz.answer ? curQuiz.answer.toString() : null}
-            question={curQuiz.questionText}
-            save={saveAndNext}
-          />
-        ) : (
-          <QuizChoose
-            key={curQuiz.numberKey}
-            answer={
-              curQuiz.answer === null
-                ? null
-                : parseInt(curQuiz.answer.toString())
-            }
-            question={curQuiz.questionText}
-            options={curQuiz.options}
-            save={saveAndNext}
-          />
-        )}
+        {
+          curQuiz.responseFormat === 'text_input' ? (
+            <QuizInput
+              parentQuestion={curParentQuiz}
+              key={curQuiz.numberKey}
+              answer={curQuiz.answer ? curQuiz.answer.toString() : null}
+              question={curQuiz.questionText}
+              save={saveAndNext}
+            />
+          ) : curQuiz.responseFormat === 'parent_question' ? (
+            //Parent question, just question text
+            <QuizParent
+              key={curQuiz.numberKey}
+              question={curQuiz.questionText}
+              save={saveAndNext}
+            />
+          ) : (
+            //Response format have undefined -> single_choice
+            // curQuiz.responseFormat === 'single_choice' :
+            <QuizChoose
+              parentQuestion={curParentQuiz}
+              key={curQuiz.numberKey}
+              answer={
+                curQuiz.answer === null
+                  ? null
+                  : parseInt(curQuiz.answer.toString())
+              }
+              question={curQuiz.questionText}
+              options={curQuiz.options}
+              save={saveAndNext}
+            />
+          )
+          //  : ( //   <Text>Not handle {curQuiz.responseFormat + ''}</Text> // )
+        }
       </Center>
     </HeaderBack>
   );

@@ -1,6 +1,6 @@
 import {Box, HStack, Text, View, VStack} from 'native-base';
 import React, {PropsWithChildren, ReactNode} from 'react';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackGround from '@images/Background.png';
 import {useNavigation} from '@react-navigation/native';
@@ -27,7 +27,10 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
   if (withBackGround)
     return (
       <SafeAreaView
-        style={{backgroundColor: 'white', flex: 1}}
+        style={{
+          backgroundColor: 'white',
+          flex: 1,
+        }}
         edges={['right', 'top', 'left']}>
         <ImageBackground source={BackGround}>
           <VStack h={'full'}>

@@ -33,8 +33,6 @@ export const navigationRef =
   createNavigationContainerRef<IRootStackParamList>();
 
 export function navigate(name: keyof IRootStackParamList, params?: any) {
-  console.log(navigationRef.isReady());
-
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params);
   }

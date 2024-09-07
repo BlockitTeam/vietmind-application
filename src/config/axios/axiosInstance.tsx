@@ -33,9 +33,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async error => {
-    console.log('~ response error:', error);
     if (error.response?.status === 403 || error.response?.status === 401) {
-      console.log('Handle 403 ');
       await removeJSessionID();
       await storeMessageModal(language.vn.expired_time);
       vietmindStore.set(curUserAtom, undefined);
@@ -48,14 +46,12 @@ axiosInstance.interceptors.response.use(
 axiosInstance.interceptors.request.use(
   async config => {
     const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
-    console.log(storedSessionId);
     if (storedSessionId) {
       config.headers.Cookie = `JSESSIONID=${storedSessionId}`;
     }
     return config;
   },
   error => {
-    console.log(error, 'Request error');
     return Promise.reject(error);
   },
 );

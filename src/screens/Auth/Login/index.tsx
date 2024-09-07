@@ -141,7 +141,6 @@ const Login = () => {
 
       // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo.idToken);
 
       if (userInfo.idToken) {
         await GoogleSignin.clearCachedAccessToken(userInfo.idToken);
@@ -160,7 +159,6 @@ const Login = () => {
               });
             },
             onError: e => {
-              console.log('🚀 ~ signInGoogle ~ e:', JSON.stringify(e));
               setMessageAuth('Login fail, please try again!');
             },
             onSettled: () => {
@@ -183,7 +181,6 @@ const Login = () => {
       }
     }
   };
-  console.log(fetchUser);
   return (
     <ImageBackground source={BackGround}>
       {/* <ExpiredModal /> */}
