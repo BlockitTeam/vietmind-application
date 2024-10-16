@@ -43,6 +43,9 @@ export type IRootStackParamList = {
   SurveyDetail_Sleep: undefined;
   SurveyDetail_Unrest: undefined;
   SurveyDetail_Stress: undefined;
+
+  //
+  SetTimeAppointment: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

@@ -16,6 +16,7 @@ import SurveyDetailScreen_Unrest from '@screens/HomeTab/Profile/ProfileMultipleC
 import QuizDetail from '@screens/Quiz/QuizDetail';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
+import SetTimeAppointment from '@screens/SetTimeAppointment';
 
 export const renderInputSelfInformation = () => {
   return (
@@ -81,6 +82,10 @@ export const renderChatStack = () => {
       <RootStack.Screen
         name="SurveyDetail_Unrest"
         component={SurveyDetailScreen_Unrest}
+      />
+      <RootStack.Screen
+        name="SetTimeAppointment"
+        component={SetTimeAppointment}
       />
     </>
   );
