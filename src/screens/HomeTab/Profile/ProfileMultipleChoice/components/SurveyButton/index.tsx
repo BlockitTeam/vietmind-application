@@ -6,21 +6,14 @@ import {TouchableOpacity} from 'react-native';
 
 type SurveyButtonProps = {
   label: string;
-  to:
-    | 'SurveyDetail_Depression'
-    | 'SurveyDetail_Sleep'
-    | 'SurveyDetail_PTSD'
-    | 'SurveyDetail_Unrest'
-    | 'SurveyDetail_Stress';
+  callBack: () => void;
 };
 
-const SurveyButton: React.FC<SurveyButtonProps> = ({label, to}) => {
-  const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
-
+const SurveyButton: React.FC<SurveyButtonProps> = ({label, callBack}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate(to);
+        callBack();
       }}>
       <HStack
         alignItems={'center'}

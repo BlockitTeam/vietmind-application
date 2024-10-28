@@ -32,7 +32,6 @@ const ChatWithProfessional_Start: React.FC<
   const {navigation, route} = props;
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const drInformation = route.params.drInformation;
-  console.log(route);
 
   return (
     <HeaderBack

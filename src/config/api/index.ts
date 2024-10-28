@@ -14,6 +14,7 @@ export async function getDataWithParams<T, P>(
   obj: IGetDataWithParam<P>,
 ): Promise<T> {
   const {url, params} = obj;
+
   const data = await axiosInstance.get(url, {params}).then(response => {
     return {
       data: response.data,

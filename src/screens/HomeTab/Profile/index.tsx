@@ -10,6 +10,7 @@ import {
   ScrollView,
   Skeleton,
   Text,
+  useToast,
   VStack,
 } from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
@@ -26,6 +27,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TOAST_PLACEMENT} from 'src/constants';
 type Tab_ProfileProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Profile'>,
   NativeStackScreenProps<IRootStackParamList>
@@ -33,19 +35,25 @@ type Tab_ProfileProps = CompositeScreenProps<
 
 const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
+  const toast = useToast();
+
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  const [, setMessage] = useAtom(messageAuthAtom);
+
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
   const useLogout = useLogoutMutation();
   const logout = async () => {
     await useLogout.mutate(undefined, {
       onSuccess: async () => {
         await Promise.all([
-          setMessage(language.vn.logout_success),
           setResultCommonFilter(undefined),
           setCurUser(undefined),
           removeJSessionID(),
         ]);
+        toast.show({
+          title: 'Đăng xuất thành công!',
+          duration: 2000,
+          placement: TOAST_PLACEMENT,
+        });
       },
     });
   };

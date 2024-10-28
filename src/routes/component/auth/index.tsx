@@ -8,19 +8,17 @@ import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Con
 import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
 import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
-import SurveyDetailScreen_Depression from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Depression';
-import SurveyDetailScreen_PTSD from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_PTSD';
-import SurveyDetailScreen_Sleep from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Sleep';
-import SurveyDetailScreen_Stress from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
-import SurveyDetailScreen_Unrest from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Unrest';
+import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
+
 import QuizDetail from '@screens/Quiz/QuizDetail';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import SetTimeAppointment from '@screens/SetTimeAppointment';
+import React from 'react';
 
 export const renderInputSelfInformation = () => {
   return (
-    <>
+    <React.Fragment>
       <RootStack.Screen name="LoginSuccess" component={LoginSuccess} />
       <RootStack.Screen name="Privacy" component={Privacy} />
       <RootStack.Screen name="PrivacyDetail" component={PrivacyDetail} />
@@ -28,7 +26,7 @@ export const renderInputSelfInformation = () => {
         name="InputSelfInformation"
         component={InputSelfInformation}
       />
-    </>
+    </React.Fragment>
   );
 };
 
@@ -63,26 +61,8 @@ export const renderChatStack = () => {
         component={ProfileMultipleChoice}
       />
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
-      <RootStack.Screen
-        name="SurveyDetail_Depression"
-        component={SurveyDetailScreen_Depression}
-      />
-      <RootStack.Screen
-        name="SurveyDetail_Sleep"
-        component={SurveyDetailScreen_Sleep}
-      />
-      <RootStack.Screen
-        name="SurveyDetail_PTSD"
-        component={SurveyDetailScreen_PTSD}
-      />
-      <RootStack.Screen
-        name="SurveyDetail_Stress"
-        component={SurveyDetailScreen_Stress}
-      />
-      <RootStack.Screen
-        name="SurveyDetail_Unrest"
-        component={SurveyDetailScreen_Unrest}
-      />
+      <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
+
       <RootStack.Screen
         name="SetTimeAppointment"
         component={SetTimeAppointment}
