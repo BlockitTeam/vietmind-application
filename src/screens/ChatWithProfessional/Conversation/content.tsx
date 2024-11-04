@@ -102,7 +102,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
     const setupWebSocket = async () => {
       ws.onmessage = event => {
         try {
-          console.log('receive', event);
           const res = JSON.parse(event.data);
           if (res?.type === 'typing') {
             setDrTyping(true);
@@ -112,7 +111,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             refetch(res?.conversationId)
               .then(appointmentRes => {
                 {
-                  console.log(appointmentRes);
                   if (res?.status === 'PENDING') {
                     setMessageAuth(
                       `Bs. ${drInformation.drName} đã đặt lịch hẹn. Bạn vui lòng nhấn vào "Xác nhận" để xác nhận lịch hẹn, hoặc dời lịch vì bất kỳ 1 lý do...`,

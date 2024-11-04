@@ -2,8 +2,8 @@ import {Dict} from 'native-base/lib/typescript/theme/tools';
 const textDefaultBtn = (props: Dict) => {
   return {
     color: props.disabled ? 'text.neutral_teriary' : 'text.default',
-    // fontWeight: '700',
     // fontSize: 16,
+    fontWeight: '600',
     fontFamily: 'SFProDisplay',
   };
 };
@@ -11,7 +11,7 @@ const textDefaultBtn = (props: Dict) => {
 export const primaryButton = (props: Dict) => {
   return {
     bg: props.disabled ? 'background.medium' : 'primary.medium',
-    _text: textDefaultBtn(props),
+    _text: {...textDefaultBtn(props)},
     _pressed: {
       bg: 'primary.medium',
       opacity: 0.8,

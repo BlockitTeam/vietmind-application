@@ -10,6 +10,7 @@ export type tUserResponse = {
   surveyCompleted: boolean;
   roles: string[];
   username: string;
+  surveyDetail: null | number;
 };
 export type tPutEditUserParam = {
   firstName: string;
