@@ -22,12 +22,16 @@
     "@types/aes-js": "^3.1.4",
     "@types/crypto-js": "^4.2.2",
     "@types/jsrsasign": "^10.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
     "aes-js": "^3.1.2",
     "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
+    "husky": "^9.1.6",
     "jotai": "^2.8.0",
     "jsencrypt": "^3.3.2",
     "jsrsasign": "^11.1.0",
+    "lint-staged": "^15.2.10",
     "native-base": "^3.4.28",
     "query-string": "^9.0.0",
     "react": "18.2.0",
@@ -61,9 +65,7 @@
     "typescript": "5.0.4"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "bash -c 'npm run check-ts'"
-    ],
+    "*.{ts,tsx}": ["eslint --fix"],
     "*.{js,jsx,ts,tsx,md,html,css}": [
       "eslint",
       "prettier --ignore-unknown --check"
