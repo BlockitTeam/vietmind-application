@@ -12,6 +12,7 @@ import {
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {colors} from '@assets/colors';
 import ButtonDate from './ButtonDate';
+import {Platform} from 'react-native';
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -69,65 +70,68 @@ const SetTimeAppointment = () => {
       title={'Đặt lịch với nhà tham vấn'}
       withBackGround
       bottomChildren={
-        <VStack space={2} pt={2}>
+        <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
           <Button variant={'cusPrimary'}>Đặt lịch với chuyên gia</Button>
           <Button variant={'cusOutline'}>Bỏ qua</Button>
         </VStack>
       }>
-      <ScrollView>
-        <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
-          Chọn ngày giờ
-        </Text>
+      <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
+        Chọn ngày giờ
+      </Text>
 
-        <Box bg="transparent" p={4} borderRadius="lg" my={6}>
-          <Calendar
-            locale="vi" // Vietnamese locale
-            minDate={new Date().toISOString().split('T')[0]} // Disable past months
-            onDayPress={handleDayPress}
-            markedDates={{
-              [new Date().toISOString().split('T')[0]]: {
-                marked: true,
-                dotColor: 'red', // Optional: Mark today with a dot
-                textColor: 'black', // Ensure today's text is black
-              },
-              [selectedDate]: {
-                selected: true,
-                selectedColor: colors.primary.medium, // Selected day background color
-                textColor: 'black', // Ensure today's text is black
-                marked:
-                  new Date().toISOString().split('T')[0] === selectedDate
-                    ? true
-                    : false,
-                dotColor: 'red',
-                customStyles: {
-                  container: {
-                    borderRadius: 8, // Square shape with rounded corners
-                  },
-                },
-              },
-            }}
-            theme={{
-              calendarBackground: 'transparent', // Transparent background
-              selectedDayTextColor: 'black', // Ensure the selected day text is black
-              todayTextColor: 'black', // Ensure today’s text is black
-              arrowColor: 'black',
-              dayTextColor: 'black', // Default day text color
-              textDisabledColor: 'gray', // Disabled day text color
-              'stylesheet.day.basic': {
-                selected: {
+      <Box bg="transparent" borderRadius="lg" my={2}>
+        <Calendar
+          style={{height: 265}}
+          locale="vi" // Vietnamese locale
+          minDate={new Date().toISOString().split('T')[0]} // Disable past months
+          onDayPress={handleDayPress}
+          markedDates={{
+            [new Date().toISOString().split('T')[0]]: {
+              marked: true,
+              dotColor: 'red', // Optional: Mark today with a dot
+              textColor: 'black', // Ensure today's text is black
+            },
+            [selectedDate]: {
+              selected: true,
+              selectedColor: colors.primary.medium, // Selected day background color
+              textColor: 'black', // Ensure today's text is black
+              marked:
+                new Date().toISOString().split('T')[0] === selectedDate
+                  ? true
+                  : false,
+              dotColor: 'red',
+              customStyles: {
+                container: {
                   borderRadius: 8, // Square shape with rounded corners
                 },
-                selectedText: {
-                  fontWeight: 'bold', // Bold text for selected day
-                },
               },
-            }}
-          />
-        </Box>
-        <HStack
-          flexWrap={'wrap'}
-          space={4} // This provides the gutter effect
-        >
+            },
+          }}
+          theme={{
+            calendarBackground: 'transparent', // Transparent background
+            selectedDayTextColor: 'black', // Ensure the selected day text is black
+            todayTextColor: 'black', // Ensure today’s text is black
+            arrowColor: 'black',
+            dayTextColor: 'black', // Default day text color
+            textDisabledColor: 'gray', // Disabled day text color
+            'stylesheet.day.basic': {
+              selected: {
+                borderRadius: 8, // Square shape with rounded corners
+              },
+              selectedText: {
+                fontWeight: 'bold', // Bold text for selected day
+              },
+            },
+          }}
+        />
+      </Box>
+      <Box mb={2} mt={12}>
+        <Text textAlign={'left'}>
+          Ca làm việc:
+        </Text>
+      </Box>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HStack flexWrap={'wrap'} space={2} alignItems={'center'} >
           <ButtonDate mb={2} date="11:00 - 12:00" />
           <ButtonDate mb={2} date="11:00 - 12:00" />
           <ButtonDate mb={2} date="11:00 - 12:00" />
