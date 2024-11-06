@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import HeaderBack from '@components/layout/HeaderBack';
 import {ChevronLeftIcon, HStack, ScrollView, Text, VStack} from 'native-base';
 import FilterButton from './components/FilterButton';
 import {useGetSurveyResponseResult} from '@hooks/response';
-import {useGetStressSurvey, useGetUnrestSurvey} from '@hooks/question';
-import SurveyButton from './components/SurveyButton';
+
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import ListSurveyDetail from './ListSurveyDetail';
 
 const ProfileMultipleChoice = () => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
+  const [curUser] = useAtom(curUserAtom);
 
   return (
     <HeaderBack
@@ -18,7 +21,7 @@ const ProfileMultipleChoice = () => {
           <Text color={'neutral.primary'}>Thoát</Text>
         </HStack>
       }>
-      <ScrollView flex={1}>
+      <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <VStack space={2}>
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm sàng lọc
@@ -34,8 +37,7 @@ const ProfileMultipleChoice = () => {
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm chuyên sâu
           </Text>
-          <SurveyButton label="Trầm cảm" to="SurveyDetail_Stress" />
-          <SurveyButton label="Lo âu" to="SurveyDetail_Unrest" />
+          <ListSurveyDetail idSur={curUser?.surveyDetail} />
         </VStack>
       </ScrollView>
     </HeaderBack>

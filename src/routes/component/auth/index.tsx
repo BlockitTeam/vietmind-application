@@ -1,24 +1,24 @@
 import {RootStack} from '@routes/navigator';
-import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import InputSelfInformation from '@screens/Auth/InputSelfInformation';
 import LoginSuccess from '@screens/Auth/LoginSuccess';
 import Privacy from '@screens/Auth/Privacy';
 import PrivacyDetail from '@screens/Auth/PrivacyDetail';
+import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
+import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
+import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
+import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
+import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
+import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
+
 import QuizDetail from '@screens/Quiz/QuizDetail';
-import QuizResult from '@screens/Quiz/QuizResult';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
-import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
-import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
-import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
-import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
-import SurveyDetailScreen_Start from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
-import SurveyDetailScreen_Stress from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Stress';
-import SurveyDetailScreen_Unrest from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen/SurveyDetailScreen_Unrest';
+import SetTimeAppointment from '@screens/SetTimeAppointment';
+import React from 'react';
 
 export const renderInputSelfInformation = () => {
   return (
-    <>
+    <React.Fragment>
       <RootStack.Screen name="LoginSuccess" component={LoginSuccess} />
       <RootStack.Screen name="Privacy" component={Privacy} />
       <RootStack.Screen name="PrivacyDetail" component={PrivacyDetail} />
@@ -26,7 +26,7 @@ export const renderInputSelfInformation = () => {
         name="InputSelfInformation"
         component={InputSelfInformation}
       />
-    </>
+    </React.Fragment>
   );
 };
 
@@ -52,7 +52,6 @@ export const renderChatStack = () => {
         name="ChatWithBot_Start"
         component={ChatWithBot_Start}
       />
-
       <RootStack.Screen
         name="ChatWithProfessional_Conversation"
         component={ChatWithProfessional_Conversation}
@@ -62,13 +61,11 @@ export const renderChatStack = () => {
         component={ProfileMultipleChoice}
       />
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
+      <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
+
       <RootStack.Screen
-        name="SurveyDetail_Stress"
-        component={SurveyDetailScreen_Stress}
-      />
-      <RootStack.Screen
-        name="SurveyDetail_Unrest"
-        component={SurveyDetailScreen_Unrest}
+        name="SetTimeAppointment"
+        component={SetTimeAppointment}
       />
     </>
   );

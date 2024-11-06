@@ -84,7 +84,7 @@ const ChatWithProfessional_Conversation: React.FC<
                   },
                   onError: error => {
                     console.log(
-                      'conversation ~ index ~ Fetch key AES error: notify something went wrong and back to chat wih professional home',
+                      'conversation ~ index ~ Fetch key AES error: notify something went wrong and back to chat with professional home',
                       error,
                     );
                   },

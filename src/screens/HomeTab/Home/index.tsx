@@ -1,12 +1,12 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Circle, HStack, ScrollView, Text, VStack} from 'native-base';
+import {Button, Circle, HStack, ScrollView, Text, VStack} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import HistoryAdviseItem from './component/historyAdviseItem';
 import HeaderLayout from '@components/layout/Header';
+import {navigate} from 'App';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Home = () => {
-  console.log('home');
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -50,13 +50,13 @@ const Tab_Home = () => {
           <VStack space={2} mt={2}>
             <HStack mb={2}>
               <Text variant={'body_large_bold'}>Lịch sử tư vấn</Text>
-              {/* <RNDateTimePicker value={new Date()} /> */}
             </HStack>
             {listHistoryAdviseItemFake.map(item => {
               return <HistoryAdviseItem {...item} key={item.idConversation} />;
             })}
           </VStack>
           {/* End: History advise */}
+          <Button onPress={() => navigate('SetTimeAppointment')}>Click</Button>
         </VStack>
       </ScrollView>
     </HeaderLayout>

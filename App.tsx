@@ -16,7 +16,6 @@ import React from 'react';
 import {useColorScheme} from 'react-native';
 import {themeNativeBase} from 'src/themes/nativebase-theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import ExpiredModal from '@screens/Auth/Login/expiredModal';
 import {IRootStackParamList} from '@routes/navigator';
 import {vietmindStore} from '@services/jotaiStorage';
 const queryClient = new QueryClient({
@@ -33,8 +32,6 @@ export const navigationRef =
   createNavigationContainerRef<IRootStackParamList>();
 
 export function navigate(name: keyof IRootStackParamList, params?: any) {
-  console.log(navigationRef.isReady());
-
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params);
   }
@@ -48,7 +45,6 @@ function App(): React.JSX.Element {
         <NativeBaseProvider theme={themeNativeBase}>
           <Provider store={vietmindStore}>
             <RootApp />
-            <ExpiredModal />
           </Provider>
         </NativeBaseProvider>
       </NavigationContainer>

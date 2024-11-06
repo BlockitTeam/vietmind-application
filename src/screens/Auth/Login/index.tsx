@@ -5,6 +5,7 @@ import {
   Spinner,
   Text,
   useSafeArea,
+  useToast,
   View,
   VStack,
 } from 'native-base';
@@ -27,8 +28,9 @@ import {
 } from 'react-native-fbsdk-next';
 import {useLogin} from '@hooks/auth';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
-import ExpiredModal from './expiredModal';
+
 import {useCurrentUser} from '@hooks/user';
+import {TOAST_PLACEMENT} from 'src/constants';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -46,7 +48,15 @@ GoogleSignin.configure({
 const Login = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
+  const toast = useToast();
 
+  const showToast = (title: string) => {
+    toast.show({
+      title,
+      duration: 3000,
+      placement: TOAST_PLACEMENT,
+    });
+  };
   //Todo: API
   const useLoginMutation = useLogin();
   const {isLoading, refetch} = useCurrentUser();
@@ -80,7 +90,7 @@ const Login = () => {
                   refetch();
                 },
                 onError: error => {
-                  setMessageAuth('Login fail, please try again!');
+                  showToast('Login fail, please try again!');
                 },
                 onSettled: () => {
                   setFetchUser(true);
@@ -88,7 +98,7 @@ const Login = () => {
               },
             );
           } catch (error: any) {
-            setMessageAuth('Login fail, please try again!');
+            showToast('Login fail, please try again!');
           }
         }
       } else {
@@ -114,7 +124,7 @@ const Login = () => {
                     .finally(() => {});
                 },
                 onError: () => {
-                  setMessageAuth('Login fail, please try again!');
+                  showToast('Login fail, please try again!');
                 },
                 onSettled: () => {
                   setFetchUser(false);
@@ -122,12 +132,12 @@ const Login = () => {
               },
             );
           } catch (error) {
-            setMessageAuth('Login fail, please try again!');
+            showToast('Login fail, please try again!');
           }
         }
       }
     } catch (error: any) {
-      setMessageAuth('Login fail, please try again!');
+      showToast('Login fail, please try again!');
     }
   };
 
@@ -141,11 +151,9 @@ const Login = () => {
 
       // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo.idToken);
 
       if (userInfo.idToken) {
         await GoogleSignin.clearCachedAccessToken(userInfo.idToken);
-
         await useLoginMutation.mutate(
           {
             token: userInfo.idToken,
@@ -156,20 +164,20 @@ const Login = () => {
               refetch().then(res => {
                 if (res.data?.statusCode === 200 && res.data.data) {
                   setCurUser({...res.data.data});
+                  setFetchUser(false);
                 }
               });
             },
             onError: e => {
-              console.log('🚀 ~ signInGoogle ~ e:', JSON.stringify(e));
               setMessageAuth('Login fail, please try again!');
-            },
-            onSettled: () => {
               setFetchUser(false);
             },
           },
         );
       }
     } catch (error: any) {
+      setFetchUser(false);
+
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -183,10 +191,8 @@ const Login = () => {
       }
     }
   };
-  console.log(fetchUser);
   return (
     <ImageBackground source={BackGround}>
-      {/* <ExpiredModal /> */}
       {(isLoading || fetchUser) && (
         <Box
           h={'100%'}

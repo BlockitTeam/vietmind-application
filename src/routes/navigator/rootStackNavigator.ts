@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {IBottomParamList} from './bottomTab/bottomTab';
 import {tDoctorResponse} from '@hooks/user/user.interface';
+import {TInfSurvey} from '@hooks/survey';
 
 export type IRootStackParamList = {
   Welcome: undefined;
@@ -37,8 +38,10 @@ export type IRootStackParamList = {
   //
   ProfileMultipleChoice: undefined;
   ChangeProfile: undefined;
-  SurveyDetail_Unrest: undefined;
-  SurveyDetail_Stress: undefined;
+
+  SurveyDetail: {infSurvey: TInfSurvey};
+
+  SetTimeAppointment: undefined;
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

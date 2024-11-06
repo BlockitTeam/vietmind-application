@@ -1,24 +1,35 @@
 import React, {useState} from 'react';
-import {Button, Center, Input, Text, TextArea, VStack} from 'native-base';
+import {Box, Button, Center, Input, Text, TextArea, VStack} from 'native-base';
+import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer';
+import TextParent from '../TextParent';
 
 type QuizInputProps = {
+  parentQuestion?: tListResultItem;
   question: string;
   isLasted?: boolean;
   save: (s: any) => void;
   answer: null | string;
 };
 const QuizInput: React.FC<QuizInputProps> = props => {
-  const {question, isLasted, save, answer} = props;
+  const {parentQuestion, question, isLasted, save, answer} = props;
   const [inputValue, setInputValue] = useState(answer ?? undefined);
+
   return (
-    <VStack w={'full'} h={'100%'} alignItems={'center'}>
+    <VStack
+      w={'full'}
+      h={'100%'}
+      alignItems={'center'}
+      justifyContent={'center'}
+      pt={'5%'}>
       <VStack w={'full'} flex={1}>
-        <Text variant={'sf_header_3'} textAlign={'center'}>
-          {question}
-        </Text>
-        <Text variant={'body_medium_regular'} my={4}>
-          Question description
-        </Text>
+        {parentQuestion ? (
+          <TextParent title={parentQuestion.questionText} />
+        ) : null}
+        <VStack pb={'24px'} alignItems={'flex-start'}>
+          <Text w={'100%'} variant={'sf_header_3'} textAlign={'center'}>
+            {question}
+          </Text>
+        </VStack>
         <TextArea
           autoCompleteType
           onChangeText={e => setInputValue(e)}
@@ -30,7 +41,7 @@ const QuizInput: React.FC<QuizInputProps> = props => {
         w={'full'}
         variant={'cusPrimary'}
         // position={'absolute'}
-        bottom={'24px'}
+        bottom={'16px'}
         onPress={() => save(inputValue)}
         disabled={!inputValue}>
         {isLasted ? 'Kết thúc' : 'Câu tiếp theo'}

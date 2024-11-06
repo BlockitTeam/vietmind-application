@@ -3,7 +3,6 @@ import {IGetDataWithParam, IMutation} from '../../interface/api.interface';
 
 export async function getData<T>(url: string): Promise<T> {
   return await axiosInstance.get(url).then(response => {
-    console.log('get from ' + url);
     return {
       data: response.data,
       statusCode: response.status,
@@ -15,6 +14,7 @@ export async function getDataWithParams<T, P>(
   obj: IGetDataWithParam<P>,
 ): Promise<T> {
   const {url, params} = obj;
+
   const data = await axiosInstance.get(url, {params}).then(response => {
     return {
       data: response.data,
