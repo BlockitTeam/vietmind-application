@@ -114,14 +114,14 @@ const SetTimeAppointment = () => {
             arrowColor: 'black',
             dayTextColor: 'black', // Default day text color
             textDisabledColor: 'gray', // Disabled day text color
-            'stylesheet.day.basic': {
-              selected: {
-                borderRadius: 8, // Square shape with rounded corners
-              },
-              selectedText: {
-                fontWeight: 'bold', // Bold text for selected day
-              },
-            },
+            // stylesheet.day.basic: {
+            //   selected: {
+            //     borderRadius: 8, // Square shape with rounded corners
+            //   },
+            //   selectedText: {
+            //     fontWeight: 'bold', // Bold text for selected day
+            //   },
+            // },
           }}
         />
       </Box>
