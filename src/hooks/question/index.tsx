@@ -6,7 +6,6 @@ import {getData} from '@config/api';
 
 export type tListQuestionResponse = IResponse<tQuestionResponse[]>;
 
-
 export const useGetListQuestion = () => {
   const url = apiPath.question.GET;
   return useQuery<tListQuestionResponse>({
@@ -26,8 +25,6 @@ export const useGetListQuestionById = (id: string | number) => {
     },
   });
 };
-
-
 
 // export const useGetDepressionSurvey = () => {
 //   const url = apiPath.question.GET_DEPRESSION_SURVEY;

@@ -1,10 +1,4 @@
-import {
-  Button,
-  Center,
-  Flex,
-  Image,
-  Text,
-} from 'native-base';
+import {Button, Center, Flex, Image, Text} from 'native-base';
 import React from 'react';
 import Focused from '@assets/images/focused.png';
 import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';

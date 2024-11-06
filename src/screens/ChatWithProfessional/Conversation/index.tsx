@@ -116,8 +116,7 @@ const ChatWithProfessional_Conversation: React.FC<
       }
     };
   }, [drInformation]);
-  useEffect(() => {
-  }, [conversationId]);
+  useEffect(() => {}, [conversationId]);
   if (!conversationId || !ws || !keyAES || !curUser) return <Splash />;
   else
     return (

@@ -22,7 +22,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // notifyOnChangeProps: 'all',
-      // staleTime: Infinity,
       retry: false,
     },
   },

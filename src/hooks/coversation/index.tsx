@@ -24,8 +24,6 @@ export const useGetEncryptKey = () => {
   });
 };
 
-
-
 type useGetConversationContentResponse = IResponse<tConversationItem[]>;
 
 export const useGetConversationContent = (conversationId: string) => {

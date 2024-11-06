@@ -126,12 +126,10 @@ const SetTimeAppointment = () => {
         />
       </Box>
       <Box mb={2} mt={12}>
-        <Text textAlign={'left'}>
-          Ca làm việc:
-        </Text>
+        <Text textAlign={'left'}>Ca làm việc:</Text>
       </Box>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HStack flexWrap={'wrap'} space={2} alignItems={'center'} >
+        <HStack flexWrap={'wrap'} space={2} alignItems={'center'}>
           <ButtonDate mb={2} date="11:00 - 12:00" />
           <ButtonDate mb={2} date="11:00 - 12:00" />
           <ButtonDate mb={2} date="11:00 - 12:00" />

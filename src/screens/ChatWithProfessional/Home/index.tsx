@@ -21,7 +21,7 @@ import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {tDoctorResponse} from '@hooks/user/user.interface';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'ChatWithProfessional_Start'>,

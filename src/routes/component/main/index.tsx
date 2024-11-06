@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import {RootStack} from '@routes/navigator';
 import BottomTab from '@routes/component/BottomTab';
 
