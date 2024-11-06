@@ -21,6 +21,7 @@ import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {tDoctorResponse} from '@hooks/user/user.interface';
+import { Platform } from 'react-native';
 
 type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'ChatWithProfessional_Start'>,
@@ -32,13 +33,12 @@ const ChatWithProfessional_Start: React.FC<
   const {navigation, route} = props;
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const drInformation = route.params.drInformation;
-  console.log(route);
 
   return (
     <HeaderBack
       title="Kết nối với bác sĩ tâm lý"
       bottomChildren={
-        <VStack space={2}>
+        <VStack space={2} mb={Platform.OS === 'ios' ? 8 : 0}>
           <Text textAlign={'center'} px={'32px'}>
             Sau đây Vietmind sẽ bắt đầu kết nối bạn với bác sỹ.
           </Text>

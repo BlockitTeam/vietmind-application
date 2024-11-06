@@ -291,7 +291,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   </Button>
                 </HStack>
               ) : (
-                <>
+                <HStack w={'100%'} mb={Platform.OS === 'ios' ? 8 : 0}>
                   <Input
                     flex={1}
                     variant={'outline'}
@@ -335,7 +335,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                       fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'}
                     />
                   </Button>
-                </>
+                </HStack>
               )}
             </HStack>
           ) : null
