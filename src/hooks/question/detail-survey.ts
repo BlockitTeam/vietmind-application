@@ -30,7 +30,7 @@ export const useSaveDetailSurvey = (idSurvey: string | number) => {
   });
 };
 
-export const getLatestDetailSurveyAnswer = () => {
+export const useGetLatestDetailSurveyAnswer = () => {
   const url = queryString.stringifyUrl(
     {
       url: apiPath.specialized_response_controller.GET_LATEST_RESULT,

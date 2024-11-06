@@ -11,7 +11,7 @@ type tGetAppointmentByIdParams = {
 };
 
 type useGetAppointmentResponse = IResponse<tAppointment>;
-export const usGetAppointmentById = (conversationId: string) => {
+export const useGetAppointmentById = (conversationId: string) => {
   const url = apiPath.appointment.GET_BY_CONVERSATION_ID.replace(
     '{conversation_id}',
     conversationId,

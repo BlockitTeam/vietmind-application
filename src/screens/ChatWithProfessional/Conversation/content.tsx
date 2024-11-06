@@ -29,7 +29,7 @@ import CryptoJS from 'crypto-js';
 import LoadingDots from '@components/ThreeDotLoading';
 import {formatTime} from '@services/function/dateTime';
 import {Keyboard, Platform} from 'react-native';
-import {usGetAppointmentById} from '@hooks/appointment/getAppointmentById';
+import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById';
 import {
   eStatusAppointment,
   tAppointment,
@@ -60,7 +60,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
     data: appointmentByConId,
     isLoading: isAppointmentByConIdLoading,
     refetch,
-  } = usGetAppointmentById(conversationId!);
+  } = useGetAppointmentById(conversationId!);
   const updateAppointment = useUpdateAppointment();
   // End Todo: Call api
   const drInformation = route.params;

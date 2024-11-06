@@ -17,7 +17,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import SurveyDetail_Answer from '../components/SurveyDetail_Answer';
 import {useCurrentUser} from '@hooks/user';
-import {getLatestDetailSurveyAnswer} from '@hooks/question/detail-survey';
+import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey';
 import {
   NavigationProp,
   RouteProp,
@@ -53,7 +53,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
     isLoading: isLatestDetailSurveyAnswer,
     refetch: refetchLatestDetailSurveyAnswer,
     error: isSurveyError,
-  } = getLatestDetailSurveyAnswer();
+  } = useGetLatestDetailSurveyAnswer();
   useEffect(() => {
     if (dataSurvey?.data) {
       if (currentUser?.data.surveyDetail !== null) {
