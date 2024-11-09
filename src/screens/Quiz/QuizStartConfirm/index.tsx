@@ -21,8 +21,8 @@ const QuizStartConfirm: React.FC<QuizStartConfirmProps> = props => {
           Tiếp theo
         </Button>
       }>
-      <Text textAlign={'center'}>
-        Hãy cho chúng tôi biết, trong vòng 2 tuần vừa qua, có bao nhiêu lần bạn
+      <Text variant={'body_medium_regular'} textAlign={'center'}>
+        Hãy cho chúng tôi biết, trong vòng 2 tuần vừa qua có bao nhiêu lần bạn
         bị lo lắng buồn phiền vì những vấn đề được liệt kê dưới đây?
       </Text>
     </CusImageBackground>

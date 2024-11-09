@@ -76,11 +76,14 @@ const RootApp = () => {
       return <RootStack.Screen name="Login" component={Login} />;
     }
 
-    if (!curUser.enabled) {
+    // if (!curUser.enabled) {
+    //Edit here when done feature
+    if (curUser.enabled) {
       return renderInputSelfInformation();
     }
+    //Edit here when done feature
 
-    if (!curUser.surveyCompleted) {
+    if (curUser.surveyCompleted) {
       return renderCommonFilter();
     }
 

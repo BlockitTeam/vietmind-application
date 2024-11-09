@@ -32,10 +32,13 @@ const Privacy: React.FC<PrivacyProps> = props => {
       <Text variant={'header_2'} mb={2}>
         Bảo mật thông tin
       </Text>
-      <Text textAlign={'center'} mb={'12px'}>
+      <Text textAlign={'center'} mb={'20px'} variant={'body_medium_regular'}>
         Tại Vietmind, thông tin của bạn luôn được bảo mật.
       </Text>
-      <Text textAlign={'center'}>
+      <Text
+        textAlign={'center'}
+        variant={'body_medium_regular'}
+        lineHeight={'32px'}>
         Tuy nhiên, Vietmind có thể sử dụng một số dữ liệu của bạn dưới dạng
         anonymous để nghiên cứu, phát triển ứng dụng, và nâng cao trải nghiệm.
       </Text>

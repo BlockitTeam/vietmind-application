@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
 import HeaderBack from '@components/layout/HeaderBack';
-import {
-  Box,
-  Button,
-  HStack,
-  ScrollView,
-  SimpleGrid,
-  Text,
-  VStack,
-} from 'native-base';
+import {Box, Button, HStack, ScrollView, Text, VStack} from 'native-base';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {colors} from '@assets/colors';
 import ButtonDate from './ButtonDate';

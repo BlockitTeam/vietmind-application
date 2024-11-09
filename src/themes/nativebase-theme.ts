@@ -210,6 +210,7 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SFProDisplay',
           fontWeight: 400,
           fontSize: 16,
+          lineHeight: 24,
         },
         body_medium_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',

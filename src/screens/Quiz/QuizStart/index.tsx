@@ -22,7 +22,7 @@ const QuizStart: React.FC<QuizStartProps> = props => {
       <Text variant={'header_2'} my={4}>
         Trắc nghiệm tâm lý
       </Text>
-      <Text textAlign={'center'}>
+      <Text variant={'body_medium_regular'}>
         Để đánh giá tình trạng tâm lý, Thuỷ vui lòng hoàn thành bài trắc nghiệm
         sau. Kết quả của bài trắc nghiệm sẽ giúp Vietmind đưa ra tư vấn tốt hơn.
       </Text>
