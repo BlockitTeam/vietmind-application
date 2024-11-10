@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CusImageBackground from '@components/layout/CusImageBackground';
 import {Button, Text, VStack} from 'native-base';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
@@ -9,6 +9,7 @@ import HeaderBack from '@components/layout/HeaderBack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
+import LoadingOverlay from '@components/LoadingOverLay';
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
@@ -20,8 +21,12 @@ const QuizResult: React.FC<QuizResultProps> = props => {
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
+
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  if (!resultCommonFilter) return <> {navigation.navigate('Home')}</>;
+  if (!resultCommonFilter) {
+    navigation.navigate('Home');
+    return null;
+  }
   return (
     <HeaderBack
       withBackGround={true}
@@ -49,9 +54,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             <Button
               variant={'cusPrimary'}
               w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Advise'})
-              }>
+              onPress={() => navigation.navigate('SetTimeAppointment')}>
               Chat với chuyên gia
             </Button>
             <Button

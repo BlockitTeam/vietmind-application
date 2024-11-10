@@ -13,7 +13,6 @@ import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/S
 import QuizDetail from '@screens/Quiz/QuizDetail';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
-import SetTimeAppointment from '@screens/SetTimeAppointment';
 import React from 'react';
 
 export const renderInputSelfInformation = () => {
@@ -63,10 +62,7 @@ export const renderChatStack = () => {
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
       <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
 
-      <RootStack.Screen
-        name="SetTimeAppointment"
-        component={SetTimeAppointment}
-      />
+
     </>
   );
 };

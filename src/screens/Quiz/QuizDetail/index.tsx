@@ -27,6 +27,7 @@ import {useAtom} from 'jotai';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {tUserResponse} from '@hooks/user/user.interface';
+import LoadingOverlay from '@components/LoadingOverLay';
 
 type QuizDetailProps = NativeStackScreenProps<
   IRootStackParamList,
@@ -41,6 +42,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
   const [curUser, setCurUser] = useAtom(curUserAtom);
   const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
 
+  const [isLoadingOverlay, setIsLoadingOverlay] = useState(false);
   const [nListQuest, setNListQuest] = useState<number>();
   const [curQuiz, setCurQuiz] = useState<tListResultItem>();
   const [listResult, setListResult] = useState<tListResultItem[]>([]);
@@ -71,6 +73,8 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
         //update list result
         quizItem.answer = answer;
 
+        setIsLoadingOverlay(true);
+
         if (quizItem.numberKey === nListQuest - 1) {
           useSaveSurveyResponseMutation.mutate([...listResult], {
             onSuccess: rs => {
@@ -79,19 +83,22 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   result.data?.statusCode === 200 ||
                   result.data?.statusCode === 201
                 ) {
+                  setIsLoadingOverlay(false);
                   setResultCommonFilter(result.data.data);
                   setCurUser({
                     ...curUser,
-                    surveyCompleted: true,
+                    surveyCompleted: false,
                   } as tUserResponse);
                 }
               });
             },
             onError: error => {
+              setIsLoadingOverlay(false);
               console.log('🚀 ~ saveAndNext ~ error:', error);
             },
           });
         } else {
+          setIsLoadingOverlay(false);
           setCurQuiz(listResult[quizItem.numberKey + 1]);
           setListResult([...listResult]);
         }
@@ -100,47 +107,51 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
   };
   const isLoading = isListQuestionLoading || !curQuiz || !nListQuest;
   return (
-    <HeaderBack
-      title={
-        isLoading
-          ? 'Loading...'
-          : `Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`
-      }
-      buttonBack={
-        <TouchableOpacity
-          disabled={curQuiz?.numberKey === 0}
-          onPress={() =>
-            !isLoading && setCurQuiz(listResult[curQuiz.numberKey - 1])
-          }>
-          <Center flexDir={'row'}>
-            <ChevronLeftIcon />
-            <Text>Quay lại</Text>
-          </Center>
-        </TouchableOpacity>
-      }>
-      <Center h="full">
-        {isLoading ? (
-          <>
-            <Skeleton mb={2} />
-            <Skeleton mb={2} />
-            <Skeleton mb={2} />
-            <Skeleton mb={2} />
-          </>
-        ) : (
-          <QuizChoose
-            key={curQuiz.numberKey}
-            answer={
-              curQuiz.answer === null
-                ? null
-                : parseInt(curQuiz.answer.toString())
-            }
-            question={curQuiz.questionText}
-            options={curQuiz.options}
-            save={saveAndNext}
-          />
-        )}
-      </Center>
-    </HeaderBack>
+    <>
+      {isLoadingOverlay && <LoadingOverlay />}
+
+      <HeaderBack
+        title={
+          isLoading
+            ? 'Loading...'
+            : `Trắc nghiệm tâm lý ${curQuiz.numberKey + 1}/${nListQuest}`
+        }
+        buttonBack={
+          <TouchableOpacity
+            disabled={curQuiz?.numberKey === 0}
+            onPress={() =>
+              !isLoading && setCurQuiz(listResult[curQuiz.numberKey - 1])
+            }>
+            <Center flexDir={'row'}>
+              <ChevronLeftIcon />
+              <Text>Quay lại</Text>
+            </Center>
+          </TouchableOpacity>
+        }>
+        <Center h="full">
+          {isLoading ? (
+            <>
+              <Skeleton mb={2} />
+              <Skeleton mb={2} />
+              <Skeleton mb={2} />
+              <Skeleton mb={2} />
+            </>
+          ) : (
+            <QuizChoose
+              key={curQuiz.numberKey}
+              answer={
+                curQuiz.answer === null
+                  ? null
+                  : parseInt(curQuiz.answer.toString())
+              }
+              question={curQuiz.questionText}
+              options={curQuiz.options}
+              save={saveAndNext}
+            />
+          )}
+        </Center>
+      </HeaderBack>
+    </>
   );
 };
 

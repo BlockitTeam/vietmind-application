@@ -4,6 +4,10 @@ export const apiPath = {
     LOGOUT: '/auth/logout',
   },
 
+  availabilities: {
+    GET_AVAILABLE_BY_DATE: '/availabilities/available-by-date',
+  },
+
   appointment: {
     GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
     PUT: '/appointments',

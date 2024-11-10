@@ -5,6 +5,9 @@ import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {colors} from '@assets/colors';
 import ButtonDate from './ButtonDate';
 import {Platform} from 'react-native';
+import {useGetAvailableByDate} from '@hooks/availabilities/getAvailableByDate';
+import ButtonDateLoading from './ButtonDate/ButtonDateLoading';
+import {clearSecond} from 'src/utils/formatDate';
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -50,8 +53,13 @@ LocaleConfig.locales['vi'] = {
 LocaleConfig.defaultLocale = 'vi';
 
 const SetTimeAppointment = () => {
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split('T')[0],
+  );
 
+  const {data: availableDate, isLoading: isAvailableLoading} =
+    useGetAvailableByDate(selectedDate);
+  console.log(availableDate);
   const handleDayPress = (day: any) => {
     console.log(day);
     setSelectedDate(day.dateString);
@@ -122,20 +130,26 @@ const SetTimeAppointment = () => {
       </Box>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HStack flexWrap={'wrap'} space={2} alignItems={'center'}>
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
-          <ButtonDate mb={2} date="11:00 - 12:00" />
+          {isAvailableLoading ? (
+            <>
+              <ButtonDateLoading mb={2} />
+              <ButtonDateLoading mb={2} />
+              <ButtonDateLoading mb={2} />
+              <ButtonDateLoading mb={2} />
+              <ButtonDateLoading mb={2} />
+            </>
+          ) : (
+            <>
+              {availableDate?.data.map(date => (
+                <ButtonDate
+                  mb={2}
+                  date={`${clearSecond(date.startTime)} - ${clearSecond(
+                    date.endTime,
+                  )}`}
+                />
+              ))}
+            </>
+          )}
         </HStack>
       </ScrollView>
     </HeaderBack>

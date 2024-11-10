@@ -7,6 +7,8 @@ import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import Splash from '@screens/Auth/Splash';
 import WelcomeScreen from '@screens/Auth/Welcome';
 import Login from '@screens/Auth/Login';
+import SetTimeAppointment from '@screens/SetTimeAppointment';
+
 import {
   renderChatStack,
   renderCommonFilter,
@@ -90,7 +92,13 @@ const RootApp = () => {
     return (
       <>
         {resultCommonFilter && (
-          <RootStack.Screen name="QuizResult" component={QuizResult} />
+          <>
+            <RootStack.Screen name="QuizResult" component={QuizResult} />
+            <RootStack.Screen
+              name="SetTimeAppointment"
+              component={SetTimeAppointment}
+            />
+          </>
         )}
         {renderBottomTabStack()}
         {renderChatStack()}
