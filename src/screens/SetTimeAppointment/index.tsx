@@ -8,6 +8,8 @@ import {Platform} from 'react-native';
 import {useGetAvailableByDate} from '@hooks/availabilities/getAvailableByDate';
 import ButtonDateLoading from './ButtonDate/ButtonDateLoading';
 import {clearSecond} from 'src/utils/formatDate';
+import {tAppointment} from '@hooks/appointment/appointment.interface';
+import {tAvailableByDate} from '@hooks/availabilities';
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -56,13 +58,16 @@ const SetTimeAppointment = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
   );
+  const [selectedTimeAppointment, setSelectedTimeAppointment] = useState<
+    tAvailableByDate | undefined
+  >(undefined);
 
   const {data: availableDate, isLoading: isAvailableLoading} =
     useGetAvailableByDate(selectedDate);
-  console.log(availableDate);
   const handleDayPress = (day: any) => {
     console.log(day);
     setSelectedDate(day.dateString);
+    setSelectedTimeAppointment(undefined);
   };
 
   return (
@@ -71,7 +76,9 @@ const SetTimeAppointment = () => {
       withBackGround
       bottomChildren={
         <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
-          <Button variant={'cusPrimary'}>Đặt lịch với chuyên gia</Button>
+          <Button variant={'cusPrimary'} disabled={!selectedTimeAppointment}>
+            Đặt lịch với chuyên gia
+          </Button>
           <Button variant={'cusOutline'}>Bỏ qua</Button>
         </VStack>
       }>
@@ -142,6 +149,14 @@ const SetTimeAppointment = () => {
             <>
               {availableDate?.data.map(date => (
                 <ButtonDate
+                  isSelected={
+                    !selectedTimeAppointment
+                      ? false
+                      : selectedTimeAppointment.id === date.id
+                  }
+                  onPress={() => {
+                    setSelectedTimeAppointment(date);
+                  }}
                   mb={2}
                   date={`${clearSecond(date.startTime)} - ${clearSecond(
                     date.endTime,

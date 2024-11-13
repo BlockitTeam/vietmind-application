@@ -169,6 +169,7 @@ const Login = () => {
               });
             },
             onError: e => {
+              console.log(e);
               setMessageAuth('Login fail, please try again!');
               setFetchUser(false);
             },
@@ -186,7 +187,7 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-
+        console.log(error)
         setMessageAuth('Login fail, please try again!');
       }
     }
