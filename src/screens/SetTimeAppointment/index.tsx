@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
 import HeaderBack from '@components/layout/HeaderBack';
-import {Box, Button, HStack, ScrollView, Text, VStack} from 'native-base';
+import {
+  Box,
+  Button,
+  HStack,
+  ScrollView,
+  Text,
+  useToast,
+  VStack,
+} from 'native-base';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {colors} from '@assets/colors';
 import ButtonDate from './ButtonDate';
@@ -10,6 +18,12 @@ import ButtonDateLoading from './ButtonDate/ButtonDateLoading';
 import {clearSecond} from 'src/utils/formatDate';
 import {tAppointment} from '@hooks/appointment/appointment.interface';
 import {tAvailableByDate} from '@hooks/availabilities';
+import {createAppointmentMutation} from '@hooks/appointment/createAppointment';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {TOAST_PLACEMENT} from 'src/constants';
+import LoadingOverlay from '@components/LoadingOverLay';
+import {navigate} from 'App';
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -58,116 +72,162 @@ const SetTimeAppointment = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
   );
+  const toast = useToast();
+  const [curUser] = useAtom(curUserAtom);
   const [selectedTimeAppointment, setSelectedTimeAppointment] = useState<
     tAvailableByDate | undefined
   >(undefined);
 
+  const {mutate: createAppointment, isPending: isCreateAppointmentPending} =
+    createAppointmentMutation();
   const {data: availableDate, isLoading: isAvailableLoading} =
     useGetAvailableByDate(selectedDate);
   const handleDayPress = (day: any) => {
-    console.log(day);
     setSelectedDate(day.dateString);
     setSelectedTimeAppointment(undefined);
   };
 
-  return (
-    <HeaderBack
-      title={'Đặt lịch với nhà tham vấn'}
-      withBackGround
-      bottomChildren={
-        <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
-          <Button variant={'cusPrimary'} disabled={!selectedTimeAppointment}>
-            Đặt lịch với chuyên gia
-          </Button>
-          <Button variant={'cusOutline'}>Bỏ qua</Button>
-        </VStack>
-      }>
-      <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
-        Chọn ngày giờ
-      </Text>
+  const handleCreateAppointmentPress = () => {
+    if (selectedTimeAppointment && curUser) {
+      createAppointment(
+        {
+          appointmentDate: selectedDate,
+          content: '',
+          doctorId: selectedTimeAppointment.userId,
+          endTime: selectedTimeAppointment.endTime,
+          note: '',
+          startTime: selectedTimeAppointment.startTime,
+          status: 'CONFIRMED',
+          userId: curUser.id,
+        },
+        {
+          onError: () => {
+            toast.show({
+              title: 'Vui lòng thử lái!',
+              duration: 3000,
+              placement: TOAST_PLACEMENT,
+            });
+          },
+          onSuccess: data => {
+            console.log(data.data);
+            navigate('SetTimeAppointmentSuccess', {infAppointment: data.data});
+          },
+        },
+      );
+    } else {
+      toast.show({
+        title: 'Vui lòng chọn lại lịch hẹn!',
+        duration: 3000,
+        placement: TOAST_PLACEMENT,
+      });
+    }
+  };
 
-      <Box bg="transparent" borderRadius="lg" my={2}>
-        <Calendar
-          style={{height: 265}}
-          locale="vi" // Vietnamese locale
-          minDate={new Date().toISOString().split('T')[0]} // Disable past months
-          onDayPress={handleDayPress}
-          markedDates={{
-            [new Date().toISOString().split('T')[0]]: {
-              marked: true,
-              dotColor: 'red', // Optional: Mark today with a dot
-              textColor: 'black', // Ensure today's text is black
-            },
-            [selectedDate]: {
-              selected: true,
-              selectedColor: colors.primary.medium, // Selected day background color
-              textColor: 'black', // Ensure today's text is black
-              marked:
-                new Date().toISOString().split('T')[0] === selectedDate
-                  ? true
-                  : false,
-              dotColor: 'red',
-              customStyles: {
-                container: {
-                  borderRadius: 8, // Square shape with rounded corners
+  return (
+    <>
+      {isCreateAppointmentPending && <LoadingOverlay />}
+      <HeaderBack
+        title={'Đặt lịch với nhà tham vấn'}
+        withBackGround
+        bottomChildren={
+          <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
+            <Button
+              variant={'cusPrimary'}
+              disabled={!selectedTimeAppointment}
+              onPress={handleCreateAppointmentPress}>
+              Đặt lịch với chuyên gia
+            </Button>
+            <Button variant={'cusOutline'}>Bỏ qua</Button>
+          </VStack>
+        }>
+        <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
+          Chọn ngày giờ
+        </Text>
+
+        <Box bg="transparent" borderRadius="lg" my={2}>
+          <Calendar
+            style={{height: 265}}
+            locale="vi" // Vietnamese locale
+            minDate={new Date().toISOString().split('T')[0]} // Disable past months
+            onDayPress={handleDayPress}
+            markedDates={{
+              [new Date().toISOString().split('T')[0]]: {
+                marked: true,
+                dotColor: 'red', // Optional: Mark today with a dot
+                textColor: 'black', // Ensure today's text is black
+              },
+              [selectedDate]: {
+                selected: true,
+                selectedColor: colors.primary.medium, // Selected day background color
+                textColor: 'black', // Ensure today's text is black
+                marked:
+                  new Date().toISOString().split('T')[0] === selectedDate
+                    ? true
+                    : false,
+                dotColor: 'red',
+                customStyles: {
+                  container: {
+                    borderRadius: 8, // Square shape with rounded corners
+                  },
                 },
               },
-            },
-          }}
-          theme={{
-            calendarBackground: 'transparent', // Transparent background
-            selectedDayTextColor: 'black', // Ensure the selected day text is black
-            todayTextColor: 'black', // Ensure today’s text is black
-            arrowColor: 'black',
-            dayTextColor: 'black', // Default day text color
-            textDisabledColor: 'gray', // Disabled day text color
-            // stylesheet.day.basic: {
-            //   selected: {
-            //     borderRadius: 8, // Square shape with rounded corners
-            //   },
-            //   selectedText: {
-            //     fontWeight: 'bold', // Bold text for selected day
-            //   },
-            // },
-          }}
-        />
-      </Box>
-      <Box mb={2} mt={12}>
-        <Text textAlign={'left'}>Ca làm việc:</Text>
-      </Box>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <HStack flexWrap={'wrap'} space={2} alignItems={'center'}>
-          {isAvailableLoading ? (
-            <>
-              <ButtonDateLoading mb={2} />
-              <ButtonDateLoading mb={2} />
-              <ButtonDateLoading mb={2} />
-              <ButtonDateLoading mb={2} />
-              <ButtonDateLoading mb={2} />
-            </>
-          ) : (
-            <>
-              {availableDate?.data.map(date => (
-                <ButtonDate
-                  isSelected={
-                    !selectedTimeAppointment
-                      ? false
-                      : selectedTimeAppointment.id === date.id
-                  }
-                  onPress={() => {
-                    setSelectedTimeAppointment(date);
-                  }}
-                  mb={2}
-                  date={`${clearSecond(date.startTime)} - ${clearSecond(
-                    date.endTime,
-                  )}`}
-                />
-              ))}
-            </>
-          )}
-        </HStack>
-      </ScrollView>
-    </HeaderBack>
+            }}
+            theme={{
+              calendarBackground: 'transparent', // Transparent background
+              selectedDayTextColor: 'black', // Ensure the selected day text is black
+              todayTextColor: 'black', // Ensure today’s text is black
+              arrowColor: 'black',
+              dayTextColor: 'black', // Default day text color
+              textDisabledColor: 'gray', // Disabled day text color
+              // stylesheet.day.basic: {
+              //   selected: {
+              //     borderRadius: 8, // Square shape with rounded corners
+              //   },
+              //   selectedText: {
+              //     fontWeight: 'bold', // Bold text for selected day
+              //   },
+              // },
+            }}
+          />
+        </Box>
+        <Box mb={2} mt={12}>
+          <Text textAlign={'left'}>Ca làm việc:</Text>
+        </Box>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <HStack flexWrap={'wrap'} space={2} alignItems={'center'}>
+            {isAvailableLoading ? (
+              <>
+                <ButtonDateLoading mb={2} />
+                <ButtonDateLoading mb={2} />
+                <ButtonDateLoading mb={2} />
+                <ButtonDateLoading mb={2} />
+                <ButtonDateLoading mb={2} />
+              </>
+            ) : (
+              <>
+                {availableDate?.data.map(date => (
+                  <ButtonDate
+                    key={date.id}
+                    isSelected={
+                      !selectedTimeAppointment
+                        ? false
+                        : selectedTimeAppointment.id === date.id
+                    }
+                    onPress={() => {
+                      setSelectedTimeAppointment(date);
+                    }}
+                    mb={2}
+                    date={`${clearSecond(date.startTime)} - ${clearSecond(
+                      date.endTime,
+                    )}`}
+                  />
+                ))}
+              </>
+            )}
+          </HStack>
+        </ScrollView>
+      </HeaderBack>
+    </>
   );
 };
 

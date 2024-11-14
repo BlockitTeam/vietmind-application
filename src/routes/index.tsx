@@ -24,6 +24,7 @@ import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {useCurrentUser} from '@hooks/user';
 import {language} from '@config/language';
 import QuizResult from '@screens/Quiz/QuizResult';
+import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -97,6 +98,10 @@ const RootApp = () => {
             <RootStack.Screen
               name="SetTimeAppointment"
               component={SetTimeAppointment}
+            />
+            <RootStack.Screen
+              name="SetTimeAppointmentSuccess"
+              component={SetTimeAppointmentSuccess}
             />
           </>
         )}

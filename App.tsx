@@ -33,6 +33,7 @@ export const navigationRef =
 
 export function navigate(name: keyof IRootStackParamList, params?: any) {
   if (navigationRef.isReady()) {
+    // @ts-ignore
     navigationRef.navigate(name, params);
   }
 }

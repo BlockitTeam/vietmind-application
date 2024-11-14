@@ -11,6 +11,7 @@ export const apiPath = {
   appointment: {
     GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
     PUT: '/appointments',
+    CREATE: '/appointments',
   },
   user: {
     PUT: '/user',
