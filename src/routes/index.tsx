@@ -25,6 +25,8 @@ import {useCurrentUser} from '@hooks/user';
 import {language} from '@config/language';
 import QuizResult from '@screens/Quiz/QuizResult';
 import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
+import {useGetResultById} from '@hooks/response';
+import {isEmptyObject} from 'src/utils/object';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -33,6 +35,8 @@ const RootApp = () => {
   const {isLoading, refetch} = useCurrentUser();
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
 
+  const {isLoading: isGetResultById, data: getResultByIdData} =
+    useGetResultById(curUser?.id || '');
   const expireTimeHandle = () => {
     removeJSessionID().then(() => {
       setCurUser(undefined);
@@ -67,7 +71,7 @@ const RootApp = () => {
   }, [refetch]);
 
   const renderAllScreen = () => {
-    if (firstInit === undefined || isLoading) {
+    if (firstInit === undefined || isLoading || isGetResultById) {
       return <RootStack.Screen name="Splash" component={Splash} />;
     }
 
@@ -78,15 +82,14 @@ const RootApp = () => {
     if (!curUser) {
       return <RootStack.Screen name="Login" component={Login} />;
     }
-
     // if (!curUser.enabled) {
     //Edit here when done feature
-    if (curUser.enabled) {
+    if (!curUser.enabled) {
       return renderInputSelfInformation();
     }
     //Edit here when done feature
 
-    if (curUser.surveyCompleted) {
+    if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
       return renderCommonFilter();
     }
 

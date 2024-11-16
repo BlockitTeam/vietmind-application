@@ -137,7 +137,11 @@ const SetTimeAppointment = () => {
               onPress={handleCreateAppointmentPress}>
               Đặt lịch với chuyên gia
             </Button>
-            <Button variant={'cusOutline'}>Bỏ qua</Button>
+            <Button
+              variant={'cusOutline'}
+              onPress={() => navigate('BottomTab', {screen: 'Home'})}>
+              Bỏ qua
+            </Button>
           </VStack>
         }>
         <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
@@ -179,14 +183,6 @@ const SetTimeAppointment = () => {
               arrowColor: 'black',
               dayTextColor: 'black', // Default day text color
               textDisabledColor: 'gray', // Disabled day text color
-              // stylesheet.day.basic: {
-              //   selected: {
-              //     borderRadius: 8, // Square shape with rounded corners
-              //   },
-              //   selectedText: {
-              //     fontWeight: 'bold', // Bold text for selected day
-              //   },
-              // },
             }}
           />
         </Box>

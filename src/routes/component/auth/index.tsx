@@ -13,6 +13,8 @@ import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/S
 import QuizDetail from '@screens/Quiz/QuizDetail';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
+import SetTimeAppointment from '@screens/SetTimeAppointment';
+import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
 import React from 'react';
 
 export const renderInputSelfInformation = () => {
@@ -36,6 +38,14 @@ export const renderCommonFilter = () => {
       <RootStack.Screen name="QuizStart" component={QuizStart} />
       <RootStack.Screen name="QuizStartConfirm" component={QuizStartConfirm} />
       <RootStack.Screen name="QuizDetail" component={QuizDetail} />
+      <RootStack.Screen
+        name="SetTimeAppointment"
+        component={SetTimeAppointment}
+      />
+      <RootStack.Screen
+        name="SetTimeAppointmentSuccess"
+        component={SetTimeAppointmentSuccess}
+      />
     </>
   );
 };

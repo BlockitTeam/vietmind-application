@@ -20,6 +20,7 @@ import HeaderBack from '@components/layout/HeaderBack';
 import {useGetListQuestion} from '@hooks/question';
 import {tQuestionResponse} from '@hooks/question/question.interface';
 import {
+  useGetResultById,
   useGetSurveyResponseResult,
   useSaveSurveyResponse,
 } from '@hooks/response';
@@ -51,6 +52,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
     useGetListQuestion();
   const useSaveSurveyResponseMutation = useSaveSurveyResponse();
   const {refetch} = useGetSurveyResponseResult();
+  const {refetch: refetchResultById} = useGetResultById(curUser!.id);
   useEffect(() => {
     if (dataListQuestion?.data) {
       const transformList: tListResultItem[] = dataListQuestion.data.map(
@@ -83,11 +85,12 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   result.data?.statusCode === 200 ||
                   result.data?.statusCode === 201
                 ) {
+                  refetchResultById();
                   setIsLoadingOverlay(false);
                   setResultCommonFilter(result.data.data);
                   setCurUser({
                     ...curUser,
-                    surveyCompleted: false,
+                    surveyCompleted: true,
                   } as tUserResponse);
                 }
               });

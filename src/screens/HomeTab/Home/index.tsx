@@ -5,8 +5,10 @@ import HeaderBack from '@components/layout/HeaderBack';
 import HistoryAdviseItem from './component/historyAdviseItem';
 import HeaderLayout from '@components/layout/Header';
 import {navigate} from 'App';
+import {clearResult} from '@hooks/response';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Home = () => {
+  const {mutate: clearRes} = clearResult();
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,6 +59,12 @@ const Tab_Home = () => {
           </VStack>
           {/* End: History advise */}
           <Button onPress={() => navigate('SetTimeAppointment')}>Click</Button>
+          <Button
+            onPress={() => {
+              clearRes();
+            }}>
+            Click
+          </Button>
         </VStack>
       </ScrollView>
     </HeaderLayout>

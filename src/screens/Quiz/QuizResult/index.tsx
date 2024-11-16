@@ -37,15 +37,13 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             <Button
               variant={'cusPrimary'}
               w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Home'})
-              }>
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
               Về trang chủ
             </Button>
             <Button
               variant={'cusOutline'}
               w={'full'}
-              onPress={() => navigation.navigate('ChatWithBot_Start')}>
+              onPress={() => navigation.replace('ChatWithBot_Start')}>
               Tư vấn 24/7
             </Button>
           </VStack>
@@ -54,15 +52,13 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             <Button
               variant={'cusPrimary'}
               w={'full'}
-              onPress={() => navigation.navigate('SetTimeAppointment')}>
+              onPress={() => navigation.replace('SetTimeAppointment')}>
               Chat với chuyên gia
             </Button>
             <Button
               variant={'cusOutline'}
               w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Home'})
-              }>
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
               Bỏ qua
             </Button>
           </VStack>

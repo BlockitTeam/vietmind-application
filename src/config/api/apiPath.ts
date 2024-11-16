@@ -23,6 +23,7 @@ export const apiPath = {
     POST: '/response',
     DELETE: '/response',
     GET_RESULT: '/response/result',
+    GET_RESULT_BY_ID: '/response/result/{id}',
   },
   question: {
     GET: '/question',

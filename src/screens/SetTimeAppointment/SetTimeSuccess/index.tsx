@@ -29,24 +29,16 @@ const SetTimeAppointmentSuccess: React.FC<
           </Button>
         </VStack>
       }>
-      <HStack alignItems="center" space={'8px'}>
-        <HStack flex={1} space={2} alignItems="center">
-          <Circle h="40px" w="40px" backgroundColor="primary.medium" />
-          <Box flex={1}>
-            <Text
-              variant="body_medium_bold"
-              numberOfLines={
-                1
-              }>{`Bs. ${infAppointment.firstName} ${infAppointment.lastName}`}</Text>
-            <Text
-              variant="body_medium_regular"
-              color="text.neutral_secondary"
-              numberOfLines={1}>
-              {infAppointment.degree}
-            </Text>
-          </Box>
-        </HStack>
-      </HStack>
+      <Center pb={4}>
+        <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4} />
+        <Text variant={'header_2'} textAlign={'center'} mb={2}>
+          {infAppointment.degree}
+        </Text>
+        <Text variant={'header_2'} textAlign={'center'} mb={4}>
+          {`${infAppointment.firstName} ${infAppointment.lastName}`}
+        </Text>
+        <Text textAlign={'center'}>{`${infAppointment.workplace}`}</Text>
+      </Center>
     </HeaderBack>
   );
 };
