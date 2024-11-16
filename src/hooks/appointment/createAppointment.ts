@@ -24,7 +24,6 @@ export type tCreateAppointmentResponse = {
 };
 
 export const createAppointmentMutation = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (postAppointmentParams: tCreateAppointmentParams) => {
       return mutationPut<IResponse<tCreateAppointmentResponse>>({

@@ -24,6 +24,10 @@ import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {TOAST_PLACEMENT} from 'src/constants';
 import LoadingOverlay from '@components/LoadingOverLay';
 import {navigate} from 'App';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -68,7 +72,12 @@ LocaleConfig.locales['vi'] = {
 };
 LocaleConfig.defaultLocale = 'vi';
 
-const SetTimeAppointment = () => {
+type SetTimeAppointmentProps = CompositeScreenProps<
+  NativeStackScreenProps<IRootStackParamList, 'SetTimeAppointment'>,
+  BottomTabScreenProps<IBottomParamList, 'Home'>
+>;
+const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
+  const {navigation} = props;
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
   );
@@ -109,8 +118,9 @@ const SetTimeAppointment = () => {
             });
           },
           onSuccess: data => {
-            console.log(data.data);
-            navigate('SetTimeAppointmentSuccess', {infAppointment: data.data});
+            navigation.replace('SetTimeAppointmentSuccess', {
+              infAppointment: data.data,
+            });
           },
         },
       );
@@ -139,7 +149,7 @@ const SetTimeAppointment = () => {
             </Button>
             <Button
               variant={'cusOutline'}
-              onPress={() => navigate('BottomTab', {screen: 'Home'})}>
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
               Bỏ qua
             </Button>
           </VStack>

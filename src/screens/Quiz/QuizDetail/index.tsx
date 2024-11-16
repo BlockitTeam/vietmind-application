@@ -29,6 +29,7 @@ import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {tUserResponse} from '@hooks/user/user.interface';
 import LoadingOverlay from '@components/LoadingOverLay';
+import {useCurrentUser} from '@hooks/user';
 
 type QuizDetailProps = NativeStackScreenProps<
   IRootStackParamList,
@@ -41,6 +42,7 @@ type tListResultItem = tQuestionResponse & {
 const QuizDetail: React.FC<QuizDetailProps> = props => {
   const {navigation} = props;
   const [curUser, setCurUser] = useAtom(curUserAtom);
+  const {refetch: refetchCurUser} = useCurrentUser();
   const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
 
   const [isLoadingOverlay, setIsLoadingOverlay] = useState(false);
@@ -88,10 +90,14 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   refetchResultById();
                   setIsLoadingOverlay(false);
                   setResultCommonFilter(result.data.data);
-                  setCurUser({
-                    ...curUser,
-                    surveyCompleted: true,
-                  } as tUserResponse);
+                  refetchCurUser().then(result => {
+                    if (result.data) {
+                      setCurUser({
+                        ...result.data.data,
+                        surveyCompleted: true,
+                      } as tUserResponse);
+                    }
+                  });
                 }
               });
             },

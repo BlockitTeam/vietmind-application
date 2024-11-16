@@ -1,6 +1,6 @@
 import {apiPath} from '@config/api/apiPath';
 import {IResponse} from '@interface/api.interface';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import queryString from 'query-string';
 import {tResponse, tResponseResult} from './response.interface';
 import {getData, mutationDelete, mutationPost} from '@config/api';
@@ -20,12 +20,19 @@ export const useListResponse = () => {
     // enabled: false,
   });
 };
-
 export const useSaveSurveyResponse = () => {
+  // const queryClient = useQueryClient();
+
   return useMutation({
-    //Using question from backend
+    // Using question from backend
     mutationFn: (params: tQuestionResponse[]) =>
       mutationPost<IResponse<any>>({url: apiPath.response.POST, body: params}),
+
+    // Refetch 'useCurrentUser' query if mutation succeeds
+    // onSuccess: async () => {
+    //   await queryClient.refetchQueries({queryKey: ['useCurrentUser']});
+    //   await queryClient.fetchQuery({queryKey: ['useCurrentUser']});
+    // },
   });
 };
 

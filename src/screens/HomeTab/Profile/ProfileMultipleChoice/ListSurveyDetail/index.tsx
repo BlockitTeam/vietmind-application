@@ -11,7 +11,7 @@ type ListSurveyDetailProps = {
 
 const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
   const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
-
+  console.log(idSur);
   if (idSur) {
     const {data: dataSurvey, isLoading} = useGetInfSurveyById(idSur);
     if (isLoading) return <Spinner />;

@@ -24,7 +24,7 @@ const SetTimeAppointmentSuccess: React.FC<
         <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
           <Button
             variant={'cusPrimary'}
-            onPress={() => navigation.navigate('BottomTab', {screen: 'Home'})}>
+            onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
             Ok
           </Button>
         </VStack>
