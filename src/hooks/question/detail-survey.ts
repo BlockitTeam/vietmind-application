@@ -13,11 +13,16 @@ export const useSaveDetailSurvey = (idSurvey: string | number) => {
   const queryClient = useQueryClient();
   return useMutation({
     //Using question from backend
-    mutationFn: (params: tSaveQuestionRequest[]) =>
-      mutationPost<IResponse<any>>({
+    mutationFn: (params: tSaveQuestionRequest[]) => {
+      const filter = params.map(item => {
+        const {numberKey, ...rs} = item;
+        return rs;
+      });
+      return mutationPost<IResponse<any>>({
         url: apiPath.specialized_response_controller.SAVE,
-        body: params,
-      }),
+        body: filter,
+      });
+    },
     onSuccess: async () => {
       //In the future -> have many detail survey, idSurvey maybe needed
       // await queryClient.invalidateQueries({

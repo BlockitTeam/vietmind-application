@@ -11,6 +11,7 @@ export type tUserResponse = {
   roles: string[];
   username: string;
   surveyDetail: null | number;
+  latestSpecializedVersion: null | string;
 };
 export type tPutEditUserParam = {
   firstName: string;

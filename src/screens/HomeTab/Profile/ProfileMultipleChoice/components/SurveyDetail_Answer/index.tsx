@@ -20,10 +20,12 @@ type SurveyDetail_AnswerProps = {
   nListQuest: number;
   submitSuccess: () => void;
   surveyInf: TInfSurvey;
+  isCreatingAccount?: boolean;
 };
 
 const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
-  const {listQuiz, nListQuest, submitSuccess, surveyInf} = props;
+  const {listQuiz, nListQuest, submitSuccess, surveyInf, isCreatingAccount} =
+    props;
 
   const {mutate: saveSurveyDetail, isPending} = useSaveDetailSurvey(
     surveyInf.surveyId,
@@ -91,10 +93,12 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
           curQuiz.numberKey + 1
         }/${nListQuest}`}
         buttonBack={
-          <HStack>
-            <ChevronLeftIcon />
-            <Text>{curQuiz.numberKey === 0 && ' Quay lại'}</Text>
-          </HStack>
+          curQuiz.numberKey === 0 && isCreatingAccount ? undefined : (
+            <HStack>
+              <ChevronLeftIcon />
+              <Text>{curQuiz.numberKey === 0 && ' Quay lại'}</Text>
+            </HStack>
+          )
         }
         buttonBackPress={() => {
           if (curQuiz.numberKey === 0) {

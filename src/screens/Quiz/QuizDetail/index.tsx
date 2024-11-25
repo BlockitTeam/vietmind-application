@@ -88,8 +88,8 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   result.data?.statusCode === 201
                 ) {
                   refetchResultById();
-                  setIsLoadingOverlay(false);
-                  setResultCommonFilter(result.data.data);
+                  //Todo: Add type good or bad
+                  setResultCommonFilter({...result.data.data, type: 'bad'});
                   refetchCurUser().then(result => {
                     if (result.data) {
                       setCurUser({
@@ -97,6 +97,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                         surveyCompleted: true,
                       } as tUserResponse);
                     }
+                    setIsLoadingOverlay(false);
                   });
                 }
               });
@@ -131,10 +132,10 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
             onPress={() =>
               !isLoading && setCurQuiz(listResult[curQuiz.numberKey - 1])
             }>
-            <Center flexDir={'row'}>
+            <HStack space={1}>
               <ChevronLeftIcon />
-              <Text>Quay lại</Text>
-            </Center>
+              <Text variant={'caption_regular'}>Quay lại</Text>
+            </HStack>
           </TouchableOpacity>
         }>
         <Center h="full">

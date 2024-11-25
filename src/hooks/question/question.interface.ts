@@ -7,6 +7,7 @@ export type tOptionsOfQuestion = {
   updatedAt: string;
 };
 export type tQuestionResponse = {
+  numberKey?: number;
   questionId: number;
   surveyId: number;
   parentQuestionId: number | null;

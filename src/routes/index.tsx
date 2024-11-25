@@ -92,10 +92,13 @@ const RootApp = () => {
     if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
       return renderCommonFilter();
     }
-
+    const isDoneSurveyDetail =
+      curUser?.surveyDetail != null && curUser.latestSpecializedVersion != null;
+    console.log('isDoneSurveyDetail: ', isDoneSurveyDetail);
+    console.log('resultCommonFilter: ', resultCommonFilter);
     return (
       <>
-        {resultCommonFilter && (
+        {(resultCommonFilter || !isDoneSurveyDetail) && (
           <>
             <RootStack.Screen name="QuizResult" component={QuizResult} />
             <RootStack.Screen

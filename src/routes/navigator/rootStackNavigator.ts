@@ -18,6 +18,8 @@ export type IRootStackParamList = {
   Privacy: undefined;
   PrivacyDetail: undefined;
   InputSelfInformation: undefined;
+
+  DetailResult: undefined;
   // Trắc nghiệm screen
   QuizStart: undefined;
   QuizStartConfirm: undefined;
@@ -40,7 +42,7 @@ export type IRootStackParamList = {
   ProfileMultipleChoice: undefined;
   ChangeProfile: undefined;
 
-  SurveyDetail: {infSurvey: TInfSurvey};
+  SurveyDetail: {infSurvey: TInfSurvey; isCreatingAccount?: boolean}; //First time create account and survey
 
   SetTimeAppointment: undefined;
   SetTimeAppointmentSuccess: {infAppointment: tCreateAppointmentResponse};

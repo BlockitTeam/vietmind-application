@@ -21,9 +21,12 @@ const QuizStartConfirm: React.FC<QuizStartConfirmProps> = props => {
           Tiếp theo
         </Button>
       }>
-      <Text variant={'body_medium_regular'} textAlign={'center'}>
-        Hãy cho chúng tôi biết, trong vòng 2 tuần vừa qua có bao nhiêu lần bạn
-        bị lo lắng buồn phiền vì những vấn đề được liệt kê dưới đây?
+      <Text
+        variant={'body_large_regular'}
+        textAlign={'center'}
+        _android={{lineHeight: '20px'}}>
+        Đầu tiên, bạn sẽ trả lời các câu hỏi sàng lọc chung. Tiếp đó, dựa vào
+        kết quả, bạn sẽ trả lời các câu hỏi sàng lọc chuyên sâu.
       </Text>
     </CusImageBackground>
   );

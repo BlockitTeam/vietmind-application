@@ -25,14 +25,14 @@ export const useSaveSurveyResponse = () => {
 
   return useMutation({
     // Using question from backend
-    mutationFn: (params: tQuestionResponse[]) =>
-      mutationPost<IResponse<any>>({url: apiPath.response.POST, body: params}),
-
-    // Refetch 'useCurrentUser' query if mutation succeeds
-    // onSuccess: async () => {
-    //   await queryClient.refetchQueries({queryKey: ['useCurrentUser']});
-    //   await queryClient.fetchQuery({queryKey: ['useCurrentUser']});
-    // },
+    mutationFn: (params: tQuestionResponse[]) => {
+      // Filter out any params that have a numberKey
+      const filteredParams = params.map(({numberKey, ...rest}) => rest);
+      return mutationPost<IResponse<any>>({
+        url: apiPath.response.POST,
+        body: filteredParams,
+      });
+    },
   });
 };
 

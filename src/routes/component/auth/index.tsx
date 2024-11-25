@@ -11,6 +11,7 @@ import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoic
 import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
 
 import QuizDetail from '@screens/Quiz/QuizDetail';
+import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import SetTimeAppointment from '@screens/SetTimeAppointment';
@@ -69,10 +70,10 @@ export const renderChatStack = () => {
         name="ProfileMultipleChoice"
         component={ProfileMultipleChoice}
       />
+
+      <RootStack.Screen name="DetailResult" component={DetailResult} />
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
       <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
-
-
     </>
   );
 };
