@@ -103,6 +103,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onmessage = event => {
         try {
           const res = JSON.parse(event.data);
+        console.log(res);
+
           if (res?.type === 'typing') {
             setDrTyping(true);
           } else if (res?.type === 'unTyping') {

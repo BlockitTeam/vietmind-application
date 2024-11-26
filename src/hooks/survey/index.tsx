@@ -12,16 +12,7 @@ export type TInfSurvey = {
   updatedAt: string;
   questionCount: number;
 };
-export const useGetInfSurveyById = (id: number | string | undefined) => {
-  // Check if id is undefined
-  if (id === undefined) {
-    return {
-      data: null,
-      error: new Error('Survey ID is undefined'),
-      isLoading: false,
-    };
-  }
-
+export const useGetInfSurveyById = (id: number | string) => {
   const url = apiPath.survey.GET_BY_ID.replace('{id}', id.toString());
   return useQuery<IResponse<TInfSurvey>>({
     queryKey: ['useGetInfSurveyById', id],

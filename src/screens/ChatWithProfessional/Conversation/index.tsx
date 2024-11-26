@@ -58,7 +58,6 @@ const ChatWithProfessional_Conversation: React.FC<
         websocket.onmessage = event => {
           try {
             const res = JSON.parse(event.data);
-
             if (
               res?.conversationId &&
               res?.conversationId.toString().length > 0

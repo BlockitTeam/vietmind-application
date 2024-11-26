@@ -93,12 +93,14 @@ const RootApp = () => {
       return renderCommonFilter();
     }
     const isDoneSurveyDetail =
-      curUser?.surveyDetail != null && curUser.latestSpecializedVersion != null;
-    console.log('isDoneSurveyDetail: ', isDoneSurveyDetail);
-    console.log('resultCommonFilter: ', resultCommonFilter);
+      curUser?.surveyDetail && curUser.latestSpecializedVersion;
+    const isGoodType = curUser?.surveyDetail === null;
+    console.log('isDoneSurveyDetail: ', curUser?.surveyDetail);
+    console.log('resultCommonFilter: ', curUser.latestSpecializedVersion);
+    console.log(resultCommonFilter || !isDoneSurveyDetail || isGoodType);
     return (
       <>
-        {(resultCommonFilter || !isDoneSurveyDetail) && (
+        {(resultCommonFilter || !isDoneSurveyDetail || isGoodType) && (
           <>
             <RootStack.Screen name="QuizResult" component={QuizResult} />
             <RootStack.Screen

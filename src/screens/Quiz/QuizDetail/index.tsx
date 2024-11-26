@@ -82,20 +82,21 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
         if (quizItem.numberKey === nListQuest - 1) {
           useSaveSurveyResponseMutation.mutate([...listResult], {
             onSuccess: rs => {
-              refetch().then(result => {
-                if (
-                  result.data?.statusCode === 200 ||
-                  result.data?.statusCode === 201
-                ) {
+              refetch().then(rfSurvey => {
+                if (rfSurvey.data) {
                   refetchResultById();
                   //Todo: Add type good or bad
-                  setResultCommonFilter({...result.data.data, type: 'bad'});
                   refetchCurUser().then(result => {
                     if (result.data) {
                       setCurUser({
                         ...result.data.data,
                         surveyCompleted: true,
                       } as tUserResponse);
+                      const type = result.data.data.surveyDetail;
+                      setResultCommonFilter({
+                        ...rfSurvey.data.data,
+                        type: type ? 'bad' : 'good',
+                      });
                     }
                     setIsLoadingOverlay(false);
                   });

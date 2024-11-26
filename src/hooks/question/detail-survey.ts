@@ -45,7 +45,6 @@ export const useGetLatestDetailSurveyAnswer = () => {
   return useQuery<IResponse<tQuestionResponse[]>>({
     queryKey: ['getLatestDetailSurveyAnswer'],
     queryFn: () => getData<IResponse<tQuestionResponse[]>>(url),
-    enabled: false,
   });
 };
 

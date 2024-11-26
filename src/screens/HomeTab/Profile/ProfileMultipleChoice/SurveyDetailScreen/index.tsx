@@ -31,6 +31,8 @@ import {normalizeText} from 'src/utils/textUtil';
 import {TOAST_PLACEMENT} from 'src/constants';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -62,13 +64,13 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
     error: isSurveyError,
   } = useGetLatestDetailSurveyAnswer();
   useEffect(() => {
-    if (dataSurvey?.data) {
-      if (currentUser?.data.surveyDetail !== null) {
-        setStep('review');
-        refetchLatestDetailSurveyAnswer();
-      } else setStep('started');
-    }
-  }, [dataSurvey?.data]);
+    if (
+      latestDetailSurveyAnswer?.data &&
+      currentUser?.data.latestSpecializedVersion !== null
+    ) {
+      setStep('review');
+    } else setStep('started');
+  }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
 
   const submitSuccess = async () => {
     console.log(isCreatingAccount);

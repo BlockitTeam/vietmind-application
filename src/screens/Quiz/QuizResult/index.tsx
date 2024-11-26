@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CusImageBackground from '@components/layout/CusImageBackground';
-import {Button, Text, useToast, VStack} from 'native-base';
+import {Button, Spinner, Text, useToast, VStack} from 'native-base';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import LoadingOverlay from '@components/LoadingOverLay';
 import {useGetInfSurveyById} from '@hooks/survey';
 import {normalizeText} from 'src/utils/textUtil';
+import {G} from 'react-native-svg';
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
@@ -19,18 +20,23 @@ type QuizResultProps = CompositeScreenProps<
 >;
 
 const QuizResult: React.FC<QuizResultProps> = props => {
+  // Check force curUser
+  const [curUser, setCurUser] = useAtom(curUserAtom);
+  if (!curUser) return <Spinner />;
+
   const {navigation} = props;
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
   const toast = useToast();
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const {data: surveyInfo, isLoading: surveyInfoLoading} = useGetInfSurveyById(
-    curUser?.surveyDetail ?? undefined,
-  );
+
+  const {data: surveyInfo} = useGetInfSurveyById(curUser?.surveyDetail || '1');
   const isDoneSurveyDetail =
     curUser?.surveyDetail && curUser.latestSpecializedVersion;
-  if (!resultCommonFilter && isDoneSurveyDetail) {
+  const isGoodType = curUser?.surveyDetail === null;
+  console.log(curUser);
+  if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
+    console.log('he');
     navigation.replace('BottomTab', {screen: 'Home'});
     return null;
   }
@@ -40,7 +46,8 @@ const QuizResult: React.FC<QuizResultProps> = props => {
       withBackGround={true}
       title="Kết quả trắc nghiệm"
       bottomChildren={
-        resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail ? (
+        (resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
+        !isGoodType ? (
           <VStack space={2} w="full">
             {surveyInfo && (
               <Button
@@ -58,7 +65,6 @@ const QuizResult: React.FC<QuizResultProps> = props => {
           </VStack>
         ) : (
           //Good
-
           <VStack space={2} w="full">
             <Button
               variant={'cusPrimary'}
@@ -80,7 +86,11 @@ const QuizResult: React.FC<QuizResultProps> = props => {
         )
       }>
       <VStack alignItems={'center'} justifyContent={'center'} h={'100%'}>
-        {resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail ? (
+        {(resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
+        !isGoodType ? (
+          // !surveyInfo?.data ? (
+          //   <Spinner />
+          // ) : (
           <>
             <Text variant={'header_1'} pt={'12.5%'} pb={4}>
               Sàn lọc chuyên sâu
@@ -98,6 +108,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             </Text>
           </>
         ) : (
+          // )
           <>
             <Text variant={'header_1'} pt={'12.5%'} pb={4}>
               Kết quả

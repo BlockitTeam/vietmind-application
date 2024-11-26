@@ -18,7 +18,7 @@ const QuizStart: React.FC<QuizStartProps> = props => {
           Bắt đầu làm trắc nghiệm
         </Button>
       }>
-      <Image source={Well1} w={220} h={245.34} alt="feeling good" />
+      <Image source={Well1} w={220} h={245.34} alt="Feeling good image" />
       <Text variant={'header_2'} my={4}>
         Trắc nghiệm tâm lý
       </Text>
