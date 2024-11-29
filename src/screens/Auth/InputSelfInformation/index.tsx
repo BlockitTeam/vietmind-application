@@ -63,9 +63,8 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
         onSuccess: value => {
           refetch().then(v => {
             //Note
-            console.log('here', v);
             if (cur) {
-              let temp: tUserResponse = {...cur, enabled: false};
+              let temp: tUserResponse = {...cur, enabled: true, ...v.data};
               setCurUser(temp);
             }
           });

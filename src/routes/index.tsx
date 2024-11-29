@@ -69,55 +69,56 @@ const RootApp = () => {
     initializeApp();
     loadFirstInit();
   }, [refetch]);
+console.log(getResultByIdData);
+const renderAllScreen = () => {
+  if (firstInit === undefined || isLoading || isGetResultById) {
+    return <RootStack.Screen name="Splash" component={Splash} />;
+  }
 
-  const renderAllScreen = () => {
-    if (firstInit === undefined || isLoading || isGetResultById) {
-      return <RootStack.Screen name="Splash" component={Splash} />;
-    }
+  if (firstInit) {
+    return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
+  }
 
-    if (firstInit) {
-      return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
-    }
+  if (!curUser) {
+    return <RootStack.Screen name="Login" component={Login} />;
+  }
+  // if (!curUser.enabled) {
+  //Edit here when done feature
+  if (!curUser.enabled) {
+    return renderInputSelfInformation();
+  }
+  //Edit here when done feature
 
-    if (!curUser) {
-      return <RootStack.Screen name="Login" component={Login} />;
-    }
-    // if (!curUser.enabled) {
-    //Edit here when done feature
-    if (!curUser.enabled) {
-      return renderInputSelfInformation();
-    }
-    //Edit here when done feature
-
-    if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
-      return renderCommonFilter();
-    }
-    const isDoneSurveyDetail =
-      curUser?.surveyDetail && curUser.latestSpecializedVersion;
-    const isGoodType = curUser?.surveyDetail === null;
-    console.log('isDoneSurveyDetail: ', curUser?.surveyDetail);
-    console.log('resultCommonFilter: ', curUser.latestSpecializedVersion);
-    console.log(resultCommonFilter || !isDoneSurveyDetail || isGoodType);
-    return (
-      <>
-        {(resultCommonFilter || !isDoneSurveyDetail || isGoodType) && (
-          <>
-            <RootStack.Screen name="QuizResult" component={QuizResult} />
-            <RootStack.Screen
-              name="SetTimeAppointment"
-              component={SetTimeAppointment}
-            />
-            <RootStack.Screen
-              name="SetTimeAppointmentSuccess"
-              component={SetTimeAppointmentSuccess}
-            />
-          </>
-        )}
-        {renderBottomTabStack()}
-        {renderChatStack()}
-      </>
-    );
-  };
+  if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
+    return renderCommonFilter();
+  }
+  const isDoneSurveyDetail =
+    curUser?.surveyDetail && curUser.latestSpecializedVersion;
+  const isGoodType = curUser?.surveyDetail === null;
+  console.log('curUser: ', curUser);
+  console.log('isDoneSurveyDetail: ', curUser?.surveyDetail);
+  console.log('resultCommonFilter: ', curUser.latestSpecializedVersion);
+  console.log(resultCommonFilter || !isDoneSurveyDetail || isGoodType);
+  return (
+    <>
+      {(resultCommonFilter || !isDoneSurveyDetail || isGoodType) && (
+        <>
+          <RootStack.Screen name="QuizResult" component={QuizResult} />
+          <RootStack.Screen
+            name="SetTimeAppointment"
+            component={SetTimeAppointment}
+          />
+          <RootStack.Screen
+            name="SetTimeAppointmentSuccess"
+            component={SetTimeAppointmentSuccess}
+          />
+        </>
+      )}
+      {renderBottomTabStack()}
+      {renderChatStack()}
+    </>
+  );
+};
 
   return (
     <RootStack.Navigator screenOptions={{headerShown: false}}>
