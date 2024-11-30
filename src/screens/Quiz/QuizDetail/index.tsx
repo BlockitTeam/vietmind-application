@@ -88,6 +88,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   //Todo: Add type good or bad
                   refetchCurUser().then(result => {
                     if (result.data) {
+                      console.log(result.data);
                       setCurUser({
                         ...result.data.data,
                         surveyCompleted: true,

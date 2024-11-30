@@ -9,6 +9,7 @@ export const apiPath = {
   },
 
   appointment: {
+    GET_APPOINTMENT: '/appointments',
     GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
     PUT: '/appointments',
     CREATE: '/appointments',
@@ -17,6 +18,7 @@ export const apiPath = {
     PUT: '/user',
     GET_CURRENT_USER: '/user/current-user',
     GET_LIST_DOCTOR: '/user/doctors',
+    GET_DOCTOR_ID: '/user/getDoctorById/{id}',
   },
   response: {
     GET: '/response',

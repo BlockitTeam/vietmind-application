@@ -71,7 +71,7 @@ export const renderChatStack = () => {
         component={ProfileMultipleChoice}
       />
 
-      <RootStack.Screen name="DetailResult" component={DetailResult} />
+      {/* <RootStack.Screen name="DetailResult" component={DetailResult} /> */}
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
       <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
     </>

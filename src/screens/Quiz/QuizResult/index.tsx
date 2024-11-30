@@ -23,23 +23,20 @@ const QuizResult: React.FC<QuizResultProps> = props => {
   // Check force curUser
   const [curUser, setCurUser] = useAtom(curUserAtom);
   if (!curUser) return <Spinner />;
-
   const {navigation} = props;
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
-  const toast = useToast();
 
   const {data: surveyInfo} = useGetInfSurveyById(curUser?.surveyDetail || '1');
   const isDoneSurveyDetail =
     curUser?.surveyDetail && curUser.latestSpecializedVersion;
   const isGoodType = curUser?.surveyDetail === null;
-  console.log(curUser);
-  if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
-    console.log('he');
-    navigation.replace('BottomTab', {screen: 'Home'});
-    return null;
-  }
+  console.log('!isGoodType:', !isGoodType);
+  // if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
+  //   navigation.replace('BottomTab', {screen: 'Home'});
+  //   return null;
+  // }
 
   return (
     <HeaderBack
@@ -67,20 +64,20 @@ const QuizResult: React.FC<QuizResultProps> = props => {
           //Good
           <VStack space={2} w="full">
             <Button
-              variant={'cusPrimary'}
               w={'full'}
-              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
-              Về trang chủ
+              variant={'cusPrimary'}
+              onPress={() => {
+                // navigation.replace('BottomTab', {screen: 'Home'});
+                // toast.show({title: 'Tính năng đang được cập nhật <3'});
+                navigation.replace('SetTimeAppointment');
+              }}>
+              Chat với chuyên gia
             </Button>
             <Button
               variant={'cusOutline'}
               w={'full'}
-              onPress={() => {
-                navigation.replace('BottomTab', {screen: 'Home'});
-                toast.show({title: 'Tính năng đang được cập nhật <3'});
-                // navigation.replace('ChatWithBot_Start')
-              }}>
-              Tư vấn 24/7
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
+              Về trang chủ
             </Button>
           </VStack>
         )

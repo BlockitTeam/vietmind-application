@@ -1,14 +1,36 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {Button, Circle, HStack, ScrollView, Text, VStack} from 'native-base';
+import React, {useEffect} from 'react';
+import {
+  Button,
+  Circle,
+  HStack,
+  ScrollView,
+  Spinner,
+  Text,
+  VStack,
+} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import HistoryAdviseItem from './component/historyAdviseItem';
 import HeaderLayout from '@components/layout/Header';
 import {navigate} from 'App';
 import {clearResult} from '@hooks/response';
+import {useGetAppointment} from '@hooks/appointment/getAppointment';
+import {useGetDoctorById} from '@hooks/user';
+import {clearSecond} from 'src/utils/formatDate';
 // type Tab_HomeProps = BottomTabScreenProps<IBottomParamList, 'Home'>;
 const Tab_Home = () => {
   const {mutate: clearRes} = clearResult();
+  const {data: appointmentData, isLoading: isAppointmentLoading} =
+    useGetAppointment();
+  const {data, isLoading, refetch} = useGetDoctorById(
+    appointmentData?.data.doctorId,
+  );
+
+  useEffect(() => {
+    if (typeof appointmentData !== 'string') {
+      refetch();
+    }
+  }, [appointmentData]);
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -16,35 +38,45 @@ const Tab_Home = () => {
           {/* Start: Next event */}
           <VStack space={2}>
             <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>
-            <VStack
-              bgColor={'primary.medium'}
-              borderRadius={'8px'}
-              p={'13px 16px'}
-              space={4}>
-              <HStack space={2}>
-                <Circle w={'56px'} h={'56px'} bg={'white'} />
-                <VStack justifyContent={'space-evenly'}>
-                  <Text variant={'body_medium_bold'}>Bs. Trần Duy Nhã</Text>
-                  <Text
-                    variant={'body_medium_regular'}
-                    color={'text.neutral_secondary'}>
-                    05/12/2023 09:00 - 10:00
-                  </Text>
-                </VStack>
-              </HStack>
-              <HStack space={2}>
-                <TouchableOpacity style={styles.nextEvent__Button}>
-                  <Text variant={'body_small_bold'} textAlign={'center'}>
-                    Dời lịch hẹn
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.nextEvent__Button}>
-                  <Text variant={'body_small_bold'} textAlign={'center'}>
-                    Hủy lịch hẹn
-                  </Text>
-                </TouchableOpacity>
-              </HStack>
-            </VStack>
+            {isAppointmentLoading || isLoading ? (
+              <Spinner />
+            ) : data?.data && appointmentData?.data ? (
+              <VStack
+                bgColor={'primary.medium'}
+                borderRadius={'8px'}
+                p={'13px 16px'}
+                space={4}>
+                <HStack space={2}>
+                  <Circle w={'56px'} h={'56px'} bg={'white'} />
+                  <VStack justifyContent={'space-evenly'}>
+                    <Text variant={'body_medium_bold'}>
+                      Bs. {`${data.data.lastName} ${data.data.firstName}`}
+                    </Text>
+                    <Text
+                      variant={'body_medium_regular'}
+                      color={'text.neutral_secondary'}>
+                      {`${appointmentData?.data.appointmentDate} ${clearSecond(
+                        appointmentData?.data.startTime,
+                      )} - ${clearSecond(appointmentData?.data.endTime)}`}
+                    </Text>
+                  </VStack>
+                </HStack>
+                <HStack space={2}>
+                  <TouchableOpacity style={styles.nextEvent__Button}>
+                    <Text variant={'body_small_bold'} textAlign={'center'}>
+                      Dời lịch hẹn
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.nextEvent__Button}>
+                    <Text variant={'body_small_bold'} textAlign={'center'}>
+                      Hủy lịch hẹn
+                    </Text>
+                  </TouchableOpacity>
+                </HStack>
+              </VStack>
+            ) : (
+              <Text>Bạn không có cuộc hẹn nào!</Text>
+            )}
           </VStack>
           {/* End: Next event */}
 
@@ -102,28 +134,5 @@ export const listHistoryAdviseItemFake = [
     time: '08/11/2023  07:00 - 9:00',
     idConversation: '2',
   },
-  {
-    drName: 'Bs. Phạm Văn Lực',
-    drId: '3',
-    time: '22/10/2023  13:00 - 14:00',
-    idConversation: '3',
-  },
-  {
-    drName: 'Tư vấn với trợ lý ảo',
-    drId: '4',
-    time: '23/09/2023  15:00 - 15:33',
-    idConversation: '4',
-  },
-  {
-    drName: 'Tư vấn với trợ lý ảo',
-    drId: '4',
-    time: '23/09/2023  15:00 - 15:33',
-    idConversation: '5',
-  },
-  {
-    drName: 'Tư vấn với trợ lý ảo',
-    drId: '4',
-    time: '23/09/2023  15:00 - 15:33',
-    idConversation: '6',
-  },
+
 ];

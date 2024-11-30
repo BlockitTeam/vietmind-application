@@ -9,6 +9,7 @@ import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useGetListDoctor} from '@hooks/user';
 import {colors} from '@assets/colors';
 import AdviseLoading from './AdviseLoading';
+import {useGetAppointment} from '@hooks/appointment/getAppointment';
 
 type Tab_AdviseProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Advise'>,
@@ -19,18 +20,23 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
   const {navigation} = props;
   const {data: dataListDoctor, isLoading: isListDoctorLoading} =
     useGetListDoctor();
-
+  const {data: appointmentData, isLoading: isAppointmentLoading} =
+    useGetAppointment();
+  console.log(appointmentData);
   return (
     <HeaderBack title="Tư vấn">
       <Box h={4} />
       <VStack space={2}>
-        {isListDoctorLoading ? (
+        {isListDoctorLoading || isAppointmentLoading ? (
           <AdviseLoading />
+        ) : typeof appointmentData?.data === 'string' ? (
+          <Text>Bạn không có bác sĩ nào phụ trách</Text>
         ) : (
           <>
             <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
             {dataListDoctor?.data.map(item => {
-              return (
+              console.log(appointmentData?.data.doctorId, item.id);
+              return appointmentData?.data.doctorId === item.id ? (
                 <TouchableOpacity
                   key={item.id}
                   style={styles.touchableOpacity__advise}
@@ -73,10 +79,10 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                     </Center>
                   </HStack>
                 </TouchableOpacity>
-              );
+              ) : null;
             })}
             <Box h={4} />
-            <Text variant={'body_large_bold'}>Tư vấn với chatbot</Text>
+            {/* <Text variant={'body_large_bold'}>Tư vấn với chatbot</Text>
             <TouchableOpacity>
               <HStack alignItems={'center'}>
                 <HStack flex={1} space={2} alignItems={'center'}>
@@ -88,7 +94,7 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                 </HStack>
                 <Box>Tư vấn ngay</Box>
               </HStack>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </>
         )}
       </VStack>

@@ -27,6 +27,8 @@ import QuizResult from '@screens/Quiz/QuizResult';
 import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
 import {useGetResultById} from '@hooks/response';
 import {isEmptyObject} from 'src/utils/object';
+import {useGetAppointment} from '@hooks/appointment/getAppointment';
+import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -34,7 +36,6 @@ const RootApp = () => {
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
   const {isLoading, refetch} = useCurrentUser();
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
-
   const {isLoading: isGetResultById, data: getResultByIdData} =
     useGetResultById(curUser?.id || '');
   const expireTimeHandle = () => {
@@ -43,6 +44,8 @@ const RootApp = () => {
       setMessageAuth(language.vn.expired_time);
     });
   };
+  const {data: appointmentData, isLoading: isAppointmentLoading} =
+    useGetAppointment();
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -69,56 +72,69 @@ const RootApp = () => {
     initializeApp();
     loadFirstInit();
   }, [refetch]);
-console.log(getResultByIdData);
-const renderAllScreen = () => {
-  if (firstInit === undefined || isLoading || isGetResultById) {
-    return <RootStack.Screen name="Splash" component={Splash} />;
-  }
 
-  if (firstInit) {
-    return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
-  }
+  const renderAllScreen = () => {
+    if (
+      firstInit === undefined ||
+      isLoading ||
+      isGetResultById ||
+      isAppointmentLoading
+    ) {
+      return <RootStack.Screen name="Splash" component={Splash} />;
+    }
 
-  if (!curUser) {
-    return <RootStack.Screen name="Login" component={Login} />;
-  }
-  // if (!curUser.enabled) {
-  //Edit here when done feature
-  if (!curUser.enabled) {
-    return renderInputSelfInformation();
-  }
-  //Edit here when done feature
+    if (firstInit) {
+      return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
+    }
 
-  if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
-    return renderCommonFilter();
-  }
-  const isDoneSurveyDetail =
-    curUser?.surveyDetail && curUser.latestSpecializedVersion;
-  const isGoodType = curUser?.surveyDetail === null;
-  console.log('curUser: ', curUser);
-  console.log('isDoneSurveyDetail: ', curUser?.surveyDetail);
-  console.log('resultCommonFilter: ', curUser.latestSpecializedVersion);
-  console.log(resultCommonFilter || !isDoneSurveyDetail || isGoodType);
-  return (
-    <>
-      {(resultCommonFilter || !isDoneSurveyDetail || isGoodType) && (
-        <>
-          <RootStack.Screen name="QuizResult" component={QuizResult} />
-          <RootStack.Screen
-            name="SetTimeAppointment"
-            component={SetTimeAppointment}
-          />
-          <RootStack.Screen
-            name="SetTimeAppointmentSuccess"
-            component={SetTimeAppointmentSuccess}
-          />
-        </>
-      )}
-      {renderBottomTabStack()}
-      {renderChatStack()}
-    </>
-  );
-};
+    if (!curUser) {
+      return <RootStack.Screen name="Login" component={Login} />;
+    }
+    // if (!curUser.enabled) {
+    //Edit here when done feature
+    if (!curUser.enabled) {
+      return renderInputSelfInformation();
+    }
+    //Edit here when done feature
+
+    if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
+      return renderCommonFilter();
+    }
+    const isGoodType = curUser?.surveyDetail === null;
+
+    const isDoneSurveyDetail =
+      curUser.surveyDetail !== null &&
+      curUser.latestSpecializedVersion !== null;
+
+    return (
+      <>
+        {((!isDoneSurveyDetail && !isGoodType) ||
+          (isGoodType && typeof appointmentData?.data === 'string')) && (
+          <>
+            <RootStack.Screen name="QuizResult" component={QuizResult} />
+          </>
+        )}
+        {typeof appointmentData?.data === 'string' && (
+          <>
+            {!isGoodType && (
+              <RootStack.Screen name="DetailResult" component={DetailResult} />
+            )}
+            <RootStack.Screen
+              name="SetTimeAppointment"
+              component={SetTimeAppointment}
+            />
+            <RootStack.Screen
+              name="SetTimeAppointmentSuccess"
+              component={SetTimeAppointmentSuccess}
+            />
+          </>
+        )}
+
+        {renderBottomTabStack()}
+        {renderChatStack()}
+      </>
+    );
+  };
 
   return (
     <RootStack.Navigator screenOptions={{headerShown: false}}>
