@@ -26,6 +26,7 @@ export const apiPath = {
     DELETE: '/response',
     GET_RESULT: '/response/result',
     GET_RESULT_BY_ID: '/response/result/{id}',
+    GET_RESULT_DETAIL: '/response/resultDetail',
   },
   question: {
     GET: '/question',
