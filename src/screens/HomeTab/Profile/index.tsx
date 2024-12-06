@@ -57,6 +57,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
       },
     });
   };
+  console.log(dataSurveyResponse?.data);
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
