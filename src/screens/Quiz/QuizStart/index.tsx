@@ -4,6 +4,7 @@ import Well1 from '@images/Well1.png';
 import {Button, Image, Text} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
+import { Platform } from 'react-native';
 
 type QuizStartProps = NativeStackScreenProps<IRootStackParamList, 'QuizStart'>;
 const QuizStart: React.FC<QuizStartProps> = props => {
@@ -13,6 +14,7 @@ const QuizStart: React.FC<QuizStartProps> = props => {
       bottomButton={
         <Button
           w={'full'}
+          mb={Platform.OS === 'ios' ? 8 : 0}
           variant={'cusPrimary'}
           onPress={() => navigation.navigate('QuizStartConfirm')}>
           Bắt đầu làm trắc nghiệm

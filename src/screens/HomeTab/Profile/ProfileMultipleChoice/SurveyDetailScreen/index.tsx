@@ -33,6 +33,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import { Platform } from 'react-native';
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -162,7 +163,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'}>
+          <Box pt={'12px'}  mb={Platform.OS === 'ios' ? 5 : 0}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>

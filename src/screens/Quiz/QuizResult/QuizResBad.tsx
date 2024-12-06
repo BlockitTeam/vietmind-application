@@ -6,6 +6,7 @@ import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {useAtom} from 'jotai';
 import {Button, VStack, Text} from 'native-base';
 import React from 'react';
+import { Platform } from 'react-native';
 import {normalizeText} from 'src/utils/textUtil';
 
 type QuizResBadProps = {
@@ -23,7 +24,7 @@ const QuizResBad: React.FC<QuizResBadProps> = props => {
       withBackGround={true}
       title="Kết quả trắc nghiệm"
       bottomChildren={
-        <VStack space={2} w="full">
+        <VStack space={2} w="full" mb={Platform.OS === 'ios' ? 8 : 0}>
           {surveyInfo && (
             <Button
               variant={'cusPrimary'}

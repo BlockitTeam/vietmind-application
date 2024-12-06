@@ -13,6 +13,7 @@ import LoadingOverlay from '@components/LoadingOverLay';
 import {useGetInfSurveyById} from '@hooks/survey';
 import {normalizeText} from 'src/utils/textUtil';
 import {G} from 'react-native-svg';
+import { Platform } from 'react-native';
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
@@ -45,7 +46,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
       bottomChildren={
         (resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
         !isGoodType ? (
-          <VStack space={2} w="full">
+          <VStack space={2} w="full" mb={Platform.OS === 'ios' ? 8 : 0}>
             {surveyInfo && (
               <Button
                 variant={'cusPrimary'}
