@@ -106,6 +106,8 @@ const RootApp = () => {
       curUser.surveyDetail !== null &&
       curUser.latestSpecializedVersion !== null;
 
+      console.log(curUser.surveyDetail, curUser.latestSpecializedVersion);
+      console.log(isDoneSurveyDetail, isGoodType, appointmentData?.data);
     return (
       <>
         {((!isDoneSurveyDetail && !isGoodType) ||

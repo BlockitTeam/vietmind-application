@@ -75,9 +75,7 @@ export const useGetResponseResultDetail = () => {
   return useQuery<IResponse<any>>({
     queryKey: ['useGetResponseResultDetail'],
     queryFn: () => {
-      return getData<IResponse<tResultById>>(
-        apiPath.response.GET_RESULT_DETAIL,
-      );
+      return getData<IResponse<any>>(apiPath.response.GET_RESULT_DETAIL);
     },
     gcTime: 0,
   });

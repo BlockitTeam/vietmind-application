@@ -1,5 +1,5 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {
   Button,
   Center,
@@ -15,7 +15,10 @@ import {
 } from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import {Pencil} from '@assets/icons';
-import {useGetSurveyResponseResult} from '@hooks/response';
+import {
+  useGetResponseResultDetail,
+  useGetSurveyResponseResult,
+} from '@hooks/response';
 import {useLogoutMutation} from '@hooks/auth';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
@@ -28,6 +31,8 @@ import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TOAST_PLACEMENT} from 'src/constants';
+import ProfileSurveyButton from './components/ProfileSurveyButton';
+import ListSurveyDetail from './ProfileMultipleChoice/ListSurveyDetail';
 type Tab_ProfileProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Profile'>,
   NativeStackScreenProps<IRootStackParamList>
@@ -39,6 +44,8 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
 
   const [curUser, setCurUser] = useAtom(curUserAtom);
 
+  const {data: dataResponseResultDetail, isLoading: isResResultDetailLoading} =
+    useGetResponseResultDetail();
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
   const useLogout = useLogoutMutation();
   const logout = async () => {
@@ -57,7 +64,6 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
       },
     });
   };
-  console.log(dataSurveyResponse?.data);
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -71,8 +77,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
               }>{`${curUser?.firstName} ${curUser?.lastName}`}</Text>
             <Text
               variant={'body_medium_regular'}
-              color={'text.neutral_secondary'}
-              mb={'8px'}>
+              color={'text.neutral_secondary'}>
               {`${curUser?.gender} - ${curUser?.birthYear}`}
             </Text>
             <Button
@@ -80,7 +85,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
               h={'32px'}
               px={'12px'}
               py="0px"
-              mb={'32px'}
+              mb={'28px'}
               onPress={() => {
                 navigation.navigate('ChangeProfile');
               }}>
@@ -92,8 +97,27 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
           </>
           {/* End: Basic information ----- Top */}
 
+          <VStack w={'100%'} space={2}>
+            {isResResultDetailLoading ? (
+              <Skeleton h={'24px'} />
+            ) : (
+              <ProfileSurveyButton
+                name="Trắc nghiệm sàn lọc chung"
+                date="16/11/2024"
+                onClickCallBack={() => {
+                  navigation.navigate(
+                    navigation.navigate('SurveyDetail', {
+                      infSurvey: dataSurvey.data,
+                    }),
+                  );
+                }}
+              />
+            )}
+
+            <ListSurveyDetail idSur={curUser?.surveyDetail} />
+          </VStack>
           {/* Start:  -----  Multi choice advise  -----  */}
-          <VStack w={'100%'} space={'6px'}>
+          {/* <VStack w={'100%'} space={'6px'}>
             <TouchableOpacity
               style={styles.multiChoiceAdvise__touchable}
               onPress={() => {
@@ -126,7 +150,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                 );
               })
             )}
-          </VStack>
+          </VStack> */}
           {/* End:  -----  Multi choice advise  -----  */}
 
           <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />

@@ -38,6 +38,7 @@ const ProfileMultipleChoice = () => {
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm chuyên sâu
           </Text>
+
           <ListSurveyDetail idSur={curUser?.surveyDetail} />
         </VStack>
       </ScrollView>

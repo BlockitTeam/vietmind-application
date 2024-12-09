@@ -4,6 +4,7 @@ import SurveyButton from '../components/SurveyButton';
 import {useGetInfSurveyById} from '@hooks/survey';
 import {IRootStackParamList} from '@routes/navigator';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import ProfileSurveyButton from '../../components/ProfileSurveyButton';
 
 type ListSurveyDetailProps = {
   idSur: number | null | undefined;
@@ -11,21 +12,22 @@ type ListSurveyDetailProps = {
 
 const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
   const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
-  console.log(idSur);
   if (idSur) {
     const {data: dataSurvey, isLoading} = useGetInfSurveyById(idSur);
+
     if (isLoading) return <Spinner />;
     if (!dataSurvey?.data) return null;
     return (
-      <SurveyButton
-        label={dataSurvey.data.title}
-        callBack={() => {
+      <ProfileSurveyButton
+        name={dataSurvey.data.title + ' -  Trắc nghiệm chuyên sâu'}
+        date="12/12/2021"
+        onClickCallBack={() => {
           navigation.navigate('SurveyDetail', {infSurvey: dataSurvey.data});
         }}
       />
     );
   }
-  return <Text>ListSurveyDetail</Text>;
+  return <Spinner />;
 };
 
 export default ListSurveyDetail;
