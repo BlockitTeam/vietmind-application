@@ -3,6 +3,7 @@ import {IBottomParamList} from './bottomTab/bottomTab';
 import {tDoctorResponse} from '@hooks/user/user.interface';
 import {TInfSurvey} from '@hooks/survey';
 import {tCreateAppointmentResponse} from '@hooks/appointment/createAppointment';
+import {tQuestionResponse} from '@hooks/question/question.interface';
 
 export type IRootStackParamList = {
   Welcome: undefined;
@@ -46,6 +47,8 @@ export type IRootStackParamList = {
 
   SetTimeAppointment: undefined;
   SetTimeAppointmentSuccess: {infAppointment: tCreateAppointmentResponse};
+
+  GeneralSurveyResult: {title: string; res: tQuestionResponse[]};
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

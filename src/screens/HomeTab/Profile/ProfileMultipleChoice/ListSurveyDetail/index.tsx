@@ -1,4 +1,4 @@
-import {Spinner, Text} from 'native-base';
+import {Skeleton, Spinner, Text} from 'native-base';
 import React from 'react';
 import SurveyButton from '../components/SurveyButton';
 import {useGetInfSurveyById} from '@hooks/survey';
@@ -15,7 +15,7 @@ const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
   if (idSur) {
     const {data: dataSurvey, isLoading} = useGetInfSurveyById(idSur);
 
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <Skeleton h={'70.5px'} />;
     if (!dataSurvey?.data) return null;
     return (
       <ProfileSurveyButton

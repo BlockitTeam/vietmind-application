@@ -96,7 +96,9 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
           curQuiz.numberKey === 0 && isCreatingAccount ? undefined : (
             <HStack>
               <ChevronLeftIcon />
-              <Text>{curQuiz.numberKey === 0 && ' Quay lại'}</Text>
+              <Text variant={'caption_regular'} color={'neutral.primary'}>
+                {curQuiz.numberKey === 0 && ' Quay lại'}
+              </Text>
             </HStack>
           )
         }

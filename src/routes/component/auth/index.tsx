@@ -7,6 +7,7 @@ import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
 import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
+import GeneralSurveyResult from '@screens/HomeTab/Profile/components/GeneralSurveyResult';
 import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
 import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
 
@@ -74,6 +75,11 @@ export const renderChatStack = () => {
       {/* <RootStack.Screen name="DetailResult" component={DetailResult} /> */}
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
       <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
+
+      <RootStack.Screen
+        name="GeneralSurveyResult"
+        component={GeneralSurveyResult}
+      />
     </>
   );
 };

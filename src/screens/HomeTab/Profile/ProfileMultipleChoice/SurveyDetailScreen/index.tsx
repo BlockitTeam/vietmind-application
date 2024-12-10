@@ -111,7 +111,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           !isCreatingAccount ? (
             <HStack alignItems={'center'} space={'2px'}>
               <ChevronLeftIcon />
-              <Text color={'neutral.primary'}>Thoát</Text>
+              <Text  variant={'caption_regular'}  color={'neutral.primary'}>Thoát</Text>
             </HStack>
           ) : undefined
         }
@@ -158,12 +158,14 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           !isCreatingAccount ? (
             <HStack alignItems={'center'} space={'2px'}>
               <ChevronLeftIcon />
-              <Text color={'neutral.primary'}>Thoát</Text>
+              <Text variant={'caption_regular'} color={'neutral.primary'}>
+                Thoát
+              </Text>
             </HStack>
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'}  mb={Platform.OS === 'ios' ? 5 : 0}>
+          <Box pt={'12px'} mb={Platform.OS === 'ios' ? 5 : 0}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>

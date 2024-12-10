@@ -233,7 +233,9 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         buttonBack={
           <HStack alignItems={'center'} space={'2px'}>
             <ChevronLeftIcon />
-            <Text color={'neutral.primary'}>Thoát</Text>
+            <Text variant={'caption_regular'} color={'neutral.primary'}>
+              Quay lại
+            </Text>
           </HStack>
         }
         bottomChildren={

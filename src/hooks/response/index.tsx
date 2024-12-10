@@ -72,10 +72,12 @@ export const clearResult = () => {
 
 // /response/resultDetail
 export const useGetResponseResultDetail = () => {
-  return useQuery<IResponse<any>>({
+  return useQuery<IResponse<tQuestionResponse[]>>({
     queryKey: ['useGetResponseResultDetail'],
     queryFn: () => {
-      return getData<IResponse<any>>(apiPath.response.GET_RESULT_DETAIL);
+      return getData<IResponse<tQuestionResponse[]>>(
+        apiPath.response.GET_RESULT_DETAIL,
+      );
     },
     gcTime: 0,
   });
