@@ -87,6 +87,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = vietmind_mobile/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = vietmind_mobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		152B19675F8D43C184713596 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../src/assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
+		16DC070E2CE3334D00DF1EB7 /* vietmind_mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = vietmind_mobile.entitlements; path = vietmind_mobile/vietmind_mobile.entitlements; sourceTree = "<group>"; };
 		17333D8DF0A34282ABCD5865 /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-MediumItalic.otf"; path = "../src/assets/fonts/SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-vietmind_mobile-vietmind_mobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vietmind_mobile-vietmind_mobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31557C719E484E82A0900B7B /* MuseoModerno-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MuseoModerno-ExtraBold.ttf"; path = "../src/assets/fonts/MuseoModerno-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -165,6 +166,7 @@
 		13B07FAE1A68108700A75B9A /* vietmind_mobile */ = {
 			isa = PBXGroup;
 			children = (
+				16DC070E2CE3334D00DF1EB7 /* vietmind_mobile.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -326,6 +328,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -579,6 +582,7 @@
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-vietmind_mobile-vietmind_mobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 2H7KDUG877;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -607,6 +611,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 2H7KDUG877;
 				INFOPLIST_FILE = vietmind_mobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -631,12 +636,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = vietmind_mobile/vietmind_mobile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2H7KDUG877;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = vietmind_mobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = vietmind;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -647,7 +656,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.vietmind-mobile";
 				PRODUCT_NAME = vietmind_mobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -662,11 +671,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_ENTITLEMENTS = vietmind_mobile/vietmind_mobile.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2H7KDUG877;
 				INFOPLIST_FILE = vietmind_mobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = vietmind;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +690,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.vietmind-mobile";
 				PRODUCT_NAME = vietmind_mobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -736,7 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -812,7 +825,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -825,6 +838,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",

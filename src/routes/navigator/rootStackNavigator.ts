@@ -2,6 +2,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {IBottomParamList} from './bottomTab/bottomTab';
 import {tDoctorResponse} from '@hooks/user/user.interface';
 import {TInfSurvey} from '@hooks/survey';
+import {tCreateAppointmentResponse} from '@hooks/appointment/createAppointment';
+import {tQuestionResponse} from '@hooks/question/question.interface';
 
 export type IRootStackParamList = {
   Welcome: undefined;
@@ -17,6 +19,8 @@ export type IRootStackParamList = {
   Privacy: undefined;
   PrivacyDetail: undefined;
   InputSelfInformation: undefined;
+
+  DetailResult: undefined;
   // Trắc nghiệm screen
   QuizStart: undefined;
   QuizStartConfirm: undefined;
@@ -39,9 +43,12 @@ export type IRootStackParamList = {
   ProfileMultipleChoice: undefined;
   ChangeProfile: undefined;
 
-  SurveyDetail: {infSurvey: TInfSurvey};
+  SurveyDetail: {infSurvey: TInfSurvey; isCreatingAccount?: boolean}; //First time create account and survey
 
   SetTimeAppointment: undefined;
+  SetTimeAppointmentSuccess: {infAppointment: tCreateAppointmentResponse};
+
+  GeneralSurveyResult: {title: string; res: tQuestionResponse[]};
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

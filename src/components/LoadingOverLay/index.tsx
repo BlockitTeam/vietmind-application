@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black background with 50% transparency
     justifyContent: 'center', // Center vertically
     alignItems: 'center', // Center horizontally
-    zIndex: 9999999999999999, // Ensure it appears above other components
+    zIndex: 9999999999999999999999999999999999999999999999999999999999999, // Ensure it appears above other components
   },
 });
 

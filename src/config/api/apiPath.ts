@@ -4,20 +4,29 @@ export const apiPath = {
     LOGOUT: '/auth/logout',
   },
 
+  availabilities: {
+    GET_AVAILABLE_BY_DATE: '/availabilities/available-by-date',
+  },
+
   appointment: {
+    GET_APPOINTMENT: '/appointments',
     GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
     PUT: '/appointments',
+    CREATE: '/appointments',
   },
   user: {
     PUT: '/user',
     GET_CURRENT_USER: '/user/current-user',
     GET_LIST_DOCTOR: '/user/doctors',
+    GET_DOCTOR_ID: '/user/getDoctorById/{id}',
   },
   response: {
     GET: '/response',
     POST: '/response',
     DELETE: '/response',
     GET_RESULT: '/response/result',
+    GET_RESULT_BY_ID: '/response/result/{id}',
+    GET_RESULT_DETAIL: '/response/resultDetail',
   },
   question: {
     GET: '/question',

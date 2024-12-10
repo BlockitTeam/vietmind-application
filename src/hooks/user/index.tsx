@@ -49,3 +49,20 @@ export const useGetListDoctor = () => {
     gcTime: 0,
   });
 };
+
+// /api/v1/user/getDoctorById/1241
+
+export const useGetDoctorById = (id?: string) => {
+  return useQuery<IResponse<tDoctorResponse>>({
+    queryKey: id ? ['useGetDoctorById', id] : ['useGetDoctorById'], // Query key includes the ID
+    queryFn: () => {
+      if (!id) {
+        throw new Error('ID is undefined'); // Defensive coding
+      }
+      const url = apiPath.user.GET_DOCTOR_ID.replace("{id}", id);
+      return getData<IResponse<tDoctorResponse>>(url);
+    },
+    enabled: !!id, // Ensures query runs only when ID is defined
+    gcTime: 0,
+  });
+};

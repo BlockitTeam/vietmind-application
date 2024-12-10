@@ -10,6 +10,7 @@ export type TInfSurvey = {
   priority: number;
   createdAt: string;
   updatedAt: string;
+  questionCount: number;
 };
 export const useGetInfSurveyById = (id: number | string) => {
   const url = apiPath.survey.GET_BY_ID.replace('{id}', id.toString());

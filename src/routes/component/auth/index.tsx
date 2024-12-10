@@ -7,13 +7,16 @@ import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
 import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
 import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
 import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
+import GeneralSurveyResult from '@screens/HomeTab/Profile/components/GeneralSurveyResult';
 import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
 import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
 
 import QuizDetail from '@screens/Quiz/QuizDetail';
+import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import SetTimeAppointment from '@screens/SetTimeAppointment';
+import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
 import React from 'react';
 
 export const renderInputSelfInformation = () => {
@@ -37,6 +40,14 @@ export const renderCommonFilter = () => {
       <RootStack.Screen name="QuizStart" component={QuizStart} />
       <RootStack.Screen name="QuizStartConfirm" component={QuizStartConfirm} />
       <RootStack.Screen name="QuizDetail" component={QuizDetail} />
+      <RootStack.Screen
+        name="SetTimeAppointment"
+        component={SetTimeAppointment}
+      />
+      <RootStack.Screen
+        name="SetTimeAppointmentSuccess"
+        component={SetTimeAppointmentSuccess}
+      />
     </>
   );
 };
@@ -60,12 +71,14 @@ export const renderChatStack = () => {
         name="ProfileMultipleChoice"
         component={ProfileMultipleChoice}
       />
+
+      {/* <RootStack.Screen name="DetailResult" component={DetailResult} /> */}
       <RootStack.Screen name="ChangeProfile" component={ChangeProfile} />
       <RootStack.Screen name="SurveyDetail" component={SurveyDetailScreen} />
 
       <RootStack.Screen
-        name="SetTimeAppointment"
-        component={SetTimeAppointment}
+        name="GeneralSurveyResult"
+        component={GeneralSurveyResult}
       />
     </>
   );

@@ -4,6 +4,7 @@ import Well1 from '@images/Well1.png';
 import {Button, Image, Text} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
+import { Platform } from 'react-native';
 
 type QuizStartConfirmProps = NativeStackScreenProps<
   IRootStackParamList,
@@ -16,14 +17,18 @@ const QuizStartConfirm: React.FC<QuizStartConfirmProps> = props => {
       bottomButton={
         <Button
           w={'full'}
+          mb={Platform.OS === 'ios' ? 8 : 0}
           variant={'cusPrimary'}
           onPress={() => navigation.navigate('QuizDetail')}>
           Tiếp theo
         </Button>
       }>
-      <Text textAlign={'center'}>
-        Hãy cho chúng tôi biết, trong vòng 2 tuần vừa qua, có bao nhiêu lần bạn
-        bị lo lắng buồn phiền vì những vấn đề được liệt kê dưới đây?
+      <Text
+        variant={'body_large_regular'}
+        textAlign={'center'}
+        _android={{lineHeight: '20px'}}>
+        Đầu tiên, bạn sẽ trả lời các câu hỏi sàng lọc chung. Tiếp đó, dựa vào
+        kết quả, bạn sẽ trả lời các câu hỏi sàng lọc chuyên sâu.
       </Text>
     </CusImageBackground>
   );

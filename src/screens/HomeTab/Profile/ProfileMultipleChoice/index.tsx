@@ -11,6 +11,7 @@ import ListSurveyDetail from './ListSurveyDetail';
 const ProfileMultipleChoice = () => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
   const [curUser] = useAtom(curUserAtom);
+  console.log(dataSurveyResponse);
 
   return (
     <HeaderBack
@@ -37,6 +38,7 @@ const ProfileMultipleChoice = () => {
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
             Trắc nghiệm chuyên sâu
           </Text>
+
           <ListSurveyDetail idSur={curUser?.surveyDetail} />
         </VStack>
       </ScrollView>

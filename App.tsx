@@ -18,6 +18,7 @@ import {themeNativeBase} from 'src/themes/nativebase-theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {IRootStackParamList} from '@routes/navigator';
 import {vietmindStore} from '@services/jotaiStorage';
+import ExpiredModal from '@screens/Auth/Login/expiredModal';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -32,6 +33,7 @@ export const navigationRef =
 
 export function navigate(name: keyof IRootStackParamList, params?: any) {
   if (navigationRef.isReady()) {
+    // @ts-ignore
     navigationRef.navigate(name, params);
   }
 }
@@ -44,6 +46,7 @@ function App(): React.JSX.Element {
         <NativeBaseProvider theme={themeNativeBase}>
           <Provider store={vietmindStore}>
             <RootApp />
+            <ExpiredModal />
           </Provider>
         </NativeBaseProvider>
       </NavigationContainer>

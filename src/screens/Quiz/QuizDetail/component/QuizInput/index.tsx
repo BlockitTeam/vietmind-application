@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Box, Button, Center, Input, Text, TextArea, VStack} from 'native-base';
 import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer';
 import TextParent from '../TextParent';
+import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 
 type QuizInputProps = {
   parentQuestion?: tListResultItem;
@@ -15,7 +16,8 @@ const QuizInput: React.FC<QuizInputProps> = props => {
   const [inputValue, setInputValue] = useState(answer ?? undefined);
 
   return (
-    <VStack
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <VStack
       w={'full'}
       h={'100%'}
       alignItems={'center'}
@@ -41,12 +43,13 @@ const QuizInput: React.FC<QuizInputProps> = props => {
         w={'full'}
         variant={'cusPrimary'}
         // position={'absolute'}
-        bottom={'16px'}
+        mb={Platform.OS === 'ios' ? 8 : 0}
         onPress={() => save(inputValue)}
         disabled={!inputValue}>
         {isLasted ? 'Kết thúc' : 'Câu tiếp theo'}
       </Button>
     </VStack>
+    </TouchableWithoutFeedback>
   );
 };
 

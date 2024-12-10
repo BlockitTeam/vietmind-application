@@ -37,10 +37,8 @@ GoogleSignin.configure({
   // offlineAccess: true,
   profileImageSize: 120,
   forceCodeForRefreshToken: true,
-  iosClientId:
-    '670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5.apps.googleusercontent.com',
-  webClientId:
-    '670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com',
+  iosClientId: process.env.IOS_CLIENT_ID,
+  webClientId: process.env.WEB_CLIENT_ID,
 });
 // 670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com
 // Somewhere in your code
@@ -169,6 +167,7 @@ const Login = () => {
               });
             },
             onError: e => {
+              console.log(e);
               setMessageAuth('Login fail, please try again!');
               setFetchUser(false);
             },
@@ -186,7 +185,7 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-
+        console.log(error)
         setMessageAuth('Login fail, please try again!');
       }
     }

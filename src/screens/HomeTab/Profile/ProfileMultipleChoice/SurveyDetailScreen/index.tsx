@@ -19,28 +19,38 @@ import SurveyDetail_Answer from '../components/SurveyDetail_Answer';
 import {useCurrentUser} from '@hooks/user';
 import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey';
 import {
+  CompositeScreenProps,
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import {IRootStackParamList} from '@routes/navigator';
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import ErrorComponent from '@components/Error';
 import {normalizeText} from 'src/utils/textUtil';
 import {TOAST_PLACEMENT} from 'src/constants';
-
-type SurveyDetailRouteProp = RouteProp<IRootStackParamList, 'SurveyDetail'>;
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import { Platform } from 'react-native';
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
   | 'answering' //  answering is user is answering -> show detail answer
   | 'review'; // review is user have done survey and can survey again
-type SurveyDetailScreenProps = {};
-const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
-  const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
+type SurveyDetailScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<IRootStackParamList, 'SurveyDetail'>,
+  BottomTabScreenProps<IBottomParamList, 'Home'>
+>;
+
+const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
+  const {navigation, route} = props;
+  // const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
   const toast = useToast();
-  const route = useRoute<SurveyDetailRouteProp>();
+  // const route = useRoute<SurveyDetailRouteProp>();
   const surveyInf = route.params.infSurvey;
+  const isCreatingAccount = route.params.isCreatingAccount;
   const {data: dataSurvey, isLoading: isSurveyLoading} = useGetListQuestionById(
     surveyInf.surveyId,
   );
@@ -55,24 +65,29 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
     error: isSurveyError,
   } = useGetLatestDetailSurveyAnswer();
   useEffect(() => {
-    if (dataSurvey?.data) {
-      if (currentUser?.data.surveyDetail !== null) {
-        setStep('review');
-        refetchLatestDetailSurveyAnswer();
-      } else setStep('started');
-    }
-  }, [dataSurvey?.data]);
+    if (
+      latestDetailSurveyAnswer?.data &&
+      currentUser?.data.latestSpecializedVersion !== null
+    ) {
+      setStep('review');
+    } else setStep('started');
+  }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
 
   const submitSuccess = async () => {
-    await refetchLatestDetailSurveyAnswer();
-    setStep('review');
+    console.log(isCreatingAccount);
+    if (isCreatingAccount) {
+      navigation.replace('DetailResult');
+    } else {
+      await refetchLatestDetailSurveyAnswer();
+      setStep('review');
+    }
+
     toast.show({
       title: 'Đánh giá thành công!',
       duration: 2000,
       placement: TOAST_PLACEMENT,
     });
   };
-  console.log(step);
   if (
     isSurveyLoading ||
     isLatestDetailSurveyAnswer ||
@@ -93,10 +108,12 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
       <HeaderBack
         title={`Trắc nghiệm / ${surveyInf.title}`}
         buttonBack={
-          <HStack alignItems={'center'} space={'2px'}>
-            <ChevronLeftIcon />
-            <Text color={'neutral.primary'}>Thoát</Text>
-          </HStack>
+          !isCreatingAccount ? (
+            <HStack alignItems={'center'} space={'2px'}>
+              <ChevronLeftIcon />
+              <Text  variant={'caption_regular'}  color={'neutral.primary'}>Thoát</Text>
+            </HStack>
+          ) : undefined
         }
         bottomChildren={
           <Box pt={'12px'}>
@@ -138,13 +155,17 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
       <HeaderBack
         title={`Trắc nghiệm / ${surveyInf.title}`}
         buttonBack={
-          <HStack alignItems={'center'} space={'2px'}>
-            <ChevronLeftIcon />
-            <Text color={'neutral.primary'}>Thoát</Text>
-          </HStack>
+          !isCreatingAccount ? (
+            <HStack alignItems={'center'} space={'2px'}>
+              <ChevronLeftIcon />
+              <Text variant={'caption_regular'} color={'neutral.primary'}>
+                Thoát
+              </Text>
+            </HStack>
+          ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'}>
+          <Box pt={'12px'} mb={Platform.OS === 'ios' ? 5 : 0}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>
@@ -173,6 +194,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = () => {
   else if (step === 'answering')
     return (
       <SurveyDetail_Answer
+        isCreatingAccount={isCreatingAccount}
         surveyInf={surveyInf}
         submitSuccess={() => submitSuccess()}
         listQuiz={dataSurvey.data.map((item, index) => {

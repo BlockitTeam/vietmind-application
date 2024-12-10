@@ -103,6 +103,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onmessage = event => {
         try {
           const res = JSON.parse(event.data);
+        console.log(res);
+
           if (res?.type === 'typing') {
             setDrTyping(true);
           } else if (res?.type === 'unTyping') {
@@ -231,7 +233,9 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         buttonBack={
           <HStack alignItems={'center'} space={'2px'}>
             <ChevronLeftIcon />
-            <Text color={'neutral.primary'}>Thoát</Text>
+            <Text variant={'caption_regular'} color={'neutral.primary'}>
+              Quay lại
+            </Text>
           </HStack>
         }
         bottomChildren={

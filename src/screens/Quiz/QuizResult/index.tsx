@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CusImageBackground from '@components/layout/CusImageBackground';
-import {Button, Text, VStack} from 'native-base';
+import {Button, Spinner, Text, useToast, VStack} from 'native-base';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
@@ -9,6 +9,11 @@ import HeaderBack from '@components/layout/HeaderBack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
+import LoadingOverlay from '@components/LoadingOverLay';
+import {useGetInfSurveyById} from '@hooks/survey';
+import {normalizeText} from 'src/utils/textUtil';
+import {G} from 'react-native-svg';
+import { Platform } from 'react-native';
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
@@ -16,84 +21,104 @@ type QuizResultProps = CompositeScreenProps<
 >;
 
 const QuizResult: React.FC<QuizResultProps> = props => {
+  // Check force curUser
+  const [curUser, setCurUser] = useAtom(curUserAtom);
+  if (!curUser) return <Spinner />;
   const {navigation} = props;
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  if (!resultCommonFilter) return <> {navigation.navigate('Home')}</>;
+
+  const {data: surveyInfo} = useGetInfSurveyById(curUser?.surveyDetail || '1');
+  const isDoneSurveyDetail =
+    curUser?.surveyDetail && curUser.latestSpecializedVersion;
+  const isGoodType = curUser?.surveyDetail === null;
+  console.log('!isGoodType:', !isGoodType);
+  // if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
+  //   navigation.replace('BottomTab', {screen: 'Home'});
+  //   return null;
+  // }
+
   return (
     <HeaderBack
       withBackGround={true}
       title="Kết quả trắc nghiệm"
       bottomChildren={
-        resultCommonFilter.type === 'good' ? (
-          <VStack space={2} w="full">
-            <Button
-              variant={'cusPrimary'}
-              w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Home'})
-              }>
-              Về trang chủ
-            </Button>
-            <Button
-              variant={'cusOutline'}
-              w={'full'}
-              onPress={() => navigation.navigate('ChatWithBot_Start')}>
-              Tư vấn 24/7
-            </Button>
+        (resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
+        !isGoodType ? (
+          <VStack space={2} w="full" mb={Platform.OS === 'ios' ? 8 : 0}>
+            {surveyInfo && (
+              <Button
+                variant={'cusPrimary'}
+                w={'full'}
+                onPress={() =>
+                  navigation.replace('SurveyDetail', {
+                    infSurvey: surveyInfo.data,
+                    isCreatingAccount: true,
+                  })
+                }>
+                Tiếp tục sàn lọc chuyên sâu
+              </Button>
+            )}
           </VStack>
         ) : (
+          //Good
           <VStack space={2} w="full">
             <Button
-              variant={'cusPrimary'}
               w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Advise'})
-              }>
+              variant={'cusPrimary'}
+              onPress={() => {
+                // navigation.replace('BottomTab', {screen: 'Home'});
+                // toast.show({title: 'Tính năng đang được cập nhật <3'});
+                navigation.replace('SetTimeAppointment');
+              }}>
               Chat với chuyên gia
             </Button>
             <Button
               variant={'cusOutline'}
               w={'full'}
-              onPress={() =>
-                navigation.navigate('BottomTab', {screen: 'Home'})
-              }>
-              Bỏ qua
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
+              Về trang chủ
             </Button>
           </VStack>
         )
       }>
-      <VStack alignItems={'center'}>
-        <Text variant={'header_1'} pt={'12.5%'} pb={4}>
-          Kết quả
-        </Text>
-        <Text variant={'body_large_regular'}>
-          Stress: {resultCommonFilter['Giấc ngủ']}
-        </Text>
-        <Text variant={'body_large_regular'}>
-          Lo âu: {resultCommonFilter['Lo Âu']}
-        </Text>
-        <Text variant={'body_large_regular'}>
-          Trầm cảm: {resultCommonFilter['Trầm Cảm']}
-        </Text>
-        <Text variant={'body_large_regular'}>
-          Tự hại: {resultCommonFilter.PTSD}
-        </Text>
-        <Text variant={'body_large_regular'} textAlign={'center'} pt={4}>
-          {resultCommonFilter.type === 'good'
-            ? 'Sức khoẻ tâm lý tốt, bạn hãy cố gắng phát huy bằng cách xem thêm các bài đọc, video hướng dẫn hoặc sử dụng dịch vụ Tư vấn 24/7 để hiểu thêm về sức khỏe tâm lý nhé!'
-            : 'Với những vấn đề bạn đang gặp phải, Vietmind khuyên bạn nên tham khảo ý kiến của chuyên gia tư vấn'}
-        </Text>
+      <VStack alignItems={'center'} justifyContent={'center'} h={'100%'}>
+        {(resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
+        !isGoodType ? (
+          // !surveyInfo?.data ? (
+          //   <Spinner />
+          // ) : (
+          <>
+            <Text variant={'header_1'} pt={'12.5%'} pb={4}>
+              Sàn lọc chuyên sâu
+            </Text>
+            <Text variant={'body_large_regular'} textAlign={'center'} pt={4}>
+              Dựa vào kết quả của sàn lọc chung, bạn sẽ tiếp tục trả lời{' '}
+              <Text fontWeight={'bold'}>
+                {surveyInfo?.data.questionCount} câu
+              </Text>{' '}
+              sàn lọc chuyên sâu về chủ để{' '}
+              <Text fontWeight={'bold'}>
+                {normalizeText(surveyInfo?.data.title ?? '')}
+              </Text>
+              .
+            </Text>
+          </>
+        ) : (
+          // )
+          <>
+            <Text variant={'header_1'} pt={'12.5%'} pb={4}>
+              Kết quả
+            </Text>
+            <Text variant={'body_large_regular'} textAlign={'center'} pt={4}>
+              Sức khoẻ tâm lý tốt. Bạn vẫn có thể sử dụng dịch vụ Tư vấn 24/7 để
+              hiểu thêm về sức khỏe tâm lý của mình nhé!
+            </Text>
+          </>
+        )}
       </VStack>
     </HeaderBack>
-
-    // <CusImageBackground
-    //   bottomButton={
-    //     }>
-
-    // </CusImageBackground>
   );
 };
 

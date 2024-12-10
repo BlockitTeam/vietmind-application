@@ -20,7 +20,7 @@ import axios from 'axios';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {useCurrentUser, usePutEditUser} from '@hooks/user';
-import {tPutEditUserParam} from '@hooks/user/user.interface';
+import {tPutEditUserParam, tUserResponse} from '@hooks/user/user.interface';
 
 const curYear = new Date().getFullYear();
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -35,7 +35,7 @@ type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string};
 const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
   const {navigation} = props;
 
-  const [_, setCurUser] = useAtom(curUserAtom);
+  const [cur, setCurUser] = useAtom(curUserAtom);
   const {refetch} = useCurrentUser();
 
   const {
@@ -63,7 +63,10 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
         onSuccess: value => {
           refetch().then(v => {
             //Note
-            setCurUser(v.data?.data);
+            if (cur) {
+              let temp: tUserResponse = {...cur, enabled: true, ...v.data};
+              setCurUser(temp);
+            }
           });
           // setCurUser(value.data);
         },
@@ -142,7 +145,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
             </Box>
           </HStack>
 
-          <FormControl isRequired isInvalid={'birthYear' in errors}>
+          <FormControl isRequired isInvalid={'birthYear' in errors} isReadOnly>
             <FormControl.Label fontFamily={'SFProDisplay'}>
               <Text>Năm sinh</Text>
             </FormControl.Label>
@@ -185,7 +188,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
             )}
           </FormControl>
 
-          <FormControl isRequired isInvalid={'gender' in errors}>
+          <FormControl isRequired isInvalid={'gender' in errors} isReadOnly>
             <FormControl.Label fontFamily={'SFProDisplay'}>
               <Text>Giới tính</Text>
             </FormControl.Label>
