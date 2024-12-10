@@ -18,37 +18,36 @@ const QuizInput: React.FC<QuizInputProps> = props => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <VStack
-      w={'full'}
-      h={'100%'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      pt={'5%'}>
-      <VStack w={'full'} flex={1}>
-        {parentQuestion ? (
-          <TextParent title={parentQuestion.questionText} />
-        ) : null}
-        <VStack pb={'24px'} alignItems={'flex-start'}>
-          <Text w={'100%'} variant={'sf_header_3'} textAlign={'center'}>
-            {question}
-          </Text>
-        </VStack>
-        <TextArea
-          autoCompleteType
-          onChangeText={e => setInputValue(e)}
-          defaultValue={answer ?? undefined}
-          placeholder="Nhập câu trả lời của bạn ở đây"
-        />
-      </VStack>
-      <Button
         w={'full'}
-        variant={'cusPrimary'}
-        // position={'absolute'}
-        mb={Platform.OS === 'ios' ? 8 : 0}
-        onPress={() => save(inputValue)}
-        disabled={!inputValue}>
-        {isLasted ? 'Kết thúc' : 'Câu tiếp theo'}
-      </Button>
-    </VStack>
+        h={'100%'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        pt={'5%'}>
+        <VStack w={'full'} flex={1}>
+          {parentQuestion ? (
+            <TextParent title={parentQuestion.questionText} />
+          ) : null}
+          <VStack pb={'24px'} alignItems={'flex-start'}>
+            <Text w={'100%'} variant={'sf_header_3'} textAlign={'center'}>
+              {question}
+            </Text>
+          </VStack>
+          <TextArea
+            autoCompleteType
+            onChangeText={e => setInputValue(e)}
+            defaultValue={answer ?? undefined}
+            placeholder="Nhập câu trả lời của bạn ở đây"
+          />
+        </VStack>
+        <Button
+          w={'full'}
+          variant={'cusPrimary'}
+          // position={'absolute'}
+          onPress={() => save(inputValue)}
+          disabled={!inputValue}>
+          {isLasted ? 'Kết thúc' : 'Câu tiếp theo'}
+        </Button>
+      </VStack>
     </TouchableWithoutFeedback>
   );
 };
