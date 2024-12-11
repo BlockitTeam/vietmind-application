@@ -100,6 +100,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
     if (selectedTimeAppointment && curUser) {
       createAppointment(
         {
+          title: curUser.firstName + curUser.lastName,
           appointmentDate: selectedDate,
           content: '',
           doctorId: selectedTimeAppointment.userId,

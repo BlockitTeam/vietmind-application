@@ -36,6 +36,7 @@ const RootApp = () => {
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
   const {isLoading, refetch} = useCurrentUser();
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
+  
   const {isLoading: isGetResultById, data: getResultByIdData} =
     useGetResultById(curUser?.id || '');
   const expireTimeHandle = () => {
@@ -104,19 +105,24 @@ const RootApp = () => {
 
     const isDoneSurveyDetail =
       curUser.surveyDetail !== null &&
-      curUser.latestSpecializedVersion !== null;
+      curUser.latestSpecializedVersion !== null &&
+      !isGoodType;
 
-      console.log(curUser.surveyDetail, curUser.latestSpecializedVersion);
-      console.log(isDoneSurveyDetail, isGoodType, appointmentData?.data);
+    console.log(curUser, 'curUserHere');
+    console.log('isDoneSurveyDetail', isDoneSurveyDetail);
+    console.log(' isGoodType', isGoodType);
+    console.log(' appointmentData?.data', appointmentData?.data);
     return (
       <>
-        {((!isDoneSurveyDetail && !isGoodType) ||
+        {/* Done survey general -> survey detail | good case */}
+        {(!isDoneSurveyDetail ||
           (isGoodType && typeof appointmentData?.data === 'string')) && (
           <>
             <RootStack.Screen name="QuizResult" component={QuizResult} />
           </>
         )}
-        {typeof appointmentData?.data === 'string' && (
+        {(typeof appointmentData?.data === 'string' ||
+          appointmentData?.data === undefined) && (
           <>
             {!isGoodType && (
               <RootStack.Screen name="DetailResult" component={DetailResult} />

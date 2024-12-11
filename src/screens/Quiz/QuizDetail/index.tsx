@@ -76,7 +76,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
       if (quizItem) {
         //update list result
         quizItem.answer = answer;
-
         setIsLoadingOverlay(true);
 
         if (quizItem.numberKey === nListQuest - 1) {
@@ -88,10 +87,8 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   //Todo: Add type good or bad
                   refetchCurUser().then(result => {
                     if (result.data) {
-                      console.log(result.data);
                       setCurUser({
                         ...result.data.data,
-                        surveyCompleted: true,
                       } as tUserResponse);
                       const type = result.data.data.surveyDetail;
                       setResultCommonFilter({
