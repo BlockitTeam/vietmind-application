@@ -22,7 +22,6 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
     useGetListDoctor();
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment();
-  console.log(appointmentData);
   return (
     <HeaderBack title="Tư vấn">
       <Box h={4} />
@@ -35,7 +34,6 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
           <>
             <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
             {dataListDoctor?.data.map(item => {
-              console.log(appointmentData?.data.doctorId, item.id);
               return appointmentData?.data.doctorId === item.id ? (
                 <TouchableOpacity
                   key={item.id}

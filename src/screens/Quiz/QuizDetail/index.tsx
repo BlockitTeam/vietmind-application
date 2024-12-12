@@ -103,7 +103,6 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
             },
             onError: error => {
               setIsLoadingOverlay(false);
-              console.log('🚀 ~ saveAndNext ~ error:', error);
             },
           });
         } else {

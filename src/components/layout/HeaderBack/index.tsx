@@ -39,7 +39,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
         }}
         edges={['right', 'top', 'left']}>
         <ImageBackground source={BackGround}>
-          <VStack h={'full'}>
+          <VStack h={'full'} mx={2}>
             <HStack
               alignItems={'center'}
               justifyContent={'center'}

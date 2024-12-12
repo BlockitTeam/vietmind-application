@@ -81,9 +81,10 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
       // const {data: rfData} = await rfCurUser();
 
       rfCurUser().then(rfData => {
-        console.log(rfData?.data, '----------------------');
-        setCurUser(rfData?.data.data);
-        navigation.replace('DetailResult');
+        if (rfData && rfData?.data) {
+          setCurUser(rfData?.data.data);
+          navigation.replace('DetailResult');
+        }
       });
     } else {
       await refetchLatestDetailSurveyAnswer();
@@ -126,7 +127,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'}>
+          <Box pt={'12px'} mx={2} mb={8}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Làm lại</Text>
             </Button>

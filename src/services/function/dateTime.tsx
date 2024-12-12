@@ -1,6 +1,5 @@
 export const formatTime = (dateString: string): string => {
   const date = new Date(dateString);
-  console.log(dateString);
   let hours = date.getHours();
   let minutes = date.getMinutes();
 

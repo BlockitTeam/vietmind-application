@@ -11,8 +11,6 @@ import ListSurveyDetail from './ListSurveyDetail';
 const ProfileMultipleChoice = () => {
   const {data: dataSurveyResponse} = useGetSurveyResponseResult();
   const [curUser] = useAtom(curUserAtom);
-  console.log(dataSurveyResponse);
-
   return (
     <HeaderBack
       title="Trắc nghiệm sàng lọc"
