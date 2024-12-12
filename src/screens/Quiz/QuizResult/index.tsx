@@ -23,22 +23,22 @@ type QuizResultProps = CompositeScreenProps<
 const QuizResult: React.FC<QuizResultProps> = props => {
   // Check force curUser
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  if (!curUser) return <Spinner />;
   const {navigation} = props;
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
 
-  const {data: surveyInfo} = useGetInfSurveyById(curUser?.surveyDetail || '1');
+  const {data: surveyInfo, isLoading} = useGetInfSurveyById(
+    curUser?.surveyDetail || '1',
+  );
   const isDoneSurveyDetail =
     curUser?.surveyDetail && curUser.latestSpecializedVersion;
   const isGoodType = curUser?.surveyDetail === null;
-  console.log('!isGoodType:', !isGoodType);
   // if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
   //   navigation.replace('BottomTab', {screen: 'Home'});
   //   return null;
   // }
-
+  if (isLoading || !curUser) return null;
   return (
     <HeaderBack
       withBackGround={true}

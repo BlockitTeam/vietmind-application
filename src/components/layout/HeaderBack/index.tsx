@@ -1,4 +1,11 @@
-import {Box, HStack, Text, View, VStack} from 'native-base';
+import {
+  Box,
+  HStack,
+  KeyboardAvoidingView,
+  Text,
+  View,
+  VStack,
+} from 'native-base';
 import React, {PropsWithChildren, ReactNode} from 'react';
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -28,12 +35,11 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
     return (
       <SafeAreaView
         style={{
-          backgroundColor: 'white',
           flex: 1,
         }}
         edges={['right', 'top', 'left']}>
         <ImageBackground source={BackGround}>
-          <VStack h={'full'}>
+          <VStack h={'full'} mx={2}>
             <HStack
               alignItems={'center'}
               justifyContent={'center'}
@@ -57,42 +63,46 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
       </SafeAreaView>
     );
   return (
-    <SafeAreaView
-      style={{backgroundColor: 'white', flex: 1}}
-      edges={['right', 'top', 'left']}>
-      <VStack h={'full'}>
-        <HStack
-          alignItems={'center'}
-          justifyContent={'center'}
-          position={'relative'}
-          backgroundColor={'primary.medium25'}
-          py={4}>
-          {buttonBack ? (
-            <TouchableOpacity
-              onPress={() => {
-                buttonBackPress ? buttonBackPress() : navigate.goBack();
-              }}
-              style={{
-                position: 'absolute',
-                left: 0,
-                padding: 8,
-              }}>
-              {buttonBack}
-            </TouchableOpacity>
-          ) : null}
-          <Text variant="caption_regular">{title}</Text>
-        </HStack>
-        <VStack flex={1} px={'16px'}>
-          {children}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      flex={1}>
+      <SafeAreaView
+        style={{backgroundColor: 'white', flex: 1}}
+        edges={['right', 'top', 'left']}>
+        <VStack h={'full'}>
+          <HStack
+            alignItems={'center'}
+            justifyContent={'center'}
+            position={'relative'}
+            backgroundColor={'primary.medium25'}
+            py={4}>
+            {buttonBack ? (
+              <TouchableOpacity
+                onPress={() => {
+                  buttonBackPress ? buttonBackPress() : navigate.goBack();
+                }}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  padding: 8,
+                }}>
+                {buttonBack}
+              </TouchableOpacity>
+            ) : null}
+            <Text variant="caption_regular">{title}</Text>
+          </HStack>
+          <VStack flex={1} px={'16px'}>
+            {children}
+          </VStack>
+          <VStack
+            mb={'16px'}
+            w={'full'}
+            px={bottomPadding ? bottomPadding : '16px'}>
+            {bottomChildren}
+          </VStack>
         </VStack>
-        <VStack
-          mb={'16px'}
-          w={'full'}
-          px={bottomPadding ? bottomPadding : '16px'}>
-          {bottomChildren}
-        </VStack>
-      </VStack>
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

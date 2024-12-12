@@ -15,5 +15,6 @@ export type tAppointment = {
   startTime: string;
   endTime: string;
   note: string;
+  title: string;
   status: StatusAppointmentType;
 };

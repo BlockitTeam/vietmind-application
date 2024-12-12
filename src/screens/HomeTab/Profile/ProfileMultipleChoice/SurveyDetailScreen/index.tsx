@@ -34,6 +34,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import { Platform } from 'react-native';
+import {useGetAppointment} from '@hooks/appointment/getAppointment';
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -55,9 +56,11 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
     surveyInf.surveyId,
   );
 
+  const [, setCurUser] = useAtom(curUserAtom);
   const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined);
 
-  const {data: currentUser} = useCurrentUser();
+  const {data: currentUser, refetch: rfCurUser} = useCurrentUser();
+
   const {
     data: latestDetailSurveyAnswer,
     isLoading: isLatestDetailSurveyAnswer,
@@ -74,9 +77,15 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
   }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
 
   const submitSuccess = async () => {
-    console.log(isCreatingAccount);
     if (isCreatingAccount) {
-      navigation.replace('DetailResult');
+      // const {data: rfData} = await rfCurUser();
+
+      rfCurUser().then(rfData => {
+        if (rfData && rfData?.data) {
+          setCurUser(rfData?.data.data);
+          navigation.replace('DetailResult');
+        }
+      });
     } else {
       await refetchLatestDetailSurveyAnswer();
       setStep('review');
@@ -111,12 +120,14 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           !isCreatingAccount ? (
             <HStack alignItems={'center'} space={'2px'}>
               <ChevronLeftIcon />
-              <Text  variant={'caption_regular'}  color={'neutral.primary'}>Thoát</Text>
+              <Text variant={'caption_regular'} color={'neutral.primary'}>
+                Thoát
+              </Text>
             </HStack>
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'}>
+          <Box pt={'12px'} mx={2} mb={8}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Làm lại</Text>
             </Button>

@@ -1,10 +1,11 @@
-import {Button, Center, Flex, Image, Text} from 'native-base';
+import { Button, Center, Flex, Image, Text } from 'native-base';
 import React from 'react';
 import Focused from '@assets/images/focused.png';
-import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import {useAtom} from 'jotai';
-import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
+import { storeFirstLoad } from '@services/asyncStorage/firstLoadApp';
+import { useAtom } from 'jotai';
+import { firstLoadAtom } from '@services/jotaiStorage/firstLoadAtom';
 import CusImageBackground from '@components/layout/CusImageBackground';
+import CustomButton from '@components/Custom/Button';
 const WelcomeScreen = () => {
   const [_, setFirstInit] = useAtom(firstLoadAtom);
   return (
@@ -13,7 +14,7 @@ const WelcomeScreen = () => {
         h={'full'}
         alignItems={'center'}
         justifyContent={'center'}
-        mx={'8px'}>
+        mx={'24px'}>
         <Center flex={1}>
           <Image
             source={Focused}
@@ -28,8 +29,9 @@ const WelcomeScreen = () => {
             gia tâm lý
           </Text>
         </Center>
-        <Button
-          mb={'36px'}
+        <CustomButton
+          mbIOS={10}
+          mbAndroid={0}
           maxW={'485px'}
           width={'100%'}
           variant={'cusPrimary'}
@@ -43,7 +45,7 @@ const WelcomeScreen = () => {
             })
           }>
           Bắt đầu
-        </Button>
+        </CustomButton>
       </Flex>
     </CusImageBackground>
   );

@@ -26,14 +26,13 @@ const DetailResult: React.FC<DetailResultProps> = props => {
   );
   const toast = useToast();
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  console.log(curUser);
 
   return (
     <HeaderBack
       withBackGround={true}
       title="Kết quả trắc nghiệm"
       bottomChildren={
-        <VStack space={2} w="full">
+        <VStack space={2} w="full" mb={6}>
           <Button
             variant={'cusPrimary'}
             w={'full'}

@@ -27,12 +27,12 @@ const ProfileSurveyButton: React.FC<tProfileSurveyButton> = props => {
             ellipsizeMode="tail">
             {name}
           </Text>
-          <Text variant={'body_medium_bold'}>
+          {/* <Text variant={'body_medium_bold'}>
             Ngày làm:{' '}
             <Text variant={'body_medium_regular'} fontWeight={400}>
               {date}
             </Text>
-          </Text>
+          </Text> */}
         </VStack>
         <ChevronRightIcon />
       </HStack>

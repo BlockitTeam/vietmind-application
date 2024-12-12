@@ -1,6 +1,7 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useLayoutEffect} from 'react';
 import {
+  Avatar,
   Button,
   Center,
   ChevronRightIcon,
@@ -73,11 +74,13 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
           <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
             {/* Start: Basic information ----- Top */}
             <>
-              <Circle w="100px" h="100px" bgColor={'#D9D9D9'} />
+              <Avatar bg="green.500" mr="1" source={{
+                uri: "https://bit.ly/broken-link"
+              }} w={100} h={100} />
               <Text
                 variant={
                   'sf_header_3'
-                }>{`${curUser?.firstName} ${curUser?.lastName}`}</Text>
+                }>{`${curUser?.lastName} ${curUser?.firstName}`}</Text>
               <Text
                 variant={'body_medium_regular'}
                 color={'text.neutral_secondary'}>

@@ -103,7 +103,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onmessage = event => {
         try {
           const res = JSON.parse(event.data);
-        console.log(res);
 
           if (res?.type === 'typing') {
             setDrTyping(true);
@@ -215,7 +214,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             time: formatTime(new Date().toISOString()),
           },
         ]);
-        console.log('send message', msg);
         setCurMessage('');
         scrollViewRef.current?.scrollToEnd({animated: false});
       } catch (error) {
@@ -309,7 +307,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                             type: 'typing', //typing
                             conversationId: conversationId,
                           });
-                          console.log('send typing', msg);
                           ws.send(msg);
                           setImTyping(true);
                         }
@@ -319,7 +316,6 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                             type: 'unTyping', //typing
                             conversationId: conversationId,
                           });
-                          console.log('send untyping', msg);
                           ws.send(msg);
                           setImTyping(false);
                         }

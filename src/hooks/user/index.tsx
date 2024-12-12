@@ -19,7 +19,7 @@ export const useCurrentUser = () => {
   return useQuery<IResponse<tUserResponse>>({
     queryKey: ['useCurrentUser'],
     queryFn: () => getData<IResponse<tUserResponse>>(url),
-    // gcTime: Infinity,
+    gcTime: 0,
     enabled: false,
   });
 };
