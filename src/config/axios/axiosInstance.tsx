@@ -34,6 +34,8 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     if (error.response?.status === 403 || error.response?.status === 401) {
+      debugger;
+      console.log('403 or 401');
       await removeJSessionID();
       await storeMessageModal(language.vn.expired_time);
       vietmindStore.set(curUserAtom, undefined);

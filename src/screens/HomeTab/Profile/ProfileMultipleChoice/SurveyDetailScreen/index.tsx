@@ -127,7 +127,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'} mx={2} mb={8}>
+          <Box pt={'12px'} mx={2}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Làm lại</Text>
             </Button>
@@ -176,13 +176,13 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           ) : undefined
         }
         bottomChildren={
-          <Box pt={'12px'} mb={Platform.OS === 'ios' ? 5 : 0}>
+          <Box mb={Platform.OS === 'ios' ? 5 : 0} py={4}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>
           </Box>
         }>
-        <ScrollView flex={1}>
+        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
           <Text variant={'sf_header_3'} textAlign={'center'} py={'20px'}>
             Đánh giá mức độ {normalizeText(surveyInf.title)}
           </Text>

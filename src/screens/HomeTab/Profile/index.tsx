@@ -72,11 +72,16 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
       <HeaderBack title="Thông tin cá nhân">
         <ScrollView showsVerticalScrollIndicator={false}>
           <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
-            {/* Start: Basic information ----- Top */}
             <>
-              <Avatar bg="green.500" mr="1" source={{
-                uri: "https://bit.ly/broken-link"
-              }} w={100} h={100} />
+              <Avatar
+                bg="green.500"
+                mr="1"
+                source={{
+                  uri: 'https://bit.ly/broken-link',
+                }}
+                w={100}
+                h={100}
+              />
               <Text
                 variant={
                   'sf_header_3'
@@ -125,42 +130,6 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                 <ListSurveyDetail idSur={curUser?.surveyDetail} />
               )}
             </VStack>
-            {/* Start:  -----  Multi choice advise  -----  */}
-            {/* <VStack w={'100%'} space={'6px'}>
-            <TouchableOpacity
-              style={styles.multiChoiceAdvise__touchable}
-              onPress={() => {
-                navigation.navigate('ProfileMultipleChoice');
-              }}>
-              <Text flex={'1'} variant={'body_large_bold'}>
-                Trắc nghiệm
-              </Text>
-              <ChevronRightIcon />
-            </TouchableOpacity>
-            {!dataSurveyResponse?.data ? (
-              <VStack space={4}>
-                <Skeleton h={'24px'} />
-                <Skeleton h={'24px'} />
-                <Skeleton h={'24px'} />
-                <Skeleton h={'24px'} />
-              </VStack>
-            ) : (
-              Object.entries(dataSurveyResponse?.data).map(i => {
-                return (
-                  <HStack key={i[0]}>
-                    <Text
-                      flex={'1'}
-                      variant={'body_medium_regular'}
-                      color="text.neutral_secondary">
-                      {i[0]}
-                    </Text>
-                    <Text variant={'body_medium_regular'}>{i[1]}</Text>
-                  </HStack>
-                );
-              })
-            )}
-          </VStack> */}
-            {/* End:  -----  Multi choice advise  -----  */}
 
             <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />
 
@@ -177,12 +146,5 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
     );
 };
 
-const styles = StyleSheet.create({
-  multiChoiceAdvise__touchable: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});
 
 export default Tab_Profile;

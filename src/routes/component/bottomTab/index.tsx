@@ -29,13 +29,13 @@ const BottomTab = () => {
           title: 'Tư vấn',
         }}
       />
-      <RootBottomTab.Screen
+      {/* <RootBottomTab.Screen
         name="Knowledge"
         component={Tab_Knowledge}
         options={{
           title: 'Kiến thức',
         }}
-      />
+      /> */}
       <RootBottomTab.Screen
         name="Profile"
         component={Tab_Profile}
