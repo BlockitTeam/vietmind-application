@@ -12,6 +12,7 @@ import {
   ChevronDownIcon,
   Center,
   ChevronLeftIcon,
+  useToast,
 } from 'native-base';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -23,6 +24,7 @@ import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import {useCurrentUser, usePutEditUser} from '@hooks/user';
 import {tPutEditUserParam} from '@hooks/user/user.interface';
 import HeaderBack from '@components/layout/HeaderBack';
+import {TOAST_PLACEMENT} from 'src/constants';
 
 const curYear = new Date().getFullYear();
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -37,35 +39,43 @@ type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string};
 const ChangeProfile: React.FC<ChangeProfileProps> = props => {
   const {navigation} = props;
 
-  const [_, setCurUser] = useAtom(curUserAtom);
+  const [cur, setCurUser] = useAtom(curUserAtom);
   const {refetch} = useCurrentUser();
-
+  const toast = useToast();
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid},
+    formState: {errors, isValid, dirtyFields},
+    reset,
   } = useForm<tFormEditUser>({
     mode: 'onChange',
     defaultValues: {
-      lastName: '',
-      firstName: '',
-      birthYear: '',
-      gender: 'MALE',
+      lastName: cur?.lastName,
+      firstName: cur?.firstName || '',
+      birthYear: cur?.birthYear?.toString() || '',
+      gender: cur?.gender || 'MALE',
     },
   });
 
   // Todo: API
-  const usePutEditUserMutation = usePutEditUser();
+  const {mutate: editUser, isPending} = usePutEditUser();
 
   //Todo: Func
   const onSubmit = async (data: tFormEditUser) => {
-    usePutEditUserMutation.mutate(
+    editUser(
       {...data, birthYear: parseInt(data.birthYear)},
       {
         onSuccess: value => {
+          toast.show({
+            title: 'Thay đổi thông tin thành công!',
+            duration: 2000,
+            placement: TOAST_PLACEMENT,
+          });
+          reset({}, {keepValues: true});
           refetch().then(v => {
             //Note
             setCurUser(v.data?.data);
+            // Clear dirtyFields
           });
           // setCurUser(value.data);
         },
@@ -82,22 +92,24 @@ const ChangeProfile: React.FC<ChangeProfileProps> = props => {
       buttonBack={
         <HStack alignItems={'center'} space={'2px'}>
           <ChevronLeftIcon />
-          <Text color={'neutral.primary'}>Thoát</Text>
+          <Text color={'neutral.primary'} pt={'4px'}>
+            Thoát
+          </Text>
         </HStack>
       }>
-      <Box w="90%" m={'auto'}>
+      <Box w="100%" p={'16px'}>
         <VStack space={4}>
           <Text textAlign={'center'} variant={'header_2'}>
             Thông tin cá nhân
           </Text>
-          <Text
+          {/* <Text
             variant={'body_medium_regular'}
             w={300}
             textAlign={'center'}
             mb={2}
             m={'auto'}>
             Bạn vui lòng cung cấp tên, tuổi để Vietmind tiện xưng hô nhé
-          </Text>
+          </Text> */}
           <HStack space={2}>
             <Box flex={1}>
               <FormControl isRequired isInvalid={'lastName' in errors}>
@@ -233,10 +245,11 @@ const ChangeProfile: React.FC<ChangeProfileProps> = props => {
           </FormControl>
 
           <Button
+            isLoading={isPending}
             onPress={handleSubmit(onSubmit)}
             variant={'cusPrimary'}
-            isDisabled={!isValid}>
-            Tiếp tục
+            isDisabled={!isValid || Object.keys(dirtyFields).length === 0}>
+            Thay đổi
           </Button>
         </VStack>
       </Box>

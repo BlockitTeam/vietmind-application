@@ -100,7 +100,6 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
     if (selectedTimeAppointment && curUser) {
       createAppointment(
         {
-          title: curUser.firstName + curUser.lastName,
           appointmentDate: selectedDate,
           content: '',
           doctorId: selectedTimeAppointment.userId,
@@ -111,9 +110,10 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
           userId: curUser.id,
         },
         {
-          onError: () => {
+          onError: e => {
+            console.log(e);
             toast.show({
-              title: 'Vui lòng thử lái!',
+              title: 'Vui lòng thử lại!',
               duration: 3000,
               placement: TOAST_PLACEMENT,
             });

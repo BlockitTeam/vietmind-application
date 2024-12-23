@@ -1,6 +1,6 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {Box, Center, Circle, HStack, Text, VStack} from 'native-base';
+import React, {useEffect, useLayoutEffect} from 'react';
+import {Box, Center, Circle, HStack, Spacer, Text, VStack} from 'native-base';
 import HeaderBack from '@components/layout/HeaderBack';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import {useGetListDoctor} from '@hooks/user';
 import {colors} from '@assets/colors';
 import AdviseLoading from './AdviseLoading';
 import {useGetAppointment} from '@hooks/appointment/getAppointment';
+import Splash from '@screens/Auth/Splash';
 
 type Tab_AdviseProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Advise'>,
@@ -22,65 +23,66 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
     useGetListDoctor();
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment();
-  return (
+  useLayoutEffect(() => {
+    if (typeof appointmentData?.data === 'string') {
+      navigation.navigate('DetailResult');
+    }
+  }, [navigation, appointmentData?.data]);
+
+  return appointmentData?.data === undefined ||
+    isListDoctorLoading ||
+    isAppointmentLoading ? (
+    <></>
+  ) : (
     <HeaderBack title="Tư vấn">
       <Box h={4} />
       <VStack space={2}>
-        {isListDoctorLoading || isAppointmentLoading ? (
-          <AdviseLoading />
-        ) : typeof appointmentData?.data === 'string' ? (
-          <Text>Bạn không có bác sĩ nào phụ trách</Text>
-        ) : (
-          <>
-            <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
-            {dataListDoctor?.data.map(item => {
-              return appointmentData?.data.doctorId === item.id ? (
-                <TouchableOpacity
-                  key={item.id}
-                  style={styles.touchableOpacity__advise}
-                  onPress={() => {
-                    //Add dr information
-                    navigation.navigate('ChatWithProfessional_Start', {
-                      drInformation: item,
-                    });
-                  }}>
-                  <HStack alignItems="center" space={'8px'}>
-                    <HStack flex={1} space={2} alignItems="center">
-                      <Circle
-                        h="40px"
-                        w="40px"
-                        backgroundColor="primary.medium"
-                      />
-                      <Box flex={1}>
-                        <Text
-                          variant="body_medium_bold"
-                          numberOfLines={
-                            1
-                          }>{`Bs. ${item.firstName} ${item.lastName}`}</Text>
-                        <Text
-                          variant="body_medium_regular"
-                          color="text.neutral_secondary"
-                          numberOfLines={1}>
-                          Bệnh viện bạch mai
-                        </Text>
-                      </Box>
-                    </HStack>
-                    <Center
-                      borderColor="primary.medium"
-                      borderWidth={1}
-                      bgColor="white"
-                      h="32px"
-                      px="16px"
-                      py="0px"
-                      borderRadius="8px">
-                      <Text variant="body_small_bold">Tư vấn ngay</Text>
-                    </Center>
-                  </HStack>
-                </TouchableOpacity>
-              ) : null;
-            })}
-            <Box h={4} />
-            {/* <Text variant={'body_large_bold'}>Tư vấn với chatbot</Text>
+        <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
+
+        {dataListDoctor?.data.map(item => {
+          return appointmentData?.data.doctorId === item.id ? (
+            <TouchableOpacity
+              key={item.id}
+              style={styles.touchableOpacity__advise}
+              onPress={() => {
+                //Add dr information
+                navigation.navigate('ChatWithProfessional_Start', {
+                  drInformation: item,
+                });
+              }}>
+              <HStack alignItems="center" space={'8px'}>
+                <HStack flex={1} space={2} alignItems="center">
+                  <Circle h="40px" w="40px" backgroundColor="primary.medium" />
+                  <Box flex={1}>
+                    <Text
+                      variant="body_medium_bold"
+                      numberOfLines={
+                        1
+                      }>{`Bs. ${item.firstName} ${item.lastName}`}</Text>
+                    <Text
+                      variant="body_medium_regular"
+                      color="text.neutral_secondary"
+                      numberOfLines={1}>
+                      Bệnh viện bạch mai
+                    </Text>
+                  </Box>
+                </HStack>
+                <Center
+                  borderColor="primary.medium"
+                  borderWidth={1}
+                  bgColor="white"
+                  h="32px"
+                  px="16px"
+                  py="0px"
+                  borderRadius="8px">
+                  <Text variant="body_small_bold">Tư vấn ngay</Text>
+                </Center>
+              </HStack>
+            </TouchableOpacity>
+          ) : null;
+        })}
+        <Box h={4} />
+        {/* <Text variant={'body_large_bold'}>Tư vấn với chatbot</Text>
             <TouchableOpacity>
               <HStack alignItems={'center'}>
                 <HStack flex={1} space={2} alignItems={'center'}>
@@ -93,8 +95,6 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                 <Box>Tư vấn ngay</Box>
               </HStack>
             </TouchableOpacity> */}
-          </>
-        )}
       </VStack>
     </HeaderBack>
   );

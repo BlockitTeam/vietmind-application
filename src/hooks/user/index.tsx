@@ -1,6 +1,6 @@
 import {apiPath} from '@config/api/apiPath';
 import {IResponse} from '@interface/api.interface';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import queryString from 'query-string';
 import {
   tDoctorResponse,
@@ -16,6 +16,7 @@ export const useCurrentUser = () => {
     },
     {arrayFormat: 'comma'},
   );
+  console.log('ref');
   return useQuery<IResponse<tUserResponse>>({
     queryKey: ['useCurrentUser'],
     queryFn: () => getData<IResponse<tUserResponse>>(url),
@@ -25,12 +26,16 @@ export const useCurrentUser = () => {
 };
 
 export const usePutEditUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (body: tPutEditUserParam) => {
       return mutationPut<IResponse<tUserResponse>>({
         url: apiPath.user.PUT,
         body: {...body},
       });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: ['useCurrentUser']});
     },
   });
 };

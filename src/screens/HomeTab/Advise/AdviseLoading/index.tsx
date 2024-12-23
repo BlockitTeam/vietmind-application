@@ -4,7 +4,6 @@ import React from 'react';
 const AdviseLoading = () => {
   return (
     <>
-      <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
       <VStack mt={2} space={2}>
         {Array.from(Array(10).keys()).map(item => {
           return (

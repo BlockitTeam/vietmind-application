@@ -2,7 +2,7 @@ export type tUserResponse = {
   birthYear: string | null;
   enabled: boolean;
   firstName: string | null;
-  gender: string | null;
+  gender: 'MALE' | 'FEMALE' | 'OTHER' | null;
   id: string;
   lastName: string | '';
   password: string | null;
