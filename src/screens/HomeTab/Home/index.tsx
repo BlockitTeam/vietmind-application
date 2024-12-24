@@ -1,19 +1,8 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {
-  Box,
-  Button,
-  Circle,
-  HStack,
-  ScrollView,
-  Spinner,
-  Text,
-  VStack,
-} from 'native-base';
-import HistoryAdviseItem from './component/HistoryAdviseItem';
+import {ScrollView, VStack} from 'native-base';
+
 import HeaderLayout from '@components/layout/Header';
-import {navigate} from 'App';
-import {clearResult} from '@hooks/response';
 
 import IncomingAdvise from './component/IncomingAdvise';
 import HistoryAdvise from './component/HistoryAdvise';
@@ -26,21 +15,12 @@ export type Tab_HomeProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList>
 >;
 const Tab_Home: React.FC<Tab_HomeProps> = props => {
-  const {mutate: clearRes} = clearResult();
-
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack flex={1} space={4} w={'100%'} minHeight={'100%'} pt={4} pb={4}>
           <IncomingAdvise />
           <HistoryAdvise route={props.route} navigation={props.navigation} />
-          <Button onPress={() => navigate('SetTimeAppointment')}>Click</Button>
-          <Button
-            onPress={() => {
-              clearRes();
-            }}>
-            Click
-          </Button>
         </VStack>
       </ScrollView>
     </HeaderLayout>

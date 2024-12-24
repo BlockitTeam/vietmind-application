@@ -9,7 +9,7 @@ import {
   Circle,
   Skeleton,
 } from 'native-base';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {clearSecond} from 'src/utils/formatDate';
 
 const IncomingAdvise = () => {
@@ -17,6 +17,8 @@ const IncomingAdvise = () => {
     useGetAppointment();
   const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId);
   // console.log(appointmentData);
+
+  console.log('rerender');
   return (
     <VStack space={2}>
       <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>

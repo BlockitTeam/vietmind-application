@@ -101,7 +101,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
       createAppointment(
         {
           appointmentDate: selectedDate,
-          content: '',
+          content: curUser.lastName + ' ' + curUser.firstName,
           doctorId: selectedTimeAppointment.userId,
           endTime: selectedTimeAppointment.endTime,
           note: '',

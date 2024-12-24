@@ -26,9 +26,8 @@ import MessageSend from './MessageSend';
 import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
-import LoadingDots from '@components/ThreeDotLoading';
 import {formatTime} from '@services/function/dateTime';
-import {Keyboard, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById';
 import {
   eStatusAppointment,
@@ -252,6 +251,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                       updateAppointment.mutate(
                         {
                           ...appointment,
+                          content: curUser.lastName + ' ' + curUser.firstName,
                           status: eStatusAppointment.CANCELLED,
                         },
                         {
@@ -260,14 +260,12 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                             const ms = {
                               ...e.data,
                               type: 'appointment',
-                              status: 'CANCELLED',
+                              status: eStatusAppointment.CANCELLED,
                             };
                             ws.send(JSON.stringify(ms));
                           },
                         },
                       );
-                      const ms = {};
-                      // ws.send()
                     }}>
                     Dời lịch
                   </Button>
@@ -278,11 +276,18 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                       updateAppointment.mutate(
                         {
                           ...appointment,
+                          content: curUser.lastName + ' ' + curUser.firstName,
                           status: eStatusAppointment.CONFIRMED,
                         },
                         {
                           onSuccess: e => {
                             setAppointment(e.data);
+                            const ms = {
+                              ...e.data,
+                              type: 'appointment',
+                              status: eStatusAppointment.CONFIRMED,
+                            };
+                            ws.send(JSON.stringify(ms));
                           },
                           onError: e => {
                             console.log(e);
@@ -382,8 +387,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             {
               // Show appointment time when confirmed
               appointment &&
-              (appointment.status === 'CONFIRMED' ||
-                appointment.status === 'PENDING') ? (
+              // appointment.status === 'CONFIRMED' ||
+              appointment.status === 'PENDING' ? (
                 <MessageSystem
                   text={`Bs. ${drInformation.drName} đã đặt lịch hẹn vào ngày ${appointment.appointmentDate}, ${appointment.startTime} - ${appointment.endTime}`}
                 />

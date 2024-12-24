@@ -10,7 +10,7 @@ type useGetAppointmentFinishResponse = IResponse<tAppointment[]>;
 export const useGetAppointmentFinish = () => {
   const url = apiPath.appointment.GET_FINISHED;
   return useQuery<useGetAppointmentFinishResponse>({
-    queryKey: ['usGetAppointmentFinish'],
+    queryKey: ['useGetAppointmentFinish'],
     queryFn: () => getData<useGetAppointmentFinishResponse>(url),
     gcTime: 0,
   });

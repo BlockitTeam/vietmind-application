@@ -1,8 +1,6 @@
-import {StyleSheet} from 'react-native';
 import React from 'react';
 import {Button, HStack, Skeleton, Text, VStack} from 'native-base';
 import {useGetDoctorById} from '@hooks/user';
-import {useNavigation} from '@react-navigation/native';
 import {Tab_HomeProps} from '..';
 
 type HistoryAdviseItemType = {
@@ -42,8 +40,9 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
         py={'0px'}
         borderRadius={'8px'}
         onPress={() =>
-          navigation.navigate('ViewHistoryAdvise', {
-            idConversation: idConversation,
+          navigation.navigate('ChatWithProfessional_Conversation', {
+            drId: drId,
+            drName: ` ${data?.data.lastName} ${data?.data.firstName}`,
           })
         }>
         <Text variant={'body_small_bold'}>Xem lại</Text>
@@ -53,5 +52,3 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
 };
 
 export default HistoryAdviseItem;
-
-const styles = StyleSheet.create({});
