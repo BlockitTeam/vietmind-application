@@ -1,16 +1,21 @@
 import {StyleSheet} from 'react-native';
 import React from 'react';
-import {Button, HStack, Text, VStack} from 'native-base';
+import {Button, HStack, Skeleton, Text, VStack} from 'native-base';
+import {useGetDoctorById} from '@hooks/user';
+import {useNavigation} from '@react-navigation/native';
+import {Tab_HomeProps} from '..';
 
 type HistoryAdviseItemType = {
-  drName: string;
   drId: string;
   time: string;
   idConversation: string;
+  navigation: Tab_HomeProps['navigation'];
 };
 
 const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
-  const {drName, drId, time, idConversation} = props;
+  const {drId, time, idConversation, navigation} = props;
+  const {data, isLoading} = useGetDoctorById(drId);
+
   return (
     <HStack
       borderRadius={'8px'}
@@ -19,7 +24,13 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
       bgColor={'primary.primary_light'}
       padding={'13px 12px'}>
       <VStack flex={1}>
-        <Text variant={'body_medium_bold'}>{drName}</Text>
+        <Text variant={'body_medium_bold'}>
+          {isLoading ? (
+            <Skeleton h={'30.1px'} w={'250px'} />
+          ) : (
+            `BS. ${data?.data.lastName} ${data?.data.firstName}`
+          )}
+        </Text>
         <Text variant={'body_medium_regular'} color={'text.neutral_secondary'}>
           {time}
         </Text>
@@ -29,7 +40,12 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
         h={'32px'}
         px={'16px'}
         py={'0px'}
-        borderRadius={'8px'}>
+        borderRadius={'8px'}
+        onPress={() =>
+          navigation.navigate('ViewHistoryAdvise', {
+            idConversation: idConversation,
+          })
+        }>
         <Text variant={'body_small_bold'}>Xem lại</Text>
       </Button>
     </HStack>

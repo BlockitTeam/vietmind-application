@@ -108,10 +108,6 @@ const RootApp = () => {
       curUser.latestSpecializedVersion !== null &&
       !isGoodType;
 
-    console.log(curUser, 'curUserHere');
-    console.log('isDoneSurveyDetail', isDoneSurveyDetail);
-    console.log(' isGoodType', isGoodType);
-    console.log(' appointmentData?.data', appointmentData?.data);
     return (
       <>
         {/* Done survey general -> survey detail | good case */}

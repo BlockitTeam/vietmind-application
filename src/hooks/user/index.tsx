@@ -16,7 +16,6 @@ export const useCurrentUser = () => {
     },
     {arrayFormat: 'comma'},
   );
-  console.log('ref');
   return useQuery<IResponse<tUserResponse>>({
     queryKey: ['useCurrentUser'],
     queryFn: () => getData<IResponse<tUserResponse>>(url),
@@ -64,10 +63,10 @@ export const useGetDoctorById = (id?: string) => {
       if (!id) {
         throw new Error('ID is undefined'); // Defensive coding
       }
-      const url = apiPath.user.GET_DOCTOR_ID.replace("{id}", id);
+      const url = apiPath.user.GET_DOCTOR_ID.replace('{id}', id);
       return getData<IResponse<tDoctorResponse>>(url);
     },
     enabled: !!id, // Ensures query runs only when ID is defined
-    gcTime: 0,
+    gcTime: 2000,
   });
 };

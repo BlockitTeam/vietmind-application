@@ -13,6 +13,7 @@ export const apiPath = {
     GET_BY_CONVERSATION_ID: '/appointments/conversation/{conversation_id}',
     PUT: '/appointments',
     CREATE: '/appointments',
+    GET_FINISHED: '/appointments/finished',
   },
   user: {
     PUT: '/user',

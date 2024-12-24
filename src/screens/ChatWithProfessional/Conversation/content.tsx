@@ -284,6 +284,9 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                           onSuccess: e => {
                             setAppointment(e.data);
                           },
+                          onError: e => {
+                            console.log(e);
+                          },
                         },
                       );
                     }}>
