@@ -56,6 +56,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
     surveyInf.surveyId,
   );
 
+  console.log('SurveyDetail screen');
   const [, setCurUser] = useAtom(curUserAtom);
   const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined);
 
@@ -77,11 +78,14 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
   }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
 
   const submitSuccess = async () => {
+    console.log('here');
+    console.log('isCreatingAccount', isCreatingAccount);
+
     if (isCreatingAccount) {
       // const {data: rfData} = await rfCurUser();
-
       rfCurUser().then(rfData => {
         if (rfData && rfData?.data) {
+          console.log('refecth data', rfData?.data.data);
           setCurUser(rfData?.data.data);
           navigation.replace('DetailResult');
         }

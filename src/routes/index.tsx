@@ -104,10 +104,8 @@ const RootApp = () => {
     const isGoodType = curUser?.surveyDetail === null;
 
     const isDoneSurveyDetail =
-      curUser.surveyDetail !== null &&
-      curUser.latestSpecializedVersion !== null &&
-      !isGoodType;
-
+      // curUser.surveyDetail !== null &&
+      curUser.latestSpecializedVersion !== null && !isGoodType;
     return (
       <>
         {/* Done survey general -> survey detail | good case */}
