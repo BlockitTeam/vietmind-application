@@ -109,15 +109,10 @@ const RootApp = () => {
     return (
       <>
         {/* Done survey general -> survey detail | good case */}
-        {(!isDoneSurveyDetail ||
-          (isGoodType && typeof appointmentData?.data === 'string')) && (
+        {!isDoneSurveyDetail ||
+        (isGoodType && typeof appointmentData?.data === 'string') ? (
           <>
             <RootStack.Screen name="QuizResult" component={QuizResult} />
-          </>
-        )}
-        {(typeof appointmentData?.data === 'string' ||
-          appointmentData?.data === undefined) && (
-          <>
             {!isGoodType && (
               <RootStack.Screen name="DetailResult" component={DetailResult} />
             )}
@@ -130,6 +125,26 @@ const RootApp = () => {
               component={SetTimeAppointmentSuccess}
             />
           </>
+        ) : (
+          (typeof appointmentData?.data === 'string' ||
+            appointmentData?.data === undefined) && (
+            <>
+              {!isGoodType && (
+                <RootStack.Screen
+                  name="DetailResult"
+                  component={DetailResult}
+                />
+              )}
+              <RootStack.Screen
+                name="SetTimeAppointment"
+                component={SetTimeAppointment}
+              />
+              <RootStack.Screen
+                name="SetTimeAppointmentSuccess"
+                component={SetTimeAppointmentSuccess}
+              />
+            </>
+          )
         )}
 
         {renderBottomTabStack()}
