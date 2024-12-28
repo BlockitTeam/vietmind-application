@@ -26,3 +26,13 @@ export const useGetAppointment = () => {
     gcTime: 0,
   });
 };
+
+export const useGetAppointmentFalse = () => {
+  const url = apiPath.appointment.GET_APPOINTMENT;
+  return useQuery<useGetAppointmentResponse>({
+    queryKey: ['useGetAppointmentFalse'],
+    queryFn: () => getData<useGetAppointmentResponse>(url),
+    gcTime: 0,
+    enabled: false,
+  });
+};
