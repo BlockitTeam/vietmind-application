@@ -3,8 +3,8 @@ import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {AppStateStatus, AppState, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
@@ -34,10 +34,12 @@ const ChatWithProfessional_Conversation: React.FC<
   const [conversationId, setCurConversationId] = useState<string>();
   const getEncryptKey = useGetEncryptKey();
   const [keyAES, setKeyAES] = useState<CryptoJS.lib.WordArray>();
+  const [appState, setAppState] = useState<AppStateStatus>(
+    AppState.currentState,
+  );
 
-  // Get conversationId
-  useEffect(() => {
-    const setupWebSocket = async () => {
+  const setupWebSocket = useCallback(async () => {
+    try {
       const storedSessionId = await AsyncStorage.getItem('JSESSIONID');
       if (curUser && storedSessionId) {
         const drId = drInformation.drId;
@@ -105,10 +107,14 @@ const ChatWithProfessional_Conversation: React.FC<
 
         setWs(websocket);
       }
-    };
-
+    } catch (error) {
+      console.error('Error setting up WebSocket:', error);
+    } finally {
+    }
+  }, [curUser, drInformation.drId, getEncryptKey]);
+  // Get conversationId
+  useEffect(() => {
     setupWebSocket();
-
     return () => {
       if (ws) {
         ws.close();
@@ -116,6 +122,28 @@ const ChatWithProfessional_Conversation: React.FC<
     };
   }, [drInformation]);
   useEffect(() => {}, [conversationId]);
+
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('App has come to the foreground.');
+        // if (!ws || ws.readyState === WebSocket.CLOSED) {
+        console.log('Reconnecting WebSocket...');
+        setupWebSocket();
+        // }
+      }
+      setAppState(nextAppState);
+    };
+
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      appStateListener.remove();
+    };
+  }, [appState, setupWebSocket, ws]);
   if (!conversationId || !ws || !keyAES || !curUser) return <Splash />;
   else
     return (

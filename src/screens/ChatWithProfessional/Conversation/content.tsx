@@ -102,6 +102,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onmessage = event => {
         try {
           const res = JSON.parse(event.data);
+          console.log('Recieved message');
 
           if (res?.type === 'typing') {
             setDrTyping(true);
@@ -148,10 +149,10 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
 
     return () => {
       if (ws) {
-        ws.close();
+        // ws.close();
       }
     };
-  }, []);
+  }, [ws]);
 
   // Handle scroll when view list message change height || receive new message
   useEffect(() => {
