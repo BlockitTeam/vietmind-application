@@ -1,12 +1,11 @@
-import React from 'react';
-import {FormControl, NativeBaseProvider, extendTheme} from 'native-base';
-import {background} from 'native-base/lib/typescript/theme/styled-system';
+import {extendTheme} from 'native-base';
 import {cusSelected, outlineButton, primaryButton} from './custom-variant';
 import {Platform} from 'react-native';
 
 const headerDefault = {
   color: 'text.neutral_primary',
   fontFamily: 'MuseoModerno',
+  textAlign: 'center',
 };
 
 export const themeNativeBase = extendTheme({

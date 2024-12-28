@@ -46,7 +46,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
       bottomChildren={
         (resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
         !isGoodType ? (
-          <VStack space={2} w="full" mb={Platform.OS === 'ios' ? 8 : 0}>
+          <VStack space={2} w="full">
             {surveyInfo && (
               <Button
                 variant={'cusPrimary'}

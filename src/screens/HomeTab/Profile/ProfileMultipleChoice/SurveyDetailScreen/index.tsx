@@ -35,6 +35,7 @@ import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 import { Platform } from 'react-native';
 import {useGetAppointment} from '@hooks/appointment/getAppointment';
+import {isCreatingAtom} from '@services/jotaiStorage/isCreatingAtom';
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -56,12 +57,11 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
     surveyInf.surveyId,
   );
 
-  console.log('SurveyDetail screen');
   const [, setCurUser] = useAtom(curUserAtom);
   const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined);
 
   const {data: currentUser, refetch: rfCurUser} = useCurrentUser();
-
+  const [, setIsCreatingAtom] = useAtom(isCreatingAtom);
   const {
     data: latestDetailSurveyAnswer,
     isLoading: isLatestDetailSurveyAnswer,
@@ -78,7 +78,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
   }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
 
   const submitSuccess = async () => {
-    console.log('here');
+    console.log('here', 'SurveyDetailScreen 81');
     console.log('isCreatingAccount', isCreatingAccount);
 
     if (isCreatingAccount) {
@@ -87,6 +87,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
         if (rfData && rfData?.data) {
           console.log('refecth data', rfData?.data.data);
           setCurUser(rfData?.data.data);
+          setIsCreatingAtom(true);
           navigation.replace('DetailResult');
         }
       });
@@ -180,7 +181,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
           ) : undefined
         }
         bottomChildren={
-          <Box mb={Platform.OS === 'ios' ? 5 : 0} py={4}>
+          <Box pt={4}>
             <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>

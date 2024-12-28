@@ -14,7 +14,6 @@ const QuizStart: React.FC<QuizStartProps> = props => {
       bottomButton={
         <Button
           w={'full'}
-          mb={Platform.OS === 'ios' ? 8 : 0}
           variant={'cusPrimary'}
           onPress={() => navigation.navigate('QuizStartConfirm')}>
           Bắt đầu làm trắc nghiệm

@@ -36,7 +36,7 @@ const GeneralSurveyResult: React.FC<tGeneralSurveyResultProps> = props => {
           </Text>
         </HStack>
       }>
-      <ScrollView flex={1}>
+      <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <Text variant={'sf_header_3'} textAlign={'center'} py={'20px'}>
           Đánh giá mức độ {normalizeText(title)}
         </Text>

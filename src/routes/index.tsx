@@ -36,7 +36,7 @@ const RootApp = () => {
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
   const {isLoading, refetch} = useCurrentUser();
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
-  
+
   const {isLoading: isGetResultById, data: getResultByIdData} =
     useGetResultById(curUser?.id || '');
   const expireTimeHandle = () => {
@@ -47,7 +47,7 @@ const RootApp = () => {
   };
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment();
-
+  console.log('rerender in routes');
   useEffect(() => {
     const initializeApp = async () => {
       const jsessionId = await getJSessionID();

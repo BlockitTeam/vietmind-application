@@ -87,14 +87,16 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
                   //Todo: Add type good or bad
                   refetchCurUser().then(result => {
                     if (result.data) {
-                      setCurUser({
-                        ...result.data.data,
-                      } as tUserResponse);
+                      console.log(result.data);
                       const type = result.data.data.surveyDetail;
+
                       setResultCommonFilter({
                         ...rfSurvey.data.data,
                         type: type ? 'bad' : 'good',
                       });
+                      setCurUser({
+                        ...result.data.data,
+                      } as tUserResponse);
                     }
                     setIsLoadingOverlay(false);
                   });
@@ -114,9 +116,12 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
     }
   };
   const isLoading = isListQuestionLoading || !curQuiz || !nListQuest;
+  console.log(isLoadingOverlay);
   return (
     <>
-      {isLoadingOverlay && <LoadingOverlay />}
+      {(isLoadingOverlay || useSaveSurveyResponseMutation.isPending) && (
+        <LoadingOverlay />
+      )}
 
       <HeaderBack
         title={

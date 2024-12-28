@@ -38,6 +38,7 @@ import MessageSystem from './MessageSystem';
 import MessageReplying from './MessageReplying';
 import {useAtom} from 'jotai';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+import MultiLine from '@components/Multiline.ts/MultiLine';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -300,14 +301,18 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   </Button>
                 </HStack>
               ) : (
-                <HStack w={'100%'} mb={Platform.OS === 'ios' ? 8 : 0}>
-                  <Input
-                    flex={1}
-                    variant={'outline'}
-                    fontSize={14}
-                    // multiline
+                <HStack w={'100%'}>
+                  <MultiLine
+                    style={{
+                      flex: 1,
+                      fontSize: 14,
+                      borderColor: '#C2F8CB',
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      padding: 8,
+                      maxHeight: 90,
+                    }}
                     placeholder="Tin nhắn..."
-                    m={0}
                     value={curMessage}
                     onChangeText={v => {
                       if (ws) {
@@ -348,6 +353,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           ) : null
         }>
         <ScrollView
+          automaticallyAdjustKeyboardInsets={true}
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           onContentSizeChange={(contentWidth, contentHeight) => {
