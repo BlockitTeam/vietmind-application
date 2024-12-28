@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextInput, TextInputProps} from 'react-native';
 
 interface MultiLineProps extends TextInputProps {
@@ -13,6 +13,9 @@ const MultiLine: React.FC<MultiLineProps> = ({
 }) => {
   const [textValue, setTextValue] = useState<string>(value);
 
+  useEffect(() => {
+    setTextValue(value);
+  }, [value]);
   const handleChangeText = (text: string) => {
     setTextValue(text);
   };
@@ -23,7 +26,10 @@ const MultiLine: React.FC<MultiLineProps> = ({
       multiline={true}
       value={textValue}
       placeholderTextColor={'grey'}
-      onChangeText={handleChangeText}
+      onChangeText={text => {
+        if (onChangeText) onChangeText(text);
+        handleChangeText(text);
+      }}
     />
   );
 };

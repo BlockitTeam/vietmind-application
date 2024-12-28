@@ -231,39 +231,6 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
                 ))}
               </>
             )}
-            <ButtonDate
-              key={1}
-              isSelected={
-                !selectedTimeAppointment
-                  ? false
-                  : selectedTimeAppointment.id === 1
-              }
-              onPress={() => {}}
-              mb={2}
-              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
-            />
-            <ButtonDate
-              key={3}
-              isSelected={
-                !selectedTimeAppointment
-                  ? false
-                  : selectedTimeAppointment.id === 1
-              }
-              onPress={() => {}}
-              mb={2}
-              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
-            />
-            <ButtonDate
-              key={5}
-              isSelected={
-                !selectedTimeAppointment
-                  ? false
-                  : selectedTimeAppointment.id === 1
-              }
-              onPress={() => {}}
-              mb={2}
-              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
-            />
           </HStack>
         </ScrollView>
       </HeaderBack>

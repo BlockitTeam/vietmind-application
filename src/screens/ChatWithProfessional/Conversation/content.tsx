@@ -340,9 +340,10 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   <Button
                     variant={'unstyled'}
                     disabled={curMessage.trim().length <= 0}
-                    onPress={() =>
-                      sendMessage(curMessage, keyAES, conversationId)
-                    }>
+                    onPress={() => {
+                      sendMessage(curMessage, keyAES, conversationId);
+                      setCurMessage('');
+                    }}>
                     <Send
                       fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'}
                     />
