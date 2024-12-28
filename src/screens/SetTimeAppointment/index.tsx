@@ -141,7 +141,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
         title={'Đặt lịch với nhà tham vấn'}
         withBackGround
         bottomChildren={
-          <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 5 : 0}>
+          <VStack space={2} pt={3}>
             <Button
               variant={'cusPrimary'}
               disabled={!selectedTimeAppointment}
@@ -155,13 +155,12 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
             </Button>
           </VStack>
         }>
-        <Text variant={'sf_header_2'} textAlign={'center'} mt={8}>
+        <Text variant={'sf_header_2'} textAlign={'center'}>
           Chọn ngày giờ
         </Text>
 
-        <Box bg="transparent" borderRadius="lg" my={2}>
+        <Box bg="transparent" borderRadius="lg" my={0}>
           <Calendar
-            style={{height: 265}}
             locale="vi" // Vietnamese locale
             minDate={new Date().toISOString().split('T')[0]} // Disable past months
             onDayPress={handleDayPress}
@@ -197,10 +196,11 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
             }}
           />
         </Box>
-        <Box mb={2} mt={12}>
-          <Text textAlign={'left'}>Ca làm việc:</Text>
-        </Box>
+
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Box mb={2}>
+            <Text textAlign={'left'}>Ca làm việc:</Text>
+          </Box>
           <HStack flexWrap={'wrap'} space={2} alignItems={'center'}>
             {isAvailableLoading ? (
               <>
@@ -231,6 +231,39 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
                 ))}
               </>
             )}
+            <ButtonDate
+              key={1}
+              isSelected={
+                !selectedTimeAppointment
+                  ? false
+                  : selectedTimeAppointment.id === 1
+              }
+              onPress={() => {}}
+              mb={2}
+              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
+            />
+            <ButtonDate
+              key={3}
+              isSelected={
+                !selectedTimeAppointment
+                  ? false
+                  : selectedTimeAppointment.id === 1
+              }
+              onPress={() => {}}
+              mb={2}
+              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
+            />
+            <ButtonDate
+              key={5}
+              isSelected={
+                !selectedTimeAppointment
+                  ? false
+                  : selectedTimeAppointment.id === 1
+              }
+              onPress={() => {}}
+              mb={2}
+              date={`${clearSecond('20:00:00')} - ${clearSecond('20:30:00')}`}
+            />
           </HStack>
         </ScrollView>
       </HeaderBack>
