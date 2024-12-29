@@ -49,6 +49,8 @@ export type IRootStackParamList = {
   SetTimeAppointmentSuccess: {infAppointment: tCreateAppointmentResponse};
 
   GeneralSurveyResult: {title: string; res: tQuestionResponse[]};
+
+  ViewHistoryAdvise: {idConversation: string};
 };
 
 export const RootStack = createNativeStackNavigator<IRootStackParamList>();

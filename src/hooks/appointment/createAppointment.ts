@@ -24,12 +24,25 @@ export type tCreateAppointmentResponse = {
 };
 
 export const createAppointmentMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (postAppointmentParams: tCreateAppointmentParams) => {
       return mutationPut<IResponse<tCreateAppointmentResponse>>({
         url: `${apiPath.appointment.CREATE}`,
         body: postAppointmentParams,
       });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['useGetAppointmentFalse'],
+      });
+      //In the future -> have many detail survey, idSurvey maybe needed
+      // await queryClient.invalidateQueries({
+      //   queryKey: ['useGetListQuestionById', idSurvey],
+      // });
+      // await queryClient.refetchQueries({
+      //   queryKey: ['getLatestDetailSurveyAnswer'],
+      // });
     },
   });
 };

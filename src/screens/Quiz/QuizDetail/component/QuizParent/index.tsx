@@ -15,11 +15,7 @@ const QuizParent: React.FC<QuizParentProps> = props => {
           {question}
         </Text>
       </Center>
-      <Button
-        w={'full'}
-        variant={'cusPrimary'}
-        bottom={'24px'}
-        onPress={() => save(null)}>
+      <Button w={'full'} variant={'cusPrimary'} onPress={() => save(null)}>
         {isLasted ? 'Kết thúc' : 'Tiếp tục'}
       </Button>
     </VStack>

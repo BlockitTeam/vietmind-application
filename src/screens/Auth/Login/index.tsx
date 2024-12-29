@@ -167,7 +167,6 @@ const Login = () => {
               });
             },
             onError: e => {
-              console.log(e);
               setMessageAuth('Login fail, please try again!');
               setFetchUser(false);
             },

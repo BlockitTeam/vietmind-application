@@ -26,9 +26,8 @@ import MessageSend from './MessageSend';
 import MessageReceive from './MessageReceive';
 import {tUserResponse} from '@hooks/user/user.interface';
 import CryptoJS from 'crypto-js';
-import LoadingDots from '@components/ThreeDotLoading';
 import {formatTime} from '@services/function/dateTime';
-import {Keyboard, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById';
 import {
   eStatusAppointment,
@@ -39,6 +38,7 @@ import MessageSystem from './MessageSystem';
 import MessageReplying from './MessageReplying';
 import {useAtom} from 'jotai';
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+import MultiLine from '@components/Multiline.ts/MultiLine';
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
   ws: WebSocket;
@@ -103,6 +103,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       ws.onmessage = event => {
         try {
           const res = JSON.parse(event.data);
+          console.log('Recieved message');
 
           if (res?.type === 'typing') {
             setDrTyping(true);
@@ -149,10 +150,10 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
 
     return () => {
       if (ws) {
-        ws.close();
+        // ws.close();
       }
     };
-  }, []);
+  }, [ws]);
 
   // Handle scroll when view list message change height || receive new message
   useEffect(() => {
@@ -252,6 +253,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                       updateAppointment.mutate(
                         {
                           ...appointment,
+                          content: curUser.lastName + ' ' + curUser.firstName,
                           status: eStatusAppointment.CANCELLED,
                         },
                         {
@@ -260,14 +262,12 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                             const ms = {
                               ...e.data,
                               type: 'appointment',
-                              status: 'CANCELLED',
+                              status: eStatusAppointment.CANCELLED,
                             };
                             ws.send(JSON.stringify(ms));
                           },
                         },
                       );
-                      const ms = {};
-                      // ws.send()
                     }}>
                     Dời lịch
                   </Button>
@@ -278,11 +278,21 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                       updateAppointment.mutate(
                         {
                           ...appointment,
+                          content: curUser.lastName + ' ' + curUser.firstName,
                           status: eStatusAppointment.CONFIRMED,
                         },
                         {
                           onSuccess: e => {
                             setAppointment(e.data);
+                            const ms = {
+                              ...e.data,
+                              type: 'appointment',
+                              status: eStatusAppointment.CONFIRMED,
+                            };
+                            ws.send(JSON.stringify(ms));
+                          },
+                          onError: e => {
+                            console.log(e);
                           },
                         },
                       );
@@ -291,14 +301,18 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   </Button>
                 </HStack>
               ) : (
-                <HStack w={'100%'} mb={Platform.OS === 'ios' ? 8 : 0}>
-                  <Input
-                    flex={1}
-                    variant={'outline'}
-                    fontSize={14}
-                    // multiline
+                <HStack w={'100%'}>
+                  <MultiLine
+                    style={{
+                      flex: 1,
+                      fontSize: 14,
+                      borderColor: '#C2F8CB',
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      padding: 8,
+                      maxHeight: 90,
+                    }}
                     placeholder="Tin nhắn..."
-                    m={0}
                     value={curMessage}
                     onChangeText={v => {
                       if (ws) {
@@ -339,6 +353,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           ) : null
         }>
         <ScrollView
+          automaticallyAdjustKeyboardInsets={true}
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           onContentSizeChange={(contentWidth, contentHeight) => {
@@ -379,8 +394,8 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
             {
               // Show appointment time when confirmed
               appointment &&
-              (appointment.status === 'CONFIRMED' ||
-                appointment.status === 'PENDING') ? (
+              // appointment.status === 'CONFIRMED' ||
+              appointment.status === 'PENDING' ? (
                 <MessageSystem
                   text={`Bs. ${drInformation.drName} đã đặt lịch hẹn vào ngày ${appointment.appointmentDate}, ${appointment.startTime} - ${appointment.endTime}`}
                 />

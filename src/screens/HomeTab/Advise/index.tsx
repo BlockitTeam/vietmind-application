@@ -8,9 +8,9 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
 import {useGetListDoctor} from '@hooks/user';
 import {colors} from '@assets/colors';
-import AdviseLoading from './AdviseLoading';
 import {useGetAppointment} from '@hooks/appointment/getAppointment';
-import Splash from '@screens/Auth/Splash';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
 
 type Tab_AdviseProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Advise'>,
@@ -23,9 +23,11 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
     useGetListDoctor();
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment();
+  const [curUser] = useAtom(curUserAtom);
   useLayoutEffect(() => {
     if (typeof appointmentData?.data === 'string') {
-      navigation.navigate('DetailResult');
+      if (curUser?.surveyDetail === null) navigation.navigate('QuizResult');
+      else navigation.navigate('DetailResult');
     }
   }, [navigation, appointmentData?.data]);
 

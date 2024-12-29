@@ -64,7 +64,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
     );
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       flex={1}>
       <SafeAreaView
         style={{backgroundColor: 'white', flex: 1}}
@@ -95,7 +95,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
             {children}
           </VStack>
           <VStack
-            mb={'16px'}
+            pb={'16px'}
             w={'full'}
             px={bottomPadding ? bottomPadding : '16px'}>
             {bottomChildren}

@@ -12,11 +12,11 @@ import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoic
 import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
 
 import QuizDetail from '@screens/Quiz/QuizDetail';
-import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
 import QuizStart from '@screens/Quiz/QuizStart';
 import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
 import SetTimeAppointment from '@screens/SetTimeAppointment';
 import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
+import ViewHistoryAdvise from '@screens/ViewHistoryAdvise/ViewHistoryAdvise';
 import React from 'react';
 
 export const renderInputSelfInformation = () => {
@@ -79,6 +79,11 @@ export const renderChatStack = () => {
       <RootStack.Screen
         name="GeneralSurveyResult"
         component={GeneralSurveyResult}
+      />
+
+      <RootStack.Screen
+        name="ViewHistoryAdvise"
+        component={ViewHistoryAdvise}
       />
     </>
   );

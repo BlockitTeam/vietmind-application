@@ -30,8 +30,7 @@ const WelcomeScreen = () => {
           </Text>
         </Center>
         <CustomButton
-          mbIOS={10}
-          mbAndroid={0}
+          mb={8}
           maxW={'485px'}
           width={'100%'}
           variant={'cusPrimary'}

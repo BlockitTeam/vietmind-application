@@ -1,6 +1,6 @@
 import {RootStack} from './navigator';
 import {getFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {useAtom} from 'jotai';
 import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
@@ -27,8 +27,12 @@ import QuizResult from '@screens/Quiz/QuizResult';
 import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
 import {useGetResultById} from '@hooks/response';
 import {isEmptyObject} from 'src/utils/object';
-import {useGetAppointment} from '@hooks/appointment/getAppointment';
+import {
+  useGetAppointment,
+  useGetAppointmentFalse,
+} from '@hooks/appointment/getAppointment';
 import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
+import {useLayout} from 'native-base';
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
@@ -36,7 +40,7 @@ const RootApp = () => {
   const [_, setMessageAuth] = useAtom(messageAuthAtom);
   const {isLoading, refetch} = useCurrentUser();
   const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
-  
+
   const {isLoading: isGetResultById, data: getResultByIdData} =
     useGetResultById(curUser?.id || '');
   const expireTimeHandle = () => {
@@ -45,9 +49,20 @@ const RootApp = () => {
       setMessageAuth(language.vn.expired_time);
     });
   };
-  const {data: appointmentData, isLoading: isAppointmentLoading} =
-    useGetAppointment();
-
+  const {
+    data: appointmentData,
+    isLoading: isAppointmentLoading,
+    refetch: refetchAppointment,
+  } = useGetAppointmentFalse();
+  console.log('rerender in routes');
+  useLayoutEffect(() => {
+    if (curUser) {
+      refetchAppointment().then(() => {
+        console.log('hẻe');
+      });
+    }
+  }, [curUser]);
+  console.log(appointmentData);
   useEffect(() => {
     const initializeApp = async () => {
       const jsessionId = await getJSessionID();
@@ -104,26 +119,15 @@ const RootApp = () => {
     const isGoodType = curUser?.surveyDetail === null;
 
     const isDoneSurveyDetail =
-      curUser.surveyDetail !== null &&
-      curUser.latestSpecializedVersion !== null &&
-      !isGoodType;
-
-    console.log(curUser, 'curUserHere');
-    console.log('isDoneSurveyDetail', isDoneSurveyDetail);
-    console.log(' isGoodType', isGoodType);
-    console.log(' appointmentData?.data', appointmentData?.data);
+      // curUser.surveyDetail !== null &&
+      curUser.latestSpecializedVersion !== null && !isGoodType;
     return (
       <>
         {/* Done survey general -> survey detail | good case */}
-        {(!isDoneSurveyDetail ||
-          (isGoodType && typeof appointmentData?.data === 'string')) && (
+        {!isDoneSurveyDetail ||
+        (isGoodType && typeof appointmentData?.data === 'string') ? (
           <>
             <RootStack.Screen name="QuizResult" component={QuizResult} />
-          </>
-        )}
-        {(typeof appointmentData?.data === 'string' ||
-          appointmentData?.data === undefined) && (
-          <>
             {!isGoodType && (
               <RootStack.Screen name="DetailResult" component={DetailResult} />
             )}
@@ -136,6 +140,26 @@ const RootApp = () => {
               component={SetTimeAppointmentSuccess}
             />
           </>
+        ) : (
+          (typeof appointmentData?.data === 'string' ||
+            appointmentData?.data === undefined) && (
+            <>
+              {!isGoodType && (
+                <RootStack.Screen
+                  name="DetailResult"
+                  component={DetailResult}
+                />
+              )}
+              <RootStack.Screen
+                name="SetTimeAppointment"
+                component={SetTimeAppointment}
+              />
+              <RootStack.Screen
+                name="SetTimeAppointmentSuccess"
+                component={SetTimeAppointmentSuccess}
+              />
+            </>
+          )
         )}
 
         {renderBottomTabStack()}

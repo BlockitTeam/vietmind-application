@@ -27,7 +27,6 @@ const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
       />
     );
   }
-  return <Spinner />;
 };
 
 export default ListSurveyDetail;

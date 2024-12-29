@@ -13,6 +13,7 @@ const BottomTab = () => {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
+        lazy: false,
       }}
       tabBar={props => <MyTabBar {...props} />}>
       <RootBottomTab.Screen
@@ -20,6 +21,7 @@ const BottomTab = () => {
         component={Tab_Home}
         options={{
           title: 'Trang chủ',
+          unmountOnBlur: true,
         }}
       />
       <RootBottomTab.Screen
@@ -27,6 +29,7 @@ const BottomTab = () => {
         component={Tab_Advise}
         options={{
           title: 'Tư vấn',
+          unmountOnBlur: true,
         }}
       />
       {/* <RootBottomTab.Screen
@@ -41,6 +44,7 @@ const BottomTab = () => {
         component={Tab_Profile}
         options={{
           title: 'Cá nhân',
+          unmountOnBlur: true,
         }}
       />
     </RootBottomTab.Navigator>

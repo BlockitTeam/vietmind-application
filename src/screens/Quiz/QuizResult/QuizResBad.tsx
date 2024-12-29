@@ -24,7 +24,7 @@ const QuizResBad: React.FC<QuizResBadProps> = props => {
       withBackGround={true}
       title="Kết quả trắc nghiệm"
       bottomChildren={
-        <VStack space={2} w="full" mb={Platform.OS === 'ios' ? 8 : 0}>
+        <VStack space={2} w="full">
           {surveyInfo && (
             <Button
               variant={'cusPrimary'}

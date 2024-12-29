@@ -9,7 +9,6 @@ import {tAppointment} from './appointment.interface';
 
 //   }
 export const useUpdateAppointment = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (putAppointmentParams: tAppointment) => {
       return mutationPut<IResponse<tAppointment>>({
@@ -19,3 +18,20 @@ export const useUpdateAppointment = () => {
     },
   });
 };
+
+export const useUpdateAppointmentStatus = () => {
+  return useMutation({
+    mutationFn: (
+      putAppointmentStatusParams: Pick<
+        tAppointment,
+        'appointmentId' | 'status' | 'content'
+      >,
+    ) => {
+      return mutationPut<IResponse<tAppointment>>({
+        url: `${apiPath.appointment.PUT}`,
+        body: putAppointmentStatusParams,
+      });
+    },
+  });
+};
+

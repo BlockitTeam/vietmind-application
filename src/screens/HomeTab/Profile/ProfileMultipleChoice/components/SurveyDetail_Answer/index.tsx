@@ -37,25 +37,28 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = props => {
   // State to manage loading overlay
   const [isLoading, setIsLoading] = useState(false);
 
-  const saveAndNext = (answer: any) => {
+  const saveAndNext = async (answer: any) => {
     if (curQuiz && nListQuest) {
       const quizItem = listResult[curQuiz.numberKey];
+
       if (quizItem) {
         // Update list result
+        console.log('save and next', quizItem.numberKey, nListQuest - 1);
         quizItem.answer = answer;
         if (quizItem.numberKey === nListQuest - 1) {
+          console.log('summit ne');
+
           // Start loading overlay
           setIsLoading(true);
 
-          saveSurveyDetail([...listResult], {
+          await saveSurveyDetail([...listResult], {
             onSuccess: async rs => {
+              console.log('submit success: ');
               await submitSuccess();
-              // Stop loading overlay after successful submission
               setIsLoading(false);
             },
             onError: error => {
               console.log('Error while saving: ', error);
-              // Stop loading overlay in case of error
               setIsLoading(false);
             },
           });
