@@ -8,7 +8,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 
 export default tseslint.config(
-    { ignores: ["dist", "node_modules", "public/tinymce"] },
+    { ignores: ["dist", "node_modules"] },
     {
         extends: [js.configs.recommended, ...tseslint.configs.recommended],
         files: ["**/*.{ts,tsx}"],
@@ -25,6 +25,9 @@ export default tseslint.config(
             ...reactHooks.configs.recommended.rules,
             "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
             "no-console": ["error"],
+            "no-unused-vars": "warn", // Warn for unused variables
+            "react/prop-types": "off", // Disable React prop-types
+            "@typescript-eslint/no-unused-vars": ["warn"],
             "react/jsx-curly-brace-presence": [
                 "error",
                 {
