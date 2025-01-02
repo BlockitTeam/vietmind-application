@@ -54,7 +54,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
   const useLogout = useLogoutMutation();
   const logout = async () => {
-    await useLogout.mutate(undefined, {
+    useLogout.mutate(undefined, {
       onSuccess: async () => {
         await Promise.all([
           setResultCommonFilter(undefined),
@@ -80,9 +80,6 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
             <Avatar
               bg="green.500"
               mr="1"
-              source={{
-                uri: 'https://bit.ly/broken-link',
-              }}
               w={100}
               h={100}
             />
