@@ -1,18 +1,18 @@
-import React from 'react';
-import {Button, HStack, Skeleton, Text, VStack} from 'native-base';
-import {useGetDoctorById} from '@hooks/user';
-import {Tab_HomeProps} from '..';
+import React from 'react'
+import {Button, HStack, Skeleton, Text, VStack} from 'native-base'
+import {useGetDoctorById} from '@hooks/user'
+import {Tab_HomeProps} from '..'
 
 type HistoryAdviseItemType = {
-  drId: string;
-  time: string;
-  idConversation: string;
-  navigation: Tab_HomeProps['navigation'];
-};
+  drId: string
+  time: string
+  idConversation: string
+  navigation: Tab_HomeProps['navigation']
+}
 
-const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
-  const {drId, time, idConversation, navigation} = props;
-  const {data, isLoading} = useGetDoctorById(drId);
+const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = (props) => {
+  const {drId, time, idConversation, navigation} = props
+  const {data, isLoading} = useGetDoctorById(drId)
 
   return (
     <HStack
@@ -48,7 +48,7 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = props => {
         <Text variant={'body_small_bold'}>Xem lại</Text>
       </Button>
     </HStack>
-  );
-};
+  )
+}
 
-export default HistoryAdviseItem;
+export default HistoryAdviseItem

@@ -1,13 +1,13 @@
-import {getData, mutationPost} from '@config/api';
-import {apiPath} from '@config/api/apiPath';
-import {IResponse} from '@interface/api.interface';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {tConversationItem} from './conversation.interface';
+import {getData, mutationPost} from '@config/api'
+import {apiPath} from '@config/api/apiPath'
+import {IResponse} from '@interface/api.interface'
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import {tConversationItem} from './conversation.interface'
 
 type tGetEncryptKeyParam = {
-  publicKey: string;
-  conversationId: string;
-};
+  publicKey: string
+  conversationId: string
+}
 export const useGetEncryptKey = () => {
   // const queryClient = useQueryClient();
   return useMutation({
@@ -21,22 +21,22 @@ export const useGetEncryptKey = () => {
           publicKey: params.publicKey,
         },
       }),
-  });
-};
+  })
+}
 
-type useGetConversationContentResponse = IResponse<tConversationItem[]>;
+type useGetConversationContentResponse = IResponse<tConversationItem[]>
 
 export const useGetConversationContent = (conversationId: string) => {
   const url = apiPath.conversation.GET_CONTENT.replace(
     '{conversation_id}',
     conversationId,
-  );
+  )
   return useQuery<useGetConversationContentResponse>({
     queryKey: ['useGetConversationContent', conversationId],
     queryFn: () => getData<useGetConversationContentResponse>(url),
     gcTime: 0,
-  });
-};
+  })
+}
 
 // export const useGetConversationContent = (conversationId: string) => {
 

@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
-import HeaderBack from '@components/layout/HeaderBack';
-import {ChevronLeftIcon, HStack, ScrollView, Text, VStack} from 'native-base';
-import FilterButton from './components/FilterButton';
-import {useGetSurveyResponseResult} from '@hooks/response';
+import React, {useEffect} from 'react'
+import HeaderBack from '@components/layout/HeaderBack'
+import {ChevronLeftIcon, HStack, ScrollView, Text, VStack} from 'native-base'
+import FilterButton from './components/FilterButton'
+import {useGetSurveyResponseResult} from '@hooks/response'
 
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import ListSurveyDetail from './ListSurveyDetail';
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import ListSurveyDetail from './ListSurveyDetail'
 
 const ProfileMultipleChoice = () => {
-  const {data: dataSurveyResponse} = useGetSurveyResponseResult();
-  const [curUser] = useAtom(curUserAtom);
+  const {data: dataSurveyResponse} = useGetSurveyResponseResult()
+  const [curUser] = useAtom(curUserAtom)
   return (
     <HeaderBack
       title="Trắc nghiệm sàng lọc"
@@ -27,10 +27,10 @@ const ProfileMultipleChoice = () => {
           </Text>
 
           {dataSurveyResponse?.data &&
-            Object.entries(dataSurveyResponse?.data).map(i => {
+            Object.entries(dataSurveyResponse?.data).map((i) => {
               return (
                 <FilterButton key={i[0].toString()} label={i[0]} value={i[1]} />
-              );
+              )
             })}
 
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
@@ -41,9 +41,9 @@ const ProfileMultipleChoice = () => {
         </VStack>
       </ScrollView>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default ProfileMultipleChoice;
+export default ProfileMultipleChoice
 
 // const styles = StyleSheet.create({});

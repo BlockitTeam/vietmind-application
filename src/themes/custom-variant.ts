@@ -1,12 +1,12 @@
-import {Dict} from 'native-base/lib/typescript/theme/tools';
+import {Dict} from 'native-base/lib/typescript/theme/tools'
 const textDefaultBtn = (props: Dict) => {
   return {
     color: props.disabled ? 'text.neutral_teriary' : 'text.default',
     // fontSize: 16,
     fontWeight: '600',
     fontFamily: 'SFProDisplay',
-  };
-};
+  }
+}
 
 export const primaryButton = (props: Dict) => {
   return {
@@ -16,8 +16,8 @@ export const primaryButton = (props: Dict) => {
       bg: 'primary.medium',
       opacity: 0.8,
     },
-  };
-};
+  }
+}
 export const outlineButton = (props: Dict) => {
   return {
     _text: textDefaultBtn(props),
@@ -30,8 +30,8 @@ export const outlineButton = (props: Dict) => {
     _web: {
       outlineWidth: 0,
     },
-  };
-};
+  }
+}
 export const cusSelected = (props: Dict) => {
   return {
     _text: textDefaultBtn(props),
@@ -44,5 +44,5 @@ export const cusSelected = (props: Dict) => {
     _web: {
       outlineWidth: 0,
     },
-  };
-};
+  }
+}

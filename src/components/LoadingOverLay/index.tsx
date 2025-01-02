@@ -1,14 +1,14 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Spinner} from 'native-base';
+import React from 'react'
+import {View, StyleSheet} from 'react-native'
+import {Spinner} from 'native-base'
 
 const LoadingOverlay = () => {
   return (
     <View style={styles.overlay}>
       <Spinner />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   overlay: {
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center horizontally
     zIndex: 999999, // Ensure it appears above other components
   },
-});
+})
 
-export default LoadingOverlay;
+export default LoadingOverlay

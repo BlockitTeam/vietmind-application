@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import {
   Box,
   Center,
@@ -9,114 +9,111 @@ import {
   Text,
   View,
   VStack,
-} from 'native-base';
-import QuizChoose from './component/QuizChoose/QuizChoose';
-import QuizInput from './component/QuizInput';
-import {TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
-import HeaderBack from '@components/layout/HeaderBack';
-import {useGetListQuestion} from '@hooks/question';
-import {tQuestionResponse} from '@hooks/question/question.interface';
+} from 'native-base'
+import QuizChoose from './component/QuizChoose/QuizChoose'
+import QuizInput from './component/QuizInput'
+import {TouchableOpacity} from 'react-native'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
+import HeaderBack from '@components/layout/HeaderBack'
+import {useGetListQuestion} from '@hooks/question'
+import {tQuestionResponse} from '@hooks/question/question.interface'
 import {
   useGetResultById,
   useGetSurveyResponseResult,
   useSaveSurveyResponse,
-} from '@hooks/response';
-import {useAtom} from 'jotai';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tUserResponse} from '@hooks/user/user.interface';
-import LoadingOverlay from '@components/LoadingOverLay';
-import {useCurrentUser} from '@hooks/user';
+} from '@hooks/response'
+import {useAtom} from 'jotai'
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {tUserResponse} from '@hooks/user/user.interface'
+import LoadingOverlay from '@components/LoadingOverLay'
+import {useCurrentUser} from '@hooks/user'
 
-type QuizDetailProps = NativeStackScreenProps<
-  IRootStackParamList,
-  'QuizDetail'
->;
+type QuizDetailProps = NativeStackScreenProps<IRootStackParamList, 'QuizDetail'>
 
 type tListResultItem = tQuestionResponse & {
-  numberKey: number;
-};
-const QuizDetail: React.FC<QuizDetailProps> = props => {
-  const {navigation} = props;
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const {refetch: refetchCurUser} = useCurrentUser();
-  const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
+  numberKey: number
+}
+const QuizDetail: React.FC<QuizDetailProps> = (props) => {
+  const {navigation} = props
+  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const {refetch: refetchCurUser} = useCurrentUser()
+  const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom)
 
-  const [isLoadingOverlay, setIsLoadingOverlay] = useState(false);
-  const [nListQuest, setNListQuest] = useState<number>();
-  const [curQuiz, setCurQuiz] = useState<tListResultItem>();
-  const [listResult, setListResult] = useState<tListResultItem[]>([]);
+  const [isLoadingOverlay, setIsLoadingOverlay] = useState(false)
+  const [nListQuest, setNListQuest] = useState<number>()
+  const [curQuiz, setCurQuiz] = useState<tListResultItem>()
+  const [listResult, setListResult] = useState<tListResultItem[]>([])
   //Todo: API
   const {data: dataListQuestion, isLoading: isListQuestionLoading} =
-    useGetListQuestion();
-  const useSaveSurveyResponseMutation = useSaveSurveyResponse();
-  const {refetch} = useGetSurveyResponseResult();
-  const {refetch: refetchResultById} = useGetResultById(curUser!.id);
+    useGetListQuestion()
+  const useSaveSurveyResponseMutation = useSaveSurveyResponse()
+  const {refetch} = useGetSurveyResponseResult()
+  const {refetch: refetchResultById} = useGetResultById(curUser!.id)
   useEffect(() => {
     if (dataListQuestion?.data) {
       const transformList: tListResultItem[] = dataListQuestion.data.map(
         (item, index) => {
-          return {...item, numberKey: index};
+          return {...item, numberKey: index}
         },
-      );
-      setCurQuiz(transformList[0]);
-      setNListQuest(transformList.length);
-      setListResult(transformList);
+      )
+      setCurQuiz(transformList[0])
+      setNListQuest(transformList.length)
+      setListResult(transformList)
     }
-  }, [dataListQuestion]);
+  }, [dataListQuestion])
 
   const saveAndNext = (answer: any) => {
     if (curQuiz && nListQuest) {
       const quizItem = listResult.find(
-        item => item.numberKey === curQuiz.numberKey,
-      );
+        (item) => item.numberKey === curQuiz.numberKey,
+      )
       if (quizItem) {
         //update list result
-        quizItem.answer = answer;
-        setIsLoadingOverlay(true);
+        quizItem.answer = answer
+        setIsLoadingOverlay(true)
 
         if (quizItem.numberKey === nListQuest - 1) {
           useSaveSurveyResponseMutation.mutate([...listResult], {
-            onSuccess: rs => {
-              refetch().then(rfSurvey => {
+            onSuccess: (rs) => {
+              refetch().then((rfSurvey) => {
                 if (rfSurvey.data) {
-                  refetchResultById();
+                  refetchResultById()
                   //Todo: Add type good or bad
-                  refetchCurUser().then(result => {
+                  refetchCurUser().then((result) => {
                     if (result.data) {
-                      console.log(result.data);
-                      const type = result.data.data.surveyDetail;
+                      console.log(result.data)
+                      const type = result.data.data.surveyDetail
 
                       setResultCommonFilter({
                         ...rfSurvey.data.data,
                         type: type ? 'bad' : 'good',
-                      });
+                      })
                       setCurUser({
                         ...result.data.data,
-                      } as tUserResponse);
+                      } as tUserResponse)
                     }
-                    setIsLoadingOverlay(false);
-                  });
+                    setIsLoadingOverlay(false)
+                  })
                 }
-              });
+              })
             },
-            onError: error => {
-              setIsLoadingOverlay(false);
+            onError: (error) => {
+              setIsLoadingOverlay(false)
             },
-          });
+          })
         } else {
-          setIsLoadingOverlay(false);
-          setCurQuiz(listResult[quizItem.numberKey + 1]);
-          setListResult([...listResult]);
+          setIsLoadingOverlay(false)
+          setCurQuiz(listResult[quizItem.numberKey + 1])
+          setListResult([...listResult])
         }
       }
     }
-  };
-  const isLoading = isListQuestionLoading || !curQuiz || !nListQuest;
-  console.log(isLoadingOverlay);
+  }
+  const isLoading = isListQuestionLoading || !curQuiz || !nListQuest
+  console.log(isLoadingOverlay)
   return (
     <>
       {(isLoadingOverlay || useSaveSurveyResponseMutation.isPending) && (
@@ -165,7 +162,7 @@ const QuizDetail: React.FC<QuizDetailProps> = props => {
         </Center>
       </HeaderBack>
     </>
-  );
-};
+  )
+}
 
-export default QuizDetail;
+export default QuizDetail

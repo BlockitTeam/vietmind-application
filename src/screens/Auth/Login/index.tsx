@@ -8,29 +8,29 @@ import {
   useToast,
   View,
   VStack,
-} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {Platform, StyleSheet} from 'react-native';
-import {ImageBackground} from 'react-native';
-import BackGround from '@images/Background.png';
-import {Google, Facebook} from '@assets/icons';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+} from 'native-base'
+import React, {useEffect, useState} from 'react'
+import {Platform, StyleSheet} from 'react-native'
+import {ImageBackground} from 'react-native'
+import BackGround from '@images/Background.png'
+import {Google, Facebook} from '@assets/icons'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {
   GoogleSignin,
   statusCodes,
-} from '@react-native-google-signin/google-signin';
+} from '@react-native-google-signin/google-signin'
 
 import {
   AccessToken,
   LoginManager,
   AuthenticationToken,
-} from 'react-native-fbsdk-next';
-import {useLogin} from '@hooks/auth';
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+} from 'react-native-fbsdk-next'
+import {useLogin} from '@hooks/auth'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
-import {useCurrentUser} from '@hooks/user';
-import {TOAST_PLACEMENT} from 'src/constants';
+import {useCurrentUser} from '@hooks/user'
+import {TOAST_PLACEMENT} from 'src/constants'
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -39,39 +39,39 @@ GoogleSignin.configure({
   forceCodeForRefreshToken: true,
   iosClientId: process.env.IOS_CLIENT_ID,
   webClientId: process.env.WEB_CLIENT_ID,
-});
+})
 // 670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com
 // Somewhere in your code
 
 const Login = () => {
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const [_, setMessageAuth] = useAtom(messageAuthAtom);
-  const toast = useToast();
+  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const [_, setMessageAuth] = useAtom(messageAuthAtom)
+  const toast = useToast()
 
   const showToast = (title: string) => {
     toast.show({
       title,
       duration: 3000,
       placement: TOAST_PLACEMENT,
-    });
-  };
+    })
+  }
   //Todo: API
-  const useLoginMutation = useLogin();
-  const {isLoading, refetch} = useCurrentUser();
-  const [fetchUser, setFetchUser] = useState(false);
+  const useLoginMutation = useLogin()
+  const {isLoading, refetch} = useCurrentUser()
+  const [fetchUser, setFetchUser] = useState(false)
   //Todo: Func
   const loginFacebook = async () => {
     try {
       const result = await LoginManager.logInWithPermissions(
         ['public_profile', 'email'],
         'enabled',
-      );
+      )
       if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
-        const result = await AuthenticationToken.getAuthenticationTokenIOS();
+        const result = await AuthenticationToken.getAuthenticationTokenIOS()
         if (result?.authenticationToken) {
-          setFetchUser(true);
+          setFetchUser(true)
 
           try {
             // const value = await axiosInstance.post('/auth', {
@@ -84,26 +84,26 @@ const Login = () => {
                 provider: 'facebook',
               },
               {
-                onSuccess: value => {
-                  refetch();
+                onSuccess: (value) => {
+                  refetch()
                 },
-                onError: error => {
-                  showToast('Login fail, please try again!');
+                onError: (error) => {
+                  showToast('Login fail, please try again!')
                 },
                 onSettled: () => {
-                  setFetchUser(true);
+                  setFetchUser(true)
                 },
               },
-            );
+            )
           } catch (error: any) {
-            showToast('Login fail, please try again!');
+            showToast('Login fail, please try again!')
           }
         }
       } else {
         // This token can be used to access the Graph API.
-        const result = await AccessToken.getCurrentAccessToken();
+        const result = await AccessToken.getCurrentAccessToken()
         if (result?.accessToken) {
-          setFetchUser(true);
+          setFetchUser(true)
 
           try {
             await useLoginMutation.mutate(
@@ -114,44 +114,44 @@ const Login = () => {
               {
                 onSuccess: () => {
                   refetch()
-                    .then(res => {
+                    .then((res) => {
                       if (res.data?.statusCode === 200 && res.data.data) {
-                        setCurUser({...res.data.data});
+                        setCurUser({...res.data.data})
                       }
                     })
-                    .finally(() => {});
+                    .finally(() => {})
                 },
                 onError: () => {
-                  showToast('Login fail, please try again!');
+                  showToast('Login fail, please try again!')
                 },
                 onSettled: () => {
-                  setFetchUser(false);
+                  setFetchUser(false)
                 },
               },
-            );
+            )
           } catch (error) {
-            showToast('Login fail, please try again!');
+            showToast('Login fail, please try again!')
           }
         }
       }
     } catch (error: any) {
-      showToast('Login fail, please try again!');
+      showToast('Login fail, please try again!')
     }
-  };
+  }
 
   const signInGoogle = async () => {
     try {
-      setFetchUser(true);
-      await GoogleSignin.signOut();
-      await GoogleSignin.hasPlayServices();
+      setFetchUser(true)
+      await GoogleSignin.signOut()
+      await GoogleSignin.hasPlayServices()
 
       // Revoke the token to force a new one
 
       // Sign in to get a new token
-      const userInfo = await GoogleSignin.signIn();
+      const userInfo = await GoogleSignin.signIn()
 
       if (userInfo.idToken) {
-        await GoogleSignin.clearCachedAccessToken(userInfo.idToken);
+        await GoogleSignin.clearCachedAccessToken(userInfo.idToken)
         await useLoginMutation.mutate(
           {
             token: userInfo.idToken,
@@ -159,22 +159,22 @@ const Login = () => {
           },
           {
             onSuccess: () => {
-              refetch().then(res => {
+              refetch().then((res) => {
                 if (res.data?.statusCode === 200 && res.data.data) {
-                  setCurUser({...res.data.data});
-                  setFetchUser(false);
+                  setCurUser({...res.data.data})
+                  setFetchUser(false)
                 }
-              });
+              })
             },
-            onError: e => {
-              setMessageAuth('Login fail, please try again!');
-              setFetchUser(false);
+            onError: (e) => {
+              setMessageAuth('Login fail, please try again!')
+              setFetchUser(false)
             },
           },
-        );
+        )
       }
     } catch (error: any) {
-      setFetchUser(false);
+      setFetchUser(false)
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -184,10 +184,10 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-        setMessageAuth('Login fail, please try again!');
+        setMessageAuth('Login fail, please try again!')
       }
     }
-  };
+  }
   return (
     <ImageBackground source={BackGround}>
       {(isLoading || fetchUser) && (
@@ -233,10 +233,10 @@ const Login = () => {
         </Button>
       </VStack>
     </ImageBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   loginButton: {width: '90%', maxWidth: 485},
-});
-export default Login;
+})
+export default Login

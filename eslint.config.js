@@ -1,42 +1,53 @@
-import js from "@eslint/js";
-import pluginQuery from "@tanstack/eslint-plugin-query";
-import eslintConfigPrettier from "eslint-config-prettier";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
+// eslint.config.mjs
+import globals from "globals"
+import pluginJs from "@eslint/js"
+import tseslint from "typescript-eslint"
+import pluginReactConfig from "eslint-plugin-react/configs/recommended.js"
+import { fixupConfigRules } from "@eslint/compat"
 
-export default tseslint.config(
-    { ignores: ["dist", "node_modules"] },
-    {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
-        files: ["**/*.{ts,tsx}"],
-        languageOptions: {
-            ecmaVersion: 2020,
-            globals: globals.browser,
-        },
-        plugins: {
-            react,
-            "react-hooks": reactHooks,
-            "react-refresh": reactRefresh,
-        },
-        rules: {
-            ...reactHooks.configs.recommended.rules,
-            "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-            "no-console": ["error"],
-            "no-unused-vars": "warn", // Warn for unused variables
-            "react/prop-types": "off", // Disable React prop-types
-            "@typescript-eslint/no-unused-vars": ["warn"],
-            "react/jsx-curly-brace-presence": [
-                "error",
-                {
-                    props: "never", // Enforces no curly braces for props unless necessary
-                    children: "ignore", // Ignores the rule for children elements
-                },
-            ],
-        },
+// 👋 Import prettier plugins
+import prettierConfig from "eslint-config-prettier" 
+import pluginPrettier from "eslint-plugin-prettier"
+
+
+export default [
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  {
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: 2021,
+        sourceType: "module",
+      },
+      globals: globals.browser,
     },
-    eslintConfigPrettier,
-    ...pluginQuery.configs["flat/recommended"],
-);
+  },
+
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended, 
+  ...fixupConfigRules(pluginReactConfig),
+
+  {
+    plugins: {
+      prettier: pluginPrettier, // 👋 Add prettier plugin
+    },
+  },
+  {
+    settings: {
+      react: { version: "detect" },
+    },
+  },
+  {
+    // Additional custom rules
+    rules: {
+      "no-console": "warn", 
+      "no-unused-vars": "warn", 
+      "react/prop-types": "off",
+      "@typescript-eslint/no-unused-vars": ["warn"],
+
+      // 👋 Add prettier rules at the bottom
+      ...prettierConfig.rules, // Merge Prettier and ESLint rules
+      "prettier/prettier": "error", // Show Prettier errors as ESLint errors
+    },
+  },
+]

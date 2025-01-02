@@ -1,21 +1,21 @@
-import {Platform, StyleSheet} from 'react-native';
-import React from 'react';
-import HeaderBack from '@components/layout/HeaderBack';
-import {Box, Text, Button, Circle, HStack, VStack, Center} from 'native-base';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {Platform, StyleSheet} from 'react-native'
+import React from 'react'
+import HeaderBack from '@components/layout/HeaderBack'
+import {Box, Text, Button, Circle, HStack, VStack, Center} from 'native-base'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
 
 type SetTimeAppointmentSuccessProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'SetTimeAppointmentSuccess'>,
   BottomTabScreenProps<IBottomParamList, 'Home'>
->;
-const SetTimeAppointmentSuccess: React.FC<
-  SetTimeAppointmentSuccessProps
-> = props => {
-  const {navigation, route} = props;
-  const infAppointment = route.params.infAppointment;
+>
+const SetTimeAppointmentSuccess: React.FC<SetTimeAppointmentSuccessProps> = (
+  props,
+) => {
+  const {navigation, route} = props
+  const infAppointment = route.params.infAppointment
   return (
     <HeaderBack
       title={'Đặt lịch với nhà tham vấn'}
@@ -40,9 +40,9 @@ const SetTimeAppointmentSuccess: React.FC<
         <Text textAlign={'center'}>{`${infAppointment.workplace}`}</Text>
       </Center>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default SetTimeAppointmentSuccess;
+export default SetTimeAppointmentSuccess
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

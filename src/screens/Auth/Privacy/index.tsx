@@ -1,13 +1,13 @@
-import React from 'react';
-import {Box, Button, Center, Text, VStack} from 'native-base';
-import {TouchableOpacity} from 'react-native';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
+import React from 'react'
+import {Box, Button, Center, Text, VStack} from 'native-base'
+import {TouchableOpacity} from 'react-native'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
 
-type PrivacyProps = NativeStackScreenProps<IRootStackParamList, 'Privacy'>;
-const Privacy: React.FC<PrivacyProps> = props => {
-  const {navigation} = props;
+type PrivacyProps = NativeStackScreenProps<IRootStackParamList, 'Privacy'>
+const Privacy: React.FC<PrivacyProps> = (props) => {
+  const {navigation} = props
   return (
     <CusImageBackground
       bottomButton={
@@ -43,10 +43,10 @@ const Privacy: React.FC<PrivacyProps> = props => {
         anonymous để nghiên cứu, phát triển ứng dụng, và nâng cao trải nghiệm.
       </Text>
     </CusImageBackground>
-  );
-};
+  )
+}
 
-export default Privacy;
+export default Privacy
 
 // alignItems={'center'}
 // justifyContent={'center'}

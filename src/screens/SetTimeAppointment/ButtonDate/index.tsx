@@ -1,12 +1,12 @@
-import React from 'react';
-import {Box, Text, IBoxProps} from 'native-base';
-import {TouchableOpacity} from 'react-native';
+import React from 'react'
+import {Box, Text, IBoxProps} from 'native-base'
+import {TouchableOpacity} from 'react-native'
 
 type TButtonDate = {
-  date: string;
-  onPress: () => void;
-  isSelected: boolean;
-} & IBoxProps;
+  date: string
+  onPress: () => void
+  isSelected: boolean
+} & IBoxProps
 
 const ButtonDate: React.FC<TButtonDate> = ({
   date,
@@ -28,7 +28,7 @@ const ButtonDate: React.FC<TButtonDate> = ({
         <Text textAlign={'center'}>{date}</Text>
       </Box>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default ButtonDate;
+export default ButtonDate

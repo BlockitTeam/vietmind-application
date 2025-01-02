@@ -1,38 +1,38 @@
-import React from 'react';
-import HeaderBack from '@components/layout/HeaderBack';
-import {Text, Circle, Center, Button, VStack} from 'native-base';
-import {TouchableOpacity} from 'react-native';
+import React from 'react'
+import HeaderBack from '@components/layout/HeaderBack'
+import {Text, Circle, Center, Button, VStack} from 'native-base'
+import {TouchableOpacity} from 'react-native'
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {IAdviseStackParamList} from '@routes/navigator/bottomTab/adviesStack';
+} from '@react-navigation/native-stack'
+import {IAdviseStackParamList} from '@routes/navigator/bottomTab/adviesStack'
 import {
   BottomTabNavigationProp,
   BottomTabScreenProps,
-} from '@react-navigation/bottom-tabs';
+} from '@react-navigation/bottom-tabs'
 import {
   CompositeNavigationProp,
   CompositeScreenProps,
   useNavigation,
   useRoute,
-} from '@react-navigation/native';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {tDoctorResponse} from '@hooks/user/user.interface';
-import {Platform} from 'react-native';
+} from '@react-navigation/native'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {tDoctorResponse} from '@hooks/user/user.interface'
+import {Platform} from 'react-native'
 
 type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'ChatWithProfessional_Start'>,
   BottomTabScreenProps<IBottomParamList, 'Advise'>
->;
+>
 const ChatWithProfessional_Start: React.FC<
   ChatWithProfessional_StartNavigationProp
-> = props => {
-  const {navigation, route} = props;
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const drInformation = route.params.drInformation;
+> = (props) => {
+  const {navigation, route} = props
+  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const drInformation = route.params.drInformation
 
   return (
     <HeaderBack
@@ -55,7 +55,7 @@ const ChatWithProfessional_Start: React.FC<
           <Button
             variant={'cusOutline'}
             onPress={() => {
-              navigation.navigate('BottomTab', {screen: 'Advise'});
+              navigation.navigate('BottomTab', {screen: 'Advise'})
             }}>
             Bỏ qua
           </Button>
@@ -78,7 +78,7 @@ const ChatWithProfessional_Start: React.FC<
         </TouchableOpacity>
       </Center>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default ChatWithProfessional_Start;
+export default ChatWithProfessional_Start

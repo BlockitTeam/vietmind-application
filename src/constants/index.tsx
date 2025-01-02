@@ -1,1 +1,1 @@
-export const TOAST_PLACEMENT = 'top';
+export const TOAST_PLACEMENT = 'top'

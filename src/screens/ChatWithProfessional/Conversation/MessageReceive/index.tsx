@@ -1,18 +1,18 @@
-import {Box, Text} from 'native-base';
-import React, {useEffect, useRef} from 'react';
-import {Animated} from 'react-native';
+import {Box, Text} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {Animated} from 'react-native'
 
 type MessageReceiveProps = {
-  text: string;
-  time: string;
-};
+  text: string
+  time: string
+}
 
-const MessageReceive: React.FC<MessageReceiveProps> = props => {
-  const {text, time} = props;
+const MessageReceive: React.FC<MessageReceiveProps> = (props) => {
+  const {text, time} = props
 
   // Create refs for the animated opacity and position values
-  const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(2)).current;
+  const opacity = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(2)).current
 
   useEffect(() => {
     // Run the fade-in and position animation when the component mounts
@@ -27,8 +27,8 @@ const MessageReceive: React.FC<MessageReceiveProps> = props => {
         duration: 500,
         useNativeDriver: true,
       }),
-    ]).start();
-  }, [opacity, translateY]);
+    ]).start()
+  }, [opacity, translateY])
   return (
     <Animated.View style={{opacity, transform: [{translateY}]}}>
       <Box
@@ -44,7 +44,7 @@ const MessageReceive: React.FC<MessageReceiveProps> = props => {
         </Text>
       </Box>
     </Animated.View>
-  );
-};
+  )
+}
 
-export default React.memo(MessageReceive);
+export default React.memo(MessageReceive)

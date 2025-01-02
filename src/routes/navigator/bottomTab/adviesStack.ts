@@ -1,4 +1,4 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
 export type IAdviseStackParamList = {
   // ChatWithProfessional_Start: undefined;
@@ -6,6 +6,6 @@ export type IAdviseStackParamList = {
   //   drName: string;
   //   drId: string;
   // };
-};
+}
 
-export const AdviseStack = createNativeStackNavigator<IAdviseStackParamList>();
+export const AdviseStack = createNativeStackNavigator<IAdviseStackParamList>()

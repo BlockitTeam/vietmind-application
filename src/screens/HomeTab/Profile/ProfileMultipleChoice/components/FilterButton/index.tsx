@@ -1,13 +1,13 @@
-import {ChevronRightIcon, HStack, Text, VStack} from 'native-base';
-import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {ChevronRightIcon, HStack, Text, VStack} from 'native-base'
+import React from 'react'
+import {TouchableOpacity} from 'react-native'
 
 type FilterButtonProps = {
-  label: string;
-  value: string;
-};
-const FilterButton: React.FC<FilterButtonProps> = props => {
-  const {label, value} = props;
+  label: string
+  value: string
+}
+const FilterButton: React.FC<FilterButtonProps> = (props) => {
+  const {label, value} = props
   return (
     <TouchableOpacity>
       <HStack
@@ -26,7 +26,7 @@ const FilterButton: React.FC<FilterButtonProps> = props => {
         </Text>
       </HStack>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default FilterButton;
+export default FilterButton

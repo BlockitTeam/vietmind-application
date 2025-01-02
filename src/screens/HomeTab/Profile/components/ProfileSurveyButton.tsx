@@ -1,14 +1,14 @@
-import React from 'react';
-import {ChevronRightIcon, HStack, Text, VStack} from 'native-base';
-import {TouchableOpacity} from 'react-native';
+import React from 'react'
+import {ChevronRightIcon, HStack, Text, VStack} from 'native-base'
+import {TouchableOpacity} from 'react-native'
 
 type tProfileSurveyButton = {
-  name: string;
-  date: string;
-  onClickCallBack: () => void;
-};
-const ProfileSurveyButton: React.FC<tProfileSurveyButton> = props => {
-  const {date, name, onClickCallBack} = props;
+  name: string
+  date: string
+  onClickCallBack: () => void
+}
+const ProfileSurveyButton: React.FC<tProfileSurveyButton> = (props) => {
+  const {date, name, onClickCallBack} = props
   return (
     <TouchableOpacity onPress={() => onClickCallBack()}>
       <HStack
@@ -37,7 +37,7 @@ const ProfileSurveyButton: React.FC<tProfileSurveyButton> = props => {
         <ChevronRightIcon />
       </HStack>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default ProfileSurveyButton;
+export default ProfileSurveyButton

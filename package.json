@@ -13,6 +13,8 @@
     "check-ts": "tsc -b"
   },
   "dependencies": {
+    "@eslint/compat": "^1.2.4",
+    "@eslint/js": "^9.17.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-google-signin/google-signin": "^11.0.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
@@ -28,8 +30,10 @@
     "aes-js": "^3.1.2",
     "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react-refresh": "^0.4.14",
-    "globals": "^15.12.0",
+    "globals": "^15.14.0",
     "husky": "^9.1.6",
     "jotai": "^2.8.0",
     "jsencrypt": "^3.3.2",

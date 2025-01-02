@@ -1,6 +1,6 @@
-import HeaderBack from '@components/layout/HeaderBack';
-import {useGetListQuestionById} from '@hooks/question';
-import Splash from '@screens/Auth/Splash';
+import HeaderBack from '@components/layout/HeaderBack'
+import {useGetListQuestionById} from '@hooks/question'
+import Splash from '@screens/Auth/Splash'
 import {
   Box,
   Button,
@@ -13,100 +13,100 @@ import {
   Text,
   useToast,
   VStack,
-} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import SurveyDetail_Answer from '../components/SurveyDetail_Answer';
-import {useCurrentUser} from '@hooks/user';
-import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey';
+} from 'native-base'
+import React, {useEffect, useState} from 'react'
+import SurveyDetail_Answer from '../components/SurveyDetail_Answer'
+import {useCurrentUser} from '@hooks/user'
+import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey'
 import {
   CompositeScreenProps,
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
-} from '@react-navigation/native';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import ErrorComponent from '@components/Error';
-import {normalizeText} from 'src/utils/textUtil';
-import {TOAST_PLACEMENT} from 'src/constants';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {Platform} from 'react-native';
-import {useGetAppointment} from '@hooks/appointment/getAppointment';
+} from '@react-navigation/native'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import ErrorComponent from '@components/Error'
+import {normalizeText} from 'src/utils/textUtil'
+import {TOAST_PLACEMENT} from 'src/constants'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {Platform} from 'react-native'
+import {useGetAppointment} from '@hooks/appointment/getAppointment'
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
   | 'answering' //  answering is user is answering -> show detail answer
-  | 'review'; // review is user have done survey and can survey again
+  | 'review' // review is user have done survey and can survey again
 type SurveyDetailScreenProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'SurveyDetail'>,
   BottomTabScreenProps<IBottomParamList, 'Home'>
->;
+>
 
-const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
-  const {navigation, route} = props;
+const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = (props) => {
+  const {navigation, route} = props
   // const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
-  const toast = useToast();
+  const toast = useToast()
   // const route = useRoute<SurveyDetailRouteProp>();
-  const surveyInf = route.params.infSurvey;
-  const isCreatingAccount = route.params.isCreatingAccount;
+  const surveyInf = route.params.infSurvey
+  const isCreatingAccount = route.params.isCreatingAccount
   const {data: dataSurvey, isLoading: isSurveyLoading} = useGetListQuestionById(
     surveyInf.surveyId,
-  );
+  )
 
-  console.log('SurveyDetail screen');
-  const [, setCurUser] = useAtom(curUserAtom);
-  const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined);
+  console.log('SurveyDetail screen')
+  const [, setCurUser] = useAtom(curUserAtom)
+  const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined)
 
-  const {data: currentUser, refetch: rfCurUser} = useCurrentUser();
+  const {data: currentUser, refetch: rfCurUser} = useCurrentUser()
   const {
     data: latestDetailSurveyAnswer,
     isLoading: isLatestDetailSurveyAnswer,
     refetch: refetchLatestDetailSurveyAnswer,
     error: isSurveyError,
-  } = useGetLatestDetailSurveyAnswer();
+  } = useGetLatestDetailSurveyAnswer()
   useEffect(() => {
     if (
       latestDetailSurveyAnswer?.data &&
       currentUser?.data.latestSpecializedVersion !== null
     ) {
-      setStep('review');
-    } else setStep('started');
-  }, [latestDetailSurveyAnswer?.data, currentUser?.data]);
+      setStep('review')
+    } else setStep('started')
+  }, [latestDetailSurveyAnswer?.data, currentUser?.data])
 
   const submitSuccess = async () => {
-    console.log('here', 'SurveyDetailScreen 81');
-    console.log('isCreatingAccount', isCreatingAccount);
+    console.log('here', 'SurveyDetailScreen 81')
+    console.log('isCreatingAccount', isCreatingAccount)
 
     if (isCreatingAccount) {
       // const {data: rfData} = await rfCurUser();
-      rfCurUser().then(rfData => {
+      rfCurUser().then((rfData) => {
         if (rfData && rfData?.data) {
-          console.log('refecth data', rfData?.data.data);
-          setCurUser(rfData?.data.data);
-          navigation.replace('DetailResult');
+          console.log('refecth data', rfData?.data.data)
+          setCurUser(rfData?.data.data)
+          navigation.replace('DetailResult')
         }
-      });
+      })
     } else {
-      await refetchLatestDetailSurveyAnswer();
-      setStep('review');
+      await refetchLatestDetailSurveyAnswer()
+      setStep('review')
     }
 
     toast.show({
       title: 'Đánh giá thành công!',
       duration: 2000,
       placement: TOAST_PLACEMENT,
-    });
-  };
+    })
+  }
   if (
     isSurveyLoading ||
     isLatestDetailSurveyAnswer ||
     !dataSurvey?.data ||
     !step
   )
-    return <Splash />;
+    return <Splash />
 
   if (isSurveyError)
     return (
@@ -114,7 +114,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
         title="Lỗi khi tải dữ liệu, vui lòng thử lại."
         refetchCallback={() => refetchLatestDetailSurveyAnswer()}
       />
-    );
+    )
   if (step === 'review') {
     return (
       <HeaderBack
@@ -152,18 +152,18 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
                 <Text>
                   <Text style={{fontWeight: 600}}>Câu trả lời: </Text>
                   {
-                    answer.options.find(v => v.optionId === answer.answer)
+                    answer.options.find((v) => v.optionId === answer.answer)
                       ?.optionText
                   }
                 </Text>
 
                 <Divider bgColor={'primary.medium'} />
               </VStack>
-            );
+            )
           })}
         </ScrollView>
       </HeaderBack>
-    );
+    )
   } else if (step === 'started')
     return (
       <HeaderBack
@@ -203,11 +203,11 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
                 </Text>
                 <Divider bgColor={'primary.medium'} />
               </VStack>
-            );
+            )
           })}
         </ScrollView>
       </HeaderBack>
-    );
+    )
   else if (step === 'answering')
     return (
       <SurveyDetail_Answer
@@ -215,13 +215,13 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
         surveyInf={surveyInf}
         submitSuccess={() => submitSuccess()}
         listQuiz={dataSurvey.data.map((item, index) => {
-          return {...item, numberKey: index};
+          return {...item, numberKey: index}
         })}
         nListQuest={dataSurvey.data.length}
       />
-    );
+    )
 
-  return <></>;
-};
+  return <></>
+}
 
-export default SurveyDetailScreen;
+export default SurveyDetailScreen

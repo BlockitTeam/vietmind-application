@@ -50,4 +50,4 @@ export const apiPath = {
     SAVE: '/specialized-responses/save',
     GET_LATEST_RESULT: '/specialized-responses/latestResultDetail',
   },
-};
+}

@@ -1,32 +1,32 @@
-import React, {useState} from 'react';
-import {Button, Center, HStack, Text, VStack} from 'native-base';
-import {useNavigation} from '@react-navigation/native';
-import CusImageBackground from '@components/layout/CusImageBackground';
+import React, {useState} from 'react'
+import {Button, Center, HStack, Text, VStack} from 'native-base'
+import {useNavigation} from '@react-navigation/native'
+import CusImageBackground from '@components/layout/CusImageBackground'
 
 type ErrorComponentProps = {
-  title: string;
-  refetchCallback: () => void;
+  title: string
+  refetchCallback: () => void
   goBackCallback?: {
-    func: () => void;
-    title: string;
-  };
-};
+    func: () => void
+    title: string
+  }
+}
 
 const ErrorComponent: React.FC<ErrorComponentProps> = ({
   title,
   refetchCallback,
   goBackCallback,
 }) => {
-  const navigation = useNavigation();
-  const [titleCallback, setTitleCallBack] = useState('Quay lại');
+  const navigation = useNavigation()
+  const [titleCallback, setTitleCallBack] = useState('Quay lại')
   const handleGoBack = () => {
     if (goBackCallback) {
-      goBackCallback.func();
-      setTitleCallBack(goBackCallback.title);
+      goBackCallback.func()
+      setTitleCallBack(goBackCallback.title)
     } else {
-      navigation.goBack();
+      navigation.goBack()
     }
-  };
+  }
 
   return (
     <CusImageBackground
@@ -44,7 +44,7 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({
         {title}
       </Text>
     </CusImageBackground>
-  );
-};
+  )
+}
 
-export default ErrorComponent;
+export default ErrorComponent

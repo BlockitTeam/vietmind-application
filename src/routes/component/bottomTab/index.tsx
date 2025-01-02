@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import {RootBottomTab} from '@routes/navigator';
-import MyTabBar from '@components/BottomBar';
-import Tab_Home from '@screens/HomeTab/Home';
-import Tab_Advise from '@screens/HomeTab/Advise';
-import Tab_Profile from '@screens/HomeTab/Profile';
-import Tab_Knowledge from '@screens/HomeTab/Knowledge';
+import {RootBottomTab} from '@routes/navigator'
+import MyTabBar from '@components/BottomBar'
+import Tab_Home from '@screens/HomeTab/Home'
+import Tab_Advise from '@screens/HomeTab/Advise'
+import Tab_Profile from '@screens/HomeTab/Profile'
+import Tab_Knowledge from '@screens/HomeTab/Knowledge'
 
 const BottomTab = () => {
   return (
@@ -15,7 +15,7 @@ const BottomTab = () => {
         headerShown: false,
         lazy: false,
       }}
-      tabBar={props => <MyTabBar {...props} />}>
+      tabBar={(props) => <MyTabBar {...props} />}>
       <RootBottomTab.Screen
         name="Home"
         component={Tab_Home}
@@ -48,7 +48,7 @@ const BottomTab = () => {
         }}
       />
     </RootBottomTab.Navigator>
-  );
-};
+  )
+}
 
-export default BottomTab;
+export default BottomTab

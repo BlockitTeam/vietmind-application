@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {Button, Center, Input, Text, TextArea, VStack} from 'native-base';
+import React, {useState} from 'react'
+import {Button, Center, Input, Text, TextArea, VStack} from 'native-base'
 
 type QuizParentProps = {
-  question: string;
-  isLasted?: boolean;
-  save: (s: any) => void;
-};
-const QuizParent: React.FC<QuizParentProps> = props => {
-  const {question, isLasted, save} = props;
+  question: string
+  isLasted?: boolean
+  save: (s: any) => void
+}
+const QuizParent: React.FC<QuizParentProps> = (props) => {
+  const {question, isLasted, save} = props
   return (
     <VStack w={'full'} h={'100%'}>
       <Center w={'full'} flex={1} pb={'40px'}>
@@ -19,7 +19,7 @@ const QuizParent: React.FC<QuizParentProps> = props => {
         {isLasted ? 'Kết thúc' : 'Tiếp tục'}
       </Button>
     </VStack>
-  );
-};
+  )
+}
 
-export default QuizParent;
+export default QuizParent

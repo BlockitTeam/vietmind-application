@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Box,
   Input,
@@ -13,35 +13,35 @@ import {
   Center,
   ChevronLeftIcon,
   useToast,
-} from 'native-base';
-import {useForm, Controller} from 'react-hook-form';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
-import axios from 'axios';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {useCurrentUser, usePutEditUser} from '@hooks/user';
-import {tPutEditUserParam} from '@hooks/user/user.interface';
-import HeaderBack from '@components/layout/HeaderBack';
-import {TOAST_PLACEMENT} from 'src/constants';
+} from 'native-base'
+import {useForm, Controller} from 'react-hook-form'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
+import axios from 'axios'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {useCurrentUser, usePutEditUser} from '@hooks/user'
+import {tPutEditUserParam} from '@hooks/user/user.interface'
+import HeaderBack from '@components/layout/HeaderBack'
+import {TOAST_PLACEMENT} from 'src/constants'
 
-const curYear = new Date().getFullYear();
+const curYear = new Date().getFullYear()
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
-  year => year,
-);
+  (year) => year,
+)
 
 type ChangeProfileProps = NativeStackScreenProps<
   IRootStackParamList,
   'ChangeProfile'
->;
-type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string};
-const ChangeProfile: React.FC<ChangeProfileProps> = props => {
-  const {navigation} = props;
+>
+type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string}
+const ChangeProfile: React.FC<ChangeProfileProps> = (props) => {
+  const {navigation} = props
 
-  const [cur, setCurUser] = useAtom(curUserAtom);
-  const {refetch} = useCurrentUser();
-  const toast = useToast();
+  const [cur, setCurUser] = useAtom(curUserAtom)
+  const {refetch} = useCurrentUser()
+  const toast = useToast()
   const {
     control,
     handleSubmit,
@@ -55,36 +55,36 @@ const ChangeProfile: React.FC<ChangeProfileProps> = props => {
       birthYear: cur?.birthYear?.toString() || '',
       gender: cur?.gender || 'MALE',
     },
-  });
+  })
 
   // Todo: API
-  const {mutate: editUser, isPending} = usePutEditUser();
+  const {mutate: editUser, isPending} = usePutEditUser()
 
   //Todo: Func
   const onSubmit = async (data: tFormEditUser) => {
     editUser(
       {...data, birthYear: parseInt(data.birthYear)},
       {
-        onSuccess: value => {
+        onSuccess: (value) => {
           toast.show({
             title: 'Thay đổi thông tin thành công!',
             duration: 2000,
             placement: TOAST_PLACEMENT,
-          });
-          reset({}, {keepValues: true});
-          refetch().then(v => {
+          })
+          reset({}, {keepValues: true})
+          refetch().then((v) => {
             //Note
-            setCurUser(v.data?.data);
+            setCurUser(v.data?.data)
             // Clear dirtyFields
-          });
+          })
           // setCurUser(value.data);
         },
-        onError: error => {
-          console.log('🚀 ~ onSubmit ~ error:', error);
+        onError: (error) => {
+          console.log('🚀 ~ onSubmit ~ error:', error)
         },
       },
-    );
-  };
+    )
+  }
 
   return (
     <HeaderBack
@@ -186,14 +186,14 @@ const ChangeProfile: React.FC<ChangeProfileProps> = props => {
                     bg: 'primary.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
-                  {listYear.map(item => {
+                  {listYear.map((item) => {
                     return (
                       <Select.Item
                         key={item}
                         label={item.toString()}
                         value={item.toString()}
                       />
-                    );
+                    )
                   })}
                 </Select>
               )}
@@ -254,7 +254,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = props => {
         </VStack>
       </Box>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default ChangeProfile;
+export default ChangeProfile

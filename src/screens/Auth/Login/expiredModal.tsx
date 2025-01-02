@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
-import {Modal, Text} from 'native-base';
-import {useAtom} from 'jotai';
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
+import {StyleSheet} from 'react-native'
+import React, {useEffect} from 'react'
+import {Modal, Text} from 'native-base'
+import {useAtom} from 'jotai'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
 const ExpiredModal = () => {
-  const [messageAuth, setMessageAuth] = useAtom(messageAuthAtom);
+  const [messageAuth, setMessageAuth] = useAtom(messageAuthAtom)
   // useEffect(() => {
   //   return () => {
   //     setMessageAuth(undefined);
@@ -24,9 +24,9 @@ const ExpiredModal = () => {
         </Modal.Body>
       </Modal.Content>
     </Modal>
-  );
-};
+  )
+}
 
-export default ExpiredModal;
+export default ExpiredModal
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

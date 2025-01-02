@@ -1,19 +1,19 @@
-import LoadingDots from '@components/ThreeDotLoading';
-import {formatTime} from '@services/function/dateTime';
-import {Box, Text} from 'native-base';
-import React, {useEffect, useRef} from 'react';
-import {Animated} from 'react-native';
+import LoadingDots from '@components/ThreeDotLoading'
+import {formatTime} from '@services/function/dateTime'
+import {Box, Text} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {Animated} from 'react-native'
 
 type MessageReplyingProps = {
-  text: string;
-};
+  text: string
+}
 
-const MessageReplying: React.FC<MessageReplyingProps> = props => {
-  const {text} = props;
+const MessageReplying: React.FC<MessageReplyingProps> = (props) => {
+  const {text} = props
 
   // Create refs for the animated opacity and position values
-  const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(2)).current;
+  const opacity = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(2)).current
 
   useEffect(() => {
     // Run the fade-in and position animation when the component mounts
@@ -28,8 +28,8 @@ const MessageReplying: React.FC<MessageReplyingProps> = props => {
         duration: 200,
         useNativeDriver: true,
       }),
-    ]).start();
-  }, [opacity, translateY]);
+    ]).start()
+  }, [opacity, translateY])
   return (
     <Animated.View style={{opacity, transform: [{translateY}]}}>
       <Box
@@ -46,7 +46,7 @@ const MessageReplying: React.FC<MessageReplyingProps> = props => {
         </Text>
       </Box>
     </Animated.View>
-  );
-};
+  )
+}
 
-export default React.memo(MessageReplying);
+export default React.memo(MessageReplying)

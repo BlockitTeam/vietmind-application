@@ -5,21 +5,21 @@ import {
   Text,
   View,
   VStack,
-} from 'native-base';
-import React, {PropsWithChildren, ReactNode} from 'react';
-import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import BackGround from '@images/Background.png';
-import {useNavigation} from '@react-navigation/native';
+} from 'native-base'
+import React, {PropsWithChildren, ReactNode} from 'react'
+import {ImageBackground, Platform, TouchableOpacity} from 'react-native'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import BackGround from '@images/Background.png'
+import {useNavigation} from '@react-navigation/native'
 type HeaderBackProps = {
-  title: string;
-  buttonBack?: ReactNode;
-  buttonBackPress?: () => void;
-  bottomChildren?: ReactNode;
-  bottomPadding?: string;
-  withBackGround?: boolean;
-} & PropsWithChildren;
-const HeaderBack: React.FC<HeaderBackProps> = props => {
+  title: string
+  buttonBack?: ReactNode
+  buttonBackPress?: () => void
+  bottomChildren?: ReactNode
+  bottomPadding?: string
+  withBackGround?: boolean
+} & PropsWithChildren
+const HeaderBack: React.FC<HeaderBackProps> = (props) => {
   const {
     title,
     buttonBack,
@@ -28,9 +28,9 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
     withBackGround,
     bottomPadding,
     children,
-  } = props;
+  } = props
 
-  const navigate = useNavigation();
+  const navigate = useNavigation()
   if (withBackGround)
     return (
       <SafeAreaView
@@ -61,7 +61,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
           </VStack>
         </ImageBackground>
       </SafeAreaView>
-    );
+    )
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -79,7 +79,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
             {buttonBack ? (
               <TouchableOpacity
                 onPress={() => {
-                  buttonBackPress ? buttonBackPress() : navigate.goBack();
+                  buttonBackPress ? buttonBackPress() : navigate.goBack()
                 }}
                 style={{
                   position: 'absolute',
@@ -103,7 +103,7 @@ const HeaderBack: React.FC<HeaderBackProps> = props => {
         </VStack>
       </SafeAreaView>
     </KeyboardAvoidingView>
-  );
-};
+  )
+}
 
-export default HeaderBack;
+export default HeaderBack

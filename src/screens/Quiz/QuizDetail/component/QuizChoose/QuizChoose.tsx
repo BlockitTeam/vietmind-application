@@ -1,17 +1,17 @@
-import React from 'react';
-import {Button, Center, Text, VStack} from 'native-base';
-import {tOptionsOfQuestion} from '@hooks/question/question.interface';
-import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer';
-import TextParent from '../TextParent';
+import React from 'react'
+import {Button, Center, Text, VStack} from 'native-base'
+import {tOptionsOfQuestion} from '@hooks/question/question.interface'
+import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer'
+import TextParent from '../TextParent'
 type QuizChooseProps = {
-  parentQuestion?: tListResultItem;
-  question: string;
-  options?: tOptionsOfQuestion[];
-  save: (s: number) => void;
-  answer: null | number;
-};
-const QuizChoose: React.FC<QuizChooseProps> = props => {
-  const {question, parentQuestion, options, save, answer} = props;
+  parentQuestion?: tListResultItem
+  question: string
+  options?: tOptionsOfQuestion[]
+  save: (s: number) => void
+  answer: null | number
+}
+const QuizChoose: React.FC<QuizChooseProps> = (props) => {
+  const {question, parentQuestion, options, save, answer} = props
 
   return (
     <VStack bgColor={'white'} w={'full'} space={2} h={'100%'} pt={'5%'}>
@@ -27,7 +27,7 @@ const QuizChoose: React.FC<QuizChooseProps> = props => {
           {question}
         </Text>
       </VStack>
-      {options?.map(item => {
+      {options?.map((item) => {
         return (
           <Button
             key={item.optionId}
@@ -40,10 +40,10 @@ const QuizChoose: React.FC<QuizChooseProps> = props => {
             onPress={() => save(item.optionId)}>
             {item.optionText}
           </Button>
-        );
+        )
       })}
     </VStack>
-  );
-};
+  )
+}
 
-export default QuizChoose;
+export default QuizChoose

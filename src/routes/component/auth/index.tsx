@@ -1,23 +1,23 @@
-import {RootStack} from '@routes/navigator';
-import InputSelfInformation from '@screens/Auth/InputSelfInformation';
-import LoginSuccess from '@screens/Auth/LoginSuccess';
-import Privacy from '@screens/Auth/Privacy';
-import PrivacyDetail from '@screens/Auth/PrivacyDetail';
-import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start';
-import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation';
-import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home';
-import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile';
-import GeneralSurveyResult from '@screens/HomeTab/Profile/components/GeneralSurveyResult';
-import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice';
-import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen';
+import {RootStack} from '@routes/navigator'
+import InputSelfInformation from '@screens/Auth/InputSelfInformation'
+import LoginSuccess from '@screens/Auth/LoginSuccess'
+import Privacy from '@screens/Auth/Privacy'
+import PrivacyDetail from '@screens/Auth/PrivacyDetail'
+import ChatWithBot_Start from '@screens/ChatWithBot/ChatWithBot_Start'
+import ChatWithProfessional_Conversation from '@screens/ChatWithProfessional/Conversation'
+import ChatWithProfessional_Start from '@screens/ChatWithProfessional/Home'
+import ChangeProfile from '@screens/HomeTab/Profile/ChangeProfile'
+import GeneralSurveyResult from '@screens/HomeTab/Profile/components/GeneralSurveyResult'
+import ProfileMultipleChoice from '@screens/HomeTab/Profile/ProfileMultipleChoice'
+import SurveyDetailScreen from '@screens/HomeTab/Profile/ProfileMultipleChoice/SurveyDetailScreen'
 
-import QuizDetail from '@screens/Quiz/QuizDetail';
-import QuizStart from '@screens/Quiz/QuizStart';
-import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm';
-import SetTimeAppointment from '@screens/SetTimeAppointment';
-import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
-import ViewHistoryAdvise from '@screens/ViewHistoryAdvise/ViewHistoryAdvise';
-import React from 'react';
+import QuizDetail from '@screens/Quiz/QuizDetail'
+import QuizStart from '@screens/Quiz/QuizStart'
+import QuizStartConfirm from '@screens/Quiz/QuizStartConfirm'
+import SetTimeAppointment from '@screens/SetTimeAppointment'
+import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess'
+import ViewHistoryAdvise from '@screens/ViewHistoryAdvise/ViewHistoryAdvise'
+import React from 'react'
 
 export const renderInputSelfInformation = () => {
   return (
@@ -30,8 +30,8 @@ export const renderInputSelfInformation = () => {
         component={InputSelfInformation}
       />
     </React.Fragment>
-  );
-};
+  )
+}
 
 export const renderCommonFilter = () => {
   return (
@@ -49,8 +49,8 @@ export const renderCommonFilter = () => {
         component={SetTimeAppointmentSuccess}
       />
     </>
-  );
-};
+  )
+}
 
 export const renderChatStack = () => {
   return (
@@ -86,5 +86,5 @@ export const renderChatStack = () => {
         component={ViewHistoryAdvise}
       />
     </>
-  );
-};
+  )
+}

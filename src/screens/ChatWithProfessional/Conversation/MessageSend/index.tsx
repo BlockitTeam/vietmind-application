@@ -1,17 +1,17 @@
-import {Box, Text} from 'native-base';
-import React, {useEffect, useRef} from 'react';
-import {Animated} from 'react-native';
+import {Box, Text} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {Animated} from 'react-native'
 
 type MessageSendProps = {
-  text: string;
-  time: string;
-};
+  text: string
+  time: string
+}
 
-const MessageSend: React.FC<MessageSendProps> = props => {
-  const {text, time} = props;
+const MessageSend: React.FC<MessageSendProps> = (props) => {
+  const {text, time} = props
   // Create refs for the animated opacity and position values
-  const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(2)).current;
+  const opacity = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(2)).current
 
   useEffect(() => {
     // Run the fade-in and position animation when the component mounts
@@ -26,8 +26,8 @@ const MessageSend: React.FC<MessageSendProps> = props => {
         duration: 500,
         useNativeDriver: true,
       }),
-    ]).start();
-  }, [opacity, translateY]);
+    ]).start()
+  }, [opacity, translateY])
 
   return (
     <Animated.View style={{opacity, transform: [{translateY}]}}>
@@ -44,7 +44,7 @@ const MessageSend: React.FC<MessageSendProps> = props => {
         </Text>
       </Box>
     </Animated.View>
-  );
-};
+  )
+}
 
-export default React.memo(MessageSend);
+export default React.memo(MessageSend)

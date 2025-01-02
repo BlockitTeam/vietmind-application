@@ -1,12 +1,12 @@
-import {extendTheme} from 'native-base';
-import {cusSelected, outlineButton, primaryButton} from './custom-variant';
-import {Platform} from 'react-native';
+import {extendTheme} from 'native-base'
+import {cusSelected, outlineButton, primaryButton} from './custom-variant'
+import {Platform} from 'react-native'
 
 const headerDefault = {
   color: 'text.neutral_primary',
   fontFamily: 'MuseoModerno',
   textAlign: 'center',
-};
+}
 
 export const themeNativeBase = extendTheme({
   fontConfig: {
@@ -124,12 +124,12 @@ export const themeNativeBase = extendTheme({
     Button: {
       // Can simply pass default props to change default behaviour of components.
 
-      baseStyle: props => {
+      baseStyle: (props) => {
         return {
           _text: {
             fontFamily: 'SFProDisplay',
           },
-        };
+        }
       },
       variants: {
         cusPrimary: primaryButton,
@@ -254,4 +254,4 @@ export const themeNativeBase = extendTheme({
   //   // Changing initialColorMode to 'dark'
   //   initialColorMode: 'dark',
   // },
-});
+})

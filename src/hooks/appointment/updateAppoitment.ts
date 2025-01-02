@@ -1,11 +1,11 @@
 // /api/v1/appointments
 // updateAppointment
 
-import {mutationPut} from '@config/api';
-import {apiPath} from '@config/api/apiPath';
-import {IResponse} from '@interface/api.interface';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {tAppointment} from './appointment.interface';
+import {mutationPut} from '@config/api'
+import {apiPath} from '@config/api/apiPath'
+import {IResponse} from '@interface/api.interface'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
+import {tAppointment} from './appointment.interface'
 
 //   }
 export const useUpdateAppointment = () => {
@@ -14,10 +14,10 @@ export const useUpdateAppointment = () => {
       return mutationPut<IResponse<tAppointment>>({
         url: `${apiPath.appointment.PUT}`,
         body: putAppointmentParams,
-      });
+      })
     },
-  });
-};
+  })
+}
 
 export const useUpdateAppointmentStatus = () => {
   return useMutation({
@@ -30,7 +30,7 @@ export const useUpdateAppointmentStatus = () => {
       return mutationPut<IResponse<tAppointment>>({
         url: `${apiPath.appointment.PUT}`,
         body: putAppointmentStatusParams,
-      });
+      })
     },
-  });
-};
+  })
+}

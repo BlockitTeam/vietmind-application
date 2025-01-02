@@ -1,23 +1,23 @@
-import HeaderBack from '@components/layout/HeaderBack';
-import {useGetInfSurveyById} from '@hooks/survey';
-import {tUserResponse} from '@hooks/user/user.interface';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import {useAtom} from 'jotai';
-import {Button, VStack, Text} from 'native-base';
-import React from 'react';
-import {Platform} from 'react-native';
-import {normalizeText} from 'src/utils/textUtil';
+import HeaderBack from '@components/layout/HeaderBack'
+import {useGetInfSurveyById} from '@hooks/survey'
+import {tUserResponse} from '@hooks/user/user.interface'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
+import {useAtom} from 'jotai'
+import {Button, VStack, Text} from 'native-base'
+import React from 'react'
+import {Platform} from 'react-native'
+import {normalizeText} from 'src/utils/textUtil'
 
 type QuizResBadProps = {
-  navigation: any;
-  surveyDetail: string;
-};
-const QuizResBad: React.FC<QuizResBadProps> = props => {
-  const {navigation, surveyDetail} = props;
+  navigation: any
+  surveyDetail: string
+}
+const QuizResBad: React.FC<QuizResBadProps> = (props) => {
+  const {navigation, surveyDetail} = props
   // const {navigation} = props;
 
-  const {data: surveyInfo} = useGetInfSurveyById(surveyDetail);
+  const {data: surveyInfo} = useGetInfSurveyById(surveyDetail)
 
   return (
     <HeaderBack
@@ -60,7 +60,7 @@ const QuizResBad: React.FC<QuizResBadProps> = props => {
         </>
       </VStack>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default QuizResBad;
+export default QuizResBad

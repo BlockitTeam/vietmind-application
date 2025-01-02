@@ -1,17 +1,17 @@
-import React from 'react';
-import SelfLove1 from '@images/SelfLove1.png';
-import {Button, Image, Text, VStack} from 'native-base';
-import {Platform, StyleSheet} from 'react-native';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
+import React from 'react'
+import SelfLove1 from '@images/SelfLove1.png'
+import {Button, Image, Text, VStack} from 'native-base'
+import {Platform, StyleSheet} from 'react-native'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
 type LoginSuccessProps = NativeStackScreenProps<
   IRootStackParamList,
   'LoginSuccess'
->;
+>
 
-const LoginSuccess: React.FC<LoginSuccessProps> = props => {
-  const {navigation} = props;
+const LoginSuccess: React.FC<LoginSuccessProps> = (props) => {
+  const {navigation} = props
 
   return (
     <CusImageBackground
@@ -22,7 +22,7 @@ const LoginSuccess: React.FC<LoginSuccessProps> = props => {
           mb={Platform.OS === 'ios' ? 8 : 0}
           variant={'cusPrimary'}
           onPress={() => {
-            navigation.navigate('Privacy');
+            navigation.navigate('Privacy')
           }}>
           Tiếp tục
         </Button>
@@ -41,14 +41,14 @@ const LoginSuccess: React.FC<LoginSuccessProps> = props => {
         <Text textAlign={'center'}>Chào mừng bạn đến với Vietmind.</Text>
       </VStack>
     </CusImageBackground>
-  );
-};
+  )
+}
 
-export default LoginSuccess;
+export default LoginSuccess
 
 const styles = StyleSheet.create({
   vStack: {
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})

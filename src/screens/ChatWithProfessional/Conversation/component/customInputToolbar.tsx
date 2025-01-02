@@ -1,11 +1,11 @@
-import React from 'react';
-import {Input, Button} from 'native-base';
-import {Send} from '@assets/icons';
+import React from 'react'
+import {Input, Button} from 'native-base'
+import {Send} from '@assets/icons'
 
 interface CustomInputToolbarProps {
-  value: string;
-  onChangeText: (text: string) => void;
-  onSend: () => void;
+  value: string
+  onChangeText: (text: string) => void
+  onSend: () => void
 }
 
 const CustomInputToolbar: React.FC<CustomInputToolbarProps> = ({
@@ -30,7 +30,7 @@ const CustomInputToolbar: React.FC<CustomInputToolbarProps> = ({
         <Send fill={value.length > 0 ? '#C2F8CB' : '#E0E9ED'} />
       </Button>
     </>
-  );
-};
+  )
+}
 
-export default CustomInputToolbar;
+export default CustomInputToolbar

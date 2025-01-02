@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Calendar} from 'react-native-calendars';
+import React, {useState} from 'react'
+import {Calendar} from 'react-native-calendars'
 import {
   Box,
   Button,
@@ -14,43 +14,43 @@ import {
   IButtonProps,
   ChevronLeftIcon,
   ChevronRightIcon,
-} from 'native-base';
-import {ListRenderItem} from 'react-native';
+} from 'native-base'
+import {ListRenderItem} from 'react-native'
 
 interface YearPickerProps {
   /**
    * Callback function called when a year is selected
    */
-  onYearSelect?: (year: number) => void;
+  onYearSelect?: (year: number) => void
   /**
    * The earliest year that can be selected
    * @default 1900
    */
-  startYear?: number;
+  startYear?: number
   /**
    * The latest year that can be selected
    * @default current year
    */
-  endYear?: number;
+  endYear?: number
   /**
    * Custom styles for the picker container
    */
-  containerStyle?: IBoxProps;
+  containerStyle?: IBoxProps
   /**
    * Custom styles for the year button
    */
-  yearButtonStyle?: IButtonProps;
+  yearButtonStyle?: IButtonProps
   /**
    * Initial selected year
    * @default current year
    */
-  initialYear?: number;
+  initialYear?: number
 }
 
 interface YearItemProps {
-  year: number;
-  isSelected: boolean;
-  onSelect: (year: number) => void;
+  year: number
+  isSelected: boolean
+  onSelect: (year: number) => void
 }
 
 const YearItem: React.FC<YearItemProps> = ({year, isSelected, onSelect}) => (
@@ -65,7 +65,7 @@ const YearItem: React.FC<YearItemProps> = ({year, isSelected, onSelect}) => (
       </Text>
     </Box>
   </Pressable>
-);
+)
 
 const YearPicker: React.FC<YearPickerProps> = ({
   onYearSelect,
@@ -75,30 +75,30 @@ const YearPicker: React.FC<YearPickerProps> = ({
   yearButtonStyle,
   initialYear = new Date().getFullYear(),
 }) => {
-  const [selectedYear, setSelectedYear] = useState<number>(initialYear);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedYear, setSelectedYear] = useState<number>(initialYear)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [decade, setDecade] = useState<number>(
     Math.floor(selectedYear / 10) * 10,
-  );
+  )
 
   // Generate years for the current decade
   const years: number[] = Array.from({length: 10}, (_, i) => decade + i).filter(
-    year => year >= startYear && year <= endYear,
-  );
+    (year) => year >= startYear && year <= endYear,
+  )
 
   const handleYearSelect = (year: number): void => {
-    setSelectedYear(year);
-    onYearSelect?.(year);
-    setIsOpen(false);
-  };
+    setSelectedYear(year)
+    onYearSelect?.(year)
+    setIsOpen(false)
+  }
 
   const handlePreviousDecade = (): void => {
-    setDecade(prev => Math.max(startYear, prev - 10));
-  };
+    setDecade((prev) => Math.max(startYear, prev - 10))
+  }
 
   const handleNextDecade = (): void => {
-    setDecade(prev => Math.min(endYear - 9, prev + 10));
-  };
+    setDecade((prev) => Math.min(endYear - 9, prev + 10))
+  }
 
   const renderYear: ListRenderItem<number> = ({item: year}) => (
     <YearItem
@@ -106,7 +106,7 @@ const YearPicker: React.FC<YearPickerProps> = ({
       isSelected={selectedYear === year}
       onSelect={handleYearSelect}
     />
-  );
+  )
 
   return (
     <Box {...containerStyle}>
@@ -153,7 +153,7 @@ const YearPicker: React.FC<YearPickerProps> = ({
                 data={years}
                 renderItem={renderYear}
                 numColumns={2}
-                keyExtractor={item => item.toString()}
+                keyExtractor={(item) => item.toString()}
                 contentContainerStyle={{
                   paddingVertical: 8,
                 }}
@@ -168,7 +168,7 @@ const YearPicker: React.FC<YearPickerProps> = ({
         </Modal.Content>
       </Modal>
     </Box>
-  );
-};
+  )
+}
 
-export default YearPicker;
+export default YearPicker

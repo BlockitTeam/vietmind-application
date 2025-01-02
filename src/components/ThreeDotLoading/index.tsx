@@ -1,18 +1,18 @@
 // LoadingDots.tsx
 
-import {colors} from '@assets/colors';
-import {Text} from 'native-base';
-import React, {useEffect, useRef} from 'react';
-import {View, Animated, Easing, StyleSheet} from 'react-native';
+import {colors} from '@assets/colors'
+import {Text} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {View, Animated, Easing, StyleSheet} from 'react-native'
 
 type LoadingDotsProps = {
-  title?: string;
-  dotSize?: number;
-};
+  title?: string
+  dotSize?: number
+}
 const LoadingDots: React.FC<LoadingDotsProps> = ({dotSize, title}) => {
-  const dot1 = useRef(new Animated.Value(0)).current;
-  const dot2 = useRef(new Animated.Value(0)).current;
-  const dot3 = useRef(new Animated.Value(0)).current;
+  const dot1 = useRef(new Animated.Value(0)).current
+  const dot2 = useRef(new Animated.Value(0)).current
+  const dot3 = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
     const animateDot = (dot: Animated.Value, delay: number) => {
@@ -32,13 +32,13 @@ const LoadingDots: React.FC<LoadingDotsProps> = ({dotSize, title}) => {
           }),
           Animated.delay(delay),
         ]),
-      ).start();
-    };
+      ).start()
+    }
 
-    animateDot(dot1, 100);
-    animateDot(dot2, 200);
-    animateDot(dot3, 300);
-  }, [dot1, dot2, dot3]);
+    animateDot(dot1, 100)
+    animateDot(dot2, 200)
+    animateDot(dot3, 300)
+  }, [dot1, dot2, dot3])
 
   return (
     <View style={styles.container}>
@@ -80,8 +80,8 @@ const LoadingDots: React.FC<LoadingDotsProps> = ({dotSize, title}) => {
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.text.neutral_teriary,
   },
-});
+})
 
-export default LoadingDots;
+export default LoadingDots

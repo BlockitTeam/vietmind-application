@@ -19,4 +19,4 @@ export const colors = {
     white: '#FFFFFF',
     light: '#F8F9F9',
   },
-};
+}

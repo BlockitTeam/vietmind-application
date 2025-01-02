@@ -1,3 +1,3 @@
-import {atom} from 'jotai';
+import {atom} from 'jotai'
 
-export const messageAuthAtom = atom<string | undefined>(undefined);
+export const messageAuthAtom = atom<string | undefined>(undefined)

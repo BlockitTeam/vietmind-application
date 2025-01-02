@@ -1,14 +1,14 @@
-import React, {PropsWithChildren, ReactNode} from 'react';
-import {ImageBackground} from 'react-native';
-import BackGround from '@images/Background.png';
-import {Center} from 'native-base';
+import React, {PropsWithChildren, ReactNode} from 'react'
+import {ImageBackground} from 'react-native'
+import BackGround from '@images/Background.png'
+import {Center} from 'native-base'
 
 type CusImageBackgroundProps = {
-  bottomButton?: ReactNode;
-  nonBackGround?: boolean | string;
-} & PropsWithChildren;
-const CusImageBackground: React.FC<CusImageBackgroundProps> = props => {
-  const {children, bottomButton, nonBackGround} = props;
+  bottomButton?: ReactNode
+  nonBackGround?: boolean | string
+} & PropsWithChildren
+const CusImageBackground: React.FC<CusImageBackgroundProps> = (props) => {
+  const {children, bottomButton, nonBackGround} = props
   return (
     <ImageBackground source={nonBackGround ? null : BackGround}>
       {bottomButton ? (
@@ -31,7 +31,7 @@ const CusImageBackground: React.FC<CusImageBackgroundProps> = props => {
         children
       )}
     </ImageBackground>
-  );
-};
+  )
+}
 
-export default CusImageBackground;
+export default CusImageBackground

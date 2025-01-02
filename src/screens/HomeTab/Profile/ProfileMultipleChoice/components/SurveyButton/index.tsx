@@ -1,19 +1,19 @@
-import {useNavigation, NavigationProp} from '@react-navigation/native';
-import {IRootStackParamList} from '@routes/navigator';
-import {ChevronRightIcon, HStack, Text, VStack} from 'native-base';
-import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {useNavigation, NavigationProp} from '@react-navigation/native'
+import {IRootStackParamList} from '@routes/navigator'
+import {ChevronRightIcon, HStack, Text, VStack} from 'native-base'
+import React from 'react'
+import {TouchableOpacity} from 'react-native'
 
 type SurveyButtonProps = {
-  label: string;
-  callBack: () => void;
-};
+  label: string
+  callBack: () => void
+}
 
 const SurveyButton: React.FC<SurveyButtonProps> = ({label, callBack}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        callBack();
+        callBack()
       }}>
       <HStack
         alignItems={'center'}
@@ -29,7 +29,7 @@ const SurveyButton: React.FC<SurveyButtonProps> = ({label, callBack}) => {
         </Text>
       </HStack>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default SurveyButton;
+export default SurveyButton

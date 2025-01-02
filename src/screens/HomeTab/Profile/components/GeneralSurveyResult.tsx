@@ -1,8 +1,8 @@
-import HeaderBack from '@components/layout/HeaderBack';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
+import HeaderBack from '@components/layout/HeaderBack'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import {
   Box,
   Button,
@@ -12,19 +12,19 @@ import {
   ScrollView,
   Text,
   VStack,
-} from 'native-base';
-import React from 'react';
-import {normalizeText} from 'src/utils/textUtil';
+} from 'native-base'
+import React from 'react'
+import {normalizeText} from 'src/utils/textUtil'
 
 type tGeneralSurveyResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'GeneralSurveyResult'>,
   BottomTabScreenProps<IBottomParamList, 'Profile'>
->;
+>
 
-const GeneralSurveyResult: React.FC<tGeneralSurveyResultProps> = props => {
-  const {navigation, route} = props;
-  const title = route.params.title;
-  const rs = route.params.res;
+const GeneralSurveyResult: React.FC<tGeneralSurveyResultProps> = (props) => {
+  const {navigation, route} = props
+  const title = route.params.title
+  const rs = route.params.res
   return (
     <HeaderBack
       title={`Trắc nghiệm / ${title}`}
@@ -52,18 +52,18 @@ const GeneralSurveyResult: React.FC<tGeneralSurveyResultProps> = props => {
               <Text>
                 <Text style={{fontWeight: 600}}>Câu trả lời: </Text>
                 {
-                  answer.options.find(v => v.optionId === answer.answer)
+                  answer.options.find((v) => v.optionId === answer.answer)
                     ?.optionText
                 }
               </Text>
 
               <Divider bgColor={'primary.medium'} />
             </VStack>
-          );
+          )
         })}
       </ScrollView>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default GeneralSurveyResult;
+export default GeneralSurveyResult

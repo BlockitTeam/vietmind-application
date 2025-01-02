@@ -1,13 +1,13 @@
-import {Center, Flex, Image, Text} from 'native-base';
-import React from 'react';
-import Focused from '@assets/images/focused.png';
-import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import {useAtom} from 'jotai';
-import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import CustomButton from '@components/Custom/Button';
+import {Center, Flex, Image, Text} from 'native-base'
+import React from 'react'
+import Focused from '@assets/images/focused.png'
+import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp'
+import {useAtom} from 'jotai'
+import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import CustomButton from '@components/Custom/Button'
 const WelcomeScreen = () => {
-  const [_, setFirstInit] = useAtom(firstLoadAtom);
+  const [_, setFirstInit] = useAtom(firstLoadAtom)
   return (
     <CusImageBackground>
       <Flex
@@ -35,11 +35,11 @@ const WelcomeScreen = () => {
           width={'100%'}
           variant={'cusPrimary'}
           onPress={async () =>
-            await storeFirstLoad('0').then(value => {
+            await storeFirstLoad('0').then((value) => {
               if (value === '1') {
-                setFirstInit(true);
+                setFirstInit(true)
               } else {
-                setFirstInit(false);
+                setFirstInit(false)
               }
             })
           }>
@@ -47,7 +47,7 @@ const WelcomeScreen = () => {
         </CustomButton>
       </Flex>
     </CusImageBackground>
-  );
-};
+  )
+}
 
-export default WelcomeScreen;
+export default WelcomeScreen

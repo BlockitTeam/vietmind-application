@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Box,
   Input,
@@ -11,32 +11,32 @@ import {
   HStack,
   ChevronDownIcon,
   Center,
-} from 'native-base';
-import {useForm, Controller} from 'react-hook-form';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
-import axios from 'axios';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {useCurrentUser, usePutEditUser} from '@hooks/user';
-import {tPutEditUserParam, tUserResponse} from '@hooks/user/user.interface';
+} from 'native-base'
+import {useForm, Controller} from 'react-hook-form'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
+import axios from 'axios'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {useCurrentUser, usePutEditUser} from '@hooks/user'
+import {tPutEditUserParam, tUserResponse} from '@hooks/user/user.interface'
 
-const curYear = new Date().getFullYear();
+const curYear = new Date().getFullYear()
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
-  year => year,
-);
+  (year) => year,
+)
 
 type InputSelfInformationProps = NativeStackScreenProps<
   IRootStackParamList,
   'InputSelfInformation'
->;
-type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string};
-const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
-  const {navigation} = props;
+>
+type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string}
+const InputSelfInformation: React.FC<InputSelfInformationProps> = (props) => {
+  const {navigation} = props
 
-  const [cur, setCurUser] = useAtom(curUserAtom);
-  const {refetch} = useCurrentUser();
+  const [cur, setCurUser] = useAtom(curUserAtom)
+  const {refetch} = useCurrentUser()
 
   const {
     control,
@@ -50,32 +50,32 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
       birthYear: '',
       gender: 'MALE',
     },
-  });
+  })
 
   // Todo: API
-  const usePutEditUserMutation = usePutEditUser();
+  const usePutEditUserMutation = usePutEditUser()
 
   //Todo: Func
   const onSubmit = async (data: tFormEditUser) => {
     usePutEditUserMutation.mutate(
       {...data, birthYear: parseInt(data.birthYear)},
       {
-        onSuccess: value => {
-          refetch().then(v => {
+        onSuccess: (value) => {
+          refetch().then((v) => {
             //Note
             if (cur) {
-              let temp: tUserResponse = {...cur, enabled: true, ...v.data};
-              setCurUser(temp);
+              let temp: tUserResponse = {...cur, enabled: true, ...v.data}
+              setCurUser(temp)
             }
-          });
+          })
           // setCurUser(value.data);
         },
-        onError: error => {
-          console.log('🚀 ~ onSubmit ~ error:', error);
+        onError: (error) => {
+          console.log('🚀 ~ onSubmit ~ error:', error)
         },
       },
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView>
@@ -168,14 +168,14 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
                     bg: 'primary.600',
                     endIcon: <CheckIcon size="5" />,
                   }}>
-                  {listYear.map(item => {
+                  {listYear.map((item) => {
                     return (
                       <Select.Item
                         key={item}
                         label={item.toString()}
                         value={item.toString()}
                       />
-                    );
+                    )
                   })}
                 </Select>
               )}
@@ -235,7 +235,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = props => {
         </VStack>
       </Box>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default InputSelfInformation;
+export default InputSelfInformation

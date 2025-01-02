@@ -1,5 +1,5 @@
-import {SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native'
+import React from 'react'
 import {
   Box,
   Center,
@@ -8,18 +8,18 @@ import {
   ScrollView,
   Text,
   VStack,
-} from 'native-base';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
-import HeaderBack from '@components/layout/HeaderBack';
+} from 'native-base'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
+import HeaderBack from '@components/layout/HeaderBack'
 
 type PrivacyDetailProps = NativeStackScreenProps<
   IRootStackParamList,
   'PrivacyDetail'
->;
+>
 
-const PrivacyDetail: React.FC<PrivacyDetailProps> = props => {
-  const {navigation} = props;
+const PrivacyDetail: React.FC<PrivacyDetailProps> = (props) => {
+  const {navigation} = props
   return (
     // <SafeAreaView>
     //   <VStack h={'full'}>
@@ -32,7 +32,7 @@ const PrivacyDetail: React.FC<PrivacyDetailProps> = props => {
       buttonBack={
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            navigation.goBack()
           }}>
           <Center flexDirection={'row'}>
             <ChevronLeftIcon />
@@ -80,10 +80,10 @@ const PrivacyDetail: React.FC<PrivacyDetailProps> = props => {
         </Text>
       </ScrollView>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default PrivacyDetail;
+export default PrivacyDetail
 
 const styles = StyleSheet.create({
   header3: {
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 4,
   },
-});
+})

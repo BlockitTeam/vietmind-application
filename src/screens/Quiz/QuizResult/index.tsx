@@ -1,44 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import {Button, Spinner, Text, useToast, VStack} from 'native-base';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import HeaderBack from '@components/layout/HeaderBack';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import LoadingOverlay from '@components/LoadingOverLay';
-import {useGetInfSurveyById} from '@hooks/survey';
-import {normalizeText} from 'src/utils/textUtil';
-import {G} from 'react-native-svg';
-import {Platform} from 'react-native';
+import React, {useEffect, useState} from 'react'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import {Button, Spinner, Text, useToast, VStack} from 'native-base'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {CompositeScreenProps, useNavigation} from '@react-navigation/native'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import HeaderBack from '@components/layout/HeaderBack'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
+import LoadingOverlay from '@components/LoadingOverLay'
+import {useGetInfSurveyById} from '@hooks/survey'
+import {normalizeText} from 'src/utils/textUtil'
+import {G} from 'react-native-svg'
+import {Platform} from 'react-native'
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
   BottomTabScreenProps<IBottomParamList, 'Home'>
->;
+>
 
-const QuizResult: React.FC<QuizResultProps> = props => {
+const QuizResult: React.FC<QuizResultProps> = (props) => {
   // Check force curUser
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const {navigation} = props;
+  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const {navigation} = props
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
-  );
+  )
 
   const {data: surveyInfo, isLoading} = useGetInfSurveyById(
     curUser?.surveyDetail || '1',
-  );
+  )
   const isDoneSurveyDetail =
-    curUser?.surveyDetail && curUser.latestSpecializedVersion;
-  const isGoodType = curUser?.surveyDetail === null;
+    curUser?.surveyDetail && curUser.latestSpecializedVersion
+  const isGoodType = curUser?.surveyDetail === null
   // if (!resultCommonFilter && isDoneSurveyDetail && !isGoodType) {
   //   navigation.replace('BottomTab', {screen: 'Home'});
   //   return null;
   // }
-  if (isLoading || !curUser) return null;
+  if (isLoading || !curUser) return null
   return (
     <HeaderBack
       withBackGround={true}
@@ -71,7 +71,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
               onPress={() => {
                 // navigation.replace('BottomTab', {screen: 'Home'});
                 // toast.show({title: 'Tính năng đang được cập nhật <3'});
-                navigation.replace('SetTimeAppointment');
+                navigation.replace('SetTimeAppointment')
               }}>
               Chat với chuyên gia
             </Button>
@@ -120,7 +120,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
         )}
       </VStack>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default QuizResult;
+export default QuizResult

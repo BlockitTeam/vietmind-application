@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, {SvgProps, Path} from 'react-native-svg';
+import * as React from 'react'
+import Svg, {SvgProps, Path} from 'react-native-svg'
 const SVGComponent = (props: SvgProps) => (
   <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" {...props}>
     <Path
@@ -11,5 +11,5 @@ const SVGComponent = (props: SvgProps) => (
       {...props}
     />
   </Svg>
-);
-export default SVGComponent;
+)
+export default SVGComponent

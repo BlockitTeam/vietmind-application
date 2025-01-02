@@ -1,93 +1,93 @@
-import {RootStack} from './navigator';
-import {getFirstLoad} from '@services/asyncStorage/firstLoadApp';
-import React, {useEffect, useLayoutEffect} from 'react';
-import {useAtom} from 'jotai';
-import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import Splash from '@screens/Auth/Splash';
-import WelcomeScreen from '@screens/Auth/Welcome';
-import Login from '@screens/Auth/Login';
-import SetTimeAppointment from '@screens/SetTimeAppointment';
+import {RootStack} from './navigator'
+import {getFirstLoad} from '@services/asyncStorage/firstLoadApp'
+import React, {useEffect, useLayoutEffect} from 'react'
+import {useAtom} from 'jotai'
+import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import Splash from '@screens/Auth/Splash'
+import WelcomeScreen from '@screens/Auth/Welcome'
+import Login from '@screens/Auth/Login'
+import SetTimeAppointment from '@screens/SetTimeAppointment'
 
 import {
   renderChatStack,
   renderCommonFilter,
   renderInputSelfInformation,
-} from './component/auth';
-import {renderBottomTabStack} from './component/withBottomTab';
+} from './component/auth'
+import {renderBottomTabStack} from './component/withBottomTab'
 import {
   getJSessionID,
   removeJSessionID,
-} from '@services/asyncStorage/jsessionID';
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import {useCurrentUser} from '@hooks/user';
-import {language} from '@config/language';
-import QuizResult from '@screens/Quiz/QuizResult';
-import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess';
-import {useGetResultById} from '@hooks/response';
-import {isEmptyObject} from 'src/utils/object';
+} from '@services/asyncStorage/jsessionID'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
+import {useCurrentUser} from '@hooks/user'
+import {language} from '@config/language'
+import QuizResult from '@screens/Quiz/QuizResult'
+import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess'
+import {useGetResultById} from '@hooks/response'
+import {isEmptyObject} from 'src/utils/object'
 import {
   useGetAppointment,
   useGetAppointmentFalse,
-} from '@hooks/appointment/getAppointment';
-import DetailResult from '@screens/Quiz/QuizResult/DetailResult';
-import {useLayout} from 'native-base';
+} from '@hooks/appointment/getAppointment'
+import DetailResult from '@screens/Quiz/QuizResult/DetailResult'
+import {useLayout} from 'native-base'
 
 const RootApp = () => {
-  const [firstInit, setFirstInit] = useAtom(firstLoadAtom);
-  const [curUser, setCurUser] = useAtom(curUserAtom);
-  const [_, setMessageAuth] = useAtom(messageAuthAtom);
-  const {isLoading, refetch} = useCurrentUser();
-  const [resultCommonFilter] = useAtom(resultCommonFilterAtom);
+  const [firstInit, setFirstInit] = useAtom(firstLoadAtom)
+  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const [_, setMessageAuth] = useAtom(messageAuthAtom)
+  const {isLoading, refetch} = useCurrentUser()
+  const [resultCommonFilter] = useAtom(resultCommonFilterAtom)
 
   const {isLoading: isGetResultById, data: getResultByIdData} =
-    useGetResultById(curUser?.id || '');
+    useGetResultById(curUser?.id || '')
   const expireTimeHandle = () => {
     removeJSessionID().then(() => {
-      setCurUser(undefined);
-      setMessageAuth(language.vn.expired_time);
-    });
-  };
+      setCurUser(undefined)
+      setMessageAuth(language.vn.expired_time)
+    })
+  }
   const {
     data: appointmentData,
     isLoading: isAppointmentLoading,
     refetch: refetchAppointment,
-  } = useGetAppointmentFalse();
-  console.log('rerender in routes');
+  } = useGetAppointmentFalse()
+  console.log('rerender in routes')
   useLayoutEffect(() => {
     if (curUser) {
       refetchAppointment().then(() => {
-        console.log('hẻe');
-      });
+        console.log('hẻe')
+      })
     }
-  }, [curUser]);
-  console.log(appointmentData);
+  }, [curUser])
+  console.log(appointmentData)
   useEffect(() => {
     const initializeApp = async () => {
-      const jsessionId = await getJSessionID();
+      const jsessionId = await getJSessionID()
       if (jsessionId) {
         try {
-          const user = await refetch();
+          const user = await refetch()
           if (user?.data?.statusCode === 200 && user.data?.data?.username) {
-            setCurUser(user.data.data);
+            setCurUser(user.data.data)
           } else {
-            expireTimeHandle();
+            expireTimeHandle()
           }
         } catch (error) {
-          expireTimeHandle();
+          expireTimeHandle()
         }
       }
-    };
+    }
 
     const loadFirstInit = async () => {
-      const value = await getFirstLoad();
-      setFirstInit(value === '1');
-    };
+      const value = await getFirstLoad()
+      setFirstInit(value === '1')
+    }
 
-    initializeApp();
-    loadFirstInit();
-  }, [refetch]);
+    initializeApp()
+    loadFirstInit()
+  }, [refetch])
 
   const renderAllScreen = () => {
     if (
@@ -96,31 +96,31 @@ const RootApp = () => {
       isGetResultById ||
       isAppointmentLoading
     ) {
-      return <RootStack.Screen name="Splash" component={Splash} />;
+      return <RootStack.Screen name="Splash" component={Splash} />
     }
 
     if (firstInit) {
-      return <RootStack.Screen name="Welcome" component={WelcomeScreen} />;
+      return <RootStack.Screen name="Welcome" component={WelcomeScreen} />
     }
 
     if (!curUser) {
-      return <RootStack.Screen name="Login" component={Login} />;
+      return <RootStack.Screen name="Login" component={Login} />
     }
     // if (!curUser.enabled) {
     //Edit here when done feature
     if (!curUser.enabled) {
-      return renderInputSelfInformation();
+      return renderInputSelfInformation()
     }
     //Edit here when done feature
 
     if (!getResultByIdData || isEmptyObject(getResultByIdData.data)) {
-      return renderCommonFilter();
+      return renderCommonFilter()
     }
-    const isGoodType = curUser?.surveyDetail === null;
+    const isGoodType = curUser?.surveyDetail === null
 
     const isDoneSurveyDetail =
       // curUser.surveyDetail !== null &&
-      curUser.latestSpecializedVersion !== null && !isGoodType;
+      curUser.latestSpecializedVersion !== null && !isGoodType
     return (
       <>
         {/* Done survey general -> survey detail | good case */}
@@ -165,14 +165,14 @@ const RootApp = () => {
         {renderBottomTabStack()}
         {renderChatStack()}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <RootStack.Navigator screenOptions={{headerShown: false}}>
       {renderAllScreen()}
     </RootStack.Navigator>
-  );
-};
+  )
+}
 
-export default RootApp;
+export default RootApp

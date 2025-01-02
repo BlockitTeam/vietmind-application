@@ -1,6 +1,6 @@
 //@ts-nocheck
-import * as React from 'react';
-import Svg, {SvgProps, G, Path, Defs, ClipPath} from 'react-native-svg';
+import * as React from 'react'
+import Svg, {SvgProps, G, Path, Defs, ClipPath} from 'react-native-svg'
 const SvgComponent = (props: SvgProps) => (
   <Svg {...props} width={25} height={24} fill="none">
     <G clipPath="url(#a)">
@@ -27,5 +27,5 @@ const SvgComponent = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-);
-export default SvgComponent;
+)
+export default SvgComponent

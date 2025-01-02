@@ -1,14 +1,14 @@
-import React from 'react';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import Well1 from '@images/Well1.png';
-import {Button, Image, Text} from 'native-base';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IRootStackParamList} from '@routes/navigator';
-import {Platform} from 'react-native';
+import React from 'react'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import Well1 from '@images/Well1.png'
+import {Button, Image, Text} from 'native-base'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IRootStackParamList} from '@routes/navigator'
+import {Platform} from 'react-native'
 
-type QuizStartProps = NativeStackScreenProps<IRootStackParamList, 'QuizStart'>;
-const QuizStart: React.FC<QuizStartProps> = props => {
-  const {navigation} = props;
+type QuizStartProps = NativeStackScreenProps<IRootStackParamList, 'QuizStart'>
+const QuizStart: React.FC<QuizStartProps> = (props) => {
+  const {navigation} = props
   return (
     <CusImageBackground
       bottomButton={
@@ -32,7 +32,7 @@ const QuizStart: React.FC<QuizStartProps> = props => {
         sau. Kết quả của bài trắc nghiệm sẽ giúp Vietmind đưa ra tư vấn tốt hơn.
       </Text>
     </CusImageBackground>
-  );
-};
+  )
+}
 
-export default QuizStart;
+export default QuizStart

@@ -1,24 +1,16 @@
-import {useGetAppointment} from '@hooks/appointment/getAppointment';
-import {useGetDoctorById} from '@hooks/user';
-import {
-  Spinner,
-  VStack,
-  Text,
-  HStack,
-  Box,
-  Circle,
-  Skeleton,
-} from 'native-base';
-import React, {useEffect} from 'react';
-import {clearSecond} from 'src/utils/formatDate';
+import {useGetAppointment} from '@hooks/appointment/getAppointment'
+import {useGetDoctorById} from '@hooks/user'
+import {Spinner, VStack, Text, HStack, Box, Circle, Skeleton} from 'native-base'
+import React, {useEffect} from 'react'
+import {clearSecond} from 'src/utils/formatDate'
 
 const IncomingAdvise = () => {
   const {data: appointmentData, isLoading: isAppointmentLoading} =
-    useGetAppointment();
-  const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId);
+    useGetAppointment()
+  const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId)
   // console.log(appointmentData);
 
-  console.log('rerender');
+  console.log('rerender')
   return (
     <VStack space={2}>
       <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>
@@ -77,7 +69,7 @@ const IncomingAdvise = () => {
         <Text>Bạn không có cuộc hẹn nào!</Text>
       )}
     </VStack>
-  );
-};
+  )
+}
 
-export default IncomingAdvise;
+export default IncomingAdvise

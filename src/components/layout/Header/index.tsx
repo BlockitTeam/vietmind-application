@@ -1,13 +1,13 @@
-import {Box, HStack, Text, View, VStack} from 'native-base';
-import React, {PropsWithChildren, ReactNode} from 'react';
-import {ImageBackground, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import BackGround from '@images/Background.png';
+import {Box, HStack, Text, View, VStack} from 'native-base'
+import React, {PropsWithChildren, ReactNode} from 'react'
+import {ImageBackground, TouchableOpacity} from 'react-native'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import BackGround from '@images/Background.png'
 type HeaderLayoutProps = {
-  title: string;
-} & PropsWithChildren;
-const HeaderLayout: React.FC<HeaderLayoutProps> = props => {
-  const {title, children} = props;
+  title: string
+} & PropsWithChildren
+const HeaderLayout: React.FC<HeaderLayoutProps> = (props) => {
+  const {title, children} = props
 
   return (
     <SafeAreaView
@@ -27,7 +27,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = props => {
         </VStack>
       </VStack>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default HeaderLayout;
+export default HeaderLayout

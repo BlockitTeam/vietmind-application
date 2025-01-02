@@ -1,20 +1,20 @@
-import {StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
-import {ScrollView, VStack} from 'native-base';
+import {StyleSheet} from 'react-native'
+import React, {useEffect} from 'react'
+import {ScrollView, VStack} from 'native-base'
 
-import HeaderLayout from '@components/layout/Header';
+import HeaderLayout from '@components/layout/Header'
 
-import IncomingAdvise from './component/IncomingAdvise';
-import HistoryAdvise from './component/HistoryAdvise';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import IncomingAdvise from './component/IncomingAdvise'
+import HistoryAdvise from './component/HistoryAdvise'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
 export type Tab_HomeProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Home'>,
   NativeStackScreenProps<IRootStackParamList>
->;
-const Tab_Home: React.FC<Tab_HomeProps> = props => {
+>
+const Tab_Home: React.FC<Tab_HomeProps> = (props) => {
   return (
     <HeaderLayout title="Trang chủ">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -24,8 +24,8 @@ const Tab_Home: React.FC<Tab_HomeProps> = props => {
         </VStack>
       </ScrollView>
     </HeaderLayout>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   nextEvent__Button: {
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
   },
-});
+})
 
-export default Tab_Home;
+export default Tab_Home

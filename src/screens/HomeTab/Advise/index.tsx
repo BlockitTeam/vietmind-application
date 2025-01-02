@@ -1,35 +1,35 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useLayoutEffect} from 'react';
-import {Box, Center, Circle, HStack, Spacer, Text, VStack} from 'native-base';
-import HeaderBack from '@components/layout/HeaderBack';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {useGetListDoctor} from '@hooks/user';
-import {colors} from '@assets/colors';
-import {useGetAppointment} from '@hooks/appointment/getAppointment';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {StyleSheet, TouchableOpacity} from 'react-native'
+import React, {useEffect, useLayoutEffect} from 'react'
+import {Box, Center, Circle, HStack, Spacer, Text, VStack} from 'native-base'
+import HeaderBack from '@components/layout/HeaderBack'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {useGetListDoctor} from '@hooks/user'
+import {colors} from '@assets/colors'
+import {useGetAppointment} from '@hooks/appointment/getAppointment'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 
 type Tab_AdviseProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Advise'>,
   NativeStackScreenProps<IRootStackParamList>
->;
+>
 
-const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
-  const {navigation} = props;
+const Tab_Advise: React.FC<Tab_AdviseProps> = (props) => {
+  const {navigation} = props
   const {data: dataListDoctor, isLoading: isListDoctorLoading} =
-    useGetListDoctor();
+    useGetListDoctor()
   const {data: appointmentData, isLoading: isAppointmentLoading} =
-    useGetAppointment();
-  const [curUser] = useAtom(curUserAtom);
+    useGetAppointment()
+  const [curUser] = useAtom(curUserAtom)
   useLayoutEffect(() => {
     if (typeof appointmentData?.data === 'string') {
-      if (curUser?.surveyDetail === null) navigation.navigate('QuizResult');
-      else navigation.navigate('DetailResult');
+      if (curUser?.surveyDetail === null) navigation.navigate('QuizResult')
+      else navigation.navigate('DetailResult')
     }
-  }, [navigation, appointmentData?.data]);
+  }, [navigation, appointmentData?.data])
 
   return appointmentData?.data === undefined ||
     isListDoctorLoading ||
@@ -41,7 +41,7 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
       <VStack space={2}>
         <Text variant={'body_large_bold'}>Danh sách bác sĩ</Text>
 
-        {dataListDoctor?.data.map(item => {
+        {dataListDoctor?.data.map((item) => {
           return appointmentData?.data.doctorId === item.id ? (
             <TouchableOpacity
               key={item.id}
@@ -50,7 +50,7 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                 //Add dr information
                 navigation.navigate('ChatWithProfessional_Start', {
                   drInformation: item,
-                });
+                })
               }}>
               <HStack alignItems="center" space={'8px'}>
                 <HStack flex={1} space={2} alignItems="center">
@@ -81,7 +81,7 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
                 </Center>
               </HStack>
             </TouchableOpacity>
-          ) : null;
+          ) : null
         })}
         <Box h={4} />
         {/* <Text variant={'body_large_bold'}>Tư vấn với chatbot</Text>
@@ -99,10 +99,10 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = props => {
             </TouchableOpacity> */}
       </VStack>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default Tab_Advise;
+export default Tab_Advise
 
 const styles = StyleSheet.create({
   touchableOpacity__advise: {
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 12,
   },
-});
+})

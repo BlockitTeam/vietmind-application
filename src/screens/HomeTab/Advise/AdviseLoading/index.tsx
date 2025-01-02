@@ -1,11 +1,11 @@
-import {HStack, VStack, Circle, Skeleton, Box, Text} from 'native-base';
-import React from 'react';
+import {HStack, VStack, Circle, Skeleton, Box, Text} from 'native-base'
+import React from 'react'
 
 const AdviseLoading = () => {
   return (
     <>
       <VStack mt={2} space={2}>
-        {Array.from(Array(10).keys()).map(item => {
+        {Array.from(Array(10).keys()).map((item) => {
           return (
             <HStack space={2} key={item}>
               <Skeleton h={'60px'} w={'60px'} />
@@ -14,7 +14,7 @@ const AdviseLoading = () => {
                 <Skeleton h={'26px'} w={'287px'} />
               </VStack>
             </HStack>
-          );
+          )
         })}
       </VStack>
       <Box h={4} />
@@ -50,7 +50,7 @@ const AdviseLoading = () => {
     //     </HStack>
     //   </VStack>
     // </>
-  );
-};
+  )
+}
 
-export default AdviseLoading;
+export default AdviseLoading

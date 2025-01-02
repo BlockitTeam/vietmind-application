@@ -1,6 +1,6 @@
-import BottomTab from '@routes/component/bottomTab';
-import {RootStack} from '@routes/navigator';
+import BottomTab from '@routes/component/bottomTab'
+import {RootStack} from '@routes/navigator'
 
 export const renderBottomTabStack = () => {
-  return <RootStack.Screen name="BottomTab" component={BottomTab} />;
-};
+  return <RootStack.Screen name="BottomTab" component={BottomTab} />
+}

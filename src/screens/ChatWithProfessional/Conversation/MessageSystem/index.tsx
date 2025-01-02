@@ -1,16 +1,16 @@
-import {Box, Text} from 'native-base';
-import React, {useEffect, useRef} from 'react';
-import {Animated} from 'react-native';
+import {Box, Text} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {Animated} from 'react-native'
 
 type MessageSystemProps = {
-  text: string;
-};
+  text: string
+}
 
-const MessageSystem: React.FC<MessageSystemProps> = props => {
-  const {text} = props;
+const MessageSystem: React.FC<MessageSystemProps> = (props) => {
+  const {text} = props
 
   // Create a ref for the animated opacity value
-  const opacity = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current
 
   return (
     <Animated.View>
@@ -20,7 +20,7 @@ const MessageSystem: React.FC<MessageSystemProps> = props => {
         </Text>
       </Box>
     </Animated.View>
-  );
-};
+  )
+}
 
-export default React.memo(MessageSystem);
+export default React.memo(MessageSystem)

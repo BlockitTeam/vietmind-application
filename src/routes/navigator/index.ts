@@ -1,2 +1,2 @@
-export * from './rootStackNavigator';
-export * from './bottomTab/bottomTab';
+export * from './rootStackNavigator'
+export * from './bottomTab/bottomTab'

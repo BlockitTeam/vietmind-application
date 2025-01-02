@@ -1,3 +1,3 @@
-import {atom} from 'jotai';
+import {atom} from 'jotai'
 
-export const firstLoadAtom = atom<boolean | undefined>(undefined);
+export const firstLoadAtom = atom<boolean | undefined>(undefined)

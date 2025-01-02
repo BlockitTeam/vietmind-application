@@ -1,6 +1,6 @@
-import React from 'react';
-import CusImageBackground from '@components/layout/CusImageBackground';
-import {Button, Text, VStack} from 'native-base';
+import React from 'react'
+import CusImageBackground from '@components/layout/CusImageBackground'
+import {Button, Text, VStack} from 'native-base'
 
 const ChatWithBot_Start = () => {
   return (
@@ -15,7 +15,7 @@ const ChatWithBot_Start = () => {
           <Button variant={'cusOutline'}>Bỏ qua</Button>
         </VStack>
       }></CusImageBackground>
-  );
-};
+  )
+}
 
-export default ChatWithBot_Start;
+export default ChatWithBot_Start

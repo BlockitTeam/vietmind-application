@@ -1,5 +1,5 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useLayoutEffect} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native'
+import React, {useEffect, useLayoutEffect} from 'react'
 import {
   Avatar,
   Button,
@@ -13,46 +13,46 @@ import {
   Text,
   useToast,
   VStack,
-} from 'native-base';
-import HeaderBack from '@components/layout/HeaderBack';
-import {Pencil} from '@assets/icons';
+} from 'native-base'
+import HeaderBack from '@components/layout/HeaderBack'
+import {Pencil} from '@assets/icons'
 import {
   clearResult,
   useGetResponseResultDetail,
   useGetSurveyResponseResult,
-} from '@hooks/response';
-import {useLogoutMutation} from '@hooks/auth';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {removeJSessionID} from '@services/asyncStorage/jsessionID';
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
-import {language} from '@config/language';
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {TOAST_PLACEMENT} from 'src/constants';
-import ProfileSurveyButton from './components/ProfileSurveyButton';
-import ListSurveyDetail from './ProfileMultipleChoice/ListSurveyDetail';
+} from '@hooks/response'
+import {useLogoutMutation} from '@hooks/auth'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {removeJSessionID} from '@services/asyncStorage/jsessionID'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
+import {language} from '@config/language'
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {TOAST_PLACEMENT} from 'src/constants'
+import ProfileSurveyButton from './components/ProfileSurveyButton'
+import ListSurveyDetail from './ProfileMultipleChoice/ListSurveyDetail'
 type Tab_ProfileProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Profile'>,
   NativeStackScreenProps<IRootStackParamList>
->;
+>
 
 const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
-  const {data: dataSurveyResponse} = useGetSurveyResponseResult();
-  const toast = useToast();
-  const {mutate: clearRes} = clearResult();
-  const [curUser, setCurUser] = useAtom(curUserAtom);
+  const {data: dataSurveyResponse} = useGetSurveyResponseResult()
+  const toast = useToast()
+  const {mutate: clearRes} = clearResult()
+  const [curUser, setCurUser] = useAtom(curUserAtom)
 
   useEffect(() => {
-    console.log('rererererer profile');
-  }, []);
+    console.log('rererererer profile')
+  }, [])
   const {data: dataResponseResultDetail, isLoading: isResResultDetailLoading} =
-    useGetResponseResultDetail();
-  const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom);
-  const useLogout = useLogoutMutation();
+    useGetResponseResultDetail()
+  const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom)
+  const useLogout = useLogoutMutation()
   const logout = async () => {
     useLogout.mutate(undefined, {
       onSuccess: async () => {
@@ -60,18 +60,18 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
           setResultCommonFilter(undefined),
           setCurUser(undefined),
           removeJSessionID(),
-        ]);
+        ])
         toast.show({
           title: 'Đăng xuất thành công!',
           duration: 2000,
           placement: TOAST_PLACEMENT,
-        });
+        })
       },
-    });
-  };
+    })
+  }
 
   const isListSurveyDetailLoading =
-    !curUser || isResResultDetailLoading || !dataResponseResultDetail?.data;
+    !curUser || isResResultDetailLoading || !dataResponseResultDetail?.data
   return (
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -94,7 +94,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
               py="0px"
               mb={'28px'}
               onPress={() => {
-                navigation.navigate('ChangeProfile');
+                navigation.navigate('ChangeProfile')
               }}>
               <HStack alignItems={'center'} space={2}>
                 <Pencil />
@@ -115,7 +115,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                   navigation.navigate('GeneralSurveyResult', {
                     title: 'Sàn lọc chung',
                     res: dataResponseResultDetail.data,
-                  });
+                  })
                 }}
               />
             )}
@@ -141,7 +141,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                 variant={'body_large_bold'}
                 color={'error.error_dark'}
                 onPress={() => {
-                  clearRes();
+                  clearRes()
                 }}>
                 Clear Result
               </Text>
@@ -150,7 +150,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
         </VStack>
       </ScrollView>
     </HeaderBack>
-  );
-};
+  )
+}
 
-export default Tab_Profile;
+export default Tab_Profile

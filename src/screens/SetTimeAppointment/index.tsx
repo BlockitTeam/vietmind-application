@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import HeaderBack from '@components/layout/HeaderBack';
+import React, {useState} from 'react'
+import HeaderBack from '@components/layout/HeaderBack'
 import {
   Box,
   Button,
@@ -8,26 +8,26 @@ import {
   Text,
   useToast,
   VStack,
-} from 'native-base';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {colors} from '@assets/colors';
-import ButtonDate from './ButtonDate';
-import {Platform} from 'react-native';
-import {useGetAvailableByDate} from '@hooks/availabilities/getAvailableByDate';
-import ButtonDateLoading from './ButtonDate/ButtonDateLoading';
-import {clearSecond} from 'src/utils/formatDate';
-import {tAppointment} from '@hooks/appointment/appointment.interface';
-import {tAvailableByDate} from '@hooks/availabilities';
-import {createAppointmentMutation} from '@hooks/appointment/createAppointment';
-import {useAtom} from 'jotai';
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import {TOAST_PLACEMENT} from 'src/constants';
-import LoadingOverlay from '@components/LoadingOverLay';
-import {navigate} from 'App';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+} from 'native-base'
+import {Calendar, LocaleConfig} from 'react-native-calendars'
+import {colors} from '@assets/colors'
+import ButtonDate from './ButtonDate'
+import {Platform} from 'react-native'
+import {useGetAvailableByDate} from '@hooks/availabilities/getAvailableByDate'
+import ButtonDateLoading from './ButtonDate/ButtonDateLoading'
+import {clearSecond} from 'src/utils/formatDate'
+import {tAppointment} from '@hooks/appointment/appointment.interface'
+import {tAvailableByDate} from '@hooks/availabilities'
+import {createAppointmentMutation} from '@hooks/appointment/createAppointment'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {TOAST_PLACEMENT} from 'src/constants'
+import LoadingOverlay from '@components/LoadingOverLay'
+import {navigate} from 'App'
+import {CompositeScreenProps} from '@react-navigation/native'
+import {NativeStackScreenProps} from '@react-navigation/native-stack'
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -69,32 +69,32 @@ LocaleConfig.locales['vi'] = {
   ],
   dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
   today: 'Hôm nay',
-};
-LocaleConfig.defaultLocale = 'vi';
+}
+LocaleConfig.defaultLocale = 'vi'
 
 type SetTimeAppointmentProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'SetTimeAppointment'>,
   BottomTabScreenProps<IBottomParamList, 'Home'>
->;
-const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
-  const {navigation} = props;
+>
+const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = (props) => {
+  const {navigation} = props
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
-  );
-  const toast = useToast();
-  const [curUser] = useAtom(curUserAtom);
+  )
+  const toast = useToast()
+  const [curUser] = useAtom(curUserAtom)
   const [selectedTimeAppointment, setSelectedTimeAppointment] = useState<
     tAvailableByDate | undefined
-  >(undefined);
+  >(undefined)
 
   const {mutate: createAppointment, isPending: isCreateAppointmentPending} =
-    createAppointmentMutation();
+    createAppointmentMutation()
   const {data: availableDate, isLoading: isAvailableLoading} =
-    useGetAvailableByDate(selectedDate);
+    useGetAvailableByDate(selectedDate)
   const handleDayPress = (day: any) => {
-    setSelectedDate(day.dateString);
-    setSelectedTimeAppointment(undefined);
-  };
+    setSelectedDate(day.dateString)
+    setSelectedTimeAppointment(undefined)
+  }
 
   const handleCreateAppointmentPress = () => {
     if (selectedTimeAppointment && curUser) {
@@ -110,29 +110,29 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
           userId: curUser.id,
         },
         {
-          onError: e => {
-            console.log(e);
+          onError: (e) => {
+            console.log(e)
             toast.show({
               title: 'Vui lòng thử lại!',
               duration: 3000,
               placement: TOAST_PLACEMENT,
-            });
+            })
           },
-          onSuccess: data => {
+          onSuccess: (data) => {
             navigation.replace('SetTimeAppointmentSuccess', {
               infAppointment: data.data,
-            });
+            })
           },
         },
-      );
+      )
     } else {
       toast.show({
         title: 'Vui lòng chọn lại lịch hẹn!',
         duration: 3000,
         placement: TOAST_PLACEMENT,
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -212,7 +212,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
               </>
             ) : (
               <>
-                {availableDate?.data.map(date => (
+                {availableDate?.data.map((date) => (
                   <ButtonDate
                     key={date.id}
                     isSelected={
@@ -221,7 +221,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
                         : selectedTimeAppointment.id === date.id
                     }
                     onPress={() => {
-                      setSelectedTimeAppointment(date);
+                      setSelectedTimeAppointment(date)
                     }}
                     mb={2}
                     date={`${clearSecond(date.startTime)} - ${clearSecond(
@@ -235,7 +235,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
         </ScrollView>
       </HeaderBack>
     </>
-  );
-};
+  )
+}
 
-export default SetTimeAppointment;
+export default SetTimeAppointment

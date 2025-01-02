@@ -4,10 +4,10 @@ import React, {
   useLayoutEffect,
   useRef,
   useState,
-} from 'react';
-import {ChatWithProfessional_StartNavigationProp} from '.';
-import {useGetConversationContent} from '@hooks/coversation';
-import HeaderBack from '@components/layout/HeaderBack';
+} from 'react'
+import {ChatWithProfessional_StartNavigationProp} from '.'
+import {useGetConversationContent} from '@hooks/coversation'
+import HeaderBack from '@components/layout/HeaderBack'
 import {
   Button,
   Center,
@@ -19,146 +19,146 @@ import {
   Spinner,
   Text,
   VStack,
-} from 'native-base';
-import {Send} from '@assets/icons';
-import DrInformation from './DrInformation';
-import MessageSend from './MessageSend';
-import MessageReceive from './MessageReceive';
-import {tUserResponse} from '@hooks/user/user.interface';
-import CryptoJS from 'crypto-js';
-import {formatTime} from '@services/function/dateTime';
-import {Platform} from 'react-native';
-import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById';
+} from 'native-base'
+import {Send} from '@assets/icons'
+import DrInformation from './DrInformation'
+import MessageSend from './MessageSend'
+import MessageReceive from './MessageReceive'
+import {tUserResponse} from '@hooks/user/user.interface'
+import CryptoJS from 'crypto-js'
+import {formatTime} from '@services/function/dateTime'
+import {Platform} from 'react-native'
+import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById'
 import {
   eStatusAppointment,
   tAppointment,
-} from '@hooks/appointment/appointment.interface';
-import {useUpdateAppointment} from '@hooks/appointment/updateAppoitment';
-import MessageSystem from './MessageSystem';
-import MessageReplying from './MessageReplying';
-import {useAtom} from 'jotai';
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom';
-import MultiLine from '@components/Multiline.ts/MultiLine';
+} from '@hooks/appointment/appointment.interface'
+import {useUpdateAppointment} from '@hooks/appointment/updateAppoitment'
+import MessageSystem from './MessageSystem'
+import MessageReplying from './MessageReplying'
+import {useAtom} from 'jotai'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
+import MultiLine from '@components/Multiline.ts/MultiLine'
 
 type ContentConversationProps = ChatWithProfessional_StartNavigationProp & {
-  ws: WebSocket;
-  keyAES: CryptoJS.lib.WordArray;
-  conversationId: string;
-  curUser: tUserResponse;
-};
-type ContentTransform = {fromMe: boolean; message: string; time: string};
+  ws: WebSocket
+  keyAES: CryptoJS.lib.WordArray
+  conversationId: string
+  curUser: tUserResponse
+}
+type ContentTransform = {fromMe: boolean; message: string; time: string}
 
-const ContentConversation: React.FC<ContentConversationProps> = props => {
-  const {route, keyAES, conversationId, ws, curUser} = props;
+const ContentConversation: React.FC<ContentConversationProps> = (props) => {
+  const {route, keyAES, conversationId, ws, curUser} = props
 
   // Start Todo: Call api
   const {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
-  } = useGetConversationContent(conversationId!);
+  } = useGetConversationContent(conversationId!)
   const {
     data: appointmentByConId,
     isLoading: isAppointmentByConIdLoading,
     refetch,
-  } = useGetAppointmentById(conversationId!);
-  const updateAppointment = useUpdateAppointment();
+  } = useGetAppointmentById(conversationId!)
+  const updateAppointment = useUpdateAppointment()
   // End Todo: Call api
-  const drInformation = route.params;
-  const [contentHeight, setContentHeight] = useState(0);
-  const scrollViewRef = useRef<any>(null);
-  const [curMessage, setCurMessage] = useState('');
+  const drInformation = route.params
+  const [contentHeight, setContentHeight] = useState(0)
+  const scrollViewRef = useRef<any>(null)
+  const [curMessage, setCurMessage] = useState('')
   // Handle typing state
-  const [imTyping, setImTyping] = useState(false);
-  const [drTyping, setDrTyping] = useState(false);
-  const [appointment, setAppointment] = useState<tAppointment>();
-  const [, setMessageAuth] = useAtom(messageAuthAtom);
+  const [imTyping, setImTyping] = useState(false)
+  const [drTyping, setDrTyping] = useState(false)
+  const [appointment, setAppointment] = useState<tAppointment>()
+  const [, setMessageAuth] = useAtom(messageAuthAtom)
   //Set list content
-  const [listMessage, setListMessage] = useState<ContentTransform[]>([]);
+  const [listMessage, setListMessage] = useState<ContentTransform[]>([])
   useLayoutEffect(() => {
     if (dataConversationContent?.data) {
       let transformConversationContent: ContentTransform[] =
-        dataConversationContent.data.map(item => {
+        dataConversationContent.data.map((item) => {
           return {
             fromMe: curUser.id === item.senderId,
             message: decryptMessage(item.encryptedMessage, keyAES),
             time: formatTime(item.createdAt),
-          };
-        });
-      setListMessage(transformConversationContent);
+          }
+        })
+      setListMessage(transformConversationContent)
     }
-  }, [dataConversationContent]);
+  }, [dataConversationContent])
   useLayoutEffect(() => {
     if (appointmentByConId?.data.appointmentId) {
-      refetch().then(item => {
+      refetch().then((item) => {
         if (item.data) {
-          setAppointment(item.data.data);
+          setAppointment(item.data.data)
         }
-      });
+      })
       // setAppointment(appointmentByConId?.data.appointment.toString());
     }
-  }, [appointmentByConId]);
+  }, [appointmentByConId])
   // Set up websocket
   useLayoutEffect(() => {
     const setupWebSocket = async () => {
-      ws.onmessage = event => {
+      ws.onmessage = (event) => {
         try {
-          const res = JSON.parse(event.data);
-          console.log('Recieved message');
+          const res = JSON.parse(event.data)
+          console.log('Recieved message')
 
           if (res?.type === 'typing') {
-            setDrTyping(true);
+            setDrTyping(true)
           } else if (res?.type === 'unTyping') {
-            setDrTyping(false);
+            setDrTyping(false)
           } else if (res?.type === 'appointment') {
             refetch(res?.conversationId)
-              .then(appointmentRes => {
+              .then((appointmentRes) => {
                 {
                   if (res?.status === 'PENDING') {
                     setMessageAuth(
                       `Bs. ${drInformation.drName} đã đặt lịch hẹn. Bạn vui lòng nhấn vào "Xác nhận" để xác nhận lịch hẹn, hoặc dời lịch vì bất kỳ 1 lý do...`,
-                    );
+                    )
                   }
-                  setAppointment(appointmentRes.data?.data);
+                  setAppointment(appointmentRes.data?.data)
                 }
               })
-              .catch(e => console.log(e));
+              .catch((e) => console.log(e))
           } else if (res?.message && keyAES) {
-            setListMessage(prev => [
+            setListMessage((prev) => [
               ...prev,
               {
                 fromMe: false,
                 message: decryptMessage(res.message, keyAES),
                 time: formatTime(res.createAt),
               },
-            ]);
-            setDrTyping(false);
+            ])
+            setDrTyping(false)
           }
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
-      };
+      }
       ws.onclose = () => {
-        console.log('Disconnected');
-      };
+        console.log('Disconnected')
+      }
 
-      ws.onerror = error => {
-        console.log('Error: ' + JSON.stringify(error));
-      };
-    };
+      ws.onerror = (error) => {
+        console.log('Error: ' + JSON.stringify(error))
+      }
+    }
 
-    setupWebSocket();
+    setupWebSocket()
 
     return () => {
       if (ws) {
         // ws.close();
       }
-    };
-  }, [ws]);
+    }
+  }, [ws])
 
   // Handle scroll when view list message change height || receive new message
   useEffect(() => {
-    scrollViewRef.current?.scrollTo({y: contentHeight, animated: false});
-  }, [contentHeight]);
+    scrollViewRef.current?.scrollTo({y: contentHeight, animated: false})
+  }, [contentHeight])
 
   //Handle function
   const encryptMessage = useCallback(
@@ -166,26 +166,26 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
       if (keyAES) {
         let messEn = CryptoJS.AES.encrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
-        }).toString();
-        return messEn;
+        }).toString()
+        return messEn
       }
-      return 'Error encrypt message';
+      return 'Error encrypt message'
     },
     [keyAES], // Dependency array
-  );
+  )
   const decryptMessage = useCallback(
     (m: string, keyAES: CryptoJS.lib.WordArray) => {
       if (keyAES) {
         const messDecrypt = CryptoJS.AES.decrypt(m, keyAES, {
           mode: CryptoJS.mode.ECB,
-        }).toString(CryptoJS.enc.Utf8);
-        return messDecrypt;
+        }).toString(CryptoJS.enc.Utf8)
+        return messDecrypt
       } else {
-        return 'Error decrypt message';
+        return 'Error decrypt message'
       }
     },
     [keyAES], // Dependency array
-  );
+  )
   const sendMessage = (
     message: string,
     keyAES: CryptoJS.lib.WordArray,
@@ -197,31 +197,31 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         conversationId: conversationId,
         message: encryptMessage(message, keyAES), //dùng key 1 chiều encrypt cái này
         // targetUserId: drInformation.drId,
-      });
+      })
       const msgUnTyping = JSON.stringify({
         type: 'unTyping', //typing
         conversationId: conversationId,
-      });
+      })
 
       try {
-        ws.send(msg);
-        ws.send(msgUnTyping);
-        setImTyping(false);
-        setListMessage(prev => [
+        ws.send(msg)
+        ws.send(msgUnTyping)
+        setImTyping(false)
+        setListMessage((prev) => [
           ...prev,
           {
             fromMe: true,
             message: message,
             time: formatTime(new Date().toISOString()),
           },
-        ]);
-        setCurMessage('');
-        scrollViewRef.current?.scrollToEnd({animated: false});
+        ])
+        setCurMessage('')
+        scrollViewRef.current?.scrollToEnd({animated: false})
       } catch (error) {
-        console.log('Some thing went wrong!', JSON.stringify(error));
+        console.log('Some thing went wrong!', JSON.stringify(error))
       }
     }
-  };
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -257,17 +257,17 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                           status: eStatusAppointment.CANCELLED,
                         },
                         {
-                          onSuccess: e => {
-                            setAppointment(e.data);
+                          onSuccess: (e) => {
+                            setAppointment(e.data)
                             const ms = {
                               ...e.data,
                               type: 'appointment',
                               status: eStatusAppointment.CANCELLED,
-                            };
-                            ws.send(JSON.stringify(ms));
+                            }
+                            ws.send(JSON.stringify(ms))
                           },
                         },
-                      );
+                      )
                     }}>
                     Dời lịch
                   </Button>
@@ -282,20 +282,20 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                           status: eStatusAppointment.CONFIRMED,
                         },
                         {
-                          onSuccess: e => {
-                            setAppointment(e.data);
+                          onSuccess: (e) => {
+                            setAppointment(e.data)
                             const ms = {
                               ...e.data,
                               type: 'appointment',
                               status: eStatusAppointment.CONFIRMED,
-                            };
-                            ws.send(JSON.stringify(ms));
+                            }
+                            ws.send(JSON.stringify(ms))
                           },
-                          onError: e => {
-                            console.log(e);
+                          onError: (e) => {
+                            console.log(e)
                           },
                         },
-                      );
+                      )
                     }}>
                     Xác nhận
                   </Button>
@@ -314,35 +314,35 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                     }}
                     placeholder="Tin nhắn..."
                     value={curMessage}
-                    onChangeText={v => {
+                    onChangeText={(v) => {
                       if (ws) {
                         if (v.length > 0 && !imTyping) {
                           const msg = JSON.stringify({
                             type: 'typing', //typing
                             conversationId: conversationId,
-                          });
-                          ws.send(msg);
-                          setImTyping(true);
+                          })
+                          ws.send(msg)
+                          setImTyping(true)
                         }
 
                         if (v.length <= 0 && imTyping) {
                           const msg = JSON.stringify({
                             type: 'unTyping', //typing
                             conversationId: conversationId,
-                          });
-                          ws.send(msg);
-                          setImTyping(false);
+                          })
+                          ws.send(msg)
+                          setImTyping(false)
                         }
                       }
-                      setCurMessage(v);
+                      setCurMessage(v)
                     }}
                   />
                   <Button
                     variant={'unstyled'}
                     disabled={curMessage.trim().length <= 0}
                     onPress={() => {
-                      sendMessage(curMessage, keyAES, conversationId);
-                      setCurMessage('');
+                      sendMessage(curMessage, keyAES, conversationId)
+                      setCurMessage('')
                     }}>
                     <Send
                       fill={curMessage.length > 0 ? '#C2F8CB' : '#E0E9ED'}
@@ -358,7 +358,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           onContentSizeChange={(contentWidth, contentHeight) => {
-            setContentHeight(contentHeight);
+            setContentHeight(contentHeight)
           }}>
           <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
             <DrInformation drName={drInformation.drName} />
@@ -406,7 +406,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
         </ScrollView>
       </HeaderBack>
     </KeyboardAvoidingView>
-  );
-};
+  )
+}
 
-export default ContentConversation;
+export default ContentConversation

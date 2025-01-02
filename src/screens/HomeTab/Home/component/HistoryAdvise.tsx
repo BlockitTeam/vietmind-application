@@ -1,13 +1,13 @@
-import {HStack, VStack, Text, Skeleton} from 'native-base';
-import React, {useEffect} from 'react';
-import HistoryAdviseItem from './HistoryAdviseItem';
-import {useGetAppointmentFinish} from '@hooks/appointment/getAppointmentFinish';
-import {clearSecond} from 'src/utils/formatDate';
+import {HStack, VStack, Text, Skeleton} from 'native-base'
+import React, {useEffect} from 'react'
+import HistoryAdviseItem from './HistoryAdviseItem'
+import {useGetAppointmentFinish} from '@hooks/appointment/getAppointmentFinish'
+import {clearSecond} from 'src/utils/formatDate'
 
-import {Tab_HomeProps} from '..';
+import {Tab_HomeProps} from '..'
 
-const HistoryAdvise: React.FC<Tab_HomeProps> = props => {
-  const {data: appointmentsFinished, isLoading} = useGetAppointmentFinish();
+const HistoryAdvise: React.FC<Tab_HomeProps> = (props) => {
+  const {data: appointmentsFinished, isLoading} = useGetAppointmentFinish()
 
   return (
     <VStack space={2} mt={2}>
@@ -22,7 +22,7 @@ const HistoryAdvise: React.FC<Tab_HomeProps> = props => {
       ) : typeof appointmentsFinished.data === 'string' ? (
         <Text>Bạn không có lịch sử cuộc hẹn!</Text>
       ) : (
-        appointmentsFinished?.data?.map(item => {
+        appointmentsFinished?.data?.map((item) => {
           return (
             <HistoryAdviseItem
               drId={item.doctorId}
@@ -33,14 +33,14 @@ const HistoryAdvise: React.FC<Tab_HomeProps> = props => {
               key={item.conversationId + item.startTime + item.endTime}
               navigation={props.navigation}
             />
-          );
+          )
         })
       )}
     </VStack>
-  );
-};
+  )
+}
 
-export default HistoryAdvise;
+export default HistoryAdvise
 
 export const listHistoryAdviseItemFake = [
   {
@@ -61,4 +61,4 @@ export const listHistoryAdviseItemFake = [
     time: '08/11/2023  07:00 - 9:00',
     idConversation: '2',
   },
-];
+]

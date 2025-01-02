@@ -1,6 +1,6 @@
-import HeaderLayout from '@components/layout/Header';
-import {Center, HStack, ScrollView, Text, View, VStack} from 'native-base';
-import React from 'react';
+import HeaderLayout from '@components/layout/Header'
+import {Center, HStack, ScrollView, Text, View, VStack} from 'native-base'
+import React from 'react'
 
 const Tab_Knowledge = () => {
   return (
@@ -12,7 +12,7 @@ const Tab_Knowledge = () => {
         </Text>
       </Center>
     </HeaderLayout>
-  );
-};
+  )
+}
 
-export default Tab_Knowledge;
+export default Tab_Knowledge
