@@ -1,16 +1,16 @@
-import {StyleSheet, TouchableOpacity} from 'react-native'
-import React, {useEffect, useLayoutEffect} from 'react'
-import {Box, Center, Circle, HStack, Spacer, Text, VStack} from 'native-base'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { Box, Center, Circle, HStack, Spacer, Text, VStack } from 'native-base'
 import HeaderBack from '@components/layout/HeaderBack'
-import {CompositeScreenProps} from '@react-navigation/native'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
-import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
-import {useGetListDoctor} from '@hooks/user'
-import {colors} from '@assets/colors'
-import {useGetAppointment} from '@hooks/appointment/getAppointment'
-import {useAtom} from 'jotai'
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { IBottomParamList, IRootStackParamList } from '@routes/navigator'
+import { useGetListDoctor } from '@hooks/user'
+import { colors } from '@assets/colors'
+import { useGetAppointment } from '@hooks/appointment/getAppointment'
+import { useAtom } from 'jotai'
+import { curUserAtom } from '@services/jotaiStorage/curUserAtom'
 
 type Tab_AdviseProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Advise'>,
@@ -18,10 +18,10 @@ type Tab_AdviseProps = CompositeScreenProps<
 >
 
 const Tab_Advise: React.FC<Tab_AdviseProps> = (props) => {
-  const {navigation} = props
-  const {data: dataListDoctor, isLoading: isListDoctorLoading} =
+  const { navigation } = props
+  const { data: dataListDoctor, isLoading: isListDoctorLoading } =
     useGetListDoctor()
-  const {data: appointmentData, isLoading: isAppointmentLoading} =
+  const { data: appointmentData, isLoading: isAppointmentLoading } =
     useGetAppointment()
   const [curUser] = useAtom(curUserAtom)
   useLayoutEffect(() => {
@@ -57,29 +57,30 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = (props) => {
                   <Circle h="40px" w="40px" backgroundColor="primary.medium" />
                   <Box flex={1}>
                     <Text
-                      variant="body_medium_bold"
+                      variant={Platform.OS === 'android' ? 'body_medium_bold' : 'body_medium_regular'}
                       numberOfLines={
                         1
                       }>{`Bs. ${item.firstName} ${item.lastName}`}</Text>
                     <Text
-                      variant="body_medium_regular"
+                      variant={Platform.OS === 'android' ? 'body_medium_regular' : ''}
                       color="text.neutral_secondary"
                       numberOfLines={1}>
                       Bệnh viện bạch mai
                     </Text>
                   </Box>
                 </HStack>
-                <Center
-                  borderColor="primary.medium"
-                  borderWidth={1}
-                  bgColor="white"
-                  h="32px"
-                  px="16px"
-                  py="0px"
-                  borderRadius="8px">
-                  <Text variant="body_small_bold">Tư vấn ngay</Text>
-                </Center>
+                  <Center
+                    borderColor="primary.medium"
+                    borderWidth={1}
+                    bgColor="white"
+                    h="32px"
+                    px="16px"
+                    py="0px"
+                    borderRadius="8px">
+                    <Text variant="body_small_bold">Tư vấn ngay</Text>
+                  </Center>
               </HStack>
+
             </TouchableOpacity>
           ) : null
         })}
