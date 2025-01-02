@@ -25,6 +25,7 @@ import {
   AccessToken,
   LoginManager,
   AuthenticationToken,
+  Profile,
 } from 'react-native-fbsdk-next'
 import {useLogin} from '@hooks/auth'
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
@@ -72,12 +73,18 @@ const Login = () => {
         const result = await AuthenticationToken.getAuthenticationTokenIOS()
         if (result?.authenticationToken) {
           setFetchUser(true)
-
+          
           try {
-            // const value = await axiosInstance.post('/auth', {
-            //   token: result.authenticationToken,
-            //   provider: 'facebook',
-            // });
+            const currentProfile = await Profile.getCurrentProfile()
+            if (currentProfile) {
+              console.log(
+                'The current logged user is: ' +
+                  currentProfile.name +
+                  '. Their profile id is: ' +
+                  currentProfile.userID +
+                  currentProfile.email,
+              )
+            }
             useLoginMutation.mutate(
               {
                 token: result.authenticationToken,
