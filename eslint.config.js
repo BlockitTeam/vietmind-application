@@ -41,7 +41,7 @@ export default [
     // Additional custom rules
     rules: {
       "no-console": "warn", 
-      "no-unused-vars": "warn", 
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
       "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": ["warn"],
 

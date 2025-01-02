@@ -7,12 +7,13 @@ import {NavigationProp, useNavigation} from '@react-navigation/native'
 import ProfileSurveyButton from '../../components/ProfileSurveyButton'
 
 type ListSurveyDetailProps = {
-  idSur: number | null | undefined
+  idSur: number | null | undefined;
 }
 
 const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
   const navigation = useNavigation<NavigationProp<IRootStackParamList>>()
-  if (idSur) {
+  
+  if (idSur !== null && idSur !== undefined) {
     const {data: dataSurvey, isLoading} = useGetInfSurveyById(idSur)
 
     if (isLoading) return <Skeleton h={'70.5px'} />
@@ -27,6 +28,8 @@ const ListSurveyDetail: React.FC<ListSurveyDetailProps> = ({idSur}) => {
       />
     )
   }
+
+  return null;
 }
 
 export default ListSurveyDetail
