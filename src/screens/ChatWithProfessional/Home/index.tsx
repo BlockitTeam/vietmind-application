@@ -38,7 +38,7 @@ const ChatWithProfessional_Start: React.FC<
     <HeaderBack
       title="Kết nối với bác sĩ tâm lý"
       bottomChildren={
-        <VStack space={2}>
+        <VStack space={2} mb={Platform.OS === 'ios' ? 8 : 0}>
           <Text textAlign={'center'} px={'32px'}>
             Sau đây Vietmind sẽ bắt đầu kết nối bạn với bác sỹ.
           </Text>

@@ -1,7 +1,7 @@
 import React from 'react';
 import SelfLove1 from '@images/SelfLove1.png';
 import {Button, Image, Text, VStack} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import CusImageBackground from '@components/layout/CusImageBackground';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
@@ -19,6 +19,7 @@ const LoginSuccess: React.FC<LoginSuccessProps> = props => {
         <Button
           width={'100%'}
           maxW={'485px'}
+          mb={Platform.OS === 'ios' ? 8 : 0}
           variant={'cusPrimary'}
           onPress={() => {
             navigation.navigate('Privacy');

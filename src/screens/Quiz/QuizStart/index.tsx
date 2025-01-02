@@ -13,6 +13,7 @@ const QuizStart: React.FC<QuizStartProps> = props => {
     <CusImageBackground
       bottomButton={
         <Button
+          mb={Platform.OS === 'ios' ? 8 : 0}
           w={'full'}
           variant={'cusPrimary'}
           onPress={() => navigation.navigate('QuizStartConfirm')}>

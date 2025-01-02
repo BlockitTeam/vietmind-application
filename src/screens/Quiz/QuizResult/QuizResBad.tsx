@@ -28,6 +28,7 @@ const QuizResBad: React.FC<QuizResBadProps> = props => {
           {surveyInfo && (
             <Button
               variant={'cusPrimary'}
+               mb={Platform.OS === 'ios' ? 8 : 0}
               w={'full'}
               onPress={() =>
                 navigation.replace('SurveyDetail', {

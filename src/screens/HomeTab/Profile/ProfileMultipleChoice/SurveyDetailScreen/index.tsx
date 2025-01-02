@@ -180,7 +180,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
         }
         bottomChildren={
           <Box pt={4}>
-            <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
+            <Button variant={'cusPrimary'} onPress={() => setStep('answering')} mb={Platform.OS === 'ios' ? 6 : 0}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>
           </Box>

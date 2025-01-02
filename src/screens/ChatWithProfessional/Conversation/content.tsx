@@ -301,7 +301,7 @@ const ContentConversation: React.FC<ContentConversationProps> = props => {
                   </Button>
                 </HStack>
               ) : (
-                <HStack w={'100%'}>
+                <HStack w={'100%'} mb={Platform.OS === 'ios' ? 4 : 0}>
                   <MultiLine
                     style={{
                       flex: 1,
