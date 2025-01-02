@@ -69,7 +69,6 @@ export const clearResult = () => {
   });
 };
 
-
 // /response/resultDetail
 export const useGetResponseResultDetail = () => {
   return useQuery<IResponse<tQuestionResponse[]>>({
@@ -81,4 +80,4 @@ export const useGetResponseResultDetail = () => {
     },
     gcTime: 0,
   });
-}
+};

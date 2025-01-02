@@ -6,7 +6,7 @@ import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import {useAtom} from 'jotai';
 import {Button, VStack, Text} from 'native-base';
 import React from 'react';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {normalizeText} from 'src/utils/textUtil';
 
 type QuizResBadProps = {
@@ -28,7 +28,7 @@ const QuizResBad: React.FC<QuizResBadProps> = props => {
           {surveyInfo && (
             <Button
               variant={'cusPrimary'}
-               mb={Platform.OS === 'ios' ? 8 : 0}
+              mb={Platform.OS === 'ios' ? 8 : 0}
               w={'full'}
               onPress={() =>
                 navigation.replace('SurveyDetail', {

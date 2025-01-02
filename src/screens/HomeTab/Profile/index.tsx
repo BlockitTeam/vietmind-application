@@ -77,12 +77,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
           <>
-            <Avatar
-              bg="green.500"
-              mr="1"
-              w={100}
-              h={100}
-            />
+            <Avatar bg="green.500" mr="1" w={100} h={100} />
             <Text
               variant={
                 'sf_header_3'
@@ -157,6 +152,5 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
     </HeaderBack>
   );
 };
-
 
 export default Tab_Profile;

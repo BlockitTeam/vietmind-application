@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Box, Button, Center, Input, Text, TextArea, VStack} from 'native-base';
 import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer';
 import TextParent from '../TextParent';
-import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
+import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
 
 type QuizInputProps = {
   parentQuestion?: tListResultItem;

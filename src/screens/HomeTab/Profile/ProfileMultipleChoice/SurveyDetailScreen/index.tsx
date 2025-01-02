@@ -33,7 +33,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAtom} from 'jotai';
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {useGetAppointment} from '@hooks/appointment/getAppointment';
 
 type TSurveyDetailScreen =
@@ -180,7 +180,10 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = props => {
         }
         bottomChildren={
           <Box pt={4}>
-            <Button variant={'cusPrimary'} onPress={() => setStep('answering')} mb={Platform.OS === 'ios' ? 6 : 0}>
+            <Button
+              variant={'cusPrimary'}
+              onPress={() => setStep('answering')}
+              mb={Platform.OS === 'ios' ? 6 : 0}>
               <Text variant={'body_medium_bold'}>Bắt đầu</Text>
             </Button>
           </Box>

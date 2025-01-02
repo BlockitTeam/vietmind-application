@@ -24,8 +24,8 @@ export const useSaveDetailSurvey = (idSurvey: string | number) => {
       });
     },
     onSuccess: async () => {
-       await queryClient.invalidateQueries({queryKey: ['usGetAppointments']});
-       await queryClient.invalidateQueries({queryKey: ['useCurrentUser']});
+      await queryClient.invalidateQueries({queryKey: ['usGetAppointments']});
+      await queryClient.invalidateQueries({queryKey: ['useCurrentUser']});
       //In the future -> have many detail survey, idSurvey maybe needed
       // await queryClient.invalidateQueries({
       //   queryKey: ['useGetListQuestionById', idSurvey],

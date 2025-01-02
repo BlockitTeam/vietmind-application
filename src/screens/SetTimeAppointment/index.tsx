@@ -141,7 +141,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = props => {
         title={'Đặt lịch với nhà tham vấn'}
         withBackGround
         bottomChildren={
-          <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 6: 0}>
+          <VStack space={2} pt={3} mb={Platform.OS === 'ios' ? 6 : 0}>
             <Button
               variant={'cusPrimary'}
               disabled={!selectedTimeAppointment}

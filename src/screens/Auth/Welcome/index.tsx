@@ -1,9 +1,9 @@
-import { Button, Center, Flex, Image, Text } from 'native-base';
+import { Center, Flex, Image, Text} from 'native-base';
 import React from 'react';
 import Focused from '@assets/images/focused.png';
-import { storeFirstLoad } from '@services/asyncStorage/firstLoadApp';
-import { useAtom } from 'jotai';
-import { firstLoadAtom } from '@services/jotaiStorage/firstLoadAtom';
+import {storeFirstLoad} from '@services/asyncStorage/firstLoadApp';
+import {useAtom} from 'jotai';
+import {firstLoadAtom} from '@services/jotaiStorage/firstLoadAtom';
 import CusImageBackground from '@components/layout/CusImageBackground';
 import CustomButton from '@components/Custom/Button';
 const WelcomeScreen = () => {

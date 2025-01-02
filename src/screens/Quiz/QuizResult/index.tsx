@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import CusImageBackground from '@components/layout/CusImageBackground';
-import { Button, Spinner, Text, useToast, VStack } from 'native-base';
-import { IBottomParamList, IRootStackParamList } from '@routes/navigator';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { CompositeScreenProps, useNavigation } from '@react-navigation/native';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import {Button, Spinner, Text, useToast, VStack} from 'native-base';
+import {IBottomParamList, IRootStackParamList} from '@routes/navigator';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import HeaderBack from '@components/layout/HeaderBack';
-import { useAtom } from 'jotai';
-import { curUserAtom } from '@services/jotaiStorage/curUserAtom';
-import { resultCommonFilterAtom } from '@services/jotaiStorage/resltCommonFilter';
+import {useAtom} from 'jotai';
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom';
+import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter';
 import LoadingOverlay from '@components/LoadingOverLay';
-import { useGetInfSurveyById } from '@hooks/survey';
-import { normalizeText } from 'src/utils/textUtil';
-import { G } from 'react-native-svg';
-import { Platform } from 'react-native';
+import {useGetInfSurveyById} from '@hooks/survey';
+import {normalizeText} from 'src/utils/textUtil';
+import {G} from 'react-native-svg';
+import {Platform} from 'react-native';
 
 type QuizResultProps = CompositeScreenProps<
   NativeStackScreenProps<IRootStackParamList, 'QuizResult'>,
@@ -23,12 +23,12 @@ type QuizResultProps = CompositeScreenProps<
 const QuizResult: React.FC<QuizResultProps> = props => {
   // Check force curUser
   const [curUser, setCurUser] = useAtom(curUserAtom);
-  const { navigation } = props;
+  const {navigation} = props;
   const [resultCommonFilter, setResultCommonFilter] = useAtom(
     resultCommonFilterAtom,
   );
 
-  const { data: surveyInfo, isLoading } = useGetInfSurveyById(
+  const {data: surveyInfo, isLoading} = useGetInfSurveyById(
     curUser?.surveyDetail || '1',
   );
   const isDoneSurveyDetail =
@@ -45,7 +45,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
       title="Kết quả trắc nghiệm"
       bottomChildren={
         (resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
-          !isGoodType ? (
+        !isGoodType ? (
           <VStack space={2} w="full">
             {surveyInfo && (
               <Button
@@ -78,7 +78,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
             <Button
               variant={'cusOutline'}
               w={'full'}
-              onPress={() => navigation.replace('BottomTab', { screen: 'Home' })}>
+              onPress={() => navigation.replace('BottomTab', {screen: 'Home'})}>
               Về trang chủ
             </Button>
           </VStack>
@@ -86,7 +86,7 @@ const QuizResult: React.FC<QuizResultProps> = props => {
       }>
       <VStack alignItems={'center'} justifyContent={'center'} h={'100%'}>
         {(resultCommonFilter?.type === 'bad' || !isDoneSurveyDetail) &&
-          !isGoodType ? (
+        !isGoodType ? (
           // !surveyInfo?.data ? (
           //   <Spinner />
           // ) : (

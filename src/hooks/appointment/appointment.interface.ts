@@ -5,7 +5,6 @@ export enum eStatusAppointment {
 }
 export type StatusAppointmentType = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
 
-
 export type tAppointment = {
   appointmentId: number;
   userId: string;
@@ -18,4 +17,3 @@ export type tAppointment = {
   note: string;
   status: StatusAppointmentType;
 };
-

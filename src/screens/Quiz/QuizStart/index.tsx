@@ -4,7 +4,7 @@ import Well1 from '@images/Well1.png';
 import {Button, Image, Text} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IRootStackParamList} from '@routes/navigator';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 type QuizStartProps = NativeStackScreenProps<IRootStackParamList, 'QuizStart'>;
 const QuizStart: React.FC<QuizStartProps> = props => {
