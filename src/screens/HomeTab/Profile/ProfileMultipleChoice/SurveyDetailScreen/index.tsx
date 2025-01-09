@@ -28,6 +28,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {Platform} from 'react-native'
+import SurveyDetailReview from './SurveyDetailReview'
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -104,54 +105,14 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = (props) => {
       />
     )
   if (step === 'review') {
-    return (
-      <HeaderBack
-        title={`Trắc nghiệm / ${surveyInf.title}`}
-        buttonBack={
-          !isCreatingAccount ? (
-            <HStack alignItems={'center'} space={'2px'}>
-              <ChevronLeftIcon />
-              <Text variant={'caption_regular'} color={'neutral.primary'}>
-                Thoát
-              </Text>
-            </HStack>
-          ) : undefined
-        }
-        bottomChildren={
-          <Box pt={'12px'} mx={2}>
-            <Button variant={'cusPrimary'} onPress={() => setStep('answering')}>
-              <Text variant={'body_medium_bold'}>Làm lại</Text>
-            </Button>
-          </Box>
-        }>
-        <ScrollView flex={1}>
-          <Text variant={'sf_header_3'} textAlign={'center'} py={'20px'}>
-            Đánh giá mức độ {normalizeText(surveyInf.title)}
-          </Text>
-          {latestDetailSurveyAnswer?.data.map((answer, index) => {
-            return (
-              <VStack space={2} pb={'12px'} key={answer.questionId.toString()}>
-                <Text variant={'body_medium_bold'}>Câu {index + 1}</Text>
-                <Text
-                  variant={'body_medium_regular'}
-                  color={'text.neutral_secondary'}>
-                  {answer.questionText}
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 600}}>Câu trả lời: </Text>
-                  {
-                    answer.options.find((v) => v.optionId === answer.answer)
-                      ?.optionText
-                  }
-                </Text>
-
-                <Divider bgColor={'primary.medium'} />
-              </VStack>
-            )
-          })}
-        </ScrollView>
-      </HeaderBack>
-    )
+    return latestDetailSurveyAnswer?.data ? (
+      <SurveyDetailReview
+        surveyInf={surveyInf}
+        latestDetailSurveyAnswer={latestDetailSurveyAnswer?.data}
+        setStep={() => setStep('answering')}
+        isCreatingAccount={isCreatingAccount}
+      />
+    ) : null
   } else if (step === 'started')
     return (
       <HeaderBack
