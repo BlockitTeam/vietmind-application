@@ -10,7 +10,6 @@ const IncomingAdvise = () => {
   const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId)
   // console.log(appointmentData);
 
-  console.log('rerender')
   return (
     <VStack space={2}>
       <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>

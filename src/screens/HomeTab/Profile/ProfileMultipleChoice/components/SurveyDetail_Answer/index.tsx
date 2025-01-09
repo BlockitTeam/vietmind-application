@@ -42,23 +42,17 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = (props) => {
       const quizItem = listResult[curQuiz.numberKey]
 
       if (quizItem) {
-        // Update list result
-        console.log('save and next', quizItem.numberKey, nListQuest - 1)
         quizItem.answer = answer
         if (quizItem.numberKey === nListQuest - 1) {
-          console.log('summit ne')
-
           // Start loading overlay
           setIsLoading(true)
 
-          await saveSurveyDetail([...listResult], {
+          saveSurveyDetail([...listResult], {
             onSuccess: async (rs) => {
-              console.log('submit success: ')
               await submitSuccess()
               setIsLoading(false)
             },
             onError: (error) => {
-              console.log('Error while saving: ', error)
               setIsLoading(false)
             },
           })

@@ -46,9 +46,6 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const {mutate: clearRes} = clearResult()
   const [curUser, setCurUser] = useAtom(curUserAtom)
 
-  useEffect(() => {
-    console.log('rererererer profile')
-  }, [])
   const {data: dataResponseResultDetail, isLoading: isResResultDetailLoading} =
     useGetResponseResultDetail()
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom)

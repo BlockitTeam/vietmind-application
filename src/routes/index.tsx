@@ -54,15 +54,13 @@ const RootApp = () => {
     isLoading: isAppointmentLoading,
     refetch: refetchAppointment,
   } = useGetAppointmentFalse()
-  console.log('rerender in routes')
   useLayoutEffect(() => {
     if (curUser) {
       refetchAppointment().then(() => {
-        console.log('hẻe')
+        console.log('refetchAppointment')
       })
     }
   }, [curUser])
-  console.log(appointmentData)
   useEffect(() => {
     const initializeApp = async () => {
       const jsessionId = await getJSessionID()

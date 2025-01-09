@@ -4,12 +4,10 @@ import Splash from '@screens/Auth/Splash'
 import {
   Box,
   Button,
-  Center,
   ChevronLeftIcon,
   Divider,
   HStack,
   ScrollView,
-  Spinner,
   Text,
   useToast,
   VStack,
@@ -20,10 +18,6 @@ import {useCurrentUser} from '@hooks/user'
 import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey'
 import {
   CompositeScreenProps,
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-  useRoute,
 } from '@react-navigation/native'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import ErrorComponent from '@components/Error'
@@ -34,7 +28,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {Platform} from 'react-native'
-import {useGetAppointment} from '@hooks/appointment/getAppointment'
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -56,7 +49,6 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = (props) => {
     surveyInf.surveyId,
   )
 
-  console.log('SurveyDetail screen')
   const [, setCurUser] = useAtom(curUserAtom)
   const [step, setStep] = useState<TSurveyDetailScreen | undefined>(undefined)
 
@@ -77,14 +69,10 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = (props) => {
   }, [latestDetailSurveyAnswer?.data, currentUser?.data])
 
   const submitSuccess = async () => {
-    console.log('here', 'SurveyDetailScreen 81')
-    console.log('isCreatingAccount', isCreatingAccount)
-
     if (isCreatingAccount) {
       // const {data: rfData} = await rfCurUser();
       rfCurUser().then((rfData) => {
         if (rfData && rfData?.data) {
-          console.log('refecth data', rfData?.data.data)
           setCurUser(rfData?.data.data)
           navigation.replace('DetailResult')
         }

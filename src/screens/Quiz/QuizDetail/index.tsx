@@ -113,7 +113,6 @@ const QuizDetail: React.FC<QuizDetailProps> = (props) => {
     }
   }
   const isLoading = isListQuestionLoading || !curQuiz || !nListQuest
-  console.log(isLoadingOverlay)
   return (
     <>
       {(isLoadingOverlay || useSaveSurveyResponseMutation.isPending) && (
