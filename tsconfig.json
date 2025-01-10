@@ -9,6 +9,7 @@
     "noUnusedParameters": true,
     "incremental": true,
     "sourceMap": true,
+    "declaration": true, // Generates corresponding .d.ts file
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["./src/assets/*"],

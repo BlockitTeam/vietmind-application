@@ -3,8 +3,8 @@ import {CompositeScreenProps} from '@react-navigation/native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 
-import {AppStateStatus, AppState, StyleSheet, Text, View} from 'react-native'
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react'
+import {AppStateStatus, AppState} from 'react-native'
+import React, {useCallback, useEffect, useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
@@ -14,7 +14,6 @@ import JSEncrypt from 'jsencrypt'
 import CryptoJS from 'crypto-js'
 import ContentConversation from './content'
 
-type ContentTransform = {fromMe: boolean; message: string}
 export type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
   NativeStackScreenProps<
     IRootStackParamList,
@@ -26,7 +25,7 @@ export type ChatWithProfessional_StartNavigationProp = CompositeScreenProps<
 const ChatWithProfessional_Conversation: React.FC<
   ChatWithProfessional_StartNavigationProp
 > = (props) => {
-  const {navigation, route} = props
+  const {route} = props
   const drInformation = route.params
   const [curUser] = useAtom(curUserAtom)
 
@@ -157,5 +156,3 @@ const ChatWithProfessional_Conversation: React.FC<
     )
 }
 export default ChatWithProfessional_Conversation
-
-const styles = StyleSheet.create({})

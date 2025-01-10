@@ -11,4 +11,5 @@ module.exports = {
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }, // Ignore vars starting with _
       ],
     },
+    "@typescript-eslint/no-explicit-any": "error"
   };

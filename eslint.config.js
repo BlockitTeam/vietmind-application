@@ -43,7 +43,6 @@ export default [
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], // Keep this line
       "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": ["warn"],
-
       // 👋 Add prettier rules at the bottom
       ...prettierConfig.rules, // Merge Prettier and ESLint rules
       "prettier/prettier": "error", // Show Prettier errors as ESLint errors

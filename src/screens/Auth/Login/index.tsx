@@ -109,9 +109,6 @@ const Login = () => {
       setFetchUser(true)
       await GoogleSignin.signOut()
       await GoogleSignin.hasPlayServices()
-
-      // Revoke the token to force a new one
-
       // Sign in to get a new token
       const userInfo = await GoogleSignin.signIn()
 
@@ -131,7 +128,7 @@ const Login = () => {
                 }
               })
             },
-            onError: (e) => {
+            onError: () => {
               setMessageAuth('Login fail, please try again!')
               setFetchUser(false)
             },

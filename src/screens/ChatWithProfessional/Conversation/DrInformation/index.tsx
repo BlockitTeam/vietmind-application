@@ -1,4 +1,4 @@
-import {Box, Center, Circle, Text} from 'native-base'
+import {Center, Circle, Text} from 'native-base'
 import React from 'react'
 
 type DrInformationProps = {

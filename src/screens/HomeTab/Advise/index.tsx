@@ -1,6 +1,6 @@
 import {Platform, StyleSheet, TouchableOpacity} from 'react-native'
-import React, {useEffect, useLayoutEffect} from 'react'
-import {Box, Center, Circle, HStack, Spacer, Text, VStack} from 'native-base'
+import React, {useLayoutEffect} from 'react'
+import {Box, Center, Circle, HStack, Text, VStack} from 'native-base'
 import HeaderBack from '@components/layout/HeaderBack'
 import {CompositeScreenProps} from '@react-navigation/native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'

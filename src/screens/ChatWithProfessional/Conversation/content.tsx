@@ -13,7 +13,6 @@ import {
   Center,
   ChevronLeftIcon,
   HStack,
-  Input,
   KeyboardAvoidingView,
   ScrollView,
   Spinner,
@@ -58,7 +57,6 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
   } = useGetConversationContent(conversationId!)
   const {
     data: appointmentByConId,
-    isLoading: isAppointmentByConIdLoading,
     refetch,
   } = useGetAppointmentById(conversationId!)
   const updateAppointment = useUpdateAppointment()
@@ -356,7 +354,7 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
           automaticallyAdjustKeyboardInsets={true}
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={(contentWidth, contentHeight) => {
+          onContentSizeChange={(_, contentHeight) => {
             setContentHeight(contentHeight)
           }}>
           <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
