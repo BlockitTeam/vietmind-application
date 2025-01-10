@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {
-  Center,
-  ChevronLeftIcon,
-  HStack,
-  Skeleton,
-  Text,
-} from 'native-base'
+import {Center, ChevronLeftIcon, HStack, Skeleton, Text} from 'native-base'
 import QuizChoose from './component/QuizChoose/QuizChoose'
 import {TouchableOpacity} from 'react-native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'

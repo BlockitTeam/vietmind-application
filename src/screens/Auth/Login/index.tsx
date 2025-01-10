@@ -1,18 +1,11 @@
-import {
-  Box,
-  Button,
-  Center,
-  Text,
-  useToast,
-  VStack,
-} from 'native-base'
-import React, { useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
-import { ImageBackground } from 'react-native'
+import {Box, Button, Center, Text, useToast, VStack} from 'native-base'
+import React, {useState} from 'react'
+import {Platform, StyleSheet} from 'react-native'
+import {ImageBackground} from 'react-native'
 import BackGround from '@images/Background.png'
-import { Google, Facebook } from '@assets/icons'
-import { useAtom } from 'jotai'
-import { curUserAtom } from '@services/jotaiStorage/curUserAtom'
+import {Google, Facebook} from '@assets/icons'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {
   GoogleSignin,
   statusCodes,
@@ -22,11 +15,11 @@ import {
   AuthenticationToken,
   Settings,
 } from 'react-native-fbsdk-next'
-import { useLogin } from '@hooks/auth'
-import { messageAuthAtom } from '@services/jotaiStorage/messageAuthAtom'
+import {useLogin} from '@hooks/auth'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
-import { useCurrentUser } from '@hooks/user'
-import { TOAST_PLACEMENT } from 'src/constants'
+import {useCurrentUser} from '@hooks/user'
+import {TOAST_PLACEMENT} from 'src/constants'
 
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
@@ -52,7 +45,7 @@ const Login = () => {
     })
   }
   const useLoginMutation = useLogin()
-  const { isLoading, refetch } = useCurrentUser()
+  const {isLoading, refetch} = useCurrentUser()
   const [fetchUser, setFetchUser] = useState(false)
   const loginFacebook = async () => {
     try {
@@ -80,7 +73,7 @@ const Login = () => {
                 refetch()
                   .then((res) => {
                     if (res.data?.statusCode === 200 && res.data.data) {
-                      setCurUser({ ...res.data.data })
+                      setCurUser({...res.data.data})
                     }
                   })
                   .finally(() => {
@@ -123,7 +116,7 @@ const Login = () => {
             onSuccess: () => {
               refetch().then((res) => {
                 if (res.data?.statusCode === 200 && res.data.data) {
-                  setCurUser({ ...res.data.data })
+                  setCurUser({...res.data.data})
                   setFetchUser(false)
                 }
               })
@@ -199,6 +192,6 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
-  loginButton: { width: '90%', maxWidth: 485 },
+  loginButton: {width: '90%', maxWidth: 485},
 })
 export default Login

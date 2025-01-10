@@ -55,10 +55,9 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
     data: dataConversationContent,
     isLoading: isConversationContentLoading,
   } = useGetConversationContent(conversationId!)
-  const {
-    data: appointmentByConId,
-    refetch,
-  } = useGetAppointmentById(conversationId!)
+  const {data: appointmentByConId, refetch} = useGetAppointmentById(
+    conversationId!,
+  )
   const updateAppointment = useUpdateAppointment()
   // End Todo: Call api
   const drInformation = route.params

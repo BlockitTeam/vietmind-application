@@ -1,11 +1,6 @@
 import {StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
-import {
-  Center,
-  ChevronLeftIcon,
-  ScrollView,
-  Text,
-} from 'native-base'
+import {Center, ChevronLeftIcon, ScrollView, Text} from 'native-base'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
 import HeaderBack from '@components/layout/HeaderBack'
