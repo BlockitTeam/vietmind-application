@@ -1,13 +1,10 @@
-import {SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native'
+import {StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
 import {
-  Box,
   Center,
   ChevronLeftIcon,
-  HStack,
   ScrollView,
   Text,
-  VStack,
 } from 'native-base'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
@@ -21,11 +18,6 @@ type PrivacyDetailProps = NativeStackScreenProps<
 const PrivacyDetail: React.FC<PrivacyDetailProps> = (props) => {
   const {navigation} = props
   return (
-    // <SafeAreaView>
-    //   <VStack h={'full'}>
-
-    //   </VStack>
-    // </SafeAreaView>
     <HeaderBack
       title="Quyền riêng tư & Dữ liệu cá nhân"
       bottomChildren={null}

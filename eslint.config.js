@@ -9,7 +9,6 @@ import { fixupConfigRules } from "@eslint/compat"
 import prettierConfig from "eslint-config-prettier" 
 import pluginPrettier from "eslint-plugin-prettier"
 
-
 export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
   {
@@ -41,7 +40,7 @@ export default [
     // Additional custom rules
     rules: {
       "no-console": "warn", 
-      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], // Keep this line
       "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": ["warn"],
 

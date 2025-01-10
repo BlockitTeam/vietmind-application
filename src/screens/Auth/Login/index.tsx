@@ -2,54 +2,45 @@ import {
   Box,
   Button,
   Center,
-  Spinner,
   Text,
-  useSafeArea,
   useToast,
-  View,
   VStack,
 } from 'native-base'
-import React, {useEffect, useState} from 'react'
-import {Platform, StyleSheet} from 'react-native'
-import {ImageBackground} from 'react-native'
+import React, { useState } from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import { ImageBackground } from 'react-native'
 import BackGround from '@images/Background.png'
-import {Google, Facebook} from '@assets/icons'
-import {useAtom} from 'jotai'
-import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import { Google, Facebook } from '@assets/icons'
+import { useAtom } from 'jotai'
+import { curUserAtom } from '@services/jotaiStorage/curUserAtom'
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin'
-import {sha256} from 'react-native-sha256'
-
 import {
   AccessToken,
-  LoginManager,
   AuthenticationToken,
   Settings,
 } from 'react-native-fbsdk-next'
-import {useLogin} from '@hooks/auth'
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
+import { useLogin } from '@hooks/auth'
+import { messageAuthAtom } from '@services/jotaiStorage/messageAuthAtom'
 
-import {useCurrentUser} from '@hooks/user'
-import {TOAST_PLACEMENT} from 'src/constants'
+import { useCurrentUser } from '@hooks/user'
+import { TOAST_PLACEMENT } from 'src/constants'
 
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
-  // offlineAccess: true,
   profileImageSize: 120,
   forceCodeForRefreshToken: true,
   iosClientId: process.env.IOS_CLIENT_ID,
   webClientId: process.env.WEB_CLIENT_ID,
 })
-// 670374882757-822dvb2pd6i16v4qjdsfcdkibf9m698g.apps.googleusercontent.com
-// Somewhere in your code
 
 const Login = () => {
-  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const [, setCurUser] = useAtom(curUserAtom)
   const [_, setMessageAuth] = useAtom(messageAuthAtom)
   const toast = useToast()
 
@@ -61,14 +52,10 @@ const Login = () => {
     })
   }
   const useLoginMutation = useLogin()
-  const {isLoading, refetch} = useCurrentUser()
+  const { isLoading, refetch } = useCurrentUser()
   const [fetchUser, setFetchUser] = useState(false)
   const loginFacebook = async () => {
     try {
-      const result = await LoginManager.logInWithPermissions(
-        ['public_profile', 'email'],
-        'limited',
-      )
       let token: string | undefined
       if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
@@ -81,7 +68,6 @@ const Login = () => {
         token = result?.accessToken
       }
       if (token) {
-        console.log(token, '11111111')
         setFetchUser(true)
         try {
           useLoginMutation.mutate(
@@ -94,10 +80,12 @@ const Login = () => {
                 refetch()
                   .then((res) => {
                     if (res.data?.statusCode === 200 && res.data.data) {
-                      setCurUser({...res.data.data})
+                      setCurUser({ ...res.data.data })
                     }
                   })
-                  .finally(() => {})
+                  .finally(() => {
+                    setFetchUser(false)
+                  })
               },
               onError: () => {
                 showToast('Login fail, please try again!')
@@ -129,7 +117,7 @@ const Login = () => {
 
       if (userInfo.idToken) {
         await GoogleSignin.clearCachedAccessToken(userInfo.idToken)
-        await useLoginMutation.mutate(
+        useLoginMutation.mutate(
           {
             token: userInfo.idToken,
             provider: 'google',
@@ -138,7 +126,7 @@ const Login = () => {
             onSuccess: () => {
               refetch().then((res) => {
                 if (res.data?.statusCode === 200 && res.data.data) {
-                  setCurUser({...res.data.data})
+                  setCurUser({ ...res.data.data })
                   setFetchUser(false)
                 }
               })
@@ -214,6 +202,6 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
-  loginButton: {width: '90%', maxWidth: 485},
+  loginButton: { width: '90%', maxWidth: 485 },
 })
 export default Login

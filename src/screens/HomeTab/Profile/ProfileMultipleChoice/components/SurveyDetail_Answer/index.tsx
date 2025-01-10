@@ -1,7 +1,7 @@
 import HeaderBack from '@components/layout/HeaderBack'
 import {tQuestionResponse} from '@hooks/question/question.interface'
-import {Center, ChevronLeftIcon, HStack, Text, VStack} from 'native-base'
-import React, {useEffect, useLayoutEffect, useState} from 'react'
+import {Center, ChevronLeftIcon, HStack, Text} from 'native-base'
+import React, {useLayoutEffect, useState} from 'react'
 
 import {useNavigation} from '@react-navigation/native'
 import QuizChoose from '@screens/Quiz/QuizDetail/component/QuizChoose/QuizChoose'
@@ -48,11 +48,11 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = (props) => {
           setIsLoading(true)
 
           saveSurveyDetail([...listResult], {
-            onSuccess: async (rs) => {
+            onSuccess: async () => {
               await submitSuccess()
               setIsLoading(false)
             },
-            onError: (error) => {
+            onError: () => {
               setIsLoading(false)
             },
           })

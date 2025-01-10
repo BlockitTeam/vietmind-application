@@ -1,19 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {
-  Box,
   Center,
   ChevronLeftIcon,
   HStack,
   Skeleton,
-  Spinner,
   Text,
-  View,
-  VStack,
 } from 'native-base'
 import QuizChoose from './component/QuizChoose/QuizChoose'
-import QuizInput from './component/QuizInput'
 import {TouchableOpacity} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
 import HeaderBack from '@components/layout/HeaderBack'
@@ -36,8 +30,7 @@ type QuizDetailProps = NativeStackScreenProps<IRootStackParamList, 'QuizDetail'>
 type tListResultItem = tQuestionResponse & {
   numberKey: number
 }
-const QuizDetail: React.FC<QuizDetailProps> = (props) => {
-  const {navigation} = props
+const QuizDetail: React.FC<QuizDetailProps> = () => {
   const [curUser, setCurUser] = useAtom(curUserAtom)
   const {refetch: refetchCurUser} = useCurrentUser()
   const [_, setResultCommonFilter] = useAtom(resultCommonFilterAtom)
@@ -77,7 +70,7 @@ const QuizDetail: React.FC<QuizDetailProps> = (props) => {
 
         if (quizItem.numberKey === nListQuest - 1) {
           useSaveSurveyResponseMutation.mutate([...listResult], {
-            onSuccess: (rs) => {
+            onSuccess: () => {
               refetch().then((rfSurvey) => {
                 if (rfSurvey.data) {
                   refetchResultById()
@@ -100,7 +93,7 @@ const QuizDetail: React.FC<QuizDetailProps> = (props) => {
                 }
               })
             },
-            onError: (error) => {
+            onError: () => {
               setIsLoadingOverlay(false)
             },
           })

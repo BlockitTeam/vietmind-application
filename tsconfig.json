@@ -5,6 +5,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "incremental": true,
+    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["./src/assets/*"],
