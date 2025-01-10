@@ -1,4 +1,4 @@
-import {StyleSheet, View, TouchableOpacity, SafeAreaView} from 'react-native'
+import {StyleSheet, View, TouchableOpacity} from 'react-native'
 import {Box, Center, Text} from 'native-base'
 import React from 'react'
 import {Book, Home, Message, Profile} from '@assets/icons'

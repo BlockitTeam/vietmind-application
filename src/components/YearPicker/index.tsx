@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {Calendar} from 'react-native-calendars'
 import {
   Box,
   Button,

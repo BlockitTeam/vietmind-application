@@ -49,7 +49,7 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = (props) => {
 
           saveSurveyDetail([...listResult], {
             onSuccess: async () => {
-              await submitSuccess()
+              submitSuccess()
               setIsLoading(false)
             },
             onError: () => {

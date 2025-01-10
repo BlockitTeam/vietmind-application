@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react'
 import HeaderBack from '@components/layout/HeaderBack'
 import {ChevronLeftIcon, HStack, ScrollView, Text, VStack} from 'native-base'
 import FilterButton from './components/FilterButton'
@@ -45,5 +44,3 @@ const ProfileMultipleChoice = () => {
 }
 
 export default ProfileMultipleChoice
-
-// const styles = StyleSheet.create({});

@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Button, Center, Input, Text, TextArea, VStack} from 'native-base'
+import React from 'react'
+import {Button, Center, Text, VStack} from 'native-base'
 
 type QuizParentProps = {
   question: string

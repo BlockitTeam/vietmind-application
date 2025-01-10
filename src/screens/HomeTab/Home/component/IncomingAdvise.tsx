@@ -1,7 +1,7 @@
 import {useGetAppointment} from '@hooks/appointment/getAppointment'
 import {useGetDoctorById} from '@hooks/user'
-import {Spinner, VStack, Text, HStack, Box, Circle, Skeleton} from 'native-base'
-import React, {useEffect} from 'react'
+import {VStack, Text, HStack, Box, Circle, Skeleton} from 'native-base'
+import React from 'react'
 import {clearSecond} from 'src/utils/formatDate'
 
 const IncomingAdvise = () => {

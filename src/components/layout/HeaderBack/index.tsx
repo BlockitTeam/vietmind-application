@@ -1,11 +1,4 @@
-import {
-  Box,
-  HStack,
-  KeyboardAvoidingView,
-  Text,
-  View,
-  VStack,
-} from 'native-base'
+import {Box, HStack, KeyboardAvoidingView, Text, VStack} from 'native-base'
 import React, {PropsWithChildren, ReactNode} from 'react'
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'

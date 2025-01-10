@@ -4,8 +4,6 @@ import {CompositeScreenProps} from '@react-navigation/native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import {
-  Box,
-  Button,
   ChevronLeftIcon,
   Divider,
   HStack,
@@ -22,7 +20,7 @@ type tGeneralSurveyResultProps = CompositeScreenProps<
 >
 
 const GeneralSurveyResult: React.FC<tGeneralSurveyResultProps> = (props) => {
-  const {navigation, route} = props
+  const {route} = props
   const title = route.params.title
   const rs = route.params.res
   return (

@@ -4,11 +4,7 @@ import {getData} from '@config/api'
 import {apiPath} from '@config/api/apiPath'
 import {IResponse} from '@interface/api.interface'
 import {useQuery} from '@tanstack/react-query'
-import {StatusAppointmentType, tAppointment} from './appointment.interface'
-
-type tGetAppointmentByIdParams = {
-  conversation_id: string
-}
+import {tAppointment} from './appointment.interface'
 
 type useGetAppointmentResponse = IResponse<tAppointment>
 export const useGetAppointmentById = (conversationId: string) => {

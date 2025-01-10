@@ -1,4 +1,3 @@
-import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {Skeleton} from 'native-base'
 import {InterfaceSkeletonProps} from 'native-base/lib/typescript/components/composites/Skeleton/types'
@@ -10,5 +9,3 @@ const ButtonDateLoading: React.FC<ButtonDateLoadingProps> = (props) => {
 }
 
 export default ButtonDateLoading
-
-const styles = StyleSheet.create({})

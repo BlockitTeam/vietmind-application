@@ -1,5 +1,5 @@
 import HeaderLayout from '@components/layout/Header'
-import {Center, HStack, ScrollView, Text, View, VStack} from 'native-base'
+import {Center, Text} from 'native-base'
 import React from 'react'
 
 const Tab_Knowledge = () => {

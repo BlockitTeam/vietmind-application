@@ -1,5 +1,3 @@
-import {useNavigation, NavigationProp} from '@react-navigation/native'
-import {IRootStackParamList} from '@routes/navigator'
 import {ChevronRightIcon, HStack, Text, VStack} from 'native-base'
 import React from 'react'
 import {TouchableOpacity} from 'react-native'

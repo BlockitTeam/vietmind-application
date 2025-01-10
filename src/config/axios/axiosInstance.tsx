@@ -3,9 +3,6 @@ import axios from 'axios'
 import {removeJSessionID} from '@services/asyncStorage/jsessionID'
 import {storeMessageModal} from '@services/asyncStorage/messageModal'
 import {language} from '@config/language'
-import {createNavigationContainerRef} from '@react-navigation/native'
-import {IRootStackParamList} from '@routes/navigator' // adjust the path to where IRootStackParamList is defined
-import {navigationRef} from 'App'
 import {vietmindStore} from '@services/jotaiStorage'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 
@@ -17,10 +14,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   async (response) => {
-    const storedSessionId = await AsyncStorage.getItem('JSESSIONID')
     const setCookieHeader = response.headers['set-cookie']
-    // await removeJSessionID();
-    // await storeMessageModal(language.vn.expired_time);
     if (setCookieHeader) {
       const jSessionId = setCookieHeader.find((cookie) =>
         cookie.startsWith('JSESSIONID='),

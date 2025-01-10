@@ -1,8 +1,6 @@
-import {Box, HStack, Text, View, VStack} from 'native-base'
-import React, {PropsWithChildren, ReactNode} from 'react'
-import {ImageBackground, TouchableOpacity} from 'react-native'
+import {HStack, Text, VStack} from 'native-base'
+import React, {PropsWithChildren} from 'react'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import BackGround from '@images/Background.png'
 type HeaderLayoutProps = {
   title: string
 } & PropsWithChildren

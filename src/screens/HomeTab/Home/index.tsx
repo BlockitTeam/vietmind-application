@@ -1,5 +1,4 @@
-import {StyleSheet} from 'react-native'
-import React, {useEffect} from 'react'
+import React from 'react'
 import {ScrollView, VStack} from 'native-base'
 
 import HeaderLayout from '@components/layout/Header'
@@ -26,15 +25,4 @@ const Tab_Home: React.FC<Tab_HomeProps> = (props) => {
     </HeaderLayout>
   )
 }
-
-const styles = StyleSheet.create({
-  nextEvent__Button: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-})
-
 export default Tab_Home

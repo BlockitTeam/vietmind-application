@@ -20,26 +20,20 @@ import {
   removeJSessionID,
 } from '@services/asyncStorage/jsessionID'
 import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
-import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
 import {useCurrentUser} from '@hooks/user'
 import {language} from '@config/language'
 import QuizResult from '@screens/Quiz/QuizResult'
 import SetTimeAppointmentSuccess from '@screens/SetTimeAppointment/SetTimeSuccess'
 import {useGetResultById} from '@hooks/response'
 import {isEmptyObject} from 'src/utils/object'
-import {
-  useGetAppointment,
-  useGetAppointmentFalse,
-} from '@hooks/appointment/getAppointment'
+import {useGetAppointmentFalse} from '@hooks/appointment/getAppointment'
 import DetailResult from '@screens/Quiz/QuizResult/DetailResult'
-import {useLayout} from 'native-base'
 
 const RootApp = () => {
   const [firstInit, setFirstInit] = useAtom(firstLoadAtom)
   const [curUser, setCurUser] = useAtom(curUserAtom)
   const [_, setMessageAuth] = useAtom(messageAuthAtom)
   const {isLoading, refetch} = useCurrentUser()
-  const [resultCommonFilter] = useAtom(resultCommonFilterAtom)
 
   const {isLoading: isGetResultById, data: getResultByIdData} =
     useGetResultById(curUser?.id || '')

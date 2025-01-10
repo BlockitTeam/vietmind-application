@@ -1,5 +1,5 @@
 import {HStack, VStack, Text, Skeleton} from 'native-base'
-import React, {useEffect} from 'react'
+import React from 'react'
 import HistoryAdviseItem from './HistoryAdviseItem'
 import {useGetAppointmentFinish} from '@hooks/appointment/getAppointmentFinish'
 import {clearSecond} from 'src/utils/formatDate'

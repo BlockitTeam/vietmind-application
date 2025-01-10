@@ -3,7 +3,6 @@ import HeaderBack from '@components/layout/HeaderBack'
 import {ChevronLeftIcon, HStack, Text} from 'native-base'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
-import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById'
 import {useGetConversationContent} from '@hooks/coversation'
 
 type ViewHistoryAdviseProps = NativeStackScreenProps<

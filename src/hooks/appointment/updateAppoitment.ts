@@ -4,7 +4,7 @@
 import {mutationPut} from '@config/api'
 import {apiPath} from '@config/api/apiPath'
 import {IResponse} from '@interface/api.interface'
-import {useMutation, useQueryClient} from '@tanstack/react-query'
+import {useMutation} from '@tanstack/react-query'
 import {tAppointment} from './appointment.interface'
 
 //   }

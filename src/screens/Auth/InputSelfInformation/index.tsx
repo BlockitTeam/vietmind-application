@@ -16,7 +16,6 @@ import {useForm, Controller} from 'react-hook-form'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
-import axios from 'axios'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {useCurrentUser, usePutEditUser} from '@hooks/user'
@@ -32,9 +31,7 @@ type InputSelfInformationProps = NativeStackScreenProps<
   'InputSelfInformation'
 >
 type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string}
-const InputSelfInformation: React.FC<InputSelfInformationProps> = (props) => {
-  const {navigation} = props
-
+const InputSelfInformation: React.FC<InputSelfInformationProps> = () => {
   const [cur, setCurUser] = useAtom(curUserAtom)
   const {refetch} = useCurrentUser()
 
@@ -60,7 +57,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = (props) => {
     usePutEditUserMutation.mutate(
       {...data, birthYear: parseInt(data.birthYear)},
       {
-        onSuccess: (value) => {
+        onSuccess: () => {
           refetch().then((v) => {
             //Note
             if (cur) {
@@ -152,7 +149,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = (props) => {
             <Controller
               control={control}
               rules={{required: 'Năm sinh là bắt buộc'}}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({field: {onChange, value}}) => (
                 <Select
                   minWidth="200"
                   accessibilityLabel="Chọn năm sinh"
@@ -195,7 +192,7 @@ const InputSelfInformation: React.FC<InputSelfInformationProps> = (props) => {
             <Controller
               control={control}
               rules={{required: 'Giới tính là bắt buộc'}}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({field: {onChange, value}}) => (
                 <Select
                   minWidth="200"
                   accessibilityLabel="Chọn giới tính"

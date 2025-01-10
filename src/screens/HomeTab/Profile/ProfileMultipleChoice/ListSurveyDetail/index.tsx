@@ -1,6 +1,5 @@
-import {Skeleton, Spinner, Text} from 'native-base'
+import {Skeleton} from 'native-base'
 import React from 'react'
-import SurveyButton from '../components/SurveyButton'
 import {useGetInfSurveyById} from '@hooks/survey'
 import {IRootStackParamList} from '@routes/navigator'
 import {NavigationProp, useNavigation} from '@react-navigation/native'

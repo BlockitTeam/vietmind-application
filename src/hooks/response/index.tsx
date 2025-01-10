@@ -1,6 +1,6 @@
 import {apiPath} from '@config/api/apiPath'
 import {IResponse} from '@interface/api.interface'
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import {useMutation, useQuery} from '@tanstack/react-query'
 import queryString from 'query-string'
 import {tResponse, tResponseResult} from './response.interface'
 import {getData, mutationDelete, mutationPost} from '@config/api'

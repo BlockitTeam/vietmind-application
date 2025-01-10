@@ -11,7 +11,7 @@ type HistoryAdviseItemType = {
 }
 
 const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = (props) => {
-  const {drId, time, idConversation, navigation} = props
+  const {drId, time, navigation} = props
   const {data, isLoading} = useGetDoctorById(drId)
 
   return (

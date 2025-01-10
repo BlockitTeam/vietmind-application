@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Center, Text, VStack} from 'native-base'
+import {Button, Text, VStack} from 'native-base'
 import {tOptionsOfQuestion} from '@hooks/question/question.interface'
 import {tListResultItem} from '@screens/HomeTab/Profile/ProfileMultipleChoice/components/SurveyDetail_Answer'
 import TextParent from '../TextParent'

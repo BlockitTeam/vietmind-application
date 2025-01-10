@@ -1,4 +1,4 @@
-import {HStack, VStack, Circle, Skeleton, Box, Text} from 'native-base'
+import {HStack, VStack, Skeleton, Box} from 'native-base'
 import React from 'react'
 
 const AdviseLoading = () => {

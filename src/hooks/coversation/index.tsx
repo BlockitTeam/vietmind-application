@@ -1,7 +1,7 @@
 import {getData, mutationPost} from '@config/api'
 import {apiPath} from '@config/api/apiPath'
 import {IResponse} from '@interface/api.interface'
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import {useMutation, useQuery} from '@tanstack/react-query'
 import {tConversationItem} from './conversation.interface'
 
 type tGetEncryptKeyParam = {
@@ -9,7 +9,6 @@ type tGetEncryptKeyParam = {
   conversationId: string
 }
 export const useGetEncryptKey = () => {
-  // const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (params: tGetEncryptKeyParam) =>
       mutationPost<IResponse<string>>({
@@ -37,17 +36,3 @@ export const useGetConversationContent = (conversationId: string) => {
     gcTime: 0,
   })
 }
-
-// export const useGetConversationContent = (conversationId: string) => {
-
-//   // const queryClient = useQueryClient();
-//   return ({
-//     mutationFn: (pubKey: string) =>
-//       mutationPost<any>({
-//         url: `${url}`,
-//         body: {
-//           publicKey: pubKey,
-//         },
-//       }),
-//   });
-// };

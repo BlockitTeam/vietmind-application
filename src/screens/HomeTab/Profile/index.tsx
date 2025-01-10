@@ -1,11 +1,7 @@
-import {StyleSheet, TouchableOpacity} from 'react-native'
-import React, {useEffect, useLayoutEffect} from 'react'
+import {TouchableOpacity} from 'react-native'
 import {
   Avatar,
   Button,
-  Center,
-  ChevronRightIcon,
-  Circle,
   Divider,
   HStack,
   ScrollView,
@@ -16,17 +12,11 @@ import {
 } from 'native-base'
 import HeaderBack from '@components/layout/HeaderBack'
 import {Pencil} from '@assets/icons'
-import {
-  clearResult,
-  useGetResponseResultDetail,
-  useGetSurveyResponseResult,
-} from '@hooks/response'
+import {clearResult, useGetResponseResultDetail} from '@hooks/response'
 import {useLogoutMutation} from '@hooks/auth'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {removeJSessionID} from '@services/asyncStorage/jsessionID'
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
-import {language} from '@config/language'
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
@@ -41,7 +31,6 @@ type Tab_ProfileProps = CompositeScreenProps<
 >
 
 const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
-  const {data: dataSurveyResponse} = useGetSurveyResponseResult()
   const toast = useToast()
   const {mutate: clearRes} = clearResult()
   const [curUser, setCurUser] = useAtom(curUserAtom)

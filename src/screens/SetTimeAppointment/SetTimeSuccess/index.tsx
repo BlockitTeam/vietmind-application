@@ -1,7 +1,7 @@
-import {Platform, StyleSheet} from 'react-native'
+import {Platform} from 'react-native'
 import React from 'react'
 import HeaderBack from '@components/layout/HeaderBack'
-import {Box, Text, Button, Circle, HStack, VStack, Center} from 'native-base'
+import {Text, Button, Circle, VStack, Center} from 'native-base'
 import {CompositeScreenProps} from '@react-navigation/native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
@@ -44,5 +44,3 @@ const SetTimeAppointmentSuccess: React.FC<SetTimeAppointmentSuccessProps> = (
 }
 
 export default SetTimeAppointmentSuccess
-
-const styles = StyleSheet.create({})

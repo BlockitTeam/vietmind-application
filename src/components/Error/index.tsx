@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Button, Center, HStack, Text, VStack} from 'native-base'
+import {Button, HStack, Text} from 'native-base'
 import {useNavigation} from '@react-navigation/native'
 import CusImageBackground from '@components/layout/CusImageBackground'
 

@@ -15,10 +15,8 @@ import {
   useToast,
 } from 'native-base'
 import {useForm, Controller} from 'react-hook-form'
-import {SafeAreaView} from 'react-native-safe-area-context'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
-import axios from 'axios'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {useCurrentUser, usePutEditUser} from '@hooks/user'
@@ -36,9 +34,7 @@ type ChangeProfileProps = NativeStackScreenProps<
   'ChangeProfile'
 >
 type tFormEditUser = Omit<tPutEditUserParam, 'birthYear'> & {birthYear: string}
-const ChangeProfile: React.FC<ChangeProfileProps> = (props) => {
-  const {navigation} = props
-
+const ChangeProfile: React.FC<ChangeProfileProps> = () => {
   const [cur, setCurUser] = useAtom(curUserAtom)
   const {refetch} = useCurrentUser()
   const toast = useToast()
@@ -65,7 +61,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = (props) => {
     editUser(
       {...data, birthYear: parseInt(data.birthYear)},
       {
-        onSuccess: (value) => {
+        onSuccess: () => {
           toast.show({
             title: 'Thay đổi thông tin thành công!',
             duration: 2000,
@@ -170,7 +166,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = (props) => {
             <Controller
               control={control}
               rules={{required: 'Năm sinh là bắt buộc'}}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({field: {onChange, value}}) => (
                 <Select
                   minWidth="200"
                   accessibilityLabel="Chọn năm sinh"
@@ -213,7 +209,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = (props) => {
             <Controller
               control={control}
               rules={{required: 'Giới tính là bắt buộc'}}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({field: {onChange, value}}) => (
                 <Select
                   minWidth="200"
                   accessibilityLabel="Chọn giới tính"

@@ -1,7 +1,6 @@
 import React from 'react'
 import CusImageBackground from '@components/layout/CusImageBackground'
-import Well1 from '@images/Well1.png'
-import {Button, Image, Text} from 'native-base'
+import {Button, Text} from 'native-base'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IRootStackParamList} from '@routes/navigator'
 import {Platform} from 'react-native'

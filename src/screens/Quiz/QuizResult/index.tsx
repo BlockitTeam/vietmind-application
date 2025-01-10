@@ -1,18 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import CusImageBackground from '@components/layout/CusImageBackground'
-import {Button, Spinner, Text, useToast, VStack} from 'native-base'
+import {Button, Text, VStack} from 'native-base'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {CompositeScreenProps, useNavigation} from '@react-navigation/native'
+import {CompositeScreenProps} from '@react-navigation/native'
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
 import HeaderBack from '@components/layout/HeaderBack'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {resultCommonFilterAtom} from '@services/jotaiStorage/resltCommonFilter'
-import LoadingOverlay from '@components/LoadingOverLay'
 import {useGetInfSurveyById} from '@hooks/survey'
 import {normalizeText} from 'src/utils/textUtil'
-import {G} from 'react-native-svg'
 import {Platform} from 'react-native'
 
 type QuizResultProps = CompositeScreenProps<
@@ -22,11 +18,9 @@ type QuizResultProps = CompositeScreenProps<
 
 const QuizResult: React.FC<QuizResultProps> = (props) => {
   // Check force curUser
-  const [curUser, setCurUser] = useAtom(curUserAtom)
+  const [curUser] = useAtom(curUserAtom)
   const {navigation} = props
-  const [resultCommonFilter, setResultCommonFilter] = useAtom(
-    resultCommonFilterAtom,
-  )
+  const [resultCommonFilter] = useAtom(resultCommonFilterAtom)
 
   const {data: surveyInfo, isLoading} = useGetInfSurveyById(
     curUser?.surveyDetail || '1',

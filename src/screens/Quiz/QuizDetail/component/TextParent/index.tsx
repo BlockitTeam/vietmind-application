@@ -1,4 +1,4 @@
-import {Text, View} from 'native-base'
+import {Text} from 'native-base'
 import React from 'react'
 
 type TextParentProps = {

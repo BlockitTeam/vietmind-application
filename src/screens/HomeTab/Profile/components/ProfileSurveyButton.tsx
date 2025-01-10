@@ -8,7 +8,7 @@ type tProfileSurveyButton = {
   onClickCallBack: () => void
 }
 const ProfileSurveyButton: React.FC<tProfileSurveyButton> = (props) => {
-  const {date, name, onClickCallBack} = props
+  const {name, onClickCallBack} = props
   return (
     <TouchableOpacity onPress={() => onClickCallBack()}>
       <HStack

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Button, Center, Text, VStack} from 'native-base'
+import {Button, Text, VStack} from 'native-base'
 import {TouchableOpacity} from 'react-native'
 import CusImageBackground from '@components/layout/CusImageBackground'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
