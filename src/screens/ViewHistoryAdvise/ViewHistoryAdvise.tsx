@@ -13,7 +13,6 @@ const ViewHistoryAdvise: React.FC<ViewHistoryAdviseProps> = (props) => {
   const {route} = props
   const {params} = route
   const {data} = useGetConversationContent(params.idConversation)
-  console.log(data)
   return (
     <HeaderBack
       title="Lịch sử tư vấn"

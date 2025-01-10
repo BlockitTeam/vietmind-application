@@ -124,7 +124,7 @@ export const themeNativeBase = extendTheme({
     Button: {
       // Can simply pass default props to change default behaviour of components.
 
-      baseStyle: (props) => {
+      baseStyle: () => {
         return {
           _text: {
             fontFamily: 'SFProDisplay',
@@ -139,7 +139,7 @@ export const themeNativeBase = extendTheme({
     },
 
     Text: {
-      baseStyle: (props: any) => {},
+      baseStyle: () => {},
       variants: {
         header_1: {
           ...headerDefault,

@@ -71,7 +71,6 @@ const QuizDetail: React.FC<QuizDetailProps> = () => {
                   //Todo: Add type good or bad
                   refetchCurUser().then((result) => {
                     if (result.data) {
-                      console.log(result.data)
                       const type = result.data.data.surveyDetail
 
                       setResultCommonFilter({

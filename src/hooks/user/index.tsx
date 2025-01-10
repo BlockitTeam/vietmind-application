@@ -41,12 +41,6 @@ export const usePutEditUser = () => {
 
 type ListDoctorResponseType = IResponse<tDoctorResponse[]>
 export const useGetListDoctor = () => {
-  const url = queryString.stringifyUrl(
-    {
-      url: apiPath.user.GET_LIST_DOCTOR,
-    },
-    {arrayFormat: 'comma'},
-  )
   return useQuery<ListDoctorResponseType>({
     queryKey: ['useGetListDoctor'],
     queryFn: () => getData<ListDoctorResponseType>('user/doctors'),

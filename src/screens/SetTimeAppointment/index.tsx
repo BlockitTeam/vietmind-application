@@ -109,7 +109,6 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = (props) => {
         },
         {
           onError: (e) => {
-            console.log(e)
             toast.show({
               title: 'Vui lòng thử lại!',
               duration: 3000,

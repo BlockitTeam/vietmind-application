@@ -50,9 +50,7 @@ const RootApp = () => {
   } = useGetAppointmentFalse()
   useLayoutEffect(() => {
     if (curUser) {
-      refetchAppointment().then(() => {
-        console.log('refetchAppointment')
-      })
+      refetchAppointment().then(() => {})
     }
   }, [curUser])
   useEffect(() => {

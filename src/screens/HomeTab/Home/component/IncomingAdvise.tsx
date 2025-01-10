@@ -8,7 +8,6 @@ const IncomingAdvise = () => {
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment()
   const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId)
-  // console.log(appointmentData);
 
   return (
     <VStack space={2}>

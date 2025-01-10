@@ -7,10 +7,9 @@ import {
   HStack,
   ScrollView,
   Text,
-  useLayout,
   VStack,
 } from 'native-base'
-import React, {useLayoutEffect} from 'react'
+import React from 'react'
 import {normalizeText} from 'src/utils/textUtil'
 import {tQuestionResponse} from '@hooks/question/question.interface'
 import {TInfSurvey} from '@hooks/survey'
