@@ -9,33 +9,33 @@ import {
   View,
   VStack,
 } from 'native-base'
-import React, { useEffect, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
-import { ImageBackground } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {Platform, StyleSheet} from 'react-native'
+import {ImageBackground} from 'react-native'
 import BackGround from '@images/Background.png'
-import { Google, Facebook } from '@assets/icons'
-import { useAtom } from 'jotai'
-import { curUserAtom } from '@services/jotaiStorage/curUserAtom'
+import {Google, Facebook} from '@assets/icons'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin'
-import { sha256 } from 'react-native-sha256';
+import {sha256} from 'react-native-sha256'
 
 import {
   AccessToken,
   LoginManager,
   AuthenticationToken,
-  Settings
+  Settings,
 } from 'react-native-fbsdk-next'
-import { useLogin } from '@hooks/auth'
-import { messageAuthAtom } from '@services/jotaiStorage/messageAuthAtom'
+import {useLogin} from '@hooks/auth'
+import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
-import { useCurrentUser } from '@hooks/user'
-import { TOAST_PLACEMENT } from 'src/constants'
+import {useCurrentUser} from '@hooks/user'
+import {TOAST_PLACEMENT} from 'src/constants'
 
-Settings.setAppID('1677651809436240');
-Settings.initializeSDK();
+Settings.setAppID('1677651809436240')
+Settings.initializeSDK()
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -61,30 +61,27 @@ const Login = () => {
     })
   }
   const useLoginMutation = useLogin()
-  const { isLoading, refetch } = useCurrentUser()
+  const {isLoading, refetch} = useCurrentUser()
   const [fetchUser, setFetchUser] = useState(false)
   const loginFacebook = async () => {
     try {
       const result = await LoginManager.logInWithPermissions(
-        [
-          "public_profile",
-          "email",
-        ],
-        "limited",
-      );
-      let token: string | undefined;
-      if (Platform.OS === "ios") {
+        ['public_profile', 'email'],
+        'limited',
+      )
+      let token: string | undefined
+      if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
-        const result = await AuthenticationToken.getAuthenticationTokenIOS();
+        const result = await AuthenticationToken.getAuthenticationTokenIOS()
         token = result?.authenticationToken
       } else {
         // This token can be used to access the Graph API.
-        const result = await AccessToken.getCurrentAccessToken();
+        const result = await AccessToken.getCurrentAccessToken()
         token = result?.accessToken
       }
       if (token) {
-        console.log(token, '11111111');
+        console.log(token, '11111111')
         setFetchUser(true)
         try {
           useLoginMutation.mutate(
@@ -97,10 +94,10 @@ const Login = () => {
                 refetch()
                   .then((res) => {
                     if (res.data?.statusCode === 200 && res.data.data) {
-                      setCurUser({ ...res.data.data })
+                      setCurUser({...res.data.data})
                     }
                   })
-                  .finally(() => { })
+                  .finally(() => {})
               },
               onError: () => {
                 showToast('Login fail, please try again!')
@@ -114,9 +111,8 @@ const Login = () => {
           showToast('Login fail, please try again!')
         }
       }
-
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -142,7 +138,7 @@ const Login = () => {
             onSuccess: () => {
               refetch().then((res) => {
                 if (res.data?.statusCode === 200 && res.data.data) {
-                  setCurUser({ ...res.data.data })
+                  setCurUser({...res.data.data})
                   setFetchUser(false)
                 }
               })
@@ -218,6 +214,6 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
-  loginButton: { width: '90%', maxWidth: 485 },
+  loginButton: {width: '90%', maxWidth: 485},
 })
 export default Login

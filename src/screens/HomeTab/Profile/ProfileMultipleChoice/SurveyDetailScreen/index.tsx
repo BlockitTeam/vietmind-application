@@ -16,9 +16,7 @@ import React, {useEffect, useState} from 'react'
 import SurveyDetail_Answer from '../components/SurveyDetail_Answer'
 import {useCurrentUser} from '@hooks/user'
 import {useGetLatestDetailSurveyAnswer} from '@hooks/question/detail-survey'
-import {
-  CompositeScreenProps,
-} from '@react-navigation/native'
+import {CompositeScreenProps} from '@react-navigation/native'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import ErrorComponent from '@components/Error'
 import {normalizeText} from 'src/utils/textUtil'
