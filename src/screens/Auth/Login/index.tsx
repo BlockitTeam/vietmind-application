@@ -13,6 +13,7 @@ import {
 import {
   AccessToken,
   AuthenticationToken,
+  LoginManager,
   Settings,
 } from 'react-native-fbsdk-next'
 import {useLogin} from '@hooks/auth'
@@ -50,6 +51,14 @@ const Login = () => {
   const loginFacebook = async () => {
     try {
       let token: string | undefined
+      const result = await LoginManager.logInWithPermissions(
+        [
+          "public_profile",
+          "email",
+        ],
+        "limited",
+        "my_nonce", // Optional
+      );
       if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
