@@ -209,23 +209,27 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = (props) => {
               </>
             ) : (
               <>
-                {availableDate?.data.map((date) => (
-                  <ButtonDate
-                    key={date.id}
-                    isSelected={
-                      !selectedTimeAppointment
-                        ? false
-                        : selectedTimeAppointment.id === date.id
-                    }
-                    onPress={() => {
-                      setSelectedTimeAppointment(date)
-                    }}
-                    mb={2}
-                    date={`${clearSecond(date.startTime)} - ${clearSecond(
-                      date.endTime,
-                    )}`}
-                  />
-                ))}
+                {availableDate?.data.length === 0 ? (
+                  <Text>Hiện tại không có lịch cho ngày hôm nay!</Text>
+                ) : (
+                  availableDate?.data.map((date) => (
+                    <ButtonDate
+                      key={date.id}
+                      isSelected={
+                        !selectedTimeAppointment
+                          ? false
+                          : selectedTimeAppointment.id === date.id
+                      }
+                      onPress={() => {
+                        setSelectedTimeAppointment(date)
+                      }}
+                      mb={2}
+                      date={`${clearSecond(date.startTime)} - ${clearSecond(
+                        date.endTime,
+                      )}`}
+                    />
+                  ))
+                )}
               </>
             )}
           </HStack>

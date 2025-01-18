@@ -8,7 +8,7 @@ const IncomingAdvise = () => {
   const {data: appointmentData, isLoading: isAppointmentLoading} =
     useGetAppointment()
   const {data, isLoading} = useGetDoctorById(appointmentData?.data.doctorId)
-
+  console.log(appointmentData, data)
   return (
     <VStack space={2}>
       <Text variant={'body_large_bold'}>Lịch hẹn sắp tới</Text>

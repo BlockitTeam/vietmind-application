@@ -52,13 +52,10 @@ const Login = () => {
     try {
       let token: string | undefined
       const result = await LoginManager.logInWithPermissions(
-        [
-          "public_profile",
-          "email",
-        ],
-        "limited",
-        "my_nonce", // Optional
-      );
+        ['public_profile', 'email'],
+        'limited',
+        'my_nonce', // Optional
+      )
       if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
@@ -90,7 +87,7 @@ const Login = () => {
                   })
               },
               onError: () => {
-                showToast('Login fail, please try again!')
+                showToast('Đăng nhập thất bại! Vui lòng thử lại sau...')
               },
               onSettled: () => {
                 setFetchUser(false)
@@ -98,7 +95,7 @@ const Login = () => {
             },
           )
         } catch (error) {
-          showToast('Login fail, please try again!')
+          showToast('Đăng nhập thất bại! Vui lòng thử lại sau...')
         }
       }
     } catch (error) {
@@ -131,7 +128,7 @@ const Login = () => {
               })
             },
             onError: () => {
-              setMessageAuth('Login fail, please try again!')
+              setMessageAuth('Đăng nhập thất bại! Vui lòng thử lại sau...')
               setFetchUser(false)
             },
           },
@@ -148,7 +145,7 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-        setMessageAuth('Login fail, please try again!')
+        setMessageAuth('Đăng nhập thất bại! Vui lòng thử lại sau...')
       }
     }
   }
