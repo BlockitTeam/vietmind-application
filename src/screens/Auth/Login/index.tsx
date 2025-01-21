@@ -1,5 +1,16 @@
-import {Box, Button, Center, Text, useToast, VStack} from 'native-base'
-import React, {useState} from 'react'
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  HStack,
+  ScrollView,
+  Spinner,
+  Text,
+  useToast,
+  VStack,
+} from 'native-base'
+import React, {useEffect, useState} from 'react'
 import {Platform, StyleSheet} from 'react-native'
 import {ImageBackground} from 'react-native'
 import BackGround from '@images/Background.png'
@@ -21,6 +32,8 @@ import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
 import {useCurrentUser} from '@hooks/user'
 import {TOAST_PLACEMENT} from 'src/constants'
+import LoginForm from './LoginForm/LoginForm'
+import JSEncrypt from 'jsencrypt'
 
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
@@ -33,32 +46,43 @@ GoogleSignin.configure({
   webClientId: process.env.WEB_CLIENT_ID,
 })
 
+export type tTypeOfLogin =
+  | 'google'
+  | 'facebook'
+  | 'username'
+  | 'success'
+  | undefined
+
 const Login = () => {
   const [, setCurUser] = useAtom(curUserAtom)
   const [_, setMessageAuth] = useAtom(messageAuthAtom)
   const toast = useToast()
-
-  const showToast = (title: string) => {
-    toast.show({
-      title,
-      duration: 3000,
-      placement: TOAST_PLACEMENT,
-    })
+  const [isLogin, setIsLogin] = useState<tTypeOfLogin>(undefined)
+  const showToast = (title: string, id: string) => {
+    if (!toast.isActive('failed_login'))
+      toast.show({
+        title,
+        duration: 3000,
+        placement: TOAST_PLACEMENT,
+        id: id,
+      })
   }
   const useLoginMutation = useLogin()
   const {isLoading, refetch} = useCurrentUser()
-  const [fetchUser, setFetchUser] = useState(false)
   const loginFacebook = async () => {
     try {
+      setIsLogin('facebook')
       let token: string | undefined
       const result = await LoginManager.logInWithPermissions(
-        [
-          "public_profile",
-          "email",
-        ],
-        "limited",
-        "my_nonce", // Optional
-      );
+        ['public_profile', 'email'],
+        'limited',
+        'my_nonce', // Optional
+      )
+      if (result.isCancelled) {
+        // Handle the case when the user cancels the login
+        setIsLogin(undefined)
+        return
+      }
       if (Platform.OS === 'ios') {
         // This token **cannot** be used to access the Graph API.
         // https://developers.facebook.com/docs/facebook-login/limited-login/
@@ -70,7 +94,6 @@ const Login = () => {
         token = result?.accessToken
       }
       if (token) {
-        setFetchUser(true)
         try {
           useLoginMutation.mutate(
             {
@@ -79,36 +102,38 @@ const Login = () => {
             },
             {
               onSuccess: () => {
-                refetch()
-                  .then((res) => {
-                    if (res.data?.statusCode === 200 && res.data.data) {
-                      setCurUser({...res.data.data})
-                    }
-                  })
-                  .finally(() => {
-                    setFetchUser(false)
-                  })
+                refetch().then((res) => {
+                  if (res.data?.statusCode === 200 && res.data.data) {
+                    setCurUser({...res.data.data})
+                    setIsLogin('success')
+                  }
+                })
               },
               onError: () => {
-                showToast('Login fail, please try again!')
+                showToast(
+                  'Đăng nhập thất bại, vui lòng thử lại!',
+                  'failed_login',
+                )
               },
               onSettled: () => {
-                setFetchUser(false)
+                setIsLogin(undefined)
               },
             },
           )
         } catch (error) {
-          showToast('Login fail, please try again!')
+          setIsLogin(undefined)
+          showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
         }
       }
     } catch (error) {
+      setIsLogin(undefined)
       console.log(error)
     }
   }
 
   const signInGoogle = async () => {
     try {
-      setFetchUser(true)
+      setIsLogin('google')
       await GoogleSignin.signOut()
       await GoogleSignin.hasPlayServices()
       // Sign in to get a new token
@@ -126,20 +151,24 @@ const Login = () => {
               refetch().then((res) => {
                 if (res.data?.statusCode === 200 && res.data.data) {
                   setCurUser({...res.data.data})
-                  setFetchUser(false)
+                  setIsLogin('success')
                 }
               })
             },
             onError: () => {
-              setMessageAuth('Login fail, please try again!')
-              setFetchUser(false)
+              showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+            },
+            onSettled: () => {
+              setIsLogin(undefined)
             },
           },
         )
       }
     } catch (error: any) {
-      setFetchUser(false)
+      setIsLogin(undefined)
+      showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
 
+      console.log(error)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -148,59 +177,100 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-        setMessageAuth('Login fail, please try again!')
+        showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
       }
     }
   }
+  console.log(isLogin && isLogin !== 'facebook', 'fb')
+  console.log(isLogin && isLogin !== 'google', 'google')
   return (
-    <ImageBackground source={BackGround}>
-      {(isLoading || fetchUser) && (
-        <Box
-          h={'100%'}
-          w={'100%'}
-          background={'black'}
-          opacity={'0.5'}
-          zIndex={'100'}
-          position={'absolute'}
-        />
-      )}
-      <VStack
-        h={'full'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        space={2}
-        mx={'8px'}>
-        <Text variant={'header_1'} mb={2}>
-          Đăng nhập
-        </Text>
-        <Button
-          style={styles.loginButton}
-          variant={'cusOutline'}
-          onPress={signInGoogle}>
-          <Center flexDir={'row'}>
-            <Google />
-            <Box ml={1}>
-              <Text variant={'body_medium_bold'}>Đăng nhập bằng Google</Text>
-            </Box>
-          </Center>
-        </Button>
-        <Button
-          style={styles.loginButton}
-          variant={'cusOutline'}
-          onPress={loginFacebook}>
-          <Center flexDir={'row'}>
-            <Facebook />
-            <Box ml={1}>
-              <Text variant={'body_medium_bold'}>Đăng nhập bằng Facebook</Text>
-            </Box>
-          </Center>
-        </Button>
-      </VStack>
+    <ImageBackground source={BackGround} style={{flex: 1}}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}>
+        <Center flex={1} px={4}>
+          <VStack
+            alignItems="center"
+            justifyContent="center"
+            space={4}
+            w="100%"
+            maxW={485}
+            py={6}
+            borderRadius="md">
+            <Text variant={'header_1'} mb={2}>
+              Đăng nhập
+            </Text>
+            <LoginForm isLogin={isLogin} setIsLogin={(b) => setIsLogin(b)} />
+
+            <HStack alignItems={'center'} space={2} w="100%">
+              <Divider bg={'gray.300'} flex={1} />
+              <Text color={'gray.300'}>Hoặc</Text>
+              <Divider bg={'gray.300'} flex={1} />
+            </HStack>
+
+            <Button
+              style={[
+                styles.loginButton,
+                isLogin && isLogin !== 'google' && styles.buttonDisable,
+              ]}
+              variant={'cusOutline'}
+              disabled={
+                isLogin === 'success' || (isLogin && isLogin !== 'google')
+              }
+              onPress={() => {
+                isLogin === undefined && signInGoogle()
+              }}>
+              <Center flexDir={'row'}>
+                {isLogin === 'google' ? (
+                  <Spinner h={'24px'} w={'25px'} />
+                ) : (
+                  <Google />
+                )}
+
+                <Box ml={1}>
+                  <Text variant={'body_medium_bold'}>
+                    Đăng nhập bằng Google
+                  </Text>
+                </Box>
+              </Center>
+            </Button>
+            <Button
+              style={[
+                styles.loginButton,
+                isLogin && isLogin !== 'facebook' && styles.buttonDisable,
+              ]}
+              variant={'cusOutline'}
+              disabled={
+                isLogin === 'success' || (isLogin && isLogin !== 'facebook')
+              }
+              onPress={() => {
+                isLogin === undefined && loginFacebook()
+              }}>
+              <Center flexDir={'row'}>
+                {isLogin === 'facebook' ? (
+                  <Spinner h={'24px'} w={'25px'} />
+                ) : (
+                  <Facebook />
+                )}
+                <Box ml={1}>
+                  <Text variant={'body_medium_bold'}>
+                    Đăng nhập bằng Facebook
+                  </Text>
+                </Box>
+              </Center>
+            </Button>
+          </VStack>
+        </Center>
+      </ScrollView>
     </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
-  loginButton: {width: '90%', maxWidth: 485},
+  loginButton: {width: '100%', maxWidth: 485},
+  buttonDisable: {
+    backgroundColor: 'gray.100',
+    opacity: 0.5,
+  },
 })
 export default Login

@@ -35,7 +35,7 @@ const DetailResult: React.FC<DetailResultProps> = (props) => {
       }>
       <VStack alignItems={'center'} justifyContent={'center'} h={'100%'}>
         <Text variant={'header_1'} pt={'12.5%'} pb={4}>
-          Kết quả sàn lọc
+          Kết quả Sàng lọc
         </Text>
         <Text variant={'body_large_regular'} textAlign={'center'} pt={4}>
           Với những vấn đề bạn đang gặp phải, bạn nên tham khảo ý kiến của

@@ -52,7 +52,7 @@ const QuizResult: React.FC<QuizResultProps> = (props) => {
                     isCreatingAccount: true,
                   })
                 }>
-                Tiếp tục sàn lọc chuyên sâu
+                Tiếp tục Sàng lọc chuyên sâu
               </Button>
             )}
           </VStack>
@@ -86,14 +86,14 @@ const QuizResult: React.FC<QuizResultProps> = (props) => {
           // ) : (
           <>
             <Text variant={'header_1'} pt={'12.5%'} pb={4}>
-              Sàn lọc chuyên sâu
+              Sàng lọc chuyên sâu
             </Text>
             <Text variant={'body_large_regular'} textAlign={'center'} pt={4}>
-              Dựa vào kết quả của sàn lọc chung, bạn sẽ tiếp tục trả lời{' '}
+              Dựa vào kết quả của Sàng lọc chung, bạn sẽ tiếp tục trả lời{' '}
               <Text fontWeight={'bold'}>
                 {surveyInfo?.data.questionCount} câu
               </Text>{' '}
-              sàn lọc chuyên sâu về chủ để{' '}
+              Sàng lọc chuyên sâu về chủ để{' '}
               <Text fontWeight={'bold'}>
                 {normalizeText(surveyInfo?.data.title ?? '')}
               </Text>
