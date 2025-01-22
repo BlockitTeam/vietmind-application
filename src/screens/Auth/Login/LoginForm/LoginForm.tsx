@@ -18,6 +18,7 @@ import {TOAST_PLACEMENT} from 'src/constants'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {useCurrentUser} from '@hooks/user'
+import {TOAST_KEY} from 'src/constants/toast.key'
 
 export type tLoginForm = {
   username: string
@@ -63,7 +64,7 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
           refetch().then((v) => setCurUser(v.data?.data))
       },
       onError: (error) => {
-        showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+        showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
       },
       onSettled: () => {
         setIsLogin(undefined)
