@@ -10,7 +10,7 @@ import {
   useToast,
   VStack,
 } from 'native-base'
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Platform, StyleSheet} from 'react-native'
 import {ImageBackground} from 'react-native'
 import BackGround from '@images/Background.png'
@@ -28,12 +28,10 @@ import {
   Settings,
 } from 'react-native-fbsdk-next'
 import {useLogin} from '@hooks/auth'
-import {messageAuthAtom} from '@services/jotaiStorage/messageAuthAtom'
 
 import {useCurrentUser} from '@hooks/user'
 import {TOAST_PLACEMENT} from 'src/constants'
 import LoginForm from './LoginForm/LoginForm'
-import JSEncrypt from 'jsencrypt'
 
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
@@ -55,7 +53,7 @@ export type tTypeOfLogin =
 
 const Login = () => {
   const [, setCurUser] = useAtom(curUserAtom)
-  const [_, setMessageAuth] = useAtom(messageAuthAtom)
+  const {isLoading, refetch} = useCurrentUser()
   const toast = useToast()
   const [isLogin, setIsLogin] = useState<tTypeOfLogin>(undefined)
   const showToast = (title: string, id: string) => {
@@ -68,7 +66,6 @@ const Login = () => {
       })
   }
   const useLoginMutation = useLogin()
-  const {isLoading, refetch} = useCurrentUser()
   const loginFacebook = async () => {
     try {
       setIsLogin('facebook')

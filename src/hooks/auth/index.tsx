@@ -7,10 +7,10 @@ import {tLoginForm} from '@screens/Auth/Login/LoginForm/LoginForm'
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (loginPram: tLoginParam) =>
+    mutationFn: (loginParam: tLoginParam) =>
       mutationPost<IResponse<string>>({
         url: `${apiPath.auth.LOGIN}`,
-        body: loginPram,
+        body: loginParam,
       }),
   })
 }
@@ -27,10 +27,12 @@ export const useLogoutMutation = () => {
 
 export const useLoginWithUserNamePassword = () => {
   return useMutation({
-    mutationFn: (loginPram: tLoginForm) =>
-      mutationPost<IResponse<string>>({
-        url: `${apiPath.auth.LOGIN}`,
-        body: loginPram,
-      }),
+    mutationFn: (loginParam: tLoginForm) => {
+      console.log('post', apiPath.auth.LOGIN, loginParam)
+      return mutationPost<IResponse<string>>({
+        url: `${apiPath.auth.LOGIN_PASS}`,
+        body: loginParam,
+      })
+    },
   })
 }

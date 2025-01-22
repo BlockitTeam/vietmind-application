@@ -15,6 +15,9 @@ import {normalizeFontSize} from 'src/utils/fontSize'
 import {tTypeOfLogin} from '..'
 import {useLoginWithUserNamePassword} from '@hooks/auth'
 import {TOAST_PLACEMENT} from 'src/constants'
+import {useAtom} from 'jotai'
+import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
+import {useCurrentUser} from '@hooks/user'
 
 export type tLoginForm = {
   username: string
@@ -39,6 +42,8 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
     },
   })
   const toast = useToast()
+  const [, setCurUser] = useAtom(curUserAtom)
+  const {isLoading, refetch} = useCurrentUser()
 
   const {mutate: loginMutation} = useLoginWithUserNamePassword()
   const showToast = (title: string, id: string) => {
@@ -53,7 +58,9 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
     setIsLogin('username')
     loginMutation(data, {
       onSuccess: (v) => {
-        console.log(vvvv)
+        console.log(v.statusCode === 200)
+        if (v.statusCode === 200)
+          refetch().then((v) => setCurUser(v.data?.data))
       },
       onError: (error) => {
         showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
