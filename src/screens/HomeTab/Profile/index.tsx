@@ -25,6 +25,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {TOAST_PLACEMENT} from 'src/constants'
 import ProfileSurveyButton from './components/ProfileSurveyButton'
 import ListSurveyDetail from './ProfileMultipleChoice/ListSurveyDetail'
+import {TOAST_KEY} from 'src/constants/toast.key'
 type Tab_ProfileProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Profile'>,
   NativeStackScreenProps<IRootStackParamList>
@@ -41,11 +42,13 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
   const useLogout = useLogoutMutation()
 
     const showToast = (title: string) => {
-      toast.show({
-        title,
-        duration: 3000,
-        placement: TOAST_PLACEMENT,
-      })
+      if (!toast.isActive(TOAST_KEY.LOGOUT_SUCCESS))
+        toast.show({
+          title,
+          duration: 3000,
+          placement: TOAST_PLACEMENT,
+          id: TOAST_KEY.LOGOUT_SUCCESS,
+        })
     }
     const logout = () => {
       useLogout.mutateAsync(undefined, {

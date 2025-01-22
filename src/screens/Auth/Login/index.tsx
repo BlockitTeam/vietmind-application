@@ -32,6 +32,7 @@ import {useLogin} from '@hooks/auth'
 import {useCurrentUser} from '@hooks/user'
 import {TOAST_PLACEMENT} from 'src/constants'
 import LoginForm from './LoginForm/LoginForm'
+import {TOAST_KEY} from 'src/constants/toast.key'
 
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
@@ -57,7 +58,7 @@ const Login = () => {
   const toast = useToast()
   const [isLogin, setIsLogin] = useState<tTypeOfLogin>(undefined)
   const showToast = (title: string, id: string) => {
-    if (!toast.isActive('failed_login'))
+    if (!toast.isActive(TOAST_KEY.LOGIN_FAIL))
       toast.show({
         title,
         duration: 3000,
@@ -119,7 +120,10 @@ const Login = () => {
           )
         } catch (error) {
           setIsLogin(undefined)
-          showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+          showToast(
+            'Đăng nhập thất bại, vui lòng thử lại!',
+            TOAST_KEY.LOGIN_FAIL,
+          )
         }
       }
     } catch (error) {
@@ -153,7 +157,10 @@ const Login = () => {
               })
             },
             onError: () => {
-              showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+              showToast(
+                'Đăng nhập thất bại, vui lòng thử lại!',
+                TOAST_KEY.LOGIN_FAIL,
+              )
             },
             onSettled: () => {
               setIsLogin(undefined)
@@ -163,7 +170,7 @@ const Login = () => {
       }
     } catch (error: any) {
       setIsLogin(undefined)
-      showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+      showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
 
       console.log(error)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -174,7 +181,7 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-        showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+        showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
       }
     }
   }
