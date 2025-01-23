@@ -23,6 +23,7 @@ import {useCurrentUser, usePutEditUser} from '@hooks/user'
 import {tPutEditUserParam} from '@hooks/user/user.interface'
 import HeaderBack from '@components/layout/HeaderBack'
 import {TOAST_PLACEMENT} from 'src/constants'
+import {TOAST_KEY} from 'src/constants/toast.key'
 
 const curYear = new Date().getFullYear()
 const listYear = Array.from({length: 120}, (_, i) => curYear - i).map(
@@ -66,6 +67,7 @@ const ChangeProfile: React.FC<ChangeProfileProps> = () => {
             title: 'Thay đổi thông tin thành công!',
             duration: 2000,
             placement: TOAST_PLACEMENT,
+            id: TOAST_KEY.CHANGE_PROFILE_SUCCESS,
           })
           reset({}, {keepValues: true})
           refetch().then((v) => {

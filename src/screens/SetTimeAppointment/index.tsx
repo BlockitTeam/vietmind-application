@@ -26,6 +26,7 @@ import {CompositeScreenProps} from '@react-navigation/native'
 import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {IBottomParamList, IRootStackParamList} from '@routes/navigator'
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs'
+import {TOAST_KEY} from 'src/constants/toast.key'
 // Set Vietnamese locale
 LocaleConfig.locales['vi'] = {
   monthNames: [
@@ -113,6 +114,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = (props) => {
               title: 'Vui lòng thử lại!',
               duration: 3000,
               placement: TOAST_PLACEMENT,
+              id: TOAST_KEY.SET_TIME_FAILED,
             })
           },
           onSuccess: (data) => {
@@ -127,6 +129,7 @@ const SetTimeAppointment: React.FC<SetTimeAppointmentProps> = (props) => {
         title: 'Vui lòng chọn lại lịch hẹn!',
         duration: 3000,
         placement: TOAST_PLACEMENT,
+        id: TOAST_KEY.SET_TIME_FAILED,
       })
     }
   }

@@ -25,6 +25,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack'
 import {TOAST_PLACEMENT} from 'src/constants'
 import ProfileSurveyButton from './components/ProfileSurveyButton'
 import ListSurveyDetail from './ProfileMultipleChoice/ListSurveyDetail'
+import {TOAST_KEY} from 'src/constants/toast.key'
 type Tab_ProfileProps = CompositeScreenProps<
   BottomTabScreenProps<IBottomParamList, 'Profile'>,
   NativeStackScreenProps<IRootStackParamList>
@@ -39,104 +40,109 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
     useGetResponseResultDetail()
   const [, setResultCommonFilter] = useAtom(resultCommonFilterAtom)
   const useLogout = useLogoutMutation()
-  const logout = async () => {
-    useLogout.mutate(undefined, {
-      onSuccess: async () => {
-        await Promise.all([
-          setResultCommonFilter(undefined),
-          setCurUser(undefined),
-          removeJSessionID(),
-        ])
+
+    const showToast = (title: string) => {
+      if (!toast.isActive(TOAST_KEY.LOGOUT_SUCCESS))
         toast.show({
-          title: 'Đăng xuất thành công!',
-          duration: 2000,
+          title,
+          duration: 3000,
           placement: TOAST_PLACEMENT,
+          id: TOAST_KEY.LOGOUT_SUCCESS,
         })
-      },
-    })
-  }
+    }
+    const logout = () => {
+      useLogout.mutateAsync(undefined, {
+        onSuccess: async () => {
+          await Promise.all([
+            setResultCommonFilter(undefined),
+            setCurUser(undefined),
+            removeJSessionID(),
+          ]).then(() => {
+            showToast('Đăng xuất thành công')
+          })
+        },
+      })
+    }
 
-  const isListSurveyDetailLoading =
-    !curUser || isResResultDetailLoading || !dataResponseResultDetail?.data
-  return (
-    <HeaderBack title="Thông tin cá nhân">
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
-          <>
-            <Avatar bg="green.500" mr="1" w={100} h={100} />
-            <Text
-              variant={
-                'sf_header_3'
-              }>{`${curUser?.lastName} ${curUser?.firstName}`}</Text>
-            <Text
-              variant={'body_medium_regular'}
-              color={'text.neutral_secondary'}>
-              {`${curUser?.gender} - ${curUser?.birthYear}`}
-            </Text>
-            <Button
-              variant={'cusOutline'}
-              h={'32px'}
-              px={'12px'}
-              py="0px"
-              mb={'28px'}
-              onPress={() => {
-                navigation.navigate('ChangeProfile')
-              }}>
-              <HStack alignItems={'center'} space={2}>
-                <Pencil />
-                <Text variant={'body_small_bold'}>Thay đổi thông tin</Text>
-              </HStack>
-            </Button>
-          </>
-          {/* End: Basic information ----- Top */}
-
-          <VStack w={'100%'} space={2}>
-            {isListSurveyDetailLoading ? (
-              <Skeleton h={'70.5px'} />
-            ) : (
-              <ProfileSurveyButton
-                name="Trắc nghiệm sàn lọc chung"
-                date="16/11/2024"
-                onClickCallBack={() => {
-                  navigation.navigate('GeneralSurveyResult', {
-                    title: 'Sàn lọc chung',
-                    res: dataResponseResultDetail.data,
-                  })
-                }}
-              />
-            )}
-
-            {isListSurveyDetailLoading ? (
-              <Skeleton h={'70.5px'} />
-            ) : (
-              <ListSurveyDetail idSur={curUser?.surveyDetail} />
-            )}
-          </VStack>
-
-          <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />
-
-          <VStack alignSelf={'flex-start'} space={4}>
-            <TouchableOpacity onPress={logout}>
-              <Text variant={'body_large_bold'} color={'error.error_dark'}>
-                Đăng xuất
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={logout}>
+    const isListSurveyDetailLoading =
+      !curUser || isResResultDetailLoading || !dataResponseResultDetail?.data
+    return (
+      <HeaderBack title="Thông tin cá nhân">
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
+            <>
+              <Avatar bg="green.500" mr="1" w={100} h={100} />
               <Text
-                variant={'body_large_bold'}
-                color={'error.error_dark'}
+                variant={
+                  'sf_header_3'
+                }>{`${curUser?.lastName} ${curUser?.firstName}`}</Text>
+              <Text
+                variant={'body_medium_regular'}
+                color={'text.neutral_secondary'}>
+                {`${curUser?.gender} - ${curUser?.birthYear}`}
+              </Text>
+              <Button
+                variant={'cusOutline'}
+                h={'32px'}
+                px={'12px'}
+                py="0px"
+                mb={'28px'}
+                onPress={() => {
+                  navigation.navigate('ChangeProfile')
+                }}>
+                <HStack alignItems={'center'} space={2}>
+                  <Pencil />
+                  <Text variant={'body_small_bold'}>Thay đổi thông tin</Text>
+                </HStack>
+              </Button>
+            </>
+            {/* End: Basic information ----- Top */}
+
+            <VStack w={'100%'} space={2}>
+              {isListSurveyDetailLoading ? (
+                <Skeleton h={'70.5px'} />
+              ) : (
+                <ProfileSurveyButton
+                  name="Trắc nghiệm Sàng lọc chung"
+                  date="16/11/2024"
+                  onClickCallBack={() => {
+                    navigation.navigate('GeneralSurveyResult', {
+                      title: 'Sàng lọc chung',
+                      res: dataResponseResultDetail.data,
+                    })
+                  }}
+                />
+              )}
+
+              {isListSurveyDetailLoading ? (
+                <Skeleton h={'70.5px'} />
+              ) : (
+                <ListSurveyDetail idSur={curUser?.surveyDetail} />
+              )}
+            </VStack>
+
+            <Divider w={'100%'} my={'16px'} bgColor={'background.medium'} />
+
+            <VStack alignSelf={'flex-start'} space={4}>
+              <TouchableOpacity onPress={() => logout()}>
+                <Text variant={'body_large_bold'} color={'error.error_dark'}>
+                  Đăng xuất
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 onPress={() => {
                   clearRes()
                 }}>
-                Clear Result
-              </Text>
-            </TouchableOpacity>
+                <Text variant={'body_large_bold'} color={'error.error_dark'}>
+                  Clear Result
+                </Text>
+              </TouchableOpacity>
+            </VStack>
           </VStack>
-        </VStack>
-      </ScrollView>
-    </HeaderBack>
-  )
+        </ScrollView>
+      </HeaderBack>
+    )
 }
 
 export default Tab_Profile

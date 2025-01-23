@@ -27,6 +27,7 @@ import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {Platform} from 'react-native'
 import SurveyDetailReview from './SurveyDetailReview'
+import {TOAST_KEY} from 'src/constants/toast.key'
 
 type TSurveyDetailScreen =
   | 'started' //  started is not answered -> show list of questions,
@@ -85,6 +86,7 @@ const SurveyDetailScreen: React.FC<SurveyDetailScreenProps> = (props) => {
       title: 'Đánh giá thành công!',
       duration: 2000,
       placement: TOAST_PLACEMENT,
+      id: TOAST_KEY.SAVE_SUCCESS,
     })
   }
   if (

@@ -1,3 +1,4 @@
+import {normalizeFontSize} from 'src/utils/fontSize'
 import {extendTheme} from 'native-base'
 import {cusSelected, outlineButton, primaryButton} from './custom-variant'
 import {Platform} from 'react-native'
@@ -104,7 +105,6 @@ export const themeNativeBase = extendTheme({
       primary_light: '#F5FFF5',
       medium50: '#C2F8CB50',
       medium25: '#C2F8CB25',
-
       600: '#C2F8CB',
     },
     text: {
@@ -143,32 +143,32 @@ export const themeNativeBase = extendTheme({
       variants: {
         header_1: {
           ...headerDefault,
-          fontSize: 36,
+          fontSize: normalizeFontSize(36),
         },
         header_2: {
           ...headerDefault,
 
-          fontSize: 30,
+          fontSize: normalizeFontSize(30),
         },
         header_3: {
           ...headerDefault,
-          fontSize: 24,
+          fontSize: normalizeFontSize(24),
         },
         sf_header_1: {
           ...headerDefault,
-          fontSize: 36,
+          fontSize: normalizeFontSize(36),
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 700,
         },
         sf_header_2: {
           ...headerDefault,
-          fontSize: 30,
+          fontSize: normalizeFontSize(30),
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 700,
         },
         sf_header_3: {
           ...headerDefault,
-          fontSize: 24,
+          fontSize: normalizeFontSize(24),
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 700,
         },
@@ -176,7 +176,7 @@ export const themeNativeBase = extendTheme({
         caption_regular: {
           fontFamily: 'SFProDisplay',
           color: 'text.neutral_primary',
-          fontSize: 12,
+          fontSize: normalizeFontSize(12),
           fontWeight: 400,
           lineHeight: Platform.OS === 'android' ? 14 : 16,
         },
@@ -184,7 +184,7 @@ export const themeNativeBase = extendTheme({
         body_small_italic: {
           fontFamily: 'SF-Pro-Display-Italic',
           color: 'text.neutral_secondary',
-          fontSize: 14,
+          fontSize: normalizeFontSize(14),
           fontWeight: 400,
           fontStyle: 'italic',
           lineHeight: Platform.OS === 'android' ? 20 : 22,
@@ -193,7 +193,7 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SF-Pro-Display-Regular',
           fontWeight: 400,
           color: 'text.neutral_primary',
-          fontSize: 14,
+          fontSize: normalizeFontSize(14),
           lineHeight: Platform.OS === 'android' ? 18 : 20,
         },
 
@@ -201,28 +201,28 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 700,
           color: 'text.neutral_primary',
-          fontSize: 14,
+          fontSize: normalizeFontSize(14),
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
 
         body_medium_regular: {
           fontFamily: 'SFProDisplay',
           fontWeight: 400,
-          fontSize: 16,
+          fontSize: normalizeFontSize(16),
           lineHeight: 24,
         },
         body_medium_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
           fontWeight: 700,
           color: 'text.neutral_primary',
-          fontSize: 16,
+          fontSize: normalizeFontSize(16),
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
 
         body_large_regular: {
           fontFamily: 'SFProDisplay',
           color: 'text.neutral_primary',
-          fontSize: 18,
+          fontSize: normalizeFontSize(18),
           fontWeight: 400,
           lineHeight: Platform.OS === 'android' ? 24 : 26,
         },
@@ -230,7 +230,7 @@ export const themeNativeBase = extendTheme({
         body_large_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
           color: 'text.neutral_primary',
-          fontSize: 18,
+          fontSize: normalizeFontSize(18),
           fontWeight: 700,
           lineHeight: Platform.OS === 'android' ? 20 : 22,
         },

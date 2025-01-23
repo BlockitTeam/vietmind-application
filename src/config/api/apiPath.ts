@@ -1,6 +1,7 @@
 export const apiPath = {
   auth: {
     LOGIN: '/auth',
+    LOGIN_PASS: '/auth/login',
     LOGOUT: '/auth/logout',
   },
 

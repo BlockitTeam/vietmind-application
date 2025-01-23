@@ -26,8 +26,8 @@ const QuizStartConfirm: React.FC<QuizStartConfirmProps> = (props) => {
         variant={'body_large_regular'}
         textAlign={'center'}
         _android={{lineHeight: '20px'}}>
-        Đầu tiên, bạn sẽ trả lời các câu hỏi sàng lọc chung. Tiếp đó, dựa vào
-        kết quả, bạn sẽ trả lời các câu hỏi sàng lọc chuyên sâu.
+        Đầu tiên, bạn sẽ trả lời các câu hỏi Sàngg lọc chung. Tiếp đó, dựa vào
+        kết quả, bạn sẽ trả lời các câu hỏi Sàngg lọc chuyên sâu.
       </Text>
     </CusImageBackground>
   )
