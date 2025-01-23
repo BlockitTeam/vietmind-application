@@ -54,7 +54,7 @@ export type tTypeOfLogin =
 
 const Login = () => {
   const [, setCurUser] = useAtom(curUserAtom)
-  const {isLoading, refetch} = useCurrentUser()
+  const {refetch} = useCurrentUser()
   const toast = useToast()
   const [isLogin, setIsLogin] = useState<tTypeOfLogin>(undefined)
   const showToast = (title: string, id: string) => {

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, TouchableOpacity} from 'react-native'
 import React, {useState} from 'react'
 import {Controller, useForm} from 'react-hook-form'
 import {
@@ -6,7 +6,6 @@ import {
   Button,
   FormControl,
   Input,
-  Spinner,
   useToast,
   VStack,
 } from 'native-base'
@@ -44,7 +43,7 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
   })
   const toast = useToast()
   const [, setCurUser] = useAtom(curUserAtom)
-  const {isLoading, refetch} = useCurrentUser()
+  const {refetch} = useCurrentUser()
 
   const {mutate: loginMutation} = useLoginWithUserNamePassword()
   const showToast = (title: string, id: string) => {
@@ -63,7 +62,7 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
         if (v.statusCode === 200)
           refetch().then((v) => setCurUser(v.data?.data))
       },
-      onError: (error) => {
+      onError: () => {
         showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
       },
       onSettled: () => {
