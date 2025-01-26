@@ -12,7 +12,7 @@ const ProfileMultipleChoice = () => {
   const [curUser] = useAtom(curUserAtom)
   return (
     <HeaderBack
-      title="Trắc nghiệm Sàngg lọc"
+      title="Trắc nghiệm Sàng lọc"
       buttonBack={
         <HStack alignItems={'center'} space={'2px'}>
           <ChevronLeftIcon />
@@ -22,7 +22,7 @@ const ProfileMultipleChoice = () => {
       <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <VStack space={2}>
           <Text variant={'sf_header_3'} textAlign={'center'} mt={2}>
-            Trắc nghiệm Sàngg lọc
+            Trắc nghiệm Sàng lọc
           </Text>
 
           {dataSurveyResponse?.data &&
