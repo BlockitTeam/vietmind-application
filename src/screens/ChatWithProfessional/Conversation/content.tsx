@@ -26,7 +26,7 @@ import MessageReceive from './MessageReceive'
 import {tUserResponse} from '@hooks/user/user.interface'
 import CryptoJS from 'crypto-js'
 import {formatTime} from '@services/function/dateTime'
-import {Platform} from 'react-native'
+import {AppState, Platform} from 'react-native'
 import {useGetAppointmentById} from '@hooks/appointment/getAppointmentById'
 import {
   eStatusAppointment,
@@ -71,6 +71,41 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
   const [, setMessageAuth] = useAtom(messageAuthAtom)
   //Set list content
   const [listMessage, setListMessage] = useState<ContentTransform[]>([])
+
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState !== 'active') {
+        if (imTyping) {
+          ws.send(
+            JSON.stringify({
+              type: 'unTyping',
+              conversationId: conversationId,
+            }),
+          )
+          setImTyping(false)
+        }
+      } else {
+        if (imTyping) {
+          ws.send(
+            JSON.stringify({
+              type: 'typing',
+              conversationId: conversationId,
+            }),
+          )
+          setImTyping(true)
+        }
+      }
+    }
+
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    )
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
   useLayoutEffect(() => {
     if (dataConversationContent?.data) {
       let transformConversationContent: ContentTransform[] =
@@ -303,6 +338,7 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
                       flex: 1,
                       fontSize: 14,
                       borderColor: '#C2F8CB',
+                      color: '#000',
                       borderWidth: 1,
                       borderRadius: 8,
                       padding: 8,

@@ -38,11 +38,11 @@ Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
 
 GoogleSignin.configure({
-  scopes: ['https://www.googleapis.com/auth/drive'],
-  profileImageSize: 120,
-  forceCodeForRefreshToken: true,
-  iosClientId: process.env.IOS_CLIENT_ID,
-  webClientId: process.env.WEB_CLIENT_ID,
+  scopes: ['email', 'profile'], // Remove the Drive scope and only request basic permissions
+  profileImageSize: 120, // Optional: Adjust the profile image size as needed
+  forceCodeForRefreshToken: false, // Set this to false if you don't need a refresh token
+  iosClientId: process.env.IOS_CLIENT_ID, // Use your iOS Client ID from Google Cloud
+  webClientId: process.env.WEB_CLIENT_ID, // Use your Web Client ID from Google Cloud
 })
 
 export type tTypeOfLogin =
