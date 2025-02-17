@@ -1,6 +1,6 @@
 import {Box, Text} from 'native-base'
 import React, {useEffect, useRef} from 'react'
-import {Animated} from 'react-native'
+import {Animated, Linking} from 'react-native'
 
 type MessageReceiveProps = {
   text: string
@@ -29,6 +29,33 @@ const MessageReceive: React.FC<MessageReceiveProps> = (props) => {
       }),
     ]).start()
   }, [opacity, translateY])
+
+    const handleUrlPress = (url: string) => {
+      Linking.openURL(url).catch((err) =>
+        console.error('Failed to open URL:', err),
+      )
+    }
+
+    // Function to render text with clickable URLs
+    const renderTextWithLinks = (text: string) => {
+      const urlRegex = /(https?:\/\/[^\s]+)/g
+      const parts = text.split(urlRegex) // Split text into parts with URLs
+
+      return parts.map((part, index) => {
+        if (part.match(urlRegex)) {
+          return (
+            <Text
+              key={index}
+              color="blue.500"
+              onPress={() => handleUrlPress(part)}
+              style={{textDecorationLine: 'underline'}}>
+              {part}
+            </Text>
+          )
+        }
+        return <Text key={index}>{part}</Text>
+      })
+    }
   return (
     <Animated.View style={{opacity, transform: [{translateY}]}}>
       <Box
@@ -38,7 +65,9 @@ const MessageReceive: React.FC<MessageReceiveProps> = (props) => {
         borderBottomRightRadius={'8px'}
         padding={2}
         backgroundColor={'#E0E9ED'}>
-        <Text variant={'body_small_regular'}>{text}</Text>
+        <Text selectable variant={'body_small_regular'}>
+          {renderTextWithLinks(text)}
+        </Text>
         <Text fontSize={8} pt={1}>
           {time}
         </Text>
