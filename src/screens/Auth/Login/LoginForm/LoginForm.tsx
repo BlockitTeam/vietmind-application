@@ -84,6 +84,7 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
               autoCapitalize="none"
               fontSize={normalizeFontSize(14)}
               onBlur={onBlur}
+              borderColor="black"
               onChangeText={onChange}
               value={value}
               placeholder="Tên đăng nhập"
@@ -111,6 +112,7 @@ const LoginForm: React.FC<tFormLoginProps> = (props) => {
               py={2}
               _ios={{py: 3}}
               autoCapitalize="none"
+              borderColor="black"
               fontSize={normalizeFontSize(14)}
               type={showPassword ? 'text' : 'password'}
               onBlur={onBlur}
