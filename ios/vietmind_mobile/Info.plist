@@ -30,6 +30,10 @@
 			</array>
 		</dict>
 	</array>
+	
+	<key>NSFaceIDUsageDescription</key>
+	<string>Sign in with Apple requires Face ID.</string>
+
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>

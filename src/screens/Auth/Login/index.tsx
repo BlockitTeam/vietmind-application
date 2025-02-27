@@ -34,6 +34,11 @@ import {TOAST_PLACEMENT} from 'src/constants'
 import LoginForm from './LoginForm/LoginForm'
 import {TOAST_KEY} from 'src/constants/toast.key'
 
+import appleAuth, {
+  AppleAuthRequestOperation,
+  AppleAuthRequestScope,
+} from '@invertase/react-native-apple-authentication'
+
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
 
@@ -185,6 +190,22 @@ const Login = () => {
       }
     }
   }
+
+  const signIn = async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      })
+
+      const {user, email, fullName, identityToken} = appleAuthRequestResponse
+
+      if (identityToken) {
+        console.log(identityToken)
+      } else {
+      }
+    } catch (error) {}
+  }
   console.log(isLogin && isLogin !== 'facebook', 'fb')
   console.log(isLogin && isLogin !== 'google', 'google')
   return (
@@ -248,7 +269,7 @@ const Login = () => {
                 isLogin === 'success' || (isLogin && isLogin !== 'facebook')
               }
               onPress={() => {
-                isLogin === undefined && loginFacebook()
+                isLogin === undefined && signIn()
               }}>
               <Center flexDir={'row'}>
                 {isLogin === 'facebook' ? (

@@ -1837,6 +1837,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@invertase/react-native-apple-authentication@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@invertase/react-native-apple-authentication@npm:2.4.0"
+  checksum: 105dde0a27224e7f2a64d7e0a00465d43869b787359efe8672d60dc81d932189b400faf68d4ce18a57317edaa3b187224c7a2fa196e82480a55eb82feea50e7f
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -2811,23 +2818,6 @@ __metadata:
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.60 <1.0
   checksum: 7e56a2e97f48332f57c56ebf473b763c7ca2b1ef82f4b5f8e1c73350231ec91b8eafc4e4d1f972c4c1005da0d304816fa725dc6f07a8a7543e90f8bd16c22ab4
-  languageName: node
-  linkType: hard
-
-"@react-native-clipboard/clipboard@npm:^1.16.1":
-  version: 1.16.1
-  resolution: "@react-native-clipboard/clipboard@npm:1.16.1"
-  peerDependencies:
-    react: ">= 16.9.0"
-    react-native: ">= 0.61.5"
-    react-native-macos: ">= 0.61.0"
-    react-native-windows: ">= 0.61.0"
-  peerDependenciesMeta:
-    react-native-macos:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 90aafcc62594b08362cfeab48b0bb3e4229e0d7b2be28b0b38d8ffb562e0d4c242aceced23b5644b2b11e519461bc8e8c8d0ec920ee594b130a4c17c63a66f20
   languageName: node
   linkType: hard
 
@@ -12247,8 +12237,8 @@ __metadata:
     "@babel/runtime": ^7.20.0
     "@eslint/compat": ^1.2.4
     "@eslint/js": ^9.17.0
+    "@invertase/react-native-apple-authentication": ^2.4.0
     "@react-native-async-storage/async-storage": ^1.23.1
-    "@react-native-clipboard/clipboard": ^1.16.1
     "@react-native-community/cli": latest
     "@react-native-google-signin/google-signin": ^11.0.1
     "@react-native/babel-preset": 0.74.83
