@@ -10,6 +10,7 @@ import User from './User'
 import Lock from './Lock'
 import Eye from './Eye'
 import EyeSlash from './EyeSlash'
+import Apple from './Apple'
 
 export {
   Book,
@@ -24,4 +25,5 @@ export {
   Lock,
   Eye,
   EyeSlash,
+  Apple,
 } 

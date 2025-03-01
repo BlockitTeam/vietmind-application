@@ -39,8 +39,8 @@ const Privacy: React.FC<PrivacyProps> = (props) => {
         textAlign={'center'}
         variant={'body_medium_regular'}
         lineHeight={'32px'}>
-        Tuy nhiên, Vietmind có thể sử dụng một số dữ liệu của bạn dưới dạng
-        anonymous để nghiên cứu, phát triển ứng dụng, và nâng cao trải nghiệm.
+        Tuy nhiên, Vietmind có thể sử dụng một số dữ liệu của bạn dưới dạng ẩn
+        danh để nghiên cứu, phát triển ứng dụng và nâng cao trải nghiệm.
       </Text>
     </CusImageBackground>
   )

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Vmind</string>
+	<string>Vietmind</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,10 +27,17 @@
 			<array>
 				<string>com.googleusercontent.apps.670374882757-cructl1jmhrqbhc2sv1vorvpn6qf2dg5</string>
 				<string>fb1677651809436240</string>
+				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			</array>
 		</dict>
 	</array>
-	
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>google</string>
+		<string>googlechrome</string>
+		<string>googleoauth</string>
+		<string>fb</string>
+	</array>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Sign in with Apple requires Face ID.</string>
 

@@ -82,6 +82,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        manifestPlaceholders = [
+            appAuthRedirectScheme: "com.vietmind_mobile" // Đặt giá trị thay thế
+        ]
     }
     signingConfigs {
         debug {
