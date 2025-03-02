@@ -61,6 +61,7 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
   const updateAppointment = useUpdateAppointment()
   // End Todo: Call api
   const drInformation = route.params
+
   const [contentHeight, setContentHeight] = useState(0)
   const scrollViewRef = useRef<any>(null)
   const [curMessage, setCurMessage] = useState('')
@@ -393,7 +394,10 @@ const ContentConversation: React.FC<ContentConversationProps> = (props) => {
             setContentHeight(contentHeight)
           }}>
           <VStack flex={1} justifyContent={'flex-end'} space={2} w={'100%'}>
-            <DrInformation drName={drInformation.drName} />
+            <DrInformation
+              drName={drInformation.drName}
+              firstLetter={drInformation.drNameFirstLetter}
+            />
             {
               //Render chat
               isConversationContentLoading ? (

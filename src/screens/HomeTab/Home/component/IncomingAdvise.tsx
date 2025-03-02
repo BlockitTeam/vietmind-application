@@ -48,7 +48,11 @@ const IncomingAdvise = () => {
                 </Text>
               </Box>
             )}
-            <Circle w={'56px'} h={'56px'} bg={'white'} />
+            <Circle w={'56px'} h={'56px'} bg={'white'}>
+              <Text fontSize={'3xl'}>
+                {data.data.firstName[0].toUpperCase()}
+              </Text>
+            </Circle>
             <VStack justifyContent={'space-evenly'}>
               <Text variant={'body_medium_bold'}>
                 Bs. {`${data.data.lastName} ${data.data.firstName}`}

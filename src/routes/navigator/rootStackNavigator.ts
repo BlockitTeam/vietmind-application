@@ -31,6 +31,7 @@ export type IRootStackParamList = {
   ChatWithProfessional_Conversation: {
     drName: string
     drId: string
+    drNameFirstLetter: string
   }
   //Chat with bot
   ChatWithBot_Start: undefined

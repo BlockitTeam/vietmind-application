@@ -32,6 +32,7 @@ const ChatWithProfessional_Start: React.FC<
               navigation.navigate('ChatWithProfessional_Conversation', {
                 drId: drInformation.id,
                 drName: `${drInformation.firstName} ${drInformation.lastName}`,
+                drNameFirstLetter: drInformation.firstName[0].toUpperCase(),
               })
             }>
             Bắt đầu
@@ -46,7 +47,11 @@ const ChatWithProfessional_Start: React.FC<
         </VStack>
       }>
       <Center>
-        <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4} />
+        <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4}>
+          <Text fontSize={'6xl'}>
+            {drInformation.firstName[0].toUpperCase()}
+          </Text>
+        </Circle>
         <Text variant={'header_2'} textAlign={'center'} mb={2}>
           B S
         </Text>
