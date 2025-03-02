@@ -73,7 +73,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
         <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
           <>
             <Circle h={100} w={100} backgroundColor={'primary.medium'} mb={4}>
-              <Text fontSize={'5xl'}>
+              <Text fontSize={'5xl'} lineHeight={'56px'}>
                 {curUser?.firstName?.[0].toUpperCase()}
               </Text>
             </Circle>

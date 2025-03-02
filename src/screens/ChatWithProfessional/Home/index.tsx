@@ -48,7 +48,7 @@ const ChatWithProfessional_Start: React.FC<
       }>
       <Center>
         <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4}>
-          <Text fontSize={'6xl'}>
+          <Text fontSize={'6xl'} lineHeight={'70px'}>
             {drInformation.firstName[0].toUpperCase()}
           </Text>
         </Circle>

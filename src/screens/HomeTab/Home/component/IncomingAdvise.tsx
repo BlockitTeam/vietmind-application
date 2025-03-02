@@ -1,6 +1,6 @@
 import {useGetAppointment} from '@hooks/appointment/getAppointment'
 import {useGetDoctorById} from '@hooks/user'
-import {VStack, Text, HStack, Box, Circle, Skeleton} from 'native-base'
+import {VStack, Text, HStack, Box, Circle, Skeleton, Center} from 'native-base'
 import React from 'react'
 import {clearSecond} from 'src/utils/formatDate'
 
@@ -49,7 +49,7 @@ const IncomingAdvise = () => {
               </Box>
             )}
             <Circle w={'56px'} h={'56px'} bg={'white'}>
-              <Text fontSize={'3xl'}>
+              <Text fontSize={'3xl'} lineHeight={'56px'}>
                 {data.data.firstName[0].toUpperCase()}
               </Text>
             </Circle>
