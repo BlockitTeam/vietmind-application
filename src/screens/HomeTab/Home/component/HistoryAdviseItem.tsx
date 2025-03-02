@@ -42,7 +42,8 @@ const HistoryAdviseItem: React.FC<HistoryAdviseItemType> = (props) => {
         onPress={() =>
           navigation.navigate('ChatWithProfessional_Conversation', {
             drId: drId,
-            drName: ` ${data?.data.lastName} ${data?.data.firstName}`,
+            drName: data?.data.firstName + ' ' + data?.data.lastName,
+            drNameFirstLetter: data?.data.firstName[0].toUpperCase() ?? '',
           })
         }>
         <Text variant={'body_small_bold'}>Xem lại</Text>
