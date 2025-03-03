@@ -215,12 +215,17 @@ const Login = () => {
 
       let identityToken, authorizationCode
       if (isAppleSignInAvailable) {
-        const appleAuthRequestResponse = await appleAuth.performRequest({
-          requestedOperation: appleAuth.Operation.LOGIN,
-          requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-        })
-        identityToken = appleAuthRequestResponse.identityToken
-        authorizationCode = appleAuthRequestResponse.authorizationCode
+        try {
+          const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+          })
+          identityToken = appleAuthRequestResponse.identityToken
+          authorizationCode = appleAuthRequestResponse.authorizationCode
+        } catch (error) {
+          setIsLogin(undefined)
+        }
+
       } else {
         const authState = await authorize(appleAuthConfig)
         authorizationCode = authState.authorizationCode
