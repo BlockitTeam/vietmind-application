@@ -211,6 +211,8 @@ const Login = () => {
 
   const signIn = async () => {
     try {
+      setIsLogin('apple')
+
       let identityToken, authorizationCode
       if (isAppleSignInAvailable) {
         const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -223,7 +225,34 @@ const Login = () => {
         const authState = await authorize(appleAuthConfig)
         authorizationCode = authState.authorizationCode
       }
-      if (authorizationCode) {
+      if (identityToken) {
+        // if (authorizationCode) {
+        console.log('authorizationCode: ', authorizationCode)
+        console.log('identityToken: ', identityToken)
+        useLoginMutation.mutate(
+          {
+            token: identityToken,
+            provider: 'apple',
+          },
+          {
+            onSuccess: () => {
+              refetch().then((res) => {
+                if (res.data?.statusCode === 200 && res.data.data) {
+                  setCurUser({...res.data.data})
+                  setIsLogin('success')
+                }
+              })
+            },
+            onError: (e) => {
+              console.log(JSON.stringify(e))
+              setIsLogin(undefined)
+
+              showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+            },
+            onSettled: () => {},
+          },
+        )
+
         // Gửi authorizationCode hoặc identityToken lên backend để xác thực
         // const response = await fetch('https://yourbackend.com/api/apple-login', {
         //   method: 'POST',
