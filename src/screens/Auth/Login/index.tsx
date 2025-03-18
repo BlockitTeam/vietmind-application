@@ -225,7 +225,6 @@ const Login = () => {
         } catch (error) {
           setIsLogin(undefined)
         }
-
       } else {
         const authState = await authorize(appleAuthConfig)
         authorizationCode = authState.authorizationCode
@@ -364,7 +363,8 @@ const Login = () => {
                 ]}
                 variant={'cusOutline'}
                 disabled={
-                  isLogin === 'success' || (isLogin && isLogin !== 'apple')
+                  true
+                  // isLogin === 'success' || (isLogin && isLogin !== 'apple')
                 }
                 onPress={() => {
                   isLogin === undefined && signIn()
