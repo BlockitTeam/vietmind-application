@@ -44,7 +44,7 @@ import Well1 from '@images/Well1.png'
 const appleAuthConfig = {
   issuer: 'https://appleid.apple.com',
   clientId: 'vietmind',
-  redirectUrl: 'com.vietmind_mobile://callback', // Cần cấu hình trên Apple Developer
+  redirectUrl: 'vietmind_mobile://callback', // Cần cấu hình trên Apple Developer
   scopes: ['email', 'name'],
   responseType: 'code',
   responseMode: 'form_post',
@@ -363,8 +363,9 @@ const Login = () => {
                 ]}
                 variant={'cusOutline'}
                 disabled={
-                  true
-                  // isLogin === 'success' || (isLogin && isLogin !== 'apple')
+                  Platform.OS === 'ios'
+                    ? isLogin === 'success' || (isLogin && isLogin !== 'apple')
+                    : true
                 }
                 onPress={() => {
                   isLogin === undefined && signIn()
