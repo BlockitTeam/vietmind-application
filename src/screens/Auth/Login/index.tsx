@@ -9,7 +9,6 @@ import {
   Spinner,
   Text,
   useToast,
-  View,
   VStack,
 } from 'native-base'
 import React, {useEffect, useState} from 'react'
@@ -231,8 +230,6 @@ const Login = () => {
       }
       if (identityToken) {
         // if (authorizationCode) {
-        console.log('authorizationCode: ', authorizationCode)
-        console.log('identityToken: ', identityToken)
         useLoginMutation.mutate(
           {
             token: identityToken,
@@ -276,8 +273,6 @@ const Login = () => {
       console.log(error)
     }
   }
-  console.log(isLogin && isLogin !== 'facebook', 'fb')
-  console.log(isLogin && isLogin !== 'google', 'google')
   return (
     <ImageBackground source={BackGround} style={{flex: 1}}>
       <ScrollView

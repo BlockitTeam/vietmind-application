@@ -28,7 +28,6 @@ export const useLogoutMutation = () => {
 export const useLoginWithUserNamePassword = () => {
   return useMutation({
     mutationFn: (loginParam: tLoginForm) => {
-      console.log('post', apiPath.auth.LOGIN, loginParam)
       return mutationPost<IResponse<string>>({
         url: `${apiPath.auth.LOGIN_PASS}`,
         body: loginParam,
