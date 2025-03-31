@@ -1837,6 +1837,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@invertase/react-native-apple-authentication@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@invertase/react-native-apple-authentication@npm:2.4.0"
+  checksum: 105dde0a27224e7f2a64d7e0a00465d43869b787359efe8672d60dc81d932189b400faf68d4ce18a57317edaa3b187224c7a2fa196e82480a55eb82feea50e7f
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -2811,23 +2818,6 @@ __metadata:
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.60 <1.0
   checksum: 7e56a2e97f48332f57c56ebf473b763c7ca2b1ef82f4b5f8e1c73350231ec91b8eafc4e4d1f972c4c1005da0d304816fa725dc6f07a8a7543e90f8bd16c22ab4
-  languageName: node
-  linkType: hard
-
-"@react-native-clipboard/clipboard@npm:^1.16.1":
-  version: 1.16.1
-  resolution: "@react-native-clipboard/clipboard@npm:1.16.1"
-  peerDependencies:
-    react: ">= 16.9.0"
-    react-native: ">= 0.61.5"
-    react-native-macos: ">= 0.61.0"
-    react-native-windows: ">= 0.61.0"
-  peerDependenciesMeta:
-    react-native-macos:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 90aafcc62594b08362cfeab48b0bb3e4229e0d7b2be28b0b38d8ffb562e0d4c242aceced23b5644b2b11e519461bc8e8c8d0ec920ee594b130a4c17c63a66f20
   languageName: node
   linkType: hard
 
@@ -7606,7 +7596,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
+"invariant@npm:2.2.4, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -9993,6 +9983,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"opencollective-postinstall@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "opencollective-postinstall@npm:2.0.3"
+  bin:
+    opencollective-postinstall: index.js
+  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
+  languageName: node
+  linkType: hard
+
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -10483,6 +10482,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-app-auth@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "react-native-app-auth@npm:8.0.1"
+  dependencies:
+    invariant: 2.2.4
+    react-native-base64: 0.0.2
+  peerDependencies:
+    react-native: ">=0.63.0"
+  checksum: 0a5beda9af784e32b4c0d6772f62ff3ab881a3a7a787d0ba6ec439799989cbe2c7d5f53b2ed641625ae784236d06eda26d1bf145680992744fed7fc8c06b7be1
+  languageName: node
+  linkType: hard
+
+"react-native-base64@npm:0.0.2":
+  version: 0.0.2
+  resolution: "react-native-base64@npm:0.0.2"
+  checksum: 696f6cad0e3ce26437275bcd791becaf597300d351a3ab2d7084fd42a177731bb9ab1e490534397ed35de4cd2a5a4385ee8d49bf5846069101b5ada98f132d23
+  languageName: node
+  linkType: hard
+
 "react-native-calendars@npm:^1.1307.0":
   version: 1.1307.0
   resolution: "react-native-calendars@npm:1.1307.0"
@@ -10554,6 +10572,18 @@ __metadata:
     react-native-reanimated: "*"
     react-native-safe-area-context: "*"
   checksum: 232b9b28fcdaca562c1a0dd85ade6c41b559c16a6ec11c4165ab65cbe278a2569ad647da5b70c83558fc1995dda9dcc0085bcb5b2e6b2572c52f415d7ac8e6b1
+  languageName: node
+  linkType: hard
+
+"react-native-inappbrowser-reborn@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "react-native-inappbrowser-reborn@npm:3.7.0"
+  dependencies:
+    invariant: ^2.2.4
+    opencollective-postinstall: ^2.0.3
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: b2177addf05cc02a20c5b9b8397c410ccf2fffba6baf1a49fbeb199ceaf4b9d4e959549915c5221f4345f35ec96620ecf25f650a5e268793103d95ffa7e44127
   languageName: node
   linkType: hard
 
@@ -12247,8 +12277,8 @@ __metadata:
     "@babel/runtime": ^7.20.0
     "@eslint/compat": ^1.2.4
     "@eslint/js": ^9.17.0
+    "@invertase/react-native-apple-authentication": ^2.4.0
     "@react-native-async-storage/async-storage": ^1.23.1
-    "@react-native-clipboard/clipboard": ^1.16.1
     "@react-native-community/cli": latest
     "@react-native-google-signin/google-signin": ^11.0.1
     "@react-native/babel-preset": 0.74.83
@@ -12289,10 +12319,12 @@ __metadata:
     react: 18.2.0
     react-hook-form: ^7.51.4
     react-native: 0.74.1
+    react-native-app-auth: ^8.0.1
     react-native-calendars: ^1.1307.0
     react-native-dotenv: ^3.4.11
     react-native-fbsdk-next: ^13.0.0
     react-native-gifted-chat: ^2.4.0
+    react-native-inappbrowser-reborn: ^3.7.0
     react-native-safe-area-context: 3.3.2
     react-native-screens: ^3.31.1
     react-native-sha256: ^1.4.10

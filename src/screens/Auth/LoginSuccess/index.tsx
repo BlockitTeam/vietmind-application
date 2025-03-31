@@ -36,7 +36,7 @@ const LoginSuccess: React.FC<LoginSuccessProps> = (props) => {
           mb={20}
         />
         <Text variant={'header_2'} mb={2} textAlign={'center'}>
-          Đăng ký thành công
+          Đăng nhập thành công
         </Text>
         <Text textAlign={'center'}>Chào mừng bạn đến với Vietmind.</Text>
       </VStack>

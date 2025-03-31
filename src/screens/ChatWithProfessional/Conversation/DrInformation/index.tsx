@@ -3,11 +3,16 @@ import React from 'react'
 
 type DrInformationProps = {
   drName: string
+  firstLetter: string
 }
 const DrInformation: React.FC<DrInformationProps> = (props) => {
   return (
     <Center pb={4}>
-      <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4} />
+      <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4}>
+        <Text fontSize={'6xl'} lineHeight={'72px'}>
+          {props.firstLetter.toUpperCase()}
+        </Text>
+      </Circle>
       <Text variant={'header_2'} textAlign={'center'} mb={2}>
         B S
       </Text>

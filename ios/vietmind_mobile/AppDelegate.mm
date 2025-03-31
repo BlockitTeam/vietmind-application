@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import <React/RCTBundleURLProvider.h>
-
+#import <React/RCTLinkingManager.h>
 // Start: Facebook Login Import 
 #import <AuthenticationServices/AuthenticationServices.h>
 #import <SafariServices/SafariServices.h>
@@ -38,6 +38,15 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+// Handle deep linking for react-native-app-auth & inappbrowser-reborn
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+  return NO;
 }
 
 @end

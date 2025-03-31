@@ -1,4 +1,4 @@
-export type tProvider = 'facebook' | 'google'
+export type tProvider = 'facebook' | 'google' | 'apple'
 
 export type tLoginParam = {
   token: string | undefined

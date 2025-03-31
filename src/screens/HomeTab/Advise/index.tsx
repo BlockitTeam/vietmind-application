@@ -54,7 +54,11 @@ const Tab_Advise: React.FC<Tab_AdviseProps> = (props) => {
               }}>
               <HStack alignItems="center" space={'8px'}>
                 <HStack flex={1} space={2} alignItems="center">
-                  <Circle h="40px" w="40px" backgroundColor="primary.medium" />
+                  <Circle h="40px" w="40px" backgroundColor="primary.medium">
+                    <Text fontSize={'2xl'} lineHeight={'40px'}>
+                      {item.firstName[0].toUpperCase()}
+                    </Text>
+                  </Circle>
                   <Box flex={1}>
                     <Text
                       variant={

@@ -41,24 +41,3 @@ const HistoryAdvise: React.FC<Tab_HomeProps> = (props) => {
 }
 
 export default HistoryAdvise
-
-export const listHistoryAdviseItemFake = [
-  {
-    drName: 'Bs. Trần Duy Nhã',
-    drId: '1',
-    time: '05/12/2023  09:00 - 10:30',
-    idConversation: '1',
-  },
-  {
-    drName: 'Bs. Trần Duy Nhã',
-    drId: '1',
-    time: '05/12/2023  11:00 - 12:30',
-    idConversation: '8',
-  },
-  {
-    drName: 'Bs. Rin chan 98',
-    drId: '2',
-    time: '08/11/2023  07:00 - 9:00',
-    idConversation: '2',
-  },
-]

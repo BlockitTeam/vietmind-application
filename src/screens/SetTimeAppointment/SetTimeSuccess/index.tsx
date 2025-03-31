@@ -30,7 +30,11 @@ const SetTimeAppointmentSuccess: React.FC<SetTimeAppointmentSuccessProps> = (
         </VStack>
       }>
       <Center pb={4}>
-        <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4} />
+        <Circle h={120} w={120} backgroundColor={'primary.medium'} mb={4}>
+          <Text fontSize={'6xl'} lineHeight={'74px'}>
+            {infAppointment.firstName[0].toUpperCase()}
+          </Text>
+        </Circle>
         <Text variant={'header_2'} textAlign={'center'} mb={2}>
           {infAppointment.degree}
         </Text>

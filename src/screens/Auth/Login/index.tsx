@@ -4,17 +4,18 @@ import {
   Center,
   Divider,
   HStack,
+  Image,
   ScrollView,
   Spinner,
   Text,
   useToast,
   VStack,
 } from 'native-base'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Platform, StyleSheet} from 'react-native'
 import {ImageBackground} from 'react-native'
 import BackGround from '@images/Background.png'
-import {Google, Facebook} from '@assets/icons'
+import {Google, Facebook, Apple} from '@assets/icons'
 import {useAtom} from 'jotai'
 import {curUserAtom} from '@services/jotaiStorage/curUserAtom'
 import {
@@ -34,6 +35,19 @@ import {TOAST_PLACEMENT} from 'src/constants'
 import LoginForm from './LoginForm/LoginForm'
 import {TOAST_KEY} from 'src/constants/toast.key'
 
+import appleAuth from '@invertase/react-native-apple-authentication'
+import {authorize} from 'react-native-app-auth'
+import Logo from '@images/Logo.png'
+import Well1 from '@images/Well1.png'
+
+const appleAuthConfig = {
+  issuer: 'https://appleid.apple.com',
+  clientId: 'vietmind',
+  redirectUrl: 'vietmind_mobile://callback', // Cần cấu hình trên Apple Developer
+  scopes: ['email', 'name'],
+  responseType: 'code',
+  responseMode: 'form_post',
+}
 Settings.setAppID('1677651809436240')
 Settings.initializeSDK()
 
@@ -48,6 +62,7 @@ GoogleSignin.configure({
 export type tTypeOfLogin =
   | 'google'
   | 'facebook'
+  | 'apple'
   | 'username'
   | 'success'
   | undefined
@@ -66,6 +81,13 @@ const Login = () => {
         id: id,
       })
   }
+  const [isAppleSignInAvailable, setIsAppleSignInAvailable] = useState(false)
+
+  useEffect(() => {
+    if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 13) {
+      setIsAppleSignInAvailable(true)
+    }
+  }, [])
   const useLoginMutation = useLogin()
   const loginFacebook = async () => {
     try {
@@ -170,7 +192,7 @@ const Login = () => {
       }
     } catch (error: any) {
       setIsLogin(undefined)
-      showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
+      // showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
 
       console.log(error)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -181,18 +203,83 @@ const Login = () => {
         // play services not available or outdated
       } else {
         // some other error happened
-        showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
+        // showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
       }
     }
   }
-  console.log(isLogin && isLogin !== 'facebook', 'fb')
-  console.log(isLogin && isLogin !== 'google', 'google')
+
+  const signIn = async () => {
+    try {
+      setIsLogin('apple')
+
+      let identityToken, authorizationCode
+      if (isAppleSignInAvailable) {
+        try {
+          const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+          })
+          identityToken = appleAuthRequestResponse.identityToken
+          authorizationCode = appleAuthRequestResponse.authorizationCode
+        } catch (error) {
+          setIsLogin(undefined)
+        }
+      } else {
+        const authState = await authorize(appleAuthConfig)
+        authorizationCode = authState.authorizationCode
+      }
+      if (identityToken) {
+        // if (authorizationCode) {
+        useLoginMutation.mutate(
+          {
+            token: identityToken,
+            provider: 'apple',
+          },
+          {
+            onSuccess: () => {
+              refetch().then((res) => {
+                if (res.data?.statusCode === 200 && res.data.data) {
+                  setCurUser({...res.data.data})
+                  setIsLogin('success')
+                }
+              })
+            },
+            onError: (e) => {
+              console.log(JSON.stringify(e))
+              setIsLogin(undefined)
+
+              showToast('Đăng nhập thất bại, vui lòng thử lại!', 'failed_login')
+            },
+            onSettled: () => {},
+          },
+        )
+
+        // Gửi authorizationCode hoặc identityToken lên backend để xác thực
+        // const response = await fetch('https://yourbackend.com/api/apple-login', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ authorizationCode, identityToken }),
+        // });
+        // const result = await response.json()
+        // if (result.success) {
+        //   Alert.alert('Login Success', `User ID: ${result.user.sub}, Email: ${result.user.email}`);
+        // } else {
+        //   Alert.alert('Login Failed', result.message);
+        // }
+      } else {
+        // Alert.alert('Login Failed', 'No authorization code or identity token');
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <ImageBackground source={BackGround} style={{flex: 1}}>
       <ScrollView
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
         <Center flex={1} px={4}>
+          <Image source={Logo} w={32} h={32} alt="Feeling good image" />
           <VStack
             alignItems="center"
             justifyContent="center"
@@ -206,63 +293,92 @@ const Login = () => {
             </Text>
             <LoginForm isLogin={isLogin} setIsLogin={(b) => setIsLogin(b)} />
 
-            <HStack alignItems={'center'} space={2} w="100%">
+            <HStack alignItems={'center'} space={4} w="100%">
               <Divider bg={'gray.300'} flex={1} />
               <Text color={'gray.300'}>Hoặc</Text>
               <Divider bg={'gray.300'} flex={1} />
             </HStack>
 
-            <Button
-              style={[
-                styles.loginButton,
-                isLogin && isLogin !== 'google' && styles.buttonDisable,
-              ]}
-              variant={'cusOutline'}
-              disabled={
-                isLogin === 'success' || (isLogin && isLogin !== 'google')
-              }
-              onPress={() => {
-                isLogin === undefined && signInGoogle()
-              }}>
-              <Center flexDir={'row'}>
-                {isLogin === 'google' ? (
-                  <Spinner h={'24px'} w={'25px'} />
-                ) : (
-                  <Google />
-                )}
+            <VStack space={2} w="100%">
+              <Button
+                style={[
+                  styles.loginButton,
+                  isLogin && isLogin !== 'google' && styles.buttonDisable,
+                ]}
+                variant={'cusOutline'}
+                disabled={
+                  isLogin === 'success' || (isLogin && isLogin !== 'google')
+                }
+                onPress={() => {
+                  isLogin === undefined && signInGoogle()
+                }}>
+                <Center flexDir={'row'}>
+                  {isLogin === 'google' ? (
+                    <Spinner h={'24px'} w={'25px'} />
+                  ) : (
+                    <Google />
+                  )}
 
-                <Box ml={1}>
-                  <Text variant={'body_medium_bold'}>
-                    Đăng nhập bằng Google
-                  </Text>
-                </Box>
-              </Center>
-            </Button>
-            <Button
-              style={[
-                styles.loginButton,
-                isLogin && isLogin !== 'facebook' && styles.buttonDisable,
-              ]}
-              variant={'cusOutline'}
-              disabled={
-                isLogin === 'success' || (isLogin && isLogin !== 'facebook')
-              }
-              onPress={() => {
-                isLogin === undefined && loginFacebook()
-              }}>
-              <Center flexDir={'row'}>
-                {isLogin === 'facebook' ? (
-                  <Spinner h={'24px'} w={'25px'} />
-                ) : (
-                  <Facebook />
-                )}
-                <Box ml={1}>
-                  <Text variant={'body_medium_bold'}>
-                    Đăng nhập bằng Facebook
-                  </Text>
-                </Box>
-              </Center>
-            </Button>
+                  <Box ml={1}>
+                    <Text variant={'body_medium_bold'}>
+                      Đăng nhập bằng Google
+                    </Text>
+                  </Box>
+                </Center>
+              </Button>
+              <Button
+                style={[
+                  styles.loginButton,
+                  isLogin && isLogin !== 'facebook' && styles.buttonDisable,
+                ]}
+                variant={'cusOutline'}
+                disabled={
+                  isLogin === 'success' || (isLogin && isLogin !== 'facebook')
+                }
+                onPress={() => {
+                  isLogin === undefined && loginFacebook()
+                }}>
+                <Center flexDir={'row'}>
+                  {isLogin === 'facebook' ? (
+                    <Spinner h={'24px'} w={'25px'} />
+                  ) : (
+                    <Facebook />
+                  )}
+                  <Box ml={1}>
+                    <Text variant={'body_medium_bold'}>
+                      Đăng nhập bằng Facebook
+                    </Text>
+                  </Box>
+                </Center>
+              </Button>
+              <Button
+                style={[
+                  styles.loginButton,
+                  isLogin && isLogin !== 'apple' && styles.buttonDisable,
+                ]}
+                variant={'cusOutline'}
+                disabled={
+                  Platform.OS === 'ios'
+                    ? isLogin === 'success' || (isLogin && isLogin !== 'apple')
+                    : true
+                }
+                onPress={() => {
+                  isLogin === undefined && signIn()
+                }}>
+                <Center flexDir={'row'}>
+                  {isLogin === 'apple' ? (
+                    <Spinner h={'24px'} w={'24px'} />
+                  ) : (
+                    <Apple fill={'#000'} />
+                  )}
+                  <Box ml={1}>
+                    <Text variant={'body_medium_bold'}>
+                      Đăng nhập bằng Apple
+                    </Text>
+                  </Box>
+                </Center>
+              </Button>
+            </VStack>
           </VStack>
         </Center>
       </ScrollView>
@@ -271,7 +387,10 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
-  loginButton: {width: '100%', maxWidth: 485},
+  loginButton: {
+    width: '100%',
+    maxWidth: 485,
+  },
   buttonDisable: {
     backgroundColor: 'gray.100',
     opacity: 0.5,

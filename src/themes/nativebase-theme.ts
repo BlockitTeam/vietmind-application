@@ -209,7 +209,7 @@ export const themeNativeBase = extendTheme({
           fontFamily: 'SFProDisplay',
           fontWeight: 400,
           fontSize: normalizeFontSize(16),
-          lineHeight: 24,
+          lineHeight: Platform.OS === 'android' ? 20 : 22,
         },
         body_medium_bold: {
           fontFamily: 'SF-Pro-Display-SemiBold',
