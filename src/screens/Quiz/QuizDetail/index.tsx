@@ -98,6 +98,7 @@ const QuizDetail: React.FC<QuizDetailProps> = () => {
       }
     }
   }
+  console.log(curQuiz?.numberKey)
   const isLoading = isListQuestionLoading || !curQuiz || !nListQuest
   return (
     <>
@@ -119,10 +120,13 @@ const QuizDetail: React.FC<QuizDetailProps> = () => {
             }>
             <HStack space={1}>
               <ChevronLeftIcon />
-              <Text variant={'caption_regular'}>Quay lại</Text>
+              <Text variant={'caption_regular'} color={'neutral.primary'}>
+                Quay lại
+              </Text>
             </HStack>
           </TouchableOpacity>
-        }>
+        }
+        buttonBackPress={curQuiz?.numberKey === 0 ? undefined : () => {}}>
         <Center h="full">
           {isLoading ? (
             <>

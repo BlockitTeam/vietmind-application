@@ -38,7 +38,6 @@ import {TOAST_KEY} from 'src/constants/toast.key'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import {authorize} from 'react-native-app-auth'
 import Logo from '@images/Logo.png'
-import Well1 from '@images/Well1.png'
 
 const appleAuthConfig = {
   issuer: 'https://appleid.apple.com',
@@ -87,6 +86,16 @@ const Login = () => {
     if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 13) {
       setIsAppleSignInAvailable(true)
     }
+    async function checkPlayServices() {
+      if (Platform.OS === 'android') {
+        try {
+          await GoogleSignin.hasPlayServices({
+            showPlayServicesUpdateDialog: true,
+          })
+        } catch (error) {}
+      }
+    }
+    checkPlayServices()
   }, [])
   const useLoginMutation = useLogin()
   const loginFacebook = async () => {
@@ -100,6 +109,11 @@ const Login = () => {
       )
       if (result.isCancelled) {
         // Handle the case when the user cancels the login
+        showToast(
+          'Bạn chưa hoàn tất đăng nhập với Facebook!',
+          TOAST_KEY.LOGIN_FAIL,
+        )
+
         setIsLogin(undefined)
         return
       }
@@ -194,8 +208,18 @@ const Login = () => {
       setIsLogin(undefined)
       // showToast('Đăng nhập thất bại, vui lòng thử lại!', TOAST_KEY.LOGIN_FAIL)
 
-      console.log(error)
+      console.log(error.toString(), 'here')
+      if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        showToast(
+          'Không thể kiểm tra Google Play Services.',
+          TOAST_KEY.LOGIN_FAIL,
+        )
+      }
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        showToast(
+          'Bạn chưa hoàn tất đăng nhập với Google!',
+          TOAST_KEY.LOGIN_FAIL,
+        )
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
@@ -355,10 +379,14 @@ const Login = () => {
                 style={[
                   styles.loginButton,
                   isLogin && isLogin !== 'apple' && styles.buttonDisable,
+                  (Platform.OS !== 'ios' ||
+                    parseInt(Platform.Version as string, 10) < 13) &&
+                    styles.buttonDisable,
                 ]}
                 variant={'cusOutline'}
                 disabled={
-                  Platform.OS === 'ios'
+                  Platform.OS === 'ios' &&
+                  parseInt(Platform.Version as string, 10) >= 13
                     ? isLogin === 'success' || (isLogin && isLogin !== 'apple')
                     : true
                 }

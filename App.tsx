@@ -18,6 +18,8 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {IRootStackParamList} from '@routes/navigator'
 import {vietmindStore} from '@services/jotaiStorage'
 import ExpiredModal from '@screens/Auth/Login/expiredModal'
+
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

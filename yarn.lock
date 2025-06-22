@@ -9983,15 +9983,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "opencollective-postinstall@npm:2.0.3"
-  bin:
-    opencollective-postinstall: index.js
-  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
-  languageName: node
-  linkType: hard
-
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -10572,18 +10563,6 @@ __metadata:
     react-native-reanimated: "*"
     react-native-safe-area-context: "*"
   checksum: 232b9b28fcdaca562c1a0dd85ade6c41b559c16a6ec11c4165ab65cbe278a2569ad647da5b70c83558fc1995dda9dcc0085bcb5b2e6b2572c52f415d7ac8e6b1
-  languageName: node
-  linkType: hard
-
-"react-native-inappbrowser-reborn@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "react-native-inappbrowser-reborn@npm:3.7.0"
-  dependencies:
-    invariant: ^2.2.4
-    opencollective-postinstall: ^2.0.3
-  peerDependencies:
-    react-native: ">=0.56"
-  checksum: b2177addf05cc02a20c5b9b8397c410ccf2fffba6baf1a49fbeb199ceaf4b9d4e959549915c5221f4345f35ec96620ecf25f650a5e268793103d95ffa7e44127
   languageName: node
   linkType: hard
 
@@ -12324,7 +12303,6 @@ __metadata:
     react-native-dotenv: ^3.4.11
     react-native-fbsdk-next: ^13.0.0
     react-native-gifted-chat: ^2.4.0
-    react-native-inappbrowser-reborn: ^3.7.0
     react-native-safe-area-context: 3.3.2
     react-native-screens: ^3.31.1
     react-native-sha256: ^1.4.10

@@ -178,7 +178,7 @@ export const themeNativeBase = extendTheme({
           color: 'text.neutral_primary',
           fontSize: normalizeFontSize(12),
           fontWeight: 400,
-          lineHeight: Platform.OS === 'android' ? 14 : 16,
+          lineHeight: Platform.OS === 'android' ? 16 : 16,
         },
 
         body_small_italic: {

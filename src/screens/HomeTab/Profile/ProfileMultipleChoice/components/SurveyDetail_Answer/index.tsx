@@ -94,7 +94,7 @@ const SurveyDetail_Answer: React.FC<SurveyDetail_AnswerProps> = (props) => {
             <HStack>
               <ChevronLeftIcon />
               <Text variant={'caption_regular'} color={'neutral.primary'}>
-                {curQuiz.numberKey === 0 && ' Quay lại'}
+                {curQuiz.numberKey === 0 && 'Quay lại'}
               </Text>
             </HStack>
           )
