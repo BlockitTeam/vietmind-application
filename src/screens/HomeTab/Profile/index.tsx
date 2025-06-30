@@ -135,7 +135,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                 Đăng xuất
               </Text>
             </TouchableOpacity>
-
+            {/* 
             <TouchableOpacity
               onPress={() => {
                 clearRes()
@@ -143,7 +143,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
               <Text variant={'body_large_bold'} color={'error.error_dark'}>
                 Clear Result
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </VStack>
         </VStack>
       </ScrollView>

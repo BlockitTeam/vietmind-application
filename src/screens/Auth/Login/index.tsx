@@ -32,7 +32,7 @@ import {useLogin} from '@hooks/auth'
 
 import {useCurrentUser} from '@hooks/user'
 import {TOAST_PLACEMENT} from 'src/constants'
-import LoginForm from './LoginForm/LoginForm'
+// import LoginForm from './LoginForm/LoginForm'
 import {TOAST_KEY} from 'src/constants/toast.key'
 
 import appleAuth from '@invertase/react-native-apple-authentication'
@@ -67,6 +67,7 @@ export type tTypeOfLogin =
   | undefined
 
 const Login = () => {
+  console.log(process.env.WEB_CLIENT_ID)
   const [, setCurUser] = useAtom(curUserAtom)
   const {refetch} = useCurrentUser()
   const toast = useToast()
@@ -315,7 +316,7 @@ const Login = () => {
             <Text variant={'header_1'} mb={2}>
               Đăng nhập
             </Text>
-            <LoginForm isLogin={isLogin} setIsLogin={(b) => setIsLogin(b)} />
+            {/* <LoginForm isLogin={isLogin} setIsLogin={(b) => setIsLogin(b)} /> */}
 
             <HStack alignItems={'center'} space={4} w="100%">
               <Divider bg={'gray.300'} flex={1} />
