@@ -317,12 +317,12 @@ const Login = () => {
               Đăng nhập
             </Text>
             {/* <LoginForm isLogin={isLogin} setIsLogin={(b) => setIsLogin(b)} /> */}
-
+            {/* 
             <HStack alignItems={'center'} space={4} w="100%">
               <Divider bg={'gray.300'} flex={1} />
               <Text color={'gray.300'}>Hoặc</Text>
               <Divider bg={'gray.300'} flex={1} />
-            </HStack>
+            </HStack> */}
 
             <VStack space={2} w="100%">
               <Button
