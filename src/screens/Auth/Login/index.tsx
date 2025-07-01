@@ -67,7 +67,6 @@ export type tTypeOfLogin =
   | undefined
 
 const Login = () => {
-  console.log(process.env.WEB_CLIENT_ID)
   const [, setCurUser] = useAtom(curUserAtom)
   const {refetch} = useCurrentUser()
   const toast = useToast()
@@ -179,6 +178,7 @@ const Login = () => {
 
       if (userInfo.idToken) {
         await GoogleSignin.clearCachedAccessToken(userInfo.idToken)
+        console.log(userInfo.idToken)
         useLoginMutation.mutate(
           {
             token: userInfo.idToken,
@@ -193,7 +193,9 @@ const Login = () => {
                 }
               })
             },
-            onError: () => {
+            onError: (e) => {
+              console.log(e.toString(), 'here')
+
               showToast(
                 'Đăng nhập thất bại, vui lòng thử lại!',
                 TOAST_KEY.LOGIN_FAIL,
@@ -354,11 +356,13 @@ const Login = () => {
               <Button
                 style={[
                   styles.loginButton,
-                  isLogin && isLogin !== 'facebook' && styles.buttonDisable,
+                  ((isLogin && isLogin !== 'facebook') || true) &&
+                    styles.buttonDisable,
                 ]}
                 variant={'cusOutline'}
                 disabled={
-                  isLogin === 'success' || (isLogin && isLogin !== 'facebook')
+                  true
+                  // isLogin === 'success' || (isLogin && isLogin !== 'facebook')
                 }
                 onPress={() => {
                   isLogin === undefined && loginFacebook()
