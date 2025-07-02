@@ -1,6 +1,5 @@
 import {TouchableOpacity} from 'react-native'
 import {
-  Avatar,
   Button,
   Circle,
   Divider,
@@ -71,6 +70,8 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
     <HeaderBack title="Thông tin cá nhân">
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack alignItems={'center'} w={'100%'} minHeight={'100%'} pt={4}>
+          {/* Start: Basic information ----- Top */}
+
           <>
             <Circle h={100} w={100} backgroundColor={'primary.medium'} mb={4}>
               <Text fontSize={'5xl'} lineHeight={'56px'}>
@@ -83,6 +84,7 @@ const Tab_Profile: React.FC<Tab_ProfileProps> = ({navigation}) => {
                 'sf_header_3'
               }>{`${curUser?.lastName} ${curUser?.firstName}`}</Text>
             <Text
+              mb={'8px'}
               variant={'body_medium_regular'}
               color={'text.neutral_secondary'}>
               {`${curUser?.gender} - ${curUser?.birthYear}`}
