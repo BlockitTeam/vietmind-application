@@ -18,7 +18,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {IRootStackParamList} from '@routes/navigator'
 import {vietmindStore} from '@services/jotaiStorage'
 import ExpiredModal from '@screens/Auth/Login/expiredModal'
-
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,8 +43,12 @@ function App(): React.JSX.Element {
       <NavigationContainer ref={navigationRef}>
         <NativeBaseProvider theme={themeNativeBase}>
           <Provider store={vietmindStore}>
-            <RootApp />
-            <ExpiredModal />
+            <SafeAreaProvider>
+              <SafeAreaView style={{flex: 1}}>
+                <RootApp />
+                <ExpiredModal />
+              </SafeAreaView>
+            </SafeAreaProvider>
           </Provider>
         </NativeBaseProvider>
       </NavigationContainer>
